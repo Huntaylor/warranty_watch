@@ -1,0 +1,67 @@
+{
+    "mainTitle": "Warranty Tracker",
+    "@mainTitle": {
+      "description": "Main title"
+    },
+    "currentWarrantyBtn": "Current Warranties",
+    "@currentWarrantyBtn": {
+      "description": "Text for Current warranties button on Home View"
+    },
+    "newWarrantyBtn": "New Warranty",
+    "@newWarrantyBtn": {
+      "description": "Text for new warranties button on Home View"
+    },
+    "addWarrantyTitle": "Add Warranty",
+    "@addWarrantyTitle": {
+      "description": "Title for Add Warranty View"
+    },
+
+    "editWarrantyTitle": "Edit Warranty",
+    "@editWarrantyTitle": {
+      "description": "Title for Edit Warranty View"
+    },
+    "productName": "Name of product",
+    "@addWarrantyTitle": {
+      "description": "Text for add new warranty product"
+    },
+    "addproductButton": "Add product",
+    "@addproductButton": {
+      "description": "Text for add product button"
+    },
+    "editProductBtn": "Save",
+    "@editProductBtn": {
+      "description": "Text for edit product button"
+    },
+    "lifeTime": "Life Time Warranty",
+    "@lifeTime": {
+      "description": "Text for Life time Warranty"
+    },
+    "purchaseDate": "Date of product Purchased",
+    "@purchaseDate": {
+      "description": "Text for Date of product Purchased"
+    },
+    "companyWebsite": "Company Warranty website",
+    "@companyWebsite": {
+      "description": "Website for company"
+    },
+    "additionalDetails": "Additional Details",
+    "@additionalDetails": {
+      "description": "Text for Additional details form"
+    },
+    "expirationDate": "Warranty End Date",
+    "@expirationDate": {
+      "description": "Text for last day of the Warranty"
+    },
+    "required": "(Required)",
+    "@required": {
+      "description": "Text for required textfields"
+    },
+    "addPhoto": "Tap to add a Photo",
+    "@addPhoto": {
+      "description": "Text for adding a photo"
+    },
+    "addReceipt": "Tap to add a receipt",
+    "@addReceipt": {
+      "description": "Text for adding a receipt"
+    }
+}
