@@ -1,6 +1,9 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/bloc/cubit/current_warranties_cubit.dart';
+import 'package:warranty_keeper/modules/bloc/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/nav_cubit.dart';
 import 'package:warranty_keeper/presentation/current_warranties/widgets/current_widget_card.dart';
+import 'package:warranty_keeper/presentation/new_warranties/presentation/new_warranty_view.dart';
 
 class CurrentWarrantiesView extends StatelessWidget {
   static const routeName = '/currentWarrantiesView';
@@ -26,8 +29,9 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubitRead = context.read<CurrentWarrantiesCubit>();
-
+    final currentRead = context.read<CurrentWarrantiesCubit>();
+    final navRead = context.read<NavCubit>();
+    final newRead = context.read<NewWarrantyCubit>();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
@@ -43,9 +47,12 @@ class _Content extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CurrentWidgetCard(
                         onEdit: () {
-                          cubitRead.editWarranty(index);
+                          newRead.editWarrantyInitial(
+                              state.warrantyInfoList[index]);
+                          navRead.appNavigator
+                              .pushNamed(NewWarrantyView.routeName);
                         },
-                        onRemove: () => cubitRead.removeWarranty(index),
+                        onRemove: () => currentRead.removeWarranty(index),
                         warrantyInfo: state.warrantyInfoList[index],
                       );
                     },

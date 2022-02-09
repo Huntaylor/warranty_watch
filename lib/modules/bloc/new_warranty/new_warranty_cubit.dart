@@ -1,12 +1,11 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/bloc/cubit/current_warranties_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 class NewWarrantyCubit extends Cubit<WarrantyInfo> {
-  NewWarrantyCubit() : super(const WarrantyInfo());
+  NewWarrantyCubit() : super(WarrantyInfo());
 
   toggleLifeTime() {
     emit(
@@ -88,7 +87,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     );
   }
 
-  void editWarranty(WarrantyInfo editWarrantyInfo) {
+  void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
     emit(
       state.copyWith(
         details: editWarrantyInfo.details,
@@ -103,24 +102,17 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     );
   }
 
-  newWarrantyAdded() {
-    if (state.key == null) {
-      emit(
-        state.copyWith(
-          key: UniqueKey(),
-        ),
-      );
-      CurrentWarrantiesCubit().addWarranty(state);
-    } else {
-      CurrentWarrantiesCubit().saveEdits(state);
-    }
-  }
-
   addWarranty() {
     if (state.canSave()) {
       return true;
     } else {
       return false;
     }
+  }
+
+  clear() {
+    emit(
+      WarrantyInfo(),
+    );
   }
 }

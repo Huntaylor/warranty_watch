@@ -14,27 +14,36 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
   void addWarranty(WarrantyInfo warrantyInfo) {
     List<WarrantyInfo> newList;
     newList = List.from(state.warrantyInfoList);
-    newList.add(warrantyInfo);
 
-    emit(
-      state.copyWith(
-        removeBool: false,
-        warrantyInfoList: newList,
-      ),
-    );
+    if (newList.any((e) => e.key == warrantyInfo.key)) {
+      close();
+    } else {
+      newList.add(warrantyInfo);
+
+      emit(
+        state.copyWith(
+          removeBool: !state.removeBool,
+          warrantyInfoList: newList,
+        ),
+      );
+    }
   }
 
   void saveEdits(WarrantyInfo warrantyInfo) {
     List<WarrantyInfo> newList;
     newList = List.from(state.warrantyInfoList);
-    newList[state.warrantyInfoList
-        .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
-    emit(
-      state.copyWith(
-        removeBool: false,
-        warrantyInfoList: newList,
-      ),
-    );
+    if (newList.any((e) => e.key == warrantyInfo.key)) {
+      newList[state.warrantyInfoList
+          .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
+      emit(
+        state.copyWith(
+          removeBool: false,
+          warrantyInfoList: newList,
+        ),
+      );
+    } else {
+      close();
+    }
   }
 
   void removeWarranty(int index) {
@@ -50,7 +59,7 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
   }
 
   Future<void> editWarranty(int index) async {
-    NewWarrantyCubit().editWarranty(state.warrantyInfoList[index]);
+    NewWarrantyCubit().editWarrantyInitial(state.warrantyInfoList[index]);
     await NavCubit().appNavigator.pushNamed(NewWarrantyView.routeName);
   }
 }

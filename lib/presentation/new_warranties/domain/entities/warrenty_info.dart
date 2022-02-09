@@ -1,7 +1,7 @@
 import 'package:warranty_keeper/app_library.dart';
 
 class WarrantyInfo extends Equatable {
-  final Key? key;
+  final Key key;
   final String? name;
   final DateTime? purchaseDate;
   final String? warrWebsite;
@@ -10,8 +10,7 @@ class WarrantyInfo extends Equatable {
   final File? image;
   final File? receiptImage;
   final bool lifeTime;
-  const WarrantyInfo({
-    this.key,
+  WarrantyInfo({
     this.name,
     this.purchaseDate,
     this.warrWebsite,
@@ -20,7 +19,7 @@ class WarrantyInfo extends Equatable {
     this.image,
     this.receiptImage,
     this.lifeTime = false,
-  });
+  }) : key = UniqueKey();
 
   @override
   List<Object?> get props => [
@@ -47,9 +46,8 @@ class WarrantyInfo extends Equatable {
     Key? key,
   }) {
     return WarrantyInfo(
-      key: key ?? this.key,
       name: name ?? this.name,
-      purchaseDate: purchaseDate ?? this.purchaseDate,
+      purchaseDate: purchaseDate ?? DateTime.now(),
       endOfWarr: endOfWarr ?? this.endOfWarr,
       warrWebsite: warrWebsite ?? this.warrWebsite,
       details: details ?? this.details,

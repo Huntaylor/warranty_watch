@@ -26,18 +26,18 @@ class MyApp extends StatelessWidget {
         BlocProvider<MainCubit>(
           create: (context) => MainCubit(),
         ),
+        BlocProvider<CurrentWarrantiesCubit>(
+          create: (context) => CurrentWarrantiesCubit(),
+        ),
         BlocProvider<HomeViewBloc>(
           create: (context) => HomeViewBloc(),
         ),
         BlocProvider<NavCubit>(
           create: (context) => NavCubit(),
         ),
-        BlocProvider<CurrentWarrantiesCubit>(
-          create: (context) => CurrentWarrantiesCubit(),
+        BlocProvider<NewWarrantyCubit>(
+          create: (context) => NewWarrantyCubit(),
         ),
-        // BlocProvider<NewWarrantyCubit>(
-        //   create: (context) => NewWarrantyCubit(),
-        // ),
       ],
       child: MaterialApp(
         navigatorKey: AppNavigator.rootNavigatorKey,

@@ -1,4 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/bloc/cubit/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/bloc/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
@@ -8,33 +9,28 @@ import 'package:warranty_keeper/widgets/warranty_image.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 class NewWarrantyView extends StatelessWidget {
-  final WarrantyInfo? editWarrantyInfo;
   static const routeName = '/newWarrantyView';
-  const NewWarrantyView({Key? key, this.editWarrantyInfo}) : super(key: key);
+  const NewWarrantyView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
-    return BlocProvider(
-      create: (context) => NewWarrantyCubit(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          centerTitle: true,
-          automaticallyImplyLeading: true,
-          title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-            builder: (context, state) {
-              return Text(
-                (state.key != null)
-                    ? appLocalizations.editWarrantyTitle
-                    : appLocalizations.addWarrantyTitle,
-              );
-            },
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: true,
+        title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+          builder: (context, state) {
+            return Text(
+              //TODO change for edit warranty
+              appLocalizations.addWarrantyTitle,
+            );
+          },
         ),
-        body: const _Content(),
       ),
+      body: const _Content(),
     );
   }
 }
@@ -45,6 +41,7 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubitRead = context.read<NewWarrantyCubit>();
+    final currentRead = context.read<CurrentWarrantiesCubit>();
     final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
@@ -158,12 +155,14 @@ class _Content extends StatelessWidget {
                     onPressed: () {
                       if (cubitRead.addWarranty()) {
                         navCubit.appNavigator.pop();
-                        cubitRead.newWarrantyAdded();
+                        //TODO change for edit warranty
+                        currentRead.addWarranty(state);
+                        currentRead.saveEdits(state);
+                        context.read<NewWarrantyCubit>().clear();
                       }
                     },
-                    text: (state.key != null)
-                        ? appLocalizations.editProductBtn
-                        : appLocalizations.addproductButton,
+                    //TODO change for edit warranty
+                    text: appLocalizations.addproductButton,
                   ),
                 );
               },

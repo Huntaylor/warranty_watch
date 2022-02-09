@@ -1,5 +1,7 @@
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/bloc/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit.dart';
+import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class HomeView extends StatelessWidget {
@@ -28,21 +30,29 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navCubit = BlocProvider.of<NavCubit>(context);
+    final navCubit = context.read<NavCubit>();
+    final newWar = BlocProvider.of<NewWarrantyCubit>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         const SizedBox(
           height: 5,
         ),
+        //  Current Warranty
         WarrantyElevatedButton(
           isEnabled: true,
-          onPressed: navCubit.currWarrNav,
+          onPressed: () {
+            navCubit.appNavigator.pushNamed(CurrentWarrantiesView.routeName);
+          },
           text: context.appLocalizations.currentWarrantyBtn,
         ),
+        //  Add Warranty
         WarrantyElevatedButton(
           isEnabled: true,
-          onPressed: navCubit.newWarrNav,
+          onPressed: () {
+            newWar.clear();
+            navCubit.newWarrNav();
+          },
           text: context.appLocalizations.newWarrantyBtn,
         ),
       ],
