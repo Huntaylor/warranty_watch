@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
@@ -63,7 +64,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     );
   }
 
-  Future<void> changeCameraImage() async {
+  Future<void> changeProductCamera() async {
     final imagePicker = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
@@ -77,9 +78,10 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         image: File(imagePicker.path),
       ),
     );
+    NavCubit().appNavigator.pop();
   }
 
-  Future<void> changePhotosImage() async {
+  Future<void> changeProductPhotos() async {
     final imagePicker = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 600,
@@ -93,9 +95,10 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         image: File(imagePicker.path),
       ),
     );
+    NavCubit().appNavigator.pop();
   }
 
-  Future<void> changeImagereceipt() async {
+  Future<void> changeReceiptCamera() async {
     final imagePicker = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
@@ -109,9 +112,10 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         receiptImage: File(imagePicker.path),
       ),
     );
+    NavCubit().appNavigator.pop();
   }
 
-  Future<void> changePhotosreceipt() async {
+  Future<void> changeReceiptPhotos() async {
     final imagePicker = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 600,
@@ -125,6 +129,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         receiptImage: File(imagePicker.path),
       ),
     );
+    NavCubit().appNavigator.pop();
   }
 
   void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {

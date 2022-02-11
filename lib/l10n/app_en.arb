@@ -63,5 +63,25 @@
     "addReceipt": "Tap to add a receipt",
     "@addReceipt": {
       "description": "Text for adding a receipt"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+      "description": "Text for cancel"
+    },
+    "addItem": "Add Item",
+    "@addItem": {
+      "description": "Text for bottom sheet"
+    },
+    "camera": "Camera",
+    "@camera": {
+      "description": "Text for bottom sheet"
+    },
+    "photos": "Photos",
+    "@photos": {
+      "description": "Text for bottom sheet"
+    },
+    "noCurrentWarranties": "No Warranties to track at the moment",
+    "@noCurrentWarranties": {
+      "description": "Text for bottom sheet"
     }
 }

@@ -1,4 +1,4 @@
-part of 'home_view_bloc.dart';
+part of 'home_bloc.dart';
 
 @immutable
 abstract class HomeViewEvent {}

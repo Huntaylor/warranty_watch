@@ -1,8 +1,9 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/bloc/cubit/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/bloc/new_warranty/new_warranty_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit.dart';
+import 'package:warranty_keeper/modules/bloc/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
+import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_checkbox.dart';
 import 'package:warranty_keeper/widgets/warranty_image.dart';
@@ -122,6 +123,9 @@ class _Content extends StatelessWidget {
                           file: state.receiptImage,
                           onTap: () {
                             showModalBottomSheet(
+                              isDismissible: false,
+                              enableDrag: false,
+                              isScrollControlled: false,
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(
@@ -131,84 +135,14 @@ class _Content extends StatelessWidget {
                               ),
                               context: context,
                               builder: (context) {
-                                return Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * .3,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: const [
-                                            Text('Cancel'),
-                                            Text('Add Item'),
-                                            SizedBox(
-                                              width: 40,
-                                            ),
-                                          ],
-                                        ),
-                                        const Divider(
-                                          height: 24,
-                                          thickness: 2,
-                                        ),
-                                        Flexible(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: newWarrantyCubit
-                                                    .changePhotosreceipt,
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.photo_outlined,
-                                                      color: Colors.orange[400],
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    const Text('Photos'),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 16,
-                                              ),
-                                              GestureDetector(
-                                                onTap: newWarrantyCubit
-                                                    .changeImagereceipt,
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.camera_alt_outlined,
-                                                      color: Colors.green[400],
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    const Text('Camera'),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                return ImageBottomSheet(
+                                  onRecieptPhotoTap:
+                                      newWarrantyCubit.changeReceiptPhotos,
+                                  onRecieptCameraTap:
+                                      newWarrantyCubit.changeReceiptCamera,
                                 );
                               },
                             );
-                            // newWarrantyCubit.changeImagereceipt();
                           },
                           text: appLocalizations.addReceipt,
                           icon: const Icon(
@@ -224,7 +158,27 @@ class _Content extends StatelessWidget {
                         return WarrantyImage(
                           file: state.image,
                           onTap: () {
-                            newWarrantyCubit.changeCameraImage();
+                            showModalBottomSheet(
+                              enableDrag: false,
+                              isScrollControlled: false,
+                              isDismissible: false,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(
+                                    25,
+                                  ),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return ImageBottomSheet(
+                                  onRecieptPhotoTap:
+                                      newWarrantyCubit.changeProductPhotos,
+                                  onRecieptCameraTap:
+                                      newWarrantyCubit.changeProductCamera,
+                                );
+                              },
+                            );
                           },
                           text:
                               '${appLocalizations.addPhoto} ${appLocalizations.required}',
