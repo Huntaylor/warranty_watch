@@ -11,27 +11,10 @@ part 'current_warranties_state.dart';
 class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
   CurrentWarrantiesCubit() : super(const CurrentWarrantiesState.initial());
 
-  void addWarranty(WarrantyInfo warrantyInfo) {
+  void addOrEditWarranty(WarrantyInfo warrantyInfo) {
     List<WarrantyInfo> newList;
     newList = List.from(state.warrantyInfoList);
 
-    if (newList.any((e) => e.key == warrantyInfo.key)) {
-      close();
-    } else {
-      newList.add(warrantyInfo);
-
-      emit(
-        state.copyWith(
-          removeBool: !state.removeBool,
-          warrantyInfoList: newList,
-        ),
-      );
-    }
-  }
-
-  void saveEdits(WarrantyInfo warrantyInfo) {
-    List<WarrantyInfo> newList;
-    newList = List.from(state.warrantyInfoList);
     if (newList.any((e) => e.key == warrantyInfo.key)) {
       newList[state.warrantyInfoList
           .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
@@ -42,7 +25,14 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
         ),
       );
     } else {
-      close();
+      newList.add(warrantyInfo);
+
+      emit(
+        state.copyWith(
+          removeBool: !state.removeBool,
+          warrantyInfoList: newList,
+        ),
+      );
     }
   }
 

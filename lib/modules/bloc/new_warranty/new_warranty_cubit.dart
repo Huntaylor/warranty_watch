@@ -55,9 +55,33 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     );
   }
 
-  Future<void> changeImage() async {
+  changeEditing() {
+    emit(
+      state.copyWith(
+        isEditing: false,
+      ),
+    );
+  }
+
+  Future<void> changeCameraImage() async {
     final imagePicker = await ImagePicker().pickImage(
       source: ImageSource.camera,
+      maxWidth: 600,
+    );
+
+    final appDir = await syspaths.getApplicationDocumentsDirectory();
+    final fileName = path.basename(imagePicker!.path);
+    final savedImage = imagePicker.saveTo('${appDir.path}/$fileName');
+    emit(
+      state.copyWith(
+        image: File(imagePicker.path),
+      ),
+    );
+  }
+
+  Future<void> changePhotosImage() async {
+    final imagePicker = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
       maxWidth: 600,
     );
 
@@ -87,22 +111,32 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     );
   }
 
-  void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
+  Future<void> changePhotosreceipt() async {
+    final imagePicker = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 600,
+    );
+
+    final appDir = await syspaths.getApplicationDocumentsDirectory();
+    final fileName = path.basename(imagePicker!.path);
+    final savedreceiptImage = imagePicker.saveTo('${appDir.path}/$fileName');
     emit(
       state.copyWith(
-        details: editWarrantyInfo.details,
-        endOfWarr: editWarrantyInfo.endOfWarr,
-        image: editWarrantyInfo.image,
-        lifeTime: editWarrantyInfo.lifeTime,
-        warrWebsite: editWarrantyInfo.warrWebsite,
-        name: editWarrantyInfo.name,
-        purchaseDate: editWarrantyInfo.purchaseDate,
-        receiptImage: editWarrantyInfo.receiptImage,
+        receiptImage: File(imagePicker.path),
       ),
     );
   }
 
-  addWarranty() {
+  void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
+    emit(
+      editWarrantyInfo,
+    );
+    emit(
+      state.copyWith(isEditing: true),
+    );
+  }
+
+  verifyWarranty() {
     if (state.canSave()) {
       return true;
     } else {

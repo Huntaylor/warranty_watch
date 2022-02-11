@@ -24,8 +24,9 @@ class NewWarrantyView extends StatelessWidget {
         title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
           builder: (context, state) {
             return Text(
-              //TODO change for edit warranty
-              appLocalizations.addWarrantyTitle,
+              (state.isEditing)
+                  ? appLocalizations.editWarrantyTitle
+                  : appLocalizations.addWarrantyTitle,
             );
           },
         ),
@@ -40,8 +41,8 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubitRead = context.read<NewWarrantyCubit>();
-    final currentRead = context.read<CurrentWarrantiesCubit>();
+    final newWarrantyCubit = context.read<NewWarrantyCubit>();
+    final currWarrantyCubit = context.read<CurrentWarrantiesCubit>();
     final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
@@ -56,27 +57,27 @@ class _Content extends StatelessWidget {
                 child: Column(
                   children: [
                     WarrantyTextField.general(
-                      initialValue: cubitRead.state.name ?? '',
+                      initialValue: newWarrantyCubit.state.name ?? '',
                       isRequired: true,
-                      onChanged: cubitRead.changeProductName,
+                      onChanged: newWarrantyCubit.changeProductName,
                       hintText: appLocalizations.productName,
                     ),
                     WarrantyTextField.date(
-                      initialValue: cubitRead.state.purchaseDate != null
-                          ? '${_dateFormat(cubitRead.state.purchaseDate!)}'
+                      initialValue: newWarrantyCubit.state.purchaseDate != null
+                          ? '${_dateFormat(newWarrantyCubit.state.purchaseDate!)}'
                           : '${_dateFormat(DateTime.now())}',
                       isRequired: true,
                       isLifeTime: false,
                       endDateTime: DateTime(2050),
                       initialDateTime: DateTime.now(),
                       startDateTime: DateTime(2000),
-                      onChanged: cubitRead.changePurchaseDate,
+                      onChanged: newWarrantyCubit.changePurchaseDate,
                       hintText: appLocalizations.purchaseDate,
                     ),
                     WarrantyTextField.webSite(
-                      initialValue: cubitRead.state.warrWebsite ?? '',
+                      initialValue: newWarrantyCubit.state.warrWebsite ?? '',
                       isRequired: true,
-                      onChanged: cubitRead.changeWebsiteName,
+                      onChanged: newWarrantyCubit.changeWebsiteName,
                       hintText: appLocalizations.companyWebsite,
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
@@ -84,15 +85,15 @@ class _Content extends StatelessWidget {
                           previous.lifeTime != current.lifeTime,
                       builder: (context, state) {
                         return WarrantyTextField.date(
-                          initialValue: cubitRead.state.endOfWarr != null
-                              ? '${_dateFormat(cubitRead.state.endOfWarr!)}'
+                          initialValue: newWarrantyCubit.state.endOfWarr != null
+                              ? '${_dateFormat(newWarrantyCubit.state.endOfWarr!)}'
                               : '',
                           isRequired: true,
                           isLifeTime: state.lifeTime,
                           endDateTime: DateTime(2050),
                           initialDateTime: DateTime.now(),
                           startDateTime: DateTime.now(),
-                          onChanged: cubitRead.changeEndDate,
+                          onChanged: newWarrantyCubit.changeEndDate,
                           hintText: appLocalizations.expirationDate,
                         );
                       },
@@ -104,13 +105,13 @@ class _Content extends StatelessWidget {
                         return WarrantyCheckBox(
                           isChecked: state.lifeTime,
                           text: appLocalizations.lifeTime,
-                          onTap: cubitRead.toggleLifeTime,
+                          onTap: newWarrantyCubit.toggleLifeTime,
                         );
                       },
                     ),
                     WarrantyTextField.form(
-                      initialValue: cubitRead.state.details ?? '',
-                      onChanged: cubitRead.changeAddtionalDetails,
+                      initialValue: newWarrantyCubit.state.details ?? '',
+                      onChanged: newWarrantyCubit.changeAddtionalDetails,
                       hintText: appLocalizations.additionalDetails,
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
@@ -119,7 +120,96 @@ class _Content extends StatelessWidget {
                       builder: (context, state) {
                         return WarrantyImage(
                           file: state.receiptImage,
-                          onTap: cubitRead.changeImagereceipt,
+                          onTap: () {
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(
+                                    25,
+                                  ),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * .3,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: const [
+                                            Text('Cancel'),
+                                            Text('Add Item'),
+                                            SizedBox(
+                                              width: 40,
+                                            ),
+                                          ],
+                                        ),
+                                        const Divider(
+                                          height: 24,
+                                          thickness: 2,
+                                        ),
+                                        Flexible(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: newWarrantyCubit
+                                                    .changePhotosreceipt,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.photo_outlined,
+                                                      color: Colors.orange[400],
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    const Text('Photos'),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 16,
+                                              ),
+                                              GestureDetector(
+                                                onTap: newWarrantyCubit
+                                                    .changeImagereceipt,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.camera_alt_outlined,
+                                                      color: Colors.green[400],
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    const Text('Camera'),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                            // newWarrantyCubit.changeImagereceipt();
+                          },
                           text: appLocalizations.addReceipt,
                           icon: const Icon(
                             Icons.list_alt_outlined,
@@ -133,7 +223,9 @@ class _Content extends StatelessWidget {
                       builder: (context, state) {
                         return WarrantyImage(
                           file: state.image,
-                          onTap: cubitRead.changeImage,
+                          onTap: () {
+                            newWarrantyCubit.changeCameraImage();
+                          },
                           text:
                               '${appLocalizations.addPhoto} ${appLocalizations.required}',
                           icon: const Icon(
@@ -151,18 +243,18 @@ class _Content extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 15),
                   child: WarrantyElevatedButton(
-                    isEnabled: cubitRead.addWarranty(),
-                    onPressed: () {
-                      if (cubitRead.addWarranty()) {
+                    isEnabled: newWarrantyCubit.verifyWarranty(),
+                    onPressed: () async {
+                      if (newWarrantyCubit.verifyWarranty()) {
+                        newWarrantyCubit.changeEditing();
+                        currWarrantyCubit.addOrEditWarranty(state);
+                        newWarrantyCubit.clear();
                         navCubit.appNavigator.pop();
-                        //TODO change for edit warranty
-                        currentRead.addWarranty(state);
-                        currentRead.saveEdits(state);
-                        context.read<NewWarrantyCubit>().clear();
                       }
                     },
-                    //TODO change for edit warranty
-                    text: appLocalizations.addproductButton,
+                    text: (state.isEditing)
+                        ? appLocalizations.editProductBtn
+                        : appLocalizations.addproductButton,
                   ),
                 );
               },

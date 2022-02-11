@@ -10,6 +10,7 @@ class WarrantyInfo extends Equatable {
   final File? image;
   final File? receiptImage;
   final bool lifeTime;
+  final bool isEditing;
   WarrantyInfo({
     this.name,
     this.purchaseDate,
@@ -19,6 +20,7 @@ class WarrantyInfo extends Equatable {
     this.image,
     this.receiptImage,
     this.lifeTime = false,
+    this.isEditing = false,
   }) : key = UniqueKey();
 
   @override
@@ -31,6 +33,7 @@ class WarrantyInfo extends Equatable {
         image,
         receiptImage,
         lifeTime,
+        isEditing,
         key,
       ];
 
@@ -43,9 +46,11 @@ class WarrantyInfo extends Equatable {
     File? image,
     File? receiptImage,
     bool? lifeTime,
-    Key? key,
+    bool? isEditing,
   }) {
-    return WarrantyInfo(
+    return WarrantyInfo._(
+      isEditing: isEditing ?? this.isEditing,
+      key: key,
       name: name ?? this.name,
       purchaseDate: purchaseDate ?? DateTime.now(),
       endOfWarr: endOfWarr ?? this.endOfWarr,
@@ -66,4 +71,17 @@ class WarrantyInfo extends Equatable {
     if (endOfWarr == null && lifeTime != true) return false;
     return true;
   }
+
+  const WarrantyInfo._({
+    required this.isEditing,
+    required this.key,
+    this.name,
+    this.purchaseDate,
+    this.warrWebsite,
+    this.endOfWarr,
+    this.details,
+    this.image,
+    this.receiptImage,
+    required this.lifeTime,
+  });
 }

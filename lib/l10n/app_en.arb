@@ -32,7 +32,7 @@
     "@editProductBtn": {
       "description": "Text for edit product button"
     },
-    "lifeTime": "Life Time Warranty",
+    "lifeTime": "Lifetime Warranty",
     "@lifeTime": {
       "description": "Text for Life time Warranty"
     },
