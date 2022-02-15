@@ -1,7 +1,7 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/bloc/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:warranty_keeper/modules/bloc/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/new_warranty_view.dart';
 

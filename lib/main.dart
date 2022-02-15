@@ -1,8 +1,9 @@
-import 'package:warranty_keeper/modules/bloc/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/bloc/home/home_bloc.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/main/main_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
 import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/routes.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<NewWarrantyCubit>(
           create: (context) => NewWarrantyCubit(),
+        ),
+        BlocProvider<WarrantyDetailsCubit>(
+          create: (context) => WarrantyDetailsCubit(),
         ),
       ],
       child: MaterialApp(

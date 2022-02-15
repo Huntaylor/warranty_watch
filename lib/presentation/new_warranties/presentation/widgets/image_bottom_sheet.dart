@@ -16,6 +16,7 @@ class ImageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navCubit = context.read<NavCubit>();
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -28,7 +29,7 @@ class ImageBottomSheet extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    NavCubit().appNavigator.pop();
+                    navCubit.appNavigator.pop();
                   },
                   child: Text(context.appLocalizations.cancel),
                 ),
