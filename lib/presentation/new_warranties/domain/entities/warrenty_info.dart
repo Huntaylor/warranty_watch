@@ -66,7 +66,7 @@ class WarrantyInfo extends Equatable {
     if (name == null) return false;
     if (name!.isEmpty) return false;
     if (purchaseDate == null) return false;
-    if (warrWebsite == null) return false;
+    if (warrWebsite == 'https://' || warrWebsite == null) return false;
     if (image == null) return false;
     if (endOfWarr == null && lifeTime != true) return false;
     return true;

@@ -1,6 +1,7 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
+import 'package:warranty_keeper/presentation/warranty_details/widgets/details_image_card.dart';
 
 class WarrantyDetailsView extends StatelessWidget {
   static const routeName = '/warrantyDetails';
@@ -30,8 +31,9 @@ class Content extends StatelessWidget {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
 
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
             Padding(
@@ -62,15 +64,6 @@ class Content extends StatelessWidget {
                 ),
               ),
             ),
-            (detailsCubit.state.details == null ||
-                    detailsCubit.state.details!.isEmpty)
-                ? const SizedBox()
-                : Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text('Details: ${detailsCubit.state.details!}'),
-                    ),
-                  ),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -94,15 +87,76 @@ class Content extends StatelessWidget {
                 ),
               ),
             ),
+            (detailsCubit.state.details == null ||
+                    detailsCubit.state.details!.isEmpty)
+                ? const SizedBox()
+                : /* Flexible(
+                  child: */
+                Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Stack(
+                        children: [
+                          Transform.translate(
+                            offset: const Offset(6, -16),
+                            child: Container(
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
+                              child: const Text(
+                                'Details',
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ),
+                          ),
+                          Text(detailsCubit.state.details!),
+                        ],
+                      ),
+                    ),
+                  ),
+            /*   ), */
+
             (detailsCubit.state.lifeTime)
-                ? const Text('Lifetime warranty')
-                : Flexible(
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text('Lifetime warranty'),
+                  )
+                : Align(
+                    alignment: Alignment.centerLeft,
+                    // child: Flexible(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                          'Expires ${_countDown(detailsCubit.state.endOfWarr!)} on ${_dateFormat(detailsCubit.state.endOfWarr!)}'),
+                        'Expires ${_countDown(detailsCubit.state.endOfWarr!)} on ${_dateFormat(detailsCubit.state.endOfWarr!)}',
+                      ),
+                      // ),
                     ),
-                  )
+                  ),
+            Row(
+              children: [
+                const Text('Product Website:'),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    alignment: Alignment.centerLeft,
+                  ),
+                  onPressed: () =>
+                      detailsCubit.launch(detailsCubit.state.warrWebsite!),
+                  child: Text(
+                    detailsCubit.state.warrWebsite!,
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            if (detailsCubit.state.receiptImage != null)
+              DetailsImageCard(file: detailsCubit.state.receiptImage!),
           ],
         ),
       ),
@@ -112,52 +166,6 @@ class Content extends StatelessWidget {
 
 _countDown(DateTime expirationDate) {
   final _expireTime = Jiffy(expirationDate).fromNow();
-  // final days = Jiffy(expirationDate).diff(
-  //     Jiffy(
-  //       DateTime.now(),
-  //     ),
-  //     Units.DAY);
-  // final weeks = Jiffy(expirationDate).diff(
-  //     Jiffy(
-  //       DateTime.now(),
-  //     ),
-  //     Units.WEEK);
-  // final months = Jiffy(expirationDate).diff(
-  //     Jiffy(
-  //       DateTime.now(),
-  //     ),
-  //     Units.MONTH);
-  // final years = Jiffy(expirationDate).diff(
-  //     Jiffy(
-  //       DateTime.now(),
-  //     ),
-  //     Units.YEAR);
-
-  // String yearCount = '';
-  // if (years == 0) {
-  //   yearCount = '';
-  // } else {
-  //   yearCount = years.toString() + ' Year(s) ';
-  // }
-  // String monthCount = '';
-  // if (months >= 12 || months == 0) {
-  //   monthCount = '';
-  // } else {
-  //   monthCount = months.toString() + ' Month(s) ';
-  // }
-  // String weekCount = '';
-  // if (weeks >= 52 || weeks == 0) {
-  //   weekCount = '';
-  // } else {
-  //   weekCount = weeks.toString() + ' Week(s) ';
-  // }
-  // String dayCount = '';
-  // if (days >= 365 || days == 0) {
-  //   dayCount = '';
-  // } else {
-  //   dayCount = days.toString() + ' Day(s) ';
-  // }
-  // // final _expireTime = yearCount + monthCount + weekCount + dayCount;
   return _expireTime;
 }
 

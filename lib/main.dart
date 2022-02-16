@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: AppNavigator.rootNavigatorKey,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        title: 'Warranty Keeper',
+        title: 'Warranty Tracker',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

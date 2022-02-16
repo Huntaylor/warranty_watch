@@ -76,7 +76,8 @@ class _Content extends StatelessWidget {
                       hintText: appLocalizations.purchaseDate,
                     ),
                     WarrantyTextField.webSite(
-                      initialValue: newWarrantyCubit.state.warrWebsite ?? '',
+                      initialValue:
+                          newWarrantyCubit.state.warrWebsite ?? 'https://',
                       isRequired: true,
                       onChanged: newWarrantyCubit.changeWebsiteName,
                       hintText: appLocalizations.companyWebsite,
