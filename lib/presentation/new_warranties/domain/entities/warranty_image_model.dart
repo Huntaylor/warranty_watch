@@ -8,7 +8,6 @@ class WarrantyImages {
     required this.image,
   });
 
-  @override
   List<Object?> get props => [
         image,
         isPrimary,

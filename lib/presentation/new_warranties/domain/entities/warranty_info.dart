@@ -1,4 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_image_model.dart';
 
 class WarrantyInfo extends Equatable {
   final Key key;
@@ -7,6 +8,7 @@ class WarrantyInfo extends Equatable {
   final String? warrWebsite;
   final DateTime? endOfWarr;
   final String? details;
+  final List<WarrantyImages>? imagesList;
   final File? image;
   final File? receiptImage;
   final bool lifeTime;
@@ -17,6 +19,7 @@ class WarrantyInfo extends Equatable {
     this.warrWebsite,
     this.endOfWarr,
     this.details,
+    this.imagesList,
     this.image,
     this.receiptImage,
     this.lifeTime = false,
@@ -25,6 +28,7 @@ class WarrantyInfo extends Equatable {
 
   @override
   List<Object?> get props => [
+        imagesList,
         name,
         purchaseDate,
         endOfWarr,
@@ -38,6 +42,7 @@ class WarrantyInfo extends Equatable {
       ];
 
   WarrantyInfo copyWith({
+    List<WarrantyImages>? imagesList,
     String? name,
     DateTime? purchaseDate,
     DateTime? endOfWarr,
@@ -49,6 +54,7 @@ class WarrantyInfo extends Equatable {
     bool? isEditing,
   }) {
     return WarrantyInfo._(
+      imagesList: imagesList ?? this.imagesList,
       isEditing: isEditing ?? this.isEditing,
       key: key,
       name: name ?? this.name,
@@ -73,6 +79,7 @@ class WarrantyInfo extends Equatable {
   }
 
   const WarrantyInfo._({
+    this.imagesList,
     required this.isEditing,
     required this.key,
     this.name,

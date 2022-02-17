@@ -9,7 +9,11 @@ class DetailsImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+      ),
       child: Image.file(
         file,
         height: MediaQuery.of(context).size.height * .3,

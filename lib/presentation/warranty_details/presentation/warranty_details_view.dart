@@ -56,7 +56,9 @@ class Content extends StatelessWidget {
               child: Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue[400]!),
+                  border: Border.all(
+                    color: Colors.blue[400]!,
+                  ),
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Image.file(
@@ -65,83 +67,55 @@ class Content extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: IndividualDetailWidget.general(
-                    detailType: 'Purchased on',
-                    detailTitle: _dateFormat(detailsCubit.state.purchaseDate!),
+            (detailsCubit.state.lifeTime)
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 16.0),
+                    child: Text('Lifetime warranty'),
                   )
-                  /* SizedBox(
-                  width: MediaQuery.of(context).size.width * .3,
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Purchase Date',
+                : Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Text(
+                        'Warranty expires ${_countDown(detailsCubit.state.endOfWarr!)} on ${_dateFormat(detailsCubit.state.endOfWarr!)}',
                       ),
-                      const Divider(
-                        color: Colors.black,
-                        height: 4,
-                        thickness: 1,
-                        // endIndent: 96,
-                        // indent: 96,
-                      ),
-                      Text(
-                        _dateFormat(detailsCubit.state.purchaseDate!),
-                      ),
-                    ],
+                    ),
                   ),
-                ), */
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(top: .0),
+              child: IndividualDetailWidget.general(
+                detailType: 'Purchased on',
+                detailContent: Text(
+                  _dateFormat(detailsCubit.state.purchaseDate!),
+                ),
+              ),
             ),
             (detailsCubit.state.details == null ||
                     detailsCubit.state.details!.isEmpty)
                 ? const SizedBox()
-                : /* Flexible(
-                  child: */
-                IndividualDetailWidget(
+                : IndividualDetailWidget.general(
                     detailType: 'Details',
-                    detailTitle: detailsCubit.state.details!,
+                    detailContent: Text(detailsCubit.state.details!),
                   ),
-            /*   ), */
-
-            (detailsCubit.state.lifeTime)
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: Text('Lifetime warranty'),
-                  )
-                : Align(
-                    alignment: Alignment.centerLeft,
-                    // child: Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        'Expires ${_countDown(detailsCubit.state.endOfWarr!)} on ${_dateFormat(detailsCubit.state.endOfWarr!)}',
-                      ),
-                      // ),
-                    ),
-                  ),
-            Row(
-              children: [
-                const Text('Product Website:'),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    alignment: Alignment.centerLeft,
-                  ),
-                  onPressed: () =>
+            IndividualDetailWidget.general(
+              detailType: 'Product Website',
+              detailContent: GestureDetector(
+                  onTap: () =>
                       detailsCubit.launch(detailsCubit.state.warrWebsite!),
                   child: Text(
                     detailsCubit.state.warrWebsite!,
                     style: const TextStyle(
+                      color: Colors.lightBlue,
                       decoration: TextDecoration.underline,
                     ),
-                  ),
-                ),
-              ],
+                  )),
             ),
             if (detailsCubit.state.receiptImage != null)
-              DetailsImageCard(file: detailsCubit.state.receiptImage!),
+              IndividualDetailWidget.general(
+                detailContent:
+                    DetailsImageCard(file: detailsCubit.state.receiptImage!),
+                detailType: 'Receipt Photo',
+              ),
           ],
         ),
       ),

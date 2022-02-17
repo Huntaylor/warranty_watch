@@ -6,7 +6,7 @@ import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warr
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_checkbox.dart';
-import 'package:warranty_keeper/widgets/warranty_image.dart';
+import 'package:warranty_keeper/widgets/warranty_image_widget.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 class NewWarrantyView extends StatelessWidget {
@@ -126,7 +126,7 @@ class _Content extends StatelessWidget {
                           previous.receiptImage != current.receiptImage,
                       builder: (context, state) {
                         return WarrantyImage(
-                          file: state.receiptImage,
+                          image: state.receiptImage,
                           onTap: () {
                             showModalBottomSheet(
                               isDismissible: false,
@@ -161,8 +161,11 @@ class _Content extends StatelessWidget {
                       buildWhen: (previous, current) =>
                           previous.image != current.image,
                       builder: (context, state) {
-                        return WarrantyImage(
-                          file: state.image,
+                        return /* Row(
+                          children: [ */
+                            WarrantyImage(
+                          image: state.image,
+                          // fileList: state.imagesList,
                           onTap: () {
                             showModalBottomSheet(
                               enableDrag: false,
@@ -192,6 +195,33 @@ class _Content extends StatelessWidget {
                             Icons.camera_alt_outlined,
                           ),
                         );
+                        /*  Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  // height:
+                                  //     MediaQuery.of(context).size.height * .1,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey.shade500,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Icon(Icons.add),
+                                      style: ElevatedButton.styleFrom(
+                                        shape: const CircleBorder(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ); */
                       },
                     ),
                   ],
