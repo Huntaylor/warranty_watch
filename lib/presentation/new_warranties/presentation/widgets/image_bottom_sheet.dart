@@ -29,7 +29,7 @@ class ImageBottomSheet extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    navCubit.appNavigator.pop();
+                    navCubit.pop();
                   },
                   child: Text(context.appLocalizations.cancel),
                 ),

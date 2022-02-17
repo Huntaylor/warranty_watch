@@ -1,7 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
+import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
@@ -78,7 +78,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         image: File(imagePicker.path),
       ),
     );
-    NavCubit().appNavigator.pop();
+    NavCubit().pop();
   }
 
   Future<void> changeProductPhotos() async {
@@ -95,7 +95,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         image: File(imagePicker.path),
       ),
     );
-    NavCubit().appNavigator.pop();
+    NavCubit().pop();
   }
 
   Future<void> changeReceiptCamera() async {
@@ -112,7 +112,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         receiptImage: File(imagePicker.path),
       ),
     );
-    NavCubit().appNavigator.pop();
+    NavCubit().pop();
   }
 
   Future<void> changeReceiptPhotos() async {
@@ -129,7 +129,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         receiptImage: File(imagePicker.path),
       ),
     );
-    NavCubit().appNavigator.pop();
+    NavCubit().pop();
   }
 
   void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {

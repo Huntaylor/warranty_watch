@@ -2,6 +2,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'package:warranty_keeper/presentation/warranty_details/widgets/details_image_card.dart';
+import 'package:warranty_keeper/presentation/warranty_details/widgets/individual_detail.dart';
 
 class WarrantyDetailsView extends StatelessWidget {
   static const routeName = '/warrantyDetails';
@@ -67,57 +68,41 @@ class Content extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Purchase Date',
-                    ),
-                    const Divider(
-                      color: Colors.black,
-                      height: 4,
-                      thickness: 1,
-                      endIndent: 96,
-                      indent: 96,
-                    ),
-                    Text(
-                      _dateFormat(detailsCubit.state.purchaseDate!),
-                    ),
-                  ],
-                ),
-              ),
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: IndividualDetailWidget.general(
+                    detailType: 'Purchased on',
+                    detailTitle: _dateFormat(detailsCubit.state.purchaseDate!),
+                  )
+                  /* SizedBox(
+                  width: MediaQuery.of(context).size.width * .3,
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Purchase Date',
+                      ),
+                      const Divider(
+                        color: Colors.black,
+                        height: 4,
+                        thickness: 1,
+                        // endIndent: 96,
+                        // indent: 96,
+                      ),
+                      Text(
+                        _dateFormat(detailsCubit.state.purchaseDate!),
+                      ),
+                    ],
+                  ),
+                ), */
+                  ),
             ),
             (detailsCubit.state.details == null ||
                     detailsCubit.state.details!.isEmpty)
                 ? const SizedBox()
                 : /* Flexible(
                   child: */
-                Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Stack(
-                        children: [
-                          Transform.translate(
-                            offset: const Offset(6, -16),
-                            child: Container(
-                              decoration:
-                                  const BoxDecoration(color: Colors.white),
-                              child: const Text(
-                                'Details',
-                                style:
-                                    TextStyle(fontSize: 12, color: Colors.grey),
-                              ),
-                            ),
-                          ),
-                          Text(detailsCubit.state.details!),
-                        ],
-                      ),
-                    ),
+                IndividualDetailWidget(
+                    detailType: 'Details',
+                    detailTitle: detailsCubit.state.details!,
                   ),
             /*   ), */
 

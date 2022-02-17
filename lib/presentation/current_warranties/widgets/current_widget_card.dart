@@ -1,5 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
+import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 class CurrentWidgetCard extends StatelessWidget {
   final WarrantyInfo warrantyInfo;

@@ -2,7 +2,7 @@ import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
+import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_checkbox.dart';
@@ -93,7 +93,12 @@ class _Content extends StatelessWidget {
                           isRequired: true,
                           isLifeTime: state.lifeTime,
                           endDateTime: DateTime(2050),
-                          initialDateTime: DateTime.now(),
+                          initialDateTime: newWarrantyCubit.state.endOfWarr ??
+                              DateTime(
+                                DateTime.now().year,
+                                DateTime.now().month,
+                                DateTime.now().day + 1,
+                              ),
                           startDateTime: DateTime.now(),
                           onChanged: newWarrantyCubit.changeEndDate,
                           hintText: appLocalizations.expirationDate,
@@ -204,7 +209,7 @@ class _Content extends StatelessWidget {
                         newWarrantyCubit.changeEditing();
                         currWarrantyCubit.addOrEditWarranty(state);
                         newWarrantyCubit.clear();
-                        navCubit.appNavigator.pop();
+                        navCubit.pop();
                       }
                     },
                     text: (state.isEditing)

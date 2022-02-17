@@ -17,6 +17,10 @@ class NavCubit extends Cubit<NavState> {
     );
   }
 
+  void pop() {
+    appNavigator.pop();
+  }
+
   void currWarrNav() {
     appNavigator.pushNamed(CurrentWarrantiesView.routeName);
   }
