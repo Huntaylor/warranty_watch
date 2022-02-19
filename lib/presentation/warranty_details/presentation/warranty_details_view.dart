@@ -15,7 +15,7 @@ class WarrantyDetailsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Details'),
+        title: Text(context.appLocalizations.details),
       ),
       body: const Content(),
     );
@@ -30,6 +30,7 @@ class Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
+    final appLocalizations = context.appLocalizations;
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -68,23 +69,26 @@ class Content extends StatelessWidget {
               ),
             ),
             (detailsCubit.state.lifeTime)
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Text('Lifetime warranty'),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Text(appLocalizations.lifeTime),
                   )
                 : Align(
                     alignment: Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 16.0),
                       child: Text(
-                        'Warranty expires ${_countDown(detailsCubit.state.endOfWarr!)} on ${_dateFormat(detailsCubit.state.endOfWarr!)}',
+                        appLocalizations.expiresOn(
+                          _countDown(detailsCubit.state.endOfWarr!),
+                          _dateFormat(detailsCubit.state.endOfWarr!),
+                        ),
                       ),
                     ),
                   ),
             Padding(
               padding: const EdgeInsets.only(top: .0),
               child: IndividualDetailWidget.general(
-                detailType: 'Purchased on',
+                detailType: appLocalizations.purchasedOn,
                 detailContent: Text(
                   _dateFormat(detailsCubit.state.purchaseDate!),
                 ),
@@ -94,11 +98,11 @@ class Content extends StatelessWidget {
                     detailsCubit.state.details!.isEmpty)
                 ? const SizedBox()
                 : IndividualDetailWidget.general(
-                    detailType: 'Details',
+                    detailType: appLocalizations.details,
                     detailContent: Text(detailsCubit.state.details!),
                   ),
             IndividualDetailWidget.general(
-              detailType: 'Product Website',
+              detailType: appLocalizations.productWebsite,
               detailContent: GestureDetector(
                   onTap: () =>
                       detailsCubit.launch(detailsCubit.state.warrWebsite!),
@@ -114,7 +118,7 @@ class Content extends StatelessWidget {
               IndividualDetailWidget.general(
                 detailContent:
                     DetailsImageCard(file: detailsCubit.state.receiptImage!),
-                detailType: 'Receipt Photo',
+                detailType: appLocalizations.receiptPhoto,
               ),
           ],
         ),

@@ -54,12 +54,62 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         endOfWarr: DateFormat('MM/dd/yyyy').parse(date),
       ),
     );
+    changeReminderDate(date);
+  }
+
+  changeReminderDate(String date) {
+    final daysTill = state.endOfWarr!.difference(DateTime.now()).inDays;
+    if (state.reminderDate == null) {
+      if (daysTill < 7 && daysTill > 1) {
+        return emit(
+          state.copyWith(
+            reminderDate: DateTime(state.endOfWarr!.year,
+                state.endOfWarr!.month, state.endOfWarr!.day - 2),
+          ),
+        );
+      } else if (daysTill < 14 && daysTill > 7) {
+        return emit(
+          state.copyWith(
+            reminderDate: DateTime(state.endOfWarr!.year,
+                state.endOfWarr!.month, state.endOfWarr!.day - 7),
+          ),
+        );
+      } else if (daysTill < 30 && daysTill > 14) {
+        return emit(
+          state.copyWith(
+            reminderDate: DateTime(state.endOfWarr!.year,
+                state.endOfWarr!.month, state.endOfWarr!.day - 14),
+          ),
+        );
+      } else if (daysTill < 90 && daysTill > 30) {
+        return emit(
+          state.copyWith(
+            reminderDate: DateTime(state.endOfWarr!.year,
+                state.endOfWarr!.month, state.endOfWarr!.day - 30),
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            reminderDate: DateFormat('MM/dd/yyyy').parse(date),
+          ),
+        );
+      }
+    }
   }
 
   changeEditing() {
     emit(
       state.copyWith(
         isEditing: false,
+      ),
+    );
+  }
+
+  toggleWantsReminders(bool value) {
+    emit(
+      state.copyWith(
+        wantsReminders: value,
       ),
     );
   }
@@ -73,6 +123,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final fileName = path.basename(imagePicker!.path);
     final savedImage = imagePicker.saveTo('${appDir.path}/$fileName');
+
     emit(
       state.copyWith(
         image: File(imagePicker.path),
@@ -90,6 +141,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final fileName = path.basename(imagePicker!.path);
     final savedImage = imagePicker.saveTo('${appDir.path}/$fileName');
+
     emit(
       state.copyWith(
         image: File(imagePicker.path),
@@ -107,6 +159,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final fileName = path.basename(imagePicker!.path);
     final savedreceiptImage = imagePicker.saveTo('${appDir.path}/$fileName');
+
     emit(
       state.copyWith(
         receiptImage: File(imagePicker.path),
@@ -124,6 +177,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final fileName = path.basename(imagePicker!.path);
     final savedreceiptImage = imagePicker.saveTo('${appDir.path}/$fileName');
+
     emit(
       state.copyWith(
         receiptImage: File(imagePicker.path),

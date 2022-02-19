@@ -83,5 +83,29 @@
     "noCurrentWarranties": "No Warranties to track at the moment",
     "@noCurrentWarranties": {
       "description": "Text for bottom sheet"
+    },
+    "purchasedOn": "Purchased on",
+    "@purchasedOn": {
+      "description": "Text for purchased on detail"
+    },
+    "expiresOn": "Warranty expires {timeLeft} on {date}",
+    "@expiresOn": {
+        "description": "text for expires on details",
+        "placeholders": {
+            "timeLeft": {},
+            "date": {}
+        }
+    },
+    "details": "Details",
+    "@details": {
+      "description": "Text for details"
+    },
+    "productWebsite": "Product Website",
+    "@productWebsite": {
+      "description": "Text for product website details"
+    },
+    "receiptPhoto": "Receipt Photo",
+    "@receiptPhoto": {
+      "description": "Text for Receipt Photo details"
     }
 }

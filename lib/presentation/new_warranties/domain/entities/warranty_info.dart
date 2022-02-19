@@ -1,5 +1,4 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_image_model.dart';
 
 class WarrantyInfo extends Equatable {
   final Key key;
@@ -7,15 +6,18 @@ class WarrantyInfo extends Equatable {
   final DateTime? purchaseDate;
   final String? warrWebsite;
   final DateTime? endOfWarr;
+  final DateTime? reminderDate;
   final String? details;
-  final List<WarrantyImages>? imagesList;
+  final List<File>? imagesList;
   final File? image;
   final File? receiptImage;
   final bool lifeTime;
   final bool isEditing;
+  final bool wantsReminders;
   WarrantyInfo({
     this.name,
     this.purchaseDate,
+    this.reminderDate,
     this.warrWebsite,
     this.endOfWarr,
     this.details,
@@ -24,6 +26,7 @@ class WarrantyInfo extends Equatable {
     this.receiptImage,
     this.lifeTime = false,
     this.isEditing = false,
+    this.wantsReminders = false,
   }) : key = UniqueKey();
 
   @override
@@ -39,21 +42,27 @@ class WarrantyInfo extends Equatable {
         lifeTime,
         isEditing,
         key,
+        wantsReminders,
+        reminderDate,
       ];
 
   WarrantyInfo copyWith({
-    List<WarrantyImages>? imagesList,
+    List<File>? imagesList,
     String? name,
     DateTime? purchaseDate,
     DateTime? endOfWarr,
+    DateTime? reminderDate,
     String? warrWebsite,
     String? details,
     File? image,
     File? receiptImage,
     bool? lifeTime,
     bool? isEditing,
+    bool? wantsReminders,
   }) {
     return WarrantyInfo._(
+      reminderDate: reminderDate ?? this.reminderDate,
+      wantsReminders: wantsReminders ?? this.wantsReminders,
       imagesList: imagesList ?? this.imagesList,
       isEditing: isEditing ?? this.isEditing,
       key: key,
@@ -79,9 +88,8 @@ class WarrantyInfo extends Equatable {
   }
 
   const WarrantyInfo._({
+    this.reminderDate,
     this.imagesList,
-    required this.isEditing,
-    required this.key,
     this.name,
     this.purchaseDate,
     this.warrWebsite,
@@ -90,5 +98,8 @@ class WarrantyInfo extends Equatable {
     this.image,
     this.receiptImage,
     required this.lifeTime,
+    required this.isEditing,
+    required this.key,
+    required this.wantsReminders,
   });
 }

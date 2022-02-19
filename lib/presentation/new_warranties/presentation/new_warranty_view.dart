@@ -70,7 +70,7 @@ class _Content extends StatelessWidget {
                       isRequired: true,
                       isLifeTime: false,
                       endDateTime: DateTime(2050),
-                      initialDateTime: DateTime.now(),
+                      initialDateTime: newWarrantyCubit.state.purchaseDate,
                       startDateTime: DateTime(2000),
                       onChanged: newWarrantyCubit.changePurchaseDate,
                       hintText: appLocalizations.purchaseDate,
@@ -87,18 +87,13 @@ class _Content extends StatelessWidget {
                           previous.lifeTime != current.lifeTime,
                       builder: (context, state) {
                         return WarrantyTextField.date(
-                          initialValue: newWarrantyCubit.state.endOfWarr != null
-                              ? '${_dateFormat(newWarrantyCubit.state.endOfWarr!)}'
+                          initialValue: state.endOfWarr != null
+                              ? _dateFormat(state.endOfWarr!)
                               : '',
                           isRequired: true,
                           isLifeTime: state.lifeTime,
                           endDateTime: DateTime(2050),
-                          initialDateTime: newWarrantyCubit.state.endOfWarr ??
-                              DateTime(
-                                DateTime.now().year,
-                                DateTime.now().month,
-                                DateTime.now().day + 1,
-                              ),
+                          initialDateTime: state.endOfWarr,
                           startDateTime: DateTime.now(),
                           onChanged: newWarrantyCubit.changeEndDate,
                           hintText: appLocalizations.expirationDate,
@@ -106,14 +101,52 @@ class _Content extends StatelessWidget {
                       },
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.lifeTime != current.lifeTime,
                       builder: (context, state) {
-                        return WarrantyCheckBox(
-                          isChecked: state.lifeTime,
-                          text: appLocalizations.lifeTime,
-                          onTap: newWarrantyCubit.toggleLifeTime,
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            WarrantyCheckBox(
+                              isChecked: state.lifeTime,
+                              text: appLocalizations.lifeTime,
+                              onTap: newWarrantyCubit.toggleLifeTime,
+                            ),
+                          ],
                         );
+                      },
+                    ),
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                      builder: (context, state) {
+                        return (state.lifeTime || state.endOfWarr == null)
+                            ? const SizedBox()
+                            : Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Switch(
+                                        value: state.wantsReminders,
+                                        onChanged: (value) {
+                                          newWarrantyCubit
+                                              .toggleWantsReminders(value);
+                                        },
+                                      ),
+                                      const Text('Reminder before expiration'),
+                                    ],
+                                  ),
+                                  if (state.wantsReminders)
+                                    WarrantyTextField.date(
+                                      initialValue:
+                                          _dateFormat(state.reminderDate!),
+                                      isRequired: true,
+                                      isLifeTime: state.lifeTime,
+                                      endDateTime:
+                                          newWarrantyCubit.state.endOfWarr,
+                                      initialDateTime: state.reminderDate,
+                                      startDateTime: DateTime.now(),
+                                      onChanged: newWarrantyCubit.changeEndDate,
+                                      hintText: 'Reminder Date',
+                                    ),
+                                ],
+                              );
                       },
                     ),
                     WarrantyTextField.form(
@@ -161,11 +194,8 @@ class _Content extends StatelessWidget {
                       buildWhen: (previous, current) =>
                           previous.image != current.image,
                       builder: (context, state) {
-                        return /* Row(
-                          children: [ */
-                            WarrantyImage(
+                        return WarrantyImage(
                           image: state.image,
-                          // fileList: state.imagesList,
                           onTap: () {
                             showModalBottomSheet(
                               enableDrag: false,
@@ -195,33 +225,6 @@ class _Content extends StatelessWidget {
                             Icons.camera_alt_outlined,
                           ),
                         );
-                        /*  Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  // height:
-                                  //     MediaQuery.of(context).size.height * .1,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey.shade500,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      child: const Icon(Icons.add),
-                                      style: ElevatedButton.styleFrom(
-                                        shape: const CircleBorder(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ); */
                       },
                     ),
                   ],
