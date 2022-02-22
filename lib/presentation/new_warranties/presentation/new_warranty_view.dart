@@ -63,17 +63,23 @@ class _Content extends StatelessWidget {
                       onChanged: newWarrantyCubit.changeProductName,
                       hintText: appLocalizations.productName,
                     ),
-                    WarrantyTextField.date(
-                      initialValue: newWarrantyCubit.state.purchaseDate != null
-                          ? '${_dateFormat(newWarrantyCubit.state.purchaseDate!)}'
-                          : '${_dateFormat(DateTime.now())}',
-                      isRequired: true,
-                      isLifeTime: false,
-                      endDateTime: DateTime(2050),
-                      initialDateTime: newWarrantyCubit.state.purchaseDate,
-                      startDateTime: DateTime(2000),
-                      onChanged: newWarrantyCubit.changePurchaseDate,
-                      hintText: appLocalizations.purchaseDate,
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                      builder: (context, state) {
+                        return WarrantyTextField.date(
+                          initialValue:
+                              newWarrantyCubit.state.purchaseDate != null
+                                  ? _dateFormat(
+                                      newWarrantyCubit.state.purchaseDate!)
+                                  : _dateFormat(DateTime.now()),
+                          isRequired: true,
+                          isLifeTime: false,
+                          endDateTime: DateTime.now(),
+                          initialDateTime: newWarrantyCubit.state.purchaseDate,
+                          startDateTime: DateTime(2000),
+                          onChanged: newWarrantyCubit.changePurchaseDate,
+                          hintText: appLocalizations.purchaseDate,
+                        );
+                      },
                     ),
                     WarrantyTextField.webSite(
                       initialValue:
@@ -83,17 +89,15 @@ class _Content extends StatelessWidget {
                       hintText: appLocalizations.companyWebsite,
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.lifeTime != current.lifeTime,
                       builder: (context, state) {
                         return WarrantyTextField.date(
-                          initialValue: state.endOfWarr != null
-                              ? _dateFormat(state.endOfWarr!)
+                          initialValue: newWarrantyCubit.state.endOfWarr != null
+                              ? _dateFormat(newWarrantyCubit.state.endOfWarr!)
                               : '',
                           isRequired: true,
                           isLifeTime: state.lifeTime,
                           endDateTime: DateTime(2050),
-                          initialDateTime: state.endOfWarr,
+                          initialDateTime: newWarrantyCubit.state.endOfWarr,
                           startDateTime: DateTime.now(),
                           onChanged: newWarrantyCubit.changeEndDate,
                           hintText: appLocalizations.expirationDate,
@@ -134,13 +138,14 @@ class _Content extends StatelessWidget {
                                   ),
                                   if (state.wantsReminders)
                                     WarrantyTextField.date(
-                                      initialValue:
-                                          _dateFormat(state.reminderDate!),
+                                      initialValue: _dateFormat(
+                                          newWarrantyCubit.state.reminderDate!),
                                       isRequired: true,
                                       isLifeTime: state.lifeTime,
                                       endDateTime:
                                           newWarrantyCubit.state.endOfWarr,
-                                      initialDateTime: state.reminderDate,
+                                      initialDateTime:
+                                          newWarrantyCubit.state.reminderDate,
                                       startDateTime: DateTime.now(),
                                       onChanged: newWarrantyCubit.changeEndDate,
                                       hintText: 'Reminder Date',

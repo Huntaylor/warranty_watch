@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-
 import 'package:warranty_keeper/app_library.dart';
 
 class WarrantyTextField extends StatefulWidget {
@@ -220,7 +219,10 @@ class DateTextFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     var text = _format(newValue.text, '/');
-    return newValue.copyWith(text: text, selection: updateCursorPosition(text));
+    return newValue.copyWith(
+      text: text,
+      selection: updateCursorPosition(text),
+    );
   }
 
   String _format(String value, String seperator) {

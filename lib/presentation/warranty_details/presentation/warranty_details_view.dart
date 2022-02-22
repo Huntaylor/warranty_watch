@@ -86,6 +86,16 @@ class Content extends StatelessWidget {
                     ),
                   ),
             Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: (detailsCubit.state.wantsReminders)
+                  ? Text(
+                      'You will receive a reminder ${_countDown(detailsCubit.state.reminderDate!)} on ${_dateFormat(detailsCubit.state.reminderDate!)}',
+                    )
+                  : const Text(
+                      'Reminders not set',
+                    ),
+            ),
+            Padding(
               padding: const EdgeInsets.only(top: .0),
               child: IndividualDetailWidget.general(
                 detailType: appLocalizations.purchasedOn,
