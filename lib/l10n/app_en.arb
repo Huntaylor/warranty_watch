@@ -21,7 +21,7 @@
       "description": "Title for Edit Warranty View"
     },
     "productName": "Name of product",
-    "@addWarrantyTitle": {
+    "@productName": {
       "description": "Text for add new warranty product"
     },
     "addproductButton": "Add product",
@@ -96,6 +96,18 @@
             "date": {}
         }
     },
+    "remindsOn": "You will receive a reminder {reminderTime} on {date}",
+    "@remindsOn": {
+        "description": "text for reminder details",
+        "placeholders": {
+            "reminderTime": {},
+            "date": {}
+        }
+    },
+    "noReminderSet": "Reminders not set",
+    "@noReminderSet": {
+      "description": "Text for no reminders set"
+    },
     "details": "Details",
     "@details": {
       "description": "Text for details"
@@ -107,5 +119,38 @@
     "receiptPhoto": "Receipt Photo",
     "@receiptPhoto": {
       "description": "Text for Receipt Photo details"
+    },
+    "hasLifetime": "Has Lifetime Warranty",
+    "@hasLifetime": {
+      "description": "Text for lifetime warranty details"
+    },
+    "edit": "Edit",
+    "@edit": {
+      "description": "Text for edit details"
+    },
+    "remove": "Remove",
+    "@remove": {
+      "description": "Text for remove details"
+    },
+    "detailsName": "Product: {productName}",
+    "@detailsName": {
+        "description": "text for product name details",
+        "placeholders": {
+            "productName": {}
+        }
+    },
+    "purchaseDateDetails": "Purchased on: {purchaseDate}",
+    "@purchaseDateDetails": {
+        "description": "text for purchase date details",
+        "placeholders": {
+            "purchaseDate": {}
+        }
+    },
+    "expirationDetailsDate": "Expires On: {expirationDate}",
+    "@expirationDetailsDate": {
+        "description": "text for expiration date details",
+        "placeholders": {
+            "expirationDate": {}
+        }
     }
 }

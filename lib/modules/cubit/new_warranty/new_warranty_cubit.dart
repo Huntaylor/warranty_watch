@@ -210,6 +210,27 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             wantsReminders: state.wantsReminders,
           ),
         );
+      } else if (daysTill > 90) {
+        return emit(
+          state.copyWith(
+            reminderDate: DateTime(
+              state.endOfWarr!.year,
+              state.endOfWarr!.month,
+              state.endOfWarr!.day - 30,
+            ),
+            lifeTime: state.lifeTime,
+            imagesList: state.imagesList,
+            name: state.name,
+            purchaseDate: state.purchaseDate,
+            endOfWarr: state.endOfWarr,
+            warrWebsite: state.warrWebsite,
+            details: state.details,
+            image: state.image,
+            receiptImage: state.receiptImage,
+            isEditing: state.isEditing,
+            wantsReminders: state.wantsReminders,
+          ),
+        );
       } else {
         emit(
           state.copyWith(

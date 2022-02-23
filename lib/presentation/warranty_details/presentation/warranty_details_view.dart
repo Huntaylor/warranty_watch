@@ -82,6 +82,11 @@ class Content extends StatelessWidget {
                           _countDown(detailsCubit.state.endOfWarr!),
                           _dateFormat(detailsCubit.state.endOfWarr!),
                         ),
+                        style: TextStyle(
+                          color: _dateDiff(detailsCubit.state.endOfWarr!)
+                              ? Colors.red
+                              : null,
+                        ),
                       ),
                     ),
                   ),
@@ -89,10 +94,14 @@ class Content extends StatelessWidget {
               padding: const EdgeInsets.only(top: 16),
               child: (detailsCubit.state.wantsReminders)
                   ? Text(
-                      'You will receive a reminder ${_countDown(detailsCubit.state.reminderDate!)} on ${_dateFormat(detailsCubit.state.reminderDate!)}',
+                      appLocalizations.remindsOn(
+                        _countDown(detailsCubit.state.reminderDate!),
+                        _dateFormat(detailsCubit.state.reminderDate!),
+                      ),
+                      textAlign: TextAlign.center,
                     )
-                  : const Text(
-                      'Reminders not set',
+                  : Text(
+                      appLocalizations.noReminderSet,
                     ),
             ),
             Padding(
@@ -144,4 +153,12 @@ _countDown(DateTime expirationDate) {
 
 _dateFormat(DateTime date) {
   return '${date.month}/${date.day}/${date.year}';
+}
+
+_dateDiff(DateTime date) {
+  if (date.difference(DateTime.now()).inDays < 7) {
+    return true;
+  } else {
+    return false;
+  }
 }

@@ -17,6 +17,7 @@ class CurrentWidgetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
     return GestureDetector(
       onTap: onSelect,
       child: Card(
@@ -30,7 +31,14 @@ class CurrentWidgetCard extends StatelessWidget {
           child: Row(
             children: [
               Flexible(
-                child: SizedBox(
+                child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                    ),
+                  ),
                   child: Image.file(warrantyInfo.image!),
                 ),
               ),
@@ -41,13 +49,26 @@ class CurrentWidgetCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Product: ${warrantyInfo.name}'),
                       Text(
-                          'Purchase Date: ${_dateFormat(warrantyInfo.purchaseDate!)}'),
+                        appLocalizations.detailsName(warrantyInfo.name!),
+                      ),
+                      Text(
+                        appLocalizations.purchaseDateDetails(
+                          _dateFormat(warrantyInfo.purchaseDate!),
+                        ),
+                      ),
                       warrantyInfo.lifeTime
-                          ? const Text('Has Lifetime Warranty')
+                          ? Text(appLocalizations.hasLifetime)
                           : Text(
-                              'Expiration Date: ${_dateFormat(warrantyInfo.endOfWarr!)}')
+                              appLocalizations.expirationDetailsDate(
+                                _dateFormat(warrantyInfo.endOfWarr!),
+                              ),
+                              style: TextStyle(
+                                color: _dateDiff(warrantyInfo.endOfWarr!)
+                                    ? Colors.red
+                                    : null,
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -61,11 +82,11 @@ class CurrentWidgetCard extends StatelessWidget {
                   itemBuilder: (_) => [
                     PopupMenuItem(
                       onTap: onEdit,
-                      child: const Text('Edit'),
+                      child: Text(appLocalizations.edit),
                     ),
                     PopupMenuItem(
                       onTap: onRemove,
-                      child: const Text('Remove'),
+                      child: Text(appLocalizations.remove),
                     ),
                   ],
                 ),
@@ -78,6 +99,14 @@ class CurrentWidgetCard extends StatelessWidget {
   }
 }
 
-_dateFormat(DateTime date) {
+_dateDiff(DateTime date) {
+  if (date.difference(DateTime.now()).inDays < 7) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+String _dateFormat(DateTime date) {
   return '${date.month}/${date.day}/${date.year}';
 }
