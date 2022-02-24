@@ -1,5 +1,5 @@
-import 'package:warranty_keeper/modules/bloc/home/home_bloc.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/main/main_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<CurrentWarrantiesCubit>(
           create: (context) => CurrentWarrantiesCubit(),
         ),
-        BlocProvider<HomeViewBloc>(
-          create: (context) => HomeViewBloc(),
+        BlocProvider<HomeCubit>(
+          create: (context) => HomeCubit(),
         ),
         BlocProvider<NavCubit>(
           create: (context) => NavCubit(),

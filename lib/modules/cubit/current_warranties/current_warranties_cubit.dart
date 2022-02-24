@@ -13,7 +13,36 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
 
   void addOrEditWarranty(WarrantyInfo warrantyInfo) {
     List<WarrantyInfo> newList;
+    List<WarrantyInfo> expiringList;
     newList = List.from(state.warrantyInfoList);
+    expiringList = List.from(state.warrantyInfoList);
+
+    if (expiringList.any((e) => e.key == warrantyInfo.key)) {
+      expiringList[state.warrantyInfoList
+          .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
+      emit(
+        state.copyWith(
+          removeBool: false,
+          warrantyInfoList: expiringList,
+        ),
+      );
+    } else {
+      expiringList.add(warrantyInfo);
+    }
+    if (expiringList.any((e) => e.lifeTime)) {
+      expiringList.removeWhere((ee) => ee.lifeTime);
+    }
+
+    if (expiringList
+        .any((e) => e.endOfWarr!.difference(DateTime.now()).inDays < 30)) {
+      expiringList.removeWhere((ee) =>
+          ee.endOfWarr!.difference(DateTime.now()).inDays > 30 || ee.lifeTime);
+      emit(
+        state.copyWith(
+          expiringList: expiringList,
+        ),
+      );
+    }
 
     if (newList.any((e) => e.key == warrantyInfo.key)) {
       newList[state.warrantyInfoList

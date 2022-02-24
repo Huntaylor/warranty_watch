@@ -21,78 +21,63 @@ class CurrentWidgetCard extends StatelessWidget {
     return GestureDetector(
       onTap: onSelect,
       child: Card(
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: Colors.lightBlue,
+        clipBehavior: Clip.antiAlias,
+        elevation: 5,
+        child: Row(
+          children: [
+            Flexible(
+              child: Image.file(warrantyInfo.image!),
             ),
-          ),
-          child: Row(
-            children: [
-              Flexible(
-                child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      bottomLeft: Radius.circular(5),
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      appLocalizations.detailsName(warrantyInfo.name!),
                     ),
-                  ),
-                  child: Image.file(warrantyInfo.image!),
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        appLocalizations.detailsName(warrantyInfo.name!),
+                    Text(
+                      appLocalizations.purchaseDateDetails(
+                        _dateFormat(warrantyInfo.purchaseDate!),
                       ),
-                      Text(
-                        appLocalizations.purchaseDateDetails(
-                          _dateFormat(warrantyInfo.purchaseDate!),
-                        ),
-                      ),
-                      warrantyInfo.lifeTime
-                          ? Text(appLocalizations.hasLifetime)
-                          : Text(
-                              appLocalizations.expirationDetailsDate(
-                                _dateFormat(warrantyInfo.endOfWarr!),
-                              ),
-                              style: TextStyle(
-                                color: _dateDiff(warrantyInfo.endOfWarr!)
-                                    ? Colors.red
-                                    : null,
-                              ),
+                    ),
+                    warrantyInfo.lifeTime
+                        ? Text(appLocalizations.hasLifetime)
+                        : Text(
+                            appLocalizations.expirationDetailsDate(
+                              _dateFormat(warrantyInfo.endOfWarr!),
                             ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: PopupMenuButton(
-                  icon: const Icon(
-                    Icons.more_horiz_rounded,
-                  ),
-                  itemBuilder: (_) => [
-                    PopupMenuItem(
-                      onTap: onEdit,
-                      child: Text(appLocalizations.edit),
-                    ),
-                    PopupMenuItem(
-                      onTap: onRemove,
-                      child: Text(appLocalizations.remove),
-                    ),
+                            style: TextStyle(
+                              color: _dateDiff(warrantyInfo.endOfWarr!)
+                                  ? Colors.red
+                                  : null,
+                            ),
+                          ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: PopupMenuButton(
+                icon: const Icon(
+                  Icons.more_horiz_rounded,
+                ),
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    onTap: onEdit,
+                    child: Text(appLocalizations.edit),
+                  ),
+                  PopupMenuItem(
+                    onTap: onRemove,
+                    child: Text(appLocalizations.remove),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

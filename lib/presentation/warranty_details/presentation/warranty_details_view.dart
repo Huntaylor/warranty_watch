@@ -46,14 +46,24 @@ class Content extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(2),
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: Colors.blue[400],
-                border: Border.all(color: Colors.black),
+            Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
+                side: const BorderSide(
+                  color: Colors.black,
+                  width: 2.0,
+                ),
+                // borderRadius: BorderRadius.circular(25.0),
               ),
+
+              // padding: const EdgeInsets.all(2),
+              clipBehavior: Clip.antiAlias,
+              // decoration: BoxDecoration(
+              //   color: Colors.blue[400],
+              //   border: Border.all(color: Colors.black),
+              //   borderRadius: BorderRadius.circular(25),
+              // ),
               child: Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(

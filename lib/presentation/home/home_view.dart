@@ -1,8 +1,8 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
+import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class HomeView extends StatelessWidget {
@@ -39,36 +39,7 @@ class _Content extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: Colors.black,
-                    ),
-                  ),
-                  child: BlocBuilder<CurrentWarrantiesCubit,
-                      CurrentWarrantiesState>(
-                    builder: (context, state) {
-                      return (state.warrantyInfoList.isEmpty)
-                          ? const Text('No warranties close to expiration')
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: state.warrantyInfoList.length,
-                              physics: const ClampingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Text(
-                                  state.warrantyInfoList[index].name!,
-                                );
-                              },
-                            );
-                    },
-                  ),
-                ),
-              ),
-            ),
+            const ExpiringWarrantyCard(),
             const SizedBox(
               height: 5,
             ),
