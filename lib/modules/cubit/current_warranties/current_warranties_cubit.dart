@@ -37,6 +37,10 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
         .any((e) => e.endOfWarr!.difference(DateTime.now()).inDays < 30)) {
       expiringList.removeWhere((ee) =>
           ee.endOfWarr!.difference(DateTime.now()).inDays > 30 || ee.lifeTime);
+
+      expiringList.sort(
+        ((a, b) => a.endOfWarr!.compareTo(b.endOfWarr!)),
+      );
       emit(
         state.copyWith(
           expiringList: expiringList,
