@@ -12,6 +12,7 @@ class ExpiringWarrantyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
     final navCubit = context.read<NavCubit>();
+    final appLocalizations = context.appLocalizations;
 
     return Flexible(
       child: Padding(
@@ -33,9 +34,9 @@ class ExpiringWarrantyCard extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text('Expiring soon'),
-                        Text('MM/DD/YYYY'),
+                      children: [
+                        Text(appLocalizations.expiringSoon),
+                        Text(appLocalizations.dateFormat),
                       ],
                     ),
                   ),
@@ -45,13 +46,14 @@ class ExpiringWarrantyCard extends StatelessWidget {
                       CurrentWarrantiesState>(
                     builder: (context, state) {
                       return (state.expiringList.isEmpty)
-                          ? const Padding(
-                              padding: EdgeInsets.all(8),
+                          ? Padding(
+                              padding: const EdgeInsets.all(8),
                               child: Text(
-                                'No warranties close to expiration',
+                                appLocalizations.noneExpiring,
                               ),
                             )
                           : ListView.builder(
+                              physics: const ClampingScrollPhysics(),
                               addAutomaticKeepAlives: true,
                               shrinkWrap: true,
                               itemCount: state.expiringList.length,

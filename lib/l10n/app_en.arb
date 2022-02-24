@@ -134,23 +134,35 @@
     },
     "detailsName": "Product: {productName}",
     "@detailsName": {
-        "description": "text for product name details",
-        "placeholders": {
-            "productName": {}
-        }
+      "description": "text for product name details",
+      "placeholders": {
+        "productName": {}
+      }
     },
     "purchaseDateDetails": "Purchased on: {purchaseDate}",
     "@purchaseDateDetails": {
-        "description": "text for purchase date details",
-        "placeholders": {
-            "purchaseDate": {}
-        }
+      "description": "text for purchase date details",
+      "placeholders": {
+        "purchaseDate": {}
+      }
     },
     "expirationDetailsDate": "Expires On: {expirationDate}",
     "@expirationDetailsDate": {
-        "description": "text for expiration date details",
-        "placeholders": {
-            "expirationDate": {}
-        }
+      "description": "text for expiration date details",
+      "placeholders": {
+        "expirationDate": {}
+      }
+    },
+    "expiringSoon": "Expiring Soon",
+    "@expiringSoon": {
+      "description": "Text for expiring widget title"
+    },
+    "dateFormat": "MM/DD/YYYY",
+    "@dateFormat": {
+      "description": "Text for expiring widget date format"
+    },
+    "noneExpiring": "No warranties close to expiration",
+    "@noneExpiring": {
+      "description": "Text for expiring widget empty"
     }
 }
