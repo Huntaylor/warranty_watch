@@ -164,5 +164,9 @@
     "noneExpiring": "No warranties close to expiration",
     "@noneExpiring": {
       "description": "Text for expiring widget empty"
+    },
+    "back": "Back",
+    "@back": {
+      "description": "Text for back button"
     }
 }

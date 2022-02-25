@@ -58,6 +58,8 @@ class _Content extends StatelessWidget {
                 child: Column(
                   children: [
                     WarrantyTextField.general(
+                      maxLength: 25,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       initialValue: newWarrantyCubit.state.name ?? '',
                       isRequired: true,
                       onChanged: newWarrantyCubit.changeProductName,

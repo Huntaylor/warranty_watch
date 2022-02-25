@@ -26,7 +26,10 @@ class CurrentWidgetCard extends StatelessWidget {
         child: Row(
           children: [
             Flexible(
-              child: Image.file(warrantyInfo.image!),
+              child: Image.file(
+                warrantyInfo.image!,
+                fit: BoxFit.fitHeight,
+              ),
             ),
             Expanded(
               flex: 4,
