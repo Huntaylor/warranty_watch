@@ -1,4 +1,3 @@
-import 'package:warranty_keeper/modules/cubit/barcode_scanner/barcode_scanner_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/main/main_cubit.dart';
@@ -46,9 +45,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SettingsCubit>(
           create: (context) => SettingsCubit(),
-        ),
-        BlocProvider<BarcodeScannerCubit>(
-          create: (context) => BarcodeScannerCubit(),
         ),
       ],
       child: MaterialApp(

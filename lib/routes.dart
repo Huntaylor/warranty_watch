@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:warranty_keeper/presentation/barcode_scanner/barcode_scanner_view.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/new_warranty_view.dart';
@@ -14,6 +13,4 @@ final appRoutes = {
   WarrantyDetailsView.routeName: (BuildContext context) =>
       const WarrantyDetailsView(),
   SettingsView.routeName: (BuildContext context) => const SettingsView(),
-  BarcodeScannerView.routeName: (BuildContext context) =>
-      const BarcodeScannerView(),
 };
