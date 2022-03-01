@@ -3,6 +3,7 @@ import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
+import 'package:warranty_keeper/presentation/settings/settings_view.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class HomeView extends StatelessWidget {
@@ -12,8 +13,35 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
+    final navCubit = context.read<NavCubit>();
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: PopupMenuButton(
+              icon: const Icon(
+                Icons.menu,
+              ),
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  onTap: () {},
+                  child: Text('Barcode Scanner'),
+                ),
+                PopupMenuItem(
+                  onTap: () {
+                    navCubit.appNavigator.pushNamed(SettingsView.routeName);
+                  },
+                  child: Text('Settings'),
+                ),
+                PopupMenuItem(
+                  onTap: () {},
+                  child: Text('Help'),
+                ),
+              ],
+            ),
+          )
+        ],
         centerTitle: true,
         title: Center(
           child: Text(

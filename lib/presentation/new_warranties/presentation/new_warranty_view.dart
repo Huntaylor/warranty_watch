@@ -57,13 +57,19 @@ class _Content extends StatelessWidget {
                 physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [
-                    WarrantyTextField.general(
-                      maxLength: 25,
-                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                      initialValue: newWarrantyCubit.state.name ?? '',
-                      isRequired: true,
-                      onChanged: newWarrantyCubit.changeProductName,
-                      hintText: appLocalizations.productName,
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                      builder: (context, state) {
+                        return WarrantyTextField.general(
+                          currentLength:
+                              (state.name != null) ? state.name!.length : 0,
+                          maxLength: 25,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                          initialValue: state.name ?? '',
+                          isRequired: true,
+                          onChanged: newWarrantyCubit.changeProductName,
+                          hintText: appLocalizations.productName,
+                        );
+                      },
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       builder: (context, state) {
@@ -156,11 +162,18 @@ class _Content extends StatelessWidget {
                               );
                       },
                     ),
-                    WarrantyTextField.form(
-                      initialValue: newWarrantyCubit.state.details ?? '',
-                      onChanged: newWarrantyCubit.changeAddtionalDetails,
-                      hintText: appLocalizations.additionalDetails,
-                    ),
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                        builder: (context, state) {
+                      return WarrantyTextField.form(
+                        currentLength:
+                            (state.details != null) ? state.details!.length : 0,
+                        maxLength: 100,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                        initialValue: state.details ?? '',
+                        onChanged: newWarrantyCubit.changeAddtionalDetails,
+                        hintText: appLocalizations.additionalDetails,
+                      );
+                    }),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       buildWhen: (previous, current) =>
                           previous.receiptImage != current.receiptImage,

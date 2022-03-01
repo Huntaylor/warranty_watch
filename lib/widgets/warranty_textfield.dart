@@ -6,6 +6,7 @@ import 'package:warranty_keeper/app_library.dart';
 
 class WarrantyTextField extends StatefulWidget {
   final int? maxLength;
+  final int? currentLength;
   final MaxLengthEnforcement? maxLengthEnforcement;
   final TextInputType textInputType;
   final String hintText;
@@ -23,6 +24,7 @@ class WarrantyTextField extends StatefulWidget {
   const WarrantyTextField({
     Key? key,
     required this.maxLength,
+    this.currentLength,
     required this.maxLengthEnforcement,
     required this.textInputType,
     required this.hintText,
@@ -54,6 +56,7 @@ class WarrantyTextField extends StatefulWidget {
     key,
     this.maxLength,
     this.maxLengthEnforcement,
+    this.currentLength,
   })  : initialText = initialDateTime != null
             ? DateFormat('MM/dd/yyyy').format(initialDateTime)
             : '',
@@ -74,6 +77,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     key,
+    this.currentLength,
   })  : initialText = '',
         isDate = false,
         isLifeTime = false,
@@ -93,6 +97,7 @@ class WarrantyTextField extends StatefulWidget {
     key,
     this.maxLength,
     this.maxLengthEnforcement,
+    this.currentLength,
   })  : initialText = '',
         isDate = false,
         isLifeTime = false,
@@ -111,6 +116,7 @@ class WarrantyTextField extends StatefulWidget {
     key,
     this.maxLength,
     this.maxLengthEnforcement,
+    this.currentLength,
   })  : initialText = '',
         textInputType = TextInputType.text,
         isDate = false,
@@ -215,6 +221,10 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             },
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(
+              counterText: '',
+              suffixText: (widget.maxLength != null)
+                  ? '${widget.currentLength}/${widget.maxLength}'
+                  : null,
               alignLabelWithHint: true,
               labelText:
                   '${widget.hintText} ${(widget.isRequired) ? context.appLocalizations.required : ''}',

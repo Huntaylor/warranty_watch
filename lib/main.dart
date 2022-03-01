@@ -3,6 +3,7 @@ import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/main/main_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
 import 'package:warranty_keeper/presentation/home/home_view.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<WarrantyDetailsCubit>(
           create: (context) => WarrantyDetailsCubit(),
         ),
+        BlocProvider<SettingsCubit>(
+          create: (context) => SettingsCubit(),
+        ),
       ],
       child: MaterialApp(
         navigatorKey: AppNavigator.rootNavigatorKey,
@@ -50,6 +54,13 @@ class MyApp extends StatelessWidget {
         title: 'Warranty Tracker',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+        ).copyWith(
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            },
+          ),
         ),
         home: const HomeView(),
         routes: appRoutes,

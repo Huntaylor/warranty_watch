@@ -83,30 +83,6 @@ class Content extends StatelessWidget {
       physics: const ClampingScrollPhysics(),
       child: Column(
         children: [
-          /* Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-              side: const BorderSide(
-                color: Colors.black,
-                width: 2.0,
-              ),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue[400]!,
-                ),
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Image.file(
-                detailsCubit.state.image!,
-                height: MediaQuery.of(context).size.height * .3,
-              ),
-            ),
-          ), */
           (detailsCubit.state.lifeTime)
               ? Padding(
                   padding: const EdgeInsets.only(top: 16.0),

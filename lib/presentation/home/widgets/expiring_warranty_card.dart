@@ -75,10 +75,10 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                         if (index != 0)
                                           const Padding(
                                             padding:
-                                                EdgeInsets.only(bottom: 8.0),
+                                                EdgeInsets.only(bottom: 4.0),
                                             child: Divider(
-                                              height: 0,
-                                              color: Colors.grey,
+                                              height: 2,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         Container(
