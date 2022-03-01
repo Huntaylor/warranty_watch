@@ -1,6 +1,7 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/presentation/barcode_scanner/barcode_scanner_view.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
 import 'package:warranty_keeper/presentation/settings/settings_view.dart';
@@ -25,7 +26,10 @@ class HomeView extends StatelessWidget {
               ),
               itemBuilder: (_) => [
                 PopupMenuItem(
-                  onTap: () {},
+                  onTap: () {
+                    navCubit.appNavigator
+                        .pushNamed(BarcodeScannerView.routeName);
+                  },
                   child: Text('Barcode Scanner'),
                 ),
                 PopupMenuItem(
