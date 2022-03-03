@@ -16,6 +16,7 @@ class HomeView extends StatelessWidget {
     final navCubit = context.read<NavCubit>();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
