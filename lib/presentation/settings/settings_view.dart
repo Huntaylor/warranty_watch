@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';

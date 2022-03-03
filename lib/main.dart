@@ -1,5 +1,3 @@
-import 'package:warranty_keeper/data/repositories/auth_repository.dart';
-import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
@@ -9,7 +7,6 @@ import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.da
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
-import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/presentation/login/login_view.dart';
 import 'package:warranty_keeper/routes.dart';
 import 'package:warranty_keeper/utils/app_navigator.dart';
