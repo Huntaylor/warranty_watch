@@ -4,6 +4,7 @@ part of 'current_warranties_cubit.dart';
 class CurrentWarrantiesState with _$CurrentWarrantiesState {
   const factory CurrentWarrantiesState.initial({
     @Default([]) List<WarrantyInfo> warrantyInfoList,
+    @Default([]) List<WarrantyInfo> expiringList,
     @Default(false) bool removeBool,
   }) = _Initial;
 

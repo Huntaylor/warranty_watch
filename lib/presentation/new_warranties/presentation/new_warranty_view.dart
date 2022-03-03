@@ -1,40 +1,38 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/bloc/new_warranty/new_warranty_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
+import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_checkbox.dart';
-import 'package:warranty_keeper/widgets/warranty_image.dart';
+import 'package:warranty_keeper/widgets/warranty_image_widget.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 class NewWarrantyView extends StatelessWidget {
-  final WarrantyInfo? editWarrantyInfo;
   static const routeName = '/newWarrantyView';
-  const NewWarrantyView({Key? key, this.editWarrantyInfo}) : super(key: key);
+  const NewWarrantyView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
-    return BlocProvider(
-      create: (context) => NewWarrantyCubit(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          centerTitle: true,
-          automaticallyImplyLeading: true,
-          title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-            builder: (context, state) {
-              return Text(
-                (state.key != null)
-                    ? appLocalizations.editWarrantyTitle
-                    : appLocalizations.addWarrantyTitle,
-              );
-            },
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: true,
+        title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+          builder: (context, state) {
+            return Text(
+              (state.isEditing)
+                  ? appLocalizations.editWarrantyTitle
+                  : appLocalizations.addWarrantyTitle,
+            );
+          },
         ),
-        body: const _Content(),
       ),
+      body: const _Content(),
     );
   }
 }
@@ -44,7 +42,8 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubitRead = context.read<NewWarrantyCubit>();
+    final newWarrantyCubit = context.read<NewWarrantyCubit>();
+    final currWarrantyCubit = context.read<CurrentWarrantiesCubit>();
     final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
@@ -58,71 +57,152 @@ class _Content extends StatelessWidget {
                 physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [
-                    WarrantyTextField.general(
-                      initialValue: cubitRead.state.name ?? '',
-                      isRequired: true,
-                      onChanged: cubitRead.changeProductName,
-                      hintText: appLocalizations.productName,
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                      builder: (context, state) {
+                        return WarrantyTextField.general(
+                          currentLength:
+                              (state.name != null) ? state.name!.length : 0,
+                          maxLength: 25,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                          initialValue: state.name ?? '',
+                          isRequired: true,
+                          onChanged: newWarrantyCubit.changeProductName,
+                          hintText: appLocalizations.productName,
+                        );
+                      },
                     ),
-                    WarrantyTextField.date(
-                      initialValue: cubitRead.state.purchaseDate != null
-                          ? '${_dateFormat(cubitRead.state.purchaseDate!)}'
-                          : '${_dateFormat(DateTime.now())}',
-                      isRequired: true,
-                      isLifeTime: false,
-                      endDateTime: DateTime(2050),
-                      initialDateTime: DateTime.now(),
-                      startDateTime: DateTime(2000),
-                      onChanged: cubitRead.changePurchaseDate,
-                      hintText: appLocalizations.purchaseDate,
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                      builder: (context, state) {
+                        return WarrantyTextField.date(
+                          initialValue:
+                              newWarrantyCubit.state.purchaseDate != null
+                                  ? _dateFormat(
+                                      newWarrantyCubit.state.purchaseDate!)
+                                  : _dateFormat(DateTime.now()),
+                          isRequired: true,
+                          isLifeTime: false,
+                          endDateTime: DateTime.now(),
+                          initialDateTime: newWarrantyCubit.state.purchaseDate,
+                          startDateTime: DateTime(2000),
+                          onChanged: newWarrantyCubit.changePurchaseDate,
+                          hintText: appLocalizations.purchaseDate,
+                        );
+                      },
                     ),
                     WarrantyTextField.webSite(
-                      initialValue: cubitRead.state.warrWebsite ?? '',
+                      initialValue:
+                          newWarrantyCubit.state.warrWebsite ?? 'https://',
                       isRequired: true,
-                      onChanged: cubitRead.changeWebsiteName,
+                      onChanged: newWarrantyCubit.changeWebsiteName,
                       hintText: appLocalizations.companyWebsite,
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.lifeTime != current.lifeTime,
                       builder: (context, state) {
                         return WarrantyTextField.date(
-                          initialValue: cubitRead.state.endOfWarr != null
-                              ? '${_dateFormat(cubitRead.state.endOfWarr!)}'
+                          initialValue: newWarrantyCubit.state.endOfWarr != null
+                              ? _dateFormat(newWarrantyCubit.state.endOfWarr!)
                               : '',
                           isRequired: true,
                           isLifeTime: state.lifeTime,
                           endDateTime: DateTime(2050),
-                          initialDateTime: DateTime.now(),
+                          initialDateTime: newWarrantyCubit.state.endOfWarr,
                           startDateTime: DateTime.now(),
-                          onChanged: cubitRead.changeEndDate,
+                          onChanged: newWarrantyCubit.changeEndDate,
                           hintText: appLocalizations.expirationDate,
                         );
                       },
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.lifeTime != current.lifeTime,
                       builder: (context, state) {
-                        return WarrantyCheckBox(
-                          isChecked: state.lifeTime,
-                          text: appLocalizations.lifeTime,
-                          onTap: cubitRead.toggleLifeTime,
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            WarrantyCheckBox(
+                              isChecked: state.lifeTime,
+                              text: appLocalizations.lifeTime,
+                              onTap: newWarrantyCubit.toggleLifeTime,
+                            ),
+                          ],
                         );
                       },
                     ),
-                    WarrantyTextField.form(
-                      initialValue: cubitRead.state.details ?? '',
-                      onChanged: cubitRead.changeAddtionalDetails,
-                      hintText: appLocalizations.additionalDetails,
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                      builder: (context, state) {
+                        return (state.lifeTime || state.endOfWarr == null)
+                            ? const SizedBox()
+                            : Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Switch(
+                                        value: state.wantsReminders,
+                                        onChanged: (value) {
+                                          newWarrantyCubit
+                                              .toggleWantsReminders(value);
+                                        },
+                                      ),
+                                      const Text('Reminder before expiration'),
+                                    ],
+                                  ),
+                                  if (state.wantsReminders)
+                                    WarrantyTextField.date(
+                                      initialValue: _dateFormat(
+                                          newWarrantyCubit.state.reminderDate!),
+                                      isRequired: true,
+                                      isLifeTime: state.lifeTime,
+                                      endDateTime:
+                                          newWarrantyCubit.state.endOfWarr,
+                                      initialDateTime:
+                                          newWarrantyCubit.state.reminderDate,
+                                      startDateTime: DateTime.now(),
+                                      onChanged: newWarrantyCubit.changeEndDate,
+                                      hintText: 'Reminder Date',
+                                    ),
+                                ],
+                              );
+                      },
                     ),
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+                        builder: (context, state) {
+                      return WarrantyTextField.form(
+                        currentLength:
+                            (state.details != null) ? state.details!.length : 0,
+                        maxLength: 100,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                        initialValue: state.details ?? '',
+                        onChanged: newWarrantyCubit.changeAddtionalDetails,
+                        hintText: appLocalizations.additionalDetails,
+                      );
+                    }),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       buildWhen: (previous, current) =>
                           previous.receiptImage != current.receiptImage,
                       builder: (context, state) {
                         return WarrantyImage(
-                          file: state.receiptImage,
-                          onTap: cubitRead.changeImagereceipt,
+                          image: state.receiptImage,
+                          onTap: () {
+                            showModalBottomSheet(
+                              isDismissible: false,
+                              enableDrag: false,
+                              isScrollControlled: false,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(
+                                    25,
+                                  ),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return ImageBottomSheet(
+                                  onRecieptPhotoTap:
+                                      newWarrantyCubit.changeReceiptPhotos,
+                                  onRecieptCameraTap:
+                                      newWarrantyCubit.changeReceiptCamera,
+                                );
+                              },
+                            );
+                          },
                           text: appLocalizations.addReceipt,
                           icon: const Icon(
                             Icons.list_alt_outlined,
@@ -135,8 +215,30 @@ class _Content extends StatelessWidget {
                           previous.image != current.image,
                       builder: (context, state) {
                         return WarrantyImage(
-                          file: state.image,
-                          onTap: cubitRead.changeImage,
+                          image: state.image,
+                          onTap: () {
+                            showModalBottomSheet(
+                              enableDrag: false,
+                              isScrollControlled: false,
+                              isDismissible: false,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(
+                                    25,
+                                  ),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return ImageBottomSheet(
+                                  onRecieptPhotoTap:
+                                      newWarrantyCubit.changeProductPhotos,
+                                  onRecieptCameraTap:
+                                      newWarrantyCubit.changeProductCamera,
+                                );
+                              },
+                            );
+                          },
                           text:
                               '${appLocalizations.addPhoto} ${appLocalizations.required}',
                           icon: const Icon(
@@ -154,14 +256,16 @@ class _Content extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 15),
                   child: WarrantyElevatedButton(
-                    isEnabled: cubitRead.addWarranty(),
-                    onPressed: () {
-                      if (cubitRead.addWarranty()) {
-                        navCubit.appNavigator.pop();
-                        cubitRead.newWarrantyAdded();
+                    isEnabled: newWarrantyCubit.verifyWarranty(),
+                    onPressed: () async {
+                      if (newWarrantyCubit.verifyWarranty()) {
+                        newWarrantyCubit.changeEditing();
+                        currWarrantyCubit.addOrEditWarranty(state);
+                        newWarrantyCubit.clear();
+                        navCubit.pop();
                       }
                     },
-                    text: (state.key != null)
+                    text: (state.isEditing)
                         ? appLocalizations.editProductBtn
                         : appLocalizations.addproductButton,
                   ),

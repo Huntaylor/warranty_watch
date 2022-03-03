@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'current_warranties_cubit.dart';
+part of 'settings_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,44 +15,38 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$CurrentWarrantiesStateTearOff {
-  const _$CurrentWarrantiesStateTearOff();
+class _$SettingsStateTearOff {
+  const _$SettingsStateTearOff();
 
-  _Initial initial(
-      {List<WarrantyInfo> warrantyInfoList = const [],
-      bool removeBool = false}) {
+  _Initial initial({bool isNotifications = false, bool isSomething = false}) {
     return _Initial(
-      warrantyInfoList: warrantyInfoList,
-      removeBool: removeBool,
+      isNotifications: isNotifications,
+      isSomething: isSomething,
     );
   }
 }
 
 /// @nodoc
-const $CurrentWarrantiesState = _$CurrentWarrantiesStateTearOff();
+const $SettingsState = _$SettingsStateTearOff();
 
 /// @nodoc
-mixin _$CurrentWarrantiesState {
-  List<WarrantyInfo> get warrantyInfoList => throw _privateConstructorUsedError;
-  bool get removeBool => throw _privateConstructorUsedError;
+mixin _$SettingsState {
+  bool get isNotifications => throw _privateConstructorUsedError;
+  bool get isSomething => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<WarrantyInfo> warrantyInfoList, bool removeBool)
-        initial,
+    required TResult Function(bool isNotifications, bool isSomething) initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<WarrantyInfo> warrantyInfoList, bool removeBool)?
-        initial,
+    TResult Function(bool isNotifications, bool isSomething)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<WarrantyInfo> warrantyInfoList, bool removeBool)?
-        initial,
+    TResult Function(bool isNotifications, bool isSomething)? initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -74,57 +68,55 @@ mixin _$CurrentWarrantiesState {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $CurrentWarrantiesStateCopyWith<CurrentWarrantiesState> get copyWith =>
+  $SettingsStateCopyWith<SettingsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CurrentWarrantiesStateCopyWith<$Res> {
-  factory $CurrentWarrantiesStateCopyWith(CurrentWarrantiesState value,
-          $Res Function(CurrentWarrantiesState) then) =
-      _$CurrentWarrantiesStateCopyWithImpl<$Res>;
-  $Res call({List<WarrantyInfo> warrantyInfoList, bool removeBool});
+abstract class $SettingsStateCopyWith<$Res> {
+  factory $SettingsStateCopyWith(
+          SettingsState value, $Res Function(SettingsState) then) =
+      _$SettingsStateCopyWithImpl<$Res>;
+  $Res call({bool isNotifications, bool isSomething});
 }
 
 /// @nodoc
-class _$CurrentWarrantiesStateCopyWithImpl<$Res>
-    implements $CurrentWarrantiesStateCopyWith<$Res> {
-  _$CurrentWarrantiesStateCopyWithImpl(this._value, this._then);
+class _$SettingsStateCopyWithImpl<$Res>
+    implements $SettingsStateCopyWith<$Res> {
+  _$SettingsStateCopyWithImpl(this._value, this._then);
 
-  final CurrentWarrantiesState _value;
+  final SettingsState _value;
   // ignore: unused_field
-  final $Res Function(CurrentWarrantiesState) _then;
+  final $Res Function(SettingsState) _then;
 
   @override
   $Res call({
-    Object? warrantyInfoList = freezed,
-    Object? removeBool = freezed,
+    Object? isNotifications = freezed,
+    Object? isSomething = freezed,
   }) {
     return _then(_value.copyWith(
-      warrantyInfoList: warrantyInfoList == freezed
-          ? _value.warrantyInfoList
-          : warrantyInfoList // ignore: cast_nullable_to_non_nullable
-              as List<WarrantyInfo>,
-      removeBool: removeBool == freezed
-          ? _value.removeBool
-          : removeBool // ignore: cast_nullable_to_non_nullable
+      isNotifications: isNotifications == freezed
+          ? _value.isNotifications
+          : isNotifications // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSomething: isSomething == freezed
+          ? _value.isSomething
+          : isSomething // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$InitialCopyWith<$Res>
-    implements $CurrentWarrantiesStateCopyWith<$Res> {
+abstract class _$InitialCopyWith<$Res> implements $SettingsStateCopyWith<$Res> {
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
       __$InitialCopyWithImpl<$Res>;
   @override
-  $Res call({List<WarrantyInfo> warrantyInfoList, bool removeBool});
+  $Res call({bool isNotifications, bool isSomething});
 }
 
 /// @nodoc
-class __$InitialCopyWithImpl<$Res>
-    extends _$CurrentWarrantiesStateCopyWithImpl<$Res>
+class __$InitialCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
     implements _$InitialCopyWith<$Res> {
   __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
       : super(_value, (v) => _then(v as _Initial));
@@ -134,17 +126,17 @@ class __$InitialCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? warrantyInfoList = freezed,
-    Object? removeBool = freezed,
+    Object? isNotifications = freezed,
+    Object? isSomething = freezed,
   }) {
     return _then(_Initial(
-      warrantyInfoList: warrantyInfoList == freezed
-          ? _value.warrantyInfoList
-          : warrantyInfoList // ignore: cast_nullable_to_non_nullable
-              as List<WarrantyInfo>,
-      removeBool: removeBool == freezed
-          ? _value.removeBool
-          : removeBool // ignore: cast_nullable_to_non_nullable
+      isNotifications: isNotifications == freezed
+          ? _value.isNotifications
+          : isNotifications // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSomething: isSomething == freezed
+          ? _value.isSomething
+          : isSomething // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -152,20 +144,19 @@ class __$InitialCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Initial extends _Initial {
-  const _$_Initial({this.warrantyInfoList = const [], this.removeBool = false})
-      : super._();
+class _$_Initial implements _Initial {
+  const _$_Initial({this.isNotifications = false, this.isSomething = false});
 
   @JsonKey()
   @override
-  final List<WarrantyInfo> warrantyInfoList;
+  final bool isNotifications;
   @JsonKey()
   @override
-  final bool removeBool;
+  final bool isSomething;
 
   @override
   String toString() {
-    return 'CurrentWarrantiesState.initial(warrantyInfoList: $warrantyInfoList, removeBool: $removeBool)';
+    return 'SettingsState.initial(isNotifications: $isNotifications, isSomething: $isSomething)';
   }
 
   @override
@@ -174,16 +165,16 @@ class _$_Initial extends _Initial {
         (other.runtimeType == runtimeType &&
             other is _Initial &&
             const DeepCollectionEquality()
-                .equals(other.warrantyInfoList, warrantyInfoList) &&
+                .equals(other.isNotifications, isNotifications) &&
             const DeepCollectionEquality()
-                .equals(other.removeBool, removeBool));
+                .equals(other.isSomething, isSomething));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(warrantyInfoList),
-      const DeepCollectionEquality().hash(removeBool));
+      const DeepCollectionEquality().hash(isNotifications),
+      const DeepCollectionEquality().hash(isSomething));
 
   @JsonKey(ignore: true)
   @override
@@ -193,31 +184,27 @@ class _$_Initial extends _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<WarrantyInfo> warrantyInfoList, bool removeBool)
-        initial,
+    required TResult Function(bool isNotifications, bool isSomething) initial,
   }) {
-    return initial(warrantyInfoList, removeBool);
+    return initial(isNotifications, isSomething);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<WarrantyInfo> warrantyInfoList, bool removeBool)?
-        initial,
+    TResult Function(bool isNotifications, bool isSomething)? initial,
   }) {
-    return initial?.call(warrantyInfoList, removeBool);
+    return initial?.call(isNotifications, isSomething);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<WarrantyInfo> warrantyInfoList, bool removeBool)?
-        initial,
+    TResult Function(bool isNotifications, bool isSomething)? initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(warrantyInfoList, removeBool);
+      return initial(isNotifications, isSomething);
     }
     return orElse();
   }
@@ -251,15 +238,13 @@ class _$_Initial extends _Initial {
   }
 }
 
-abstract class _Initial extends CurrentWarrantiesState {
-  const factory _Initial(
-      {List<WarrantyInfo> warrantyInfoList, bool removeBool}) = _$_Initial;
-  const _Initial._() : super._();
+abstract class _Initial implements SettingsState {
+  const factory _Initial({bool isNotifications, bool isSomething}) = _$_Initial;
 
   @override
-  List<WarrantyInfo> get warrantyInfoList;
+  bool get isNotifications;
   @override
-  bool get removeBool;
+  bool get isSomething;
   @override
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith =>

@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:warranty_keeper/app_library.dart';
 
 class WarrantyTextField extends StatefulWidget {
+  final int? maxLength;
+  final int? currentLength;
+  final MaxLengthEnforcement? maxLengthEnforcement;
   final TextInputType textInputType;
   final String hintText;
   final String initialText;
@@ -20,10 +23,13 @@ class WarrantyTextField extends StatefulWidget {
   final Function(String)? onChanged;
   const WarrantyTextField({
     Key? key,
-    required this.hintText,
-    required this.initialValue,
+    required this.maxLength,
+    this.currentLength,
+    required this.maxLengthEnforcement,
     required this.textInputType,
+    required this.hintText,
     required this.initialText,
+    required this.initialValue,
     required this.isRequired,
     this.maxLines,
     this.onTap,
@@ -48,6 +54,9 @@ class WarrantyTextField extends StatefulWidget {
     required this.isRequired,
     this.onTap,
     key,
+    this.maxLength,
+    this.maxLengthEnforcement,
+    this.currentLength,
   })  : initialText = initialDateTime != null
             ? DateFormat('MM/dd/yyyy').format(initialDateTime)
             : '',
@@ -57,6 +66,8 @@ class WarrantyTextField extends StatefulWidget {
         super(key: key);
 
   const WarrantyTextField.general({
+    this.maxLength,
+    this.maxLengthEnforcement,
     required this.isRequired,
     required this.initialValue,
     this.onTap,
@@ -66,6 +77,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     key,
+    this.currentLength,
   })  : initialText = '',
         isDate = false,
         isLifeTime = false,
@@ -83,6 +95,9 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     key,
+    this.maxLength,
+    this.maxLengthEnforcement,
+    this.currentLength,
   })  : initialText = '',
         isDate = false,
         isLifeTime = false,
@@ -99,6 +114,9 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     key,
+    this.maxLength,
+    this.maxLengthEnforcement,
+    this.currentLength,
   })  : initialText = '',
         textInputType = TextInputType.text,
         isDate = false,
@@ -189,6 +207,8 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: TextFormField(
+            maxLength: widget.maxLength,
+            maxLengthEnforcement: widget.maxLengthEnforcement,
             keyboardType: widget.textInputType,
             enabled: widget.isLifeTime ? false : true,
             inputFormatters: [
@@ -201,6 +221,10 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             },
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(
+              counterText: '',
+              suffixText: (widget.maxLength != null)
+                  ? '${widget.currentLength}/${widget.maxLength}'
+                  : null,
               alignLabelWithHint: true,
               labelText:
                   '${widget.hintText} ${(widget.isRequired) ? context.appLocalizations.required : ''}',
@@ -220,7 +244,10 @@ class DateTextFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     var text = _format(newValue.text, '/');
-    return newValue.copyWith(text: text, selection: updateCursorPosition(text));
+    return newValue.copyWith(
+      text: text,
+      selection: updateCursorPosition(text),
+    );
   }
 
   String _format(String value, String seperator) {

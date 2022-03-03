@@ -1,33 +1,34 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warrenty_info.dart';
+import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 class CurrentWidgetCard extends StatelessWidget {
   final WarrantyInfo warrantyInfo;
   final VoidCallback onEdit;
   final VoidCallback onRemove;
+  final VoidCallback onSelect;
 
   const CurrentWidgetCard({
     Key? key,
     required this.warrantyInfo,
     required this.onEdit,
     required this.onRemove,
+    required this.onSelect,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(
-            color: Colors.lightBlue,
-          ),
-        ),
+    final appLocalizations = context.appLocalizations;
+    return GestureDetector(
+      onTap: onSelect,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        elevation: 5,
         child: Row(
           children: [
             Flexible(
-              child: SizedBox(
-                child: Image.file(warrantyInfo.image!),
+              child: Image.file(
+                warrantyInfo.image!,
+                fit: BoxFit.fitHeight,
               ),
             ),
             Expanded(
@@ -37,13 +38,26 @@ class CurrentWidgetCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Product: ${warrantyInfo.name}'),
                     Text(
-                        'Purchase Date: ${_dateFormat(warrantyInfo.purchaseDate!)}'),
+                      appLocalizations.detailsName(warrantyInfo.name!),
+                    ),
+                    Text(
+                      appLocalizations.purchaseDateDetails(
+                        _dateFormat(warrantyInfo.purchaseDate!),
+                      ),
+                    ),
                     warrantyInfo.lifeTime
-                        ? const Text('Has Lifetime Warranty')
+                        ? Text(appLocalizations.hasLifetime)
                         : Text(
-                            'Expiration Date: ${_dateFormat(warrantyInfo.endOfWarr!)}')
+                            appLocalizations.expirationDetailsDate(
+                              _dateFormat(warrantyInfo.endOfWarr!),
+                            ),
+                            style: TextStyle(
+                              color: _dateDiff(warrantyInfo.endOfWarr!)
+                                  ? Colors.red
+                                  : null,
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -57,11 +71,11 @@ class CurrentWidgetCard extends StatelessWidget {
                 itemBuilder: (_) => [
                   PopupMenuItem(
                     onTap: onEdit,
-                    child: const Text('Edit'),
+                    child: Text(appLocalizations.edit),
                   ),
                   PopupMenuItem(
                     onTap: onRemove,
-                    child: const Text('Remove'),
+                    child: Text(appLocalizations.remove),
                   ),
                 ],
               ),
@@ -73,6 +87,14 @@ class CurrentWidgetCard extends StatelessWidget {
   }
 }
 
-_dateFormat(DateTime date) {
+_dateDiff(DateTime date) {
+  if (date.difference(DateTime.now()).inDays < 7) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+String _dateFormat(DateTime date) {
   return '${date.month}/${date.day}/${date.year}';
 }

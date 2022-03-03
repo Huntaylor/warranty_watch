@@ -21,7 +21,7 @@
       "description": "Title for Edit Warranty View"
     },
     "productName": "Name of product",
-    "@addWarrantyTitle": {
+    "@productName": {
       "description": "Text for add new warranty product"
     },
     "addproductButton": "Add product",
@@ -32,7 +32,7 @@
     "@editProductBtn": {
       "description": "Text for edit product button"
     },
-    "lifeTime": "Life Time Warranty",
+    "lifeTime": "Lifetime Warranty",
     "@lifeTime": {
       "description": "Text for Life time Warranty"
     },
@@ -63,5 +63,110 @@
     "addReceipt": "Tap to add a receipt",
     "@addReceipt": {
       "description": "Text for adding a receipt"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+      "description": "Text for cancel"
+    },
+    "addItem": "Add Item",
+    "@addItem": {
+      "description": "Text for bottom sheet"
+    },
+    "camera": "Camera",
+    "@camera": {
+      "description": "Text for bottom sheet"
+    },
+    "photos": "Photos",
+    "@photos": {
+      "description": "Text for bottom sheet"
+    },
+    "noCurrentWarranties": "No Warranties to track at the moment",
+    "@noCurrentWarranties": {
+      "description": "Text for bottom sheet"
+    },
+    "purchasedOn": "Purchased on",
+    "@purchasedOn": {
+      "description": "Text for purchased on detail"
+    },
+    "expiresOn": "Warranty expires {timeLeft} on {date}",
+    "@expiresOn": {
+        "description": "text for expires on details",
+        "placeholders": {
+            "timeLeft": {},
+            "date": {}
+        }
+    },
+    "remindsOn": "You will receive a reminder {reminderTime} on {date}",
+    "@remindsOn": {
+        "description": "text for reminder details",
+        "placeholders": {
+            "reminderTime": {},
+            "date": {}
+        }
+    },
+    "noReminderSet": "Reminders not set",
+    "@noReminderSet": {
+      "description": "Text for no reminders set"
+    },
+    "details": "Details",
+    "@details": {
+      "description": "Text for details"
+    },
+    "productWebsite": "Product Website",
+    "@productWebsite": {
+      "description": "Text for product website details"
+    },
+    "receiptPhoto": "Receipt Photo",
+    "@receiptPhoto": {
+      "description": "Text for Receipt Photo details"
+    },
+    "hasLifetime": "Has Lifetime Warranty",
+    "@hasLifetime": {
+      "description": "Text for lifetime warranty details"
+    },
+    "edit": "Edit",
+    "@edit": {
+      "description": "Text for edit details"
+    },
+    "remove": "Remove",
+    "@remove": {
+      "description": "Text for remove details"
+    },
+    "detailsName": "Product: {productName}",
+    "@detailsName": {
+      "description": "text for product name details",
+      "placeholders": {
+        "productName": {}
+      }
+    },
+    "purchaseDateDetails": "Purchased on: {purchaseDate}",
+    "@purchaseDateDetails": {
+      "description": "text for purchase date details",
+      "placeholders": {
+        "purchaseDate": {}
+      }
+    },
+    "expirationDetailsDate": "Expires On: {expirationDate}",
+    "@expirationDetailsDate": {
+      "description": "text for expiration date details",
+      "placeholders": {
+        "expirationDate": {}
+      }
+    },
+    "expiringSoon": "Expiring Soon",
+    "@expiringSoon": {
+      "description": "Text for expiring widget title"
+    },
+    "dateFormat": "MM/DD/YYYY",
+    "@dateFormat": {
+      "description": "Text for expiring widget date format"
+    },
+    "noneExpiring": "No warranties close to expiration",
+    "@noneExpiring": {
+      "description": "Text for expiring widget empty"
+    },
+    "back": "Back",
+    "@back": {
+      "description": "Text for back button"
     }
 }

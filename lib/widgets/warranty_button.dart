@@ -14,21 +14,18 @@ class WarrantyElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                30,
-              ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              30,
             ),
           ),
-          onPressed: isEnabled ? onPressed : null,
-          child: Center(
-            child: Text(
-              text,
-            ),
+        ),
+        onPressed: isEnabled ? onPressed : null,
+        child: Center(
+          child: Text(
+            text,
           ),
         ),
       ),
