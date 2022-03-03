@@ -1,5 +1,8 @@
+import 'package:warranty_keeper/data/repositories/auth_repository.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/main/main_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
@@ -7,6 +10,7 @@ import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
 import 'package:warranty_keeper/presentation/home/home_view.dart';
+import 'package:warranty_keeper/presentation/login/login_view.dart';
 import 'package:warranty_keeper/routes.dart';
 import 'package:warranty_keeper/utils/app_navigator.dart';
 
@@ -46,6 +50,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<SettingsCubit>(
           create: (context) => SettingsCubit(),
         ),
+        BlocProvider<LoginCubit>(
+          create: (context) => LoginCubit(),
+        ),
       ],
       child: MaterialApp(
         navigatorKey: AppNavigator.rootNavigatorKey,
@@ -62,7 +69,7 @@ class MyApp extends StatelessWidget {
             },
           ),
         ),
-        home: const HomeView(),
+        home: const LoginView(),
         routes: appRoutes,
       ),
     );

@@ -16,6 +16,7 @@ class HomeView extends StatelessWidget {
     final navCubit = context.read<NavCubit>();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -25,18 +26,14 @@ class HomeView extends StatelessWidget {
               ),
               itemBuilder: (_) => [
                 PopupMenuItem(
-                  onTap: () {},
-                  child: Text('Barcode Scanner'),
-                ),
-                PopupMenuItem(
                   onTap: () {
                     navCubit.appNavigator.pushNamed(SettingsView.routeName);
                   },
-                  child: Text('Settings'),
+                  child: const Text('Settings'),
                 ),
                 PopupMenuItem(
                   onTap: () {},
-                  child: Text('Help'),
+                  child: const Text('Help'),
                 ),
               ],
             ),
