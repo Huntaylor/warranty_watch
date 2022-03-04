@@ -1,5 +1,7 @@
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
+import 'package:warranty_keeper/presentation/login/login_view.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class SettingsView extends StatelessWidget {
@@ -24,6 +26,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navCubit = context.read<NavCubit>();
     final settingsCubit = context.read<SettingsCubit>();
     return SafeArea(
       child: Padding(
@@ -64,7 +67,8 @@ class _Content extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8.0, bottom: 15),
               child: WarrantyElevatedButton(
                 isEnabled: true,
-                onPressed: () {},
+                onPressed: () => navCubit.appNavigator
+                    .pushNamedAndClearStack(LoginView.routeName),
                 text: 'Logout',
               ),
             ),

@@ -6,4 +6,12 @@ part 'login_cubit.freezed.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(const LoginState.initial());
+
+  toggleObscurity() {
+    emit(
+      state.copyWith(
+        isObscured: !state.isObscured,
+      ),
+    );
+  }
 }

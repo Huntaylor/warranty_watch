@@ -17,10 +17,6 @@ class WarrantyDetailsView extends StatelessWidget {
     final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
     return Scaffold(
-      /* appBar: AppBar(
-        centerTitle: true,
-        title: Text(context.appLocalizations.details),
-      ), */
       body: SafeArea(
         child: ListView(
           children: [

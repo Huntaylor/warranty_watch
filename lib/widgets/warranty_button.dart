@@ -11,6 +11,13 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.isEnabled,
   }) : super(key: key);
 
+  const WarrantyElevatedButton.general({
+    key,
+    required this.onPressed,
+    required this.text,
+  })  : isEnabled = true,
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(

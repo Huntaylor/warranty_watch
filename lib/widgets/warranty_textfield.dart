@@ -13,6 +13,8 @@ class WarrantyTextField extends StatefulWidget {
   final String initialText;
   final String initialValue;
   final bool isRequired;
+  final bool isTextObscured;
+  final bool isObscuredFunction;
   final int? maxLines;
   final VoidCallback? onTap;
   final bool isDate;
@@ -21,6 +23,7 @@ class WarrantyTextField extends StatefulWidget {
   final DateTime? startDateTime;
   final DateTime? endDateTime;
   final Function(String)? onChanged;
+  final VoidCallback? onObscuredTap;
   const WarrantyTextField({
     Key? key,
     required this.maxLength,
@@ -39,6 +42,9 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     required this.onChanged,
+    required this.isTextObscured,
+    required this.isObscuredFunction,
+    required this.onObscuredTap,
   }) : super(key: key);
 
   // const factory WarrantyTextField.date() = LimitedWarrantyTextField;
@@ -63,6 +69,9 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.none,
         isDate = true,
         maxLines = 1,
+        isTextObscured = false,
+        onObscuredTap = null,
+        isObscuredFunction = false,
         super(key: key);
 
   const WarrantyTextField.general({
@@ -80,6 +89,32 @@ class WarrantyTextField extends StatefulWidget {
     this.currentLength,
   })  : initialText = '',
         isDate = false,
+        isTextObscured = false,
+        onObscuredTap = null,
+        isObscuredFunction = false,
+        isLifeTime = false,
+        maxLines = 1,
+        textInputType = TextInputType.text,
+        super(key: key);
+
+  const WarrantyTextField.obscured({
+    this.maxLength,
+    this.maxLengthEnforcement,
+    required this.isRequired,
+    required this.initialValue,
+    this.onTap,
+    required this.hintText,
+    required this.onChanged,
+    this.initialDateTime,
+    this.startDateTime,
+    required this.isObscuredFunction,
+    this.endDateTime,
+    required this.onObscuredTap,
+    key,
+    this.currentLength,
+  })  : initialText = '',
+        isDate = false,
+        isTextObscured = true,
         isLifeTime = false,
         maxLines = 1,
         textInputType = TextInputType.text,
@@ -102,6 +137,9 @@ class WarrantyTextField extends StatefulWidget {
         isDate = false,
         isLifeTime = false,
         maxLines = 1,
+        onObscuredTap = null,
+        isTextObscured = false,
+        isObscuredFunction = false,
         textInputType = TextInputType.url,
         super(key: key);
 
@@ -121,7 +159,10 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.text,
         isDate = false,
         isLifeTime = false,
+        onObscuredTap = null,
         maxLines = 3,
+        isObscuredFunction = false,
+        isTextObscured = false,
         isRequired = false,
         super(key: key);
 
@@ -207,6 +248,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: TextFormField(
+            obscureText: widget.isObscuredFunction,
             maxLength: widget.maxLength,
             maxLengthEnforcement: widget.maxLengthEnforcement,
             keyboardType: widget.textInputType,
@@ -221,6 +263,16 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             },
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(
+              suffixIcon: widget.isTextObscured
+                  ? GestureDetector(
+                      onTap: widget.onObscuredTap,
+                      child: Icon(
+                        widget.isObscuredFunction
+                            ? Icons.remove_red_eye
+                            : Icons.visibility_off,
+                      ),
+                    )
+                  : null,
               counterText: '',
               suffixText: (widget.maxLength != null)
                   ? '${widget.currentLength}/${widget.maxLength}'
