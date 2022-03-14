@@ -69,7 +69,7 @@ class _Content extends StatelessWidget {
               height: 5,
             ),
             //  Current Warranty
-            WarrantyElevatedButton(
+            WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
                 navCubit.appNavigator
@@ -78,7 +78,7 @@ class _Content extends StatelessWidget {
               text: context.appLocalizations.currentWarrantyBtn,
             ),
             //  Add Warranty
-            WarrantyElevatedButton(
+            WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
                 newWarrCubit.clear();

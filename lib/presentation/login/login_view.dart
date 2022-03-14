@@ -1,4 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/presentation/home/home_view.dart';
@@ -12,6 +13,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      resizeToAvoidBottomInset: false,
       body: _Content(),
     );
   }
@@ -26,6 +28,7 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final navCubit = context.read<NavCubit>();
     final loginCubit = context.read<LoginCubit>();
+    final authCubit = context.read<AuthCubit>();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
@@ -33,8 +36,11 @@ class _Content extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue,
+              ),
               padding: const EdgeInsets.all(8),
-              color: Colors.blue,
               child: const Text('Warranty Tracker'),
             ),
             Column(
@@ -43,7 +49,7 @@ class _Content extends StatelessWidget {
                   isRequired: false,
                   initialValue: '',
                   hintText: 'Email',
-                  onChanged: (_) {},
+                  onChanged: loginCubit.changeEmail,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -56,7 +62,7 @@ class _Content extends StatelessWidget {
                           isRequired: false,
                           initialValue: '',
                           hintText: 'Password',
-                          onChanged: (_) {},
+                          onChanged: loginCubit.changePassword,
                         );
                       },
                     ),
@@ -71,17 +77,34 @@ class _Content extends StatelessWidget {
             ),
             Column(
               children: [
-                WarrantyElevatedButton(
-                  onPressed: () =>
-                      navCubit.appNavigator.pushNamed(HomeView.routeName),
-                  text: 'Login',
-                  isEnabled: true,
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    return WarrantyElevatedButton.loading(
+                      isLoading: state == const AuthLoading(),
+                      onPressed: () => authCubit.login(
+                        loginCubit.state.email,
+                        loginCubit.state.password,
+                      ),
+                      // navCubit.appNavigator.pushNamed(HomeView.routeName),
+                      text: 'Login',
+                      isEnabled: loginCubit.enabledLogin(),
+                    );
+                  },
                 ),
                 TextButton(
                   child: const Text('Sign up'),
                   onPressed: () =>
                       navCubit.appNavigator.pushNamed(HomeView.routeName),
                 ),
+                // BlocBuilder<AuthCubit, AuthState>(
+                //   builder: (context, state) {
+                //     return WarrantyElevatedButton.iconLoading(
+                //       onPressed: () {},
+                //       isLoading: state == const AuthLoading(),
+                //       isEnabled: true,
+                //     );
+                //   },
+                // ),
               ],
             )
           ],

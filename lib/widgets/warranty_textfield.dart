@@ -267,7 +267,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
                   ? GestureDetector(
                       onTap: widget.onObscuredTap,
                       child: Icon(
-                        widget.isObscuredFunction
+                        !widget.isObscuredFunction
                             ? Icons.remove_red_eye
                             : Icons.visibility_off,
                       ),

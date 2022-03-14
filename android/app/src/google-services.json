@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "335544571045",
+    "project_id": "warranty-tracker-a6492",
+    "storage_bucket": "warranty-tracker-a6492.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335544571045:android:cc3308192b89c8770e694c",
+        "android_client_info": {
+          "package_name": "com.warranty_keeper.underDevelopment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335544571045-f8i2oecv9mmsf9t75m3papadcm3kv18r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.warranty_keeper.underDevelopment",
+            "certificate_hash": "31a4a41e1de840642cc6b6e19a4b995b49938d78"
+          }
+        },
+        {
+          "client_id": "335544571045-k4fkff9ag5dq70b31auahn273vn8rfft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8P5RiHEZn7HY6co73iZwB7xo94VrBJVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335544571045-k4fkff9ag5dq70b31auahn273vn8rfft.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "335544571045-1sms6mc3ha35inr00vsr3gtj0563v5qq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.warrantyKeeper.underDevelopment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

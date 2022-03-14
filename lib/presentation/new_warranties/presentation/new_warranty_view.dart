@@ -255,7 +255,7 @@ class _Content extends StatelessWidget {
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 15),
-                  child: WarrantyElevatedButton(
+                  child: WarrantyElevatedButton.general(
                     isEnabled: newWarrantyCubit.verifyWarranty(),
                     onPressed: () async {
                       if (newWarrantyCubit.verifyWarranty()) {

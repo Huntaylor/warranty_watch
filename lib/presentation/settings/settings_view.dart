@@ -65,7 +65,7 @@ class _Content extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 15),
-              child: WarrantyElevatedButton(
+              child: WarrantyElevatedButton.general(
                 isEnabled: true,
                 onPressed: () => navCubit.appNavigator
                     .pushNamedAndClearStack(LoginView.routeName),

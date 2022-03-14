@@ -1,3 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:warranty_keeper/data/repositories/auth_repository.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
@@ -12,8 +15,13 @@ import 'package:warranty_keeper/routes.dart';
 import 'package:warranty_keeper/utils/app_navigator.dart';
 
 import 'app_library.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -49,6 +57,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<LoginCubit>(
           create: (context) => LoginCubit(),
+        ),
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(FirebaseAuthRepository()),
         ),
       ],
       child: MaterialApp(
