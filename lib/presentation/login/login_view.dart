@@ -12,9 +12,12 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: _Content(),
+      body: BlocProvider(
+        create: (context) => LoginCubit(),
+        child: const _Content(),
+      ),
     );
   }
 }
@@ -29,12 +32,29 @@ class _Content extends StatelessWidget {
     final navCubit = context.read<NavCubit>();
     final loginCubit = context.read<LoginCubit>();
     final authCubit = context.read<AuthCubit>();
+    const snackBar = SnackBar(
+      content: Text('Incorrect email or password, please try again.'),
+      backgroundColor: Colors.red,
+    );
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                switch (state) {
+                  case NotAuthenticated():
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    break;
+                  default:
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    break;
+                }
+              },
+              child: const SizedBox(),
+            ),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -45,6 +65,15 @@ class _Content extends StatelessWidget {
             ),
             Column(
               children: [
+                // BlocBuilder<AuthCubit, AuthState>(
+                //   builder: (context, state) {
+                //     return ( )
+                //         ? const SizedBox()
+                //         : Container(
+                //             decoration: const BoxDecoration(color: Colors.red),
+                //           );
+                //   },
+                // ),
                 WarrantyTextField.general(
                   isRequired: false,
                   initialValue: '',
@@ -79,15 +108,19 @@ class _Content extends StatelessWidget {
               children: [
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
-                    return WarrantyElevatedButton.loading(
-                      isLoading: state == const AuthLoading(),
-                      onPressed: () => authCubit.login(
-                        loginCubit.state.email,
-                        loginCubit.state.password,
-                      ),
-                      // navCubit.appNavigator.pushNamed(HomeView.routeName),
-                      text: 'Login',
-                      isEnabled: loginCubit.enabledLogin(),
+                    return BlocBuilder<LoginCubit, LoginState>(
+                      builder: (context, loginState) {
+                        return WarrantyElevatedButton.loading(
+                          isLoading: state == const AuthLoading(),
+                          onPressed: () => authCubit.login(
+                            loginCubit.state.email,
+                            loginCubit.state.password,
+                          ),
+                          // navCubit.appNavigator.pushNamed(HomeView.routeName),
+                          text: 'Login',
+                          isEnabled: loginCubit.enabledLogin(),
+                        );
+                      },
                     );
                   },
                 ),
@@ -102,6 +135,7 @@ class _Content extends StatelessWidget {
                 //       onPressed: () {},
                 //       isLoading: state == const AuthLoading(),
                 //       isEnabled: true,
+                //       widget: const Icon(Icons.circle),
                 //     );
                 //   },
                 // ),

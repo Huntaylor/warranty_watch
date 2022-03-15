@@ -25,6 +25,7 @@ class LoginCubit extends Cubit<LoginState> {
         password: state.password,
       ),
     );
+    enabledLogin();
   }
 
   changePassword(String password) {
@@ -35,6 +36,7 @@ class LoginCubit extends Cubit<LoginState> {
         password: password,
       ),
     );
+    enabledLogin();
   }
 
   bool enabledLogin() {

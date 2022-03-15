@@ -1,7 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
+import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
+import 'package:warranty_keeper/presentation/home/home_view.dart';
+import 'package:warranty_keeper/presentation/login/login_view.dart';
 
 part 'auth_state.dart';
 
@@ -20,6 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           Authenticated(currentUser),
         );
+        NavCubit().appNavigator.pushNamedAndClearStack(HomeView.routeName);
       } else {
         emit(
           const NotAuthenticated(),
@@ -77,6 +82,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(
         const NotAuthenticated(),
       );
+      NavCubit().appNavigator.pushNamedAndClearStack(LoginView.routeName);
     } catch (e) {
       emit(
         AuthError(

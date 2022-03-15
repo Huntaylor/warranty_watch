@@ -6,6 +6,7 @@ class WarrantyElevatedButton extends StatelessWidget {
   final bool isEnabled;
   final bool isLoading;
   final bool hasIcon;
+  final Widget? widget;
 
   const WarrantyElevatedButton({
     Key? key,
@@ -13,6 +14,7 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.text,
     required this.isEnabled,
     required this.isLoading,
+    this.widget,
   })  : hasIcon = false,
         super(key: key);
 
@@ -23,6 +25,7 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.isEnabled,
   })  : isLoading = false,
         hasIcon = false,
+        widget = null,
         super(key: key);
 
   const WarrantyElevatedButton.loading({
@@ -32,6 +35,7 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.isLoading,
     required this.isEnabled,
   })  : hasIcon = false,
+        widget = null,
         super(key: key);
 
   const WarrantyElevatedButton.iconLoading({
@@ -39,6 +43,7 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.onPressed,
     required this.isLoading,
     required this.isEnabled,
+    required this.widget,
   })  : hasIcon = true,
         text = '',
         super(key: key);
@@ -60,14 +65,14 @@ class WarrantyElevatedButton extends StatelessWidget {
                 : onPressed
             : null,
         child: isLoading
-            ? const Padding(
-                padding: EdgeInsets.all(8),
-                child: CircularProgressIndicator(
+            ? Transform.scale(
+                scale: 0.5,
+                child: const CircularProgressIndicator(
                   color: Colors.white,
                 ),
               )
             : hasIcon
-                ? Icon(Icons.circle)
+                ? const Icon(Icons.circle)
                 : Center(
                     child: Text(
                       text,
