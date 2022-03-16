@@ -1,8 +1,6 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
-import 'package:warranty_keeper/presentation/login/login_view.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class SettingsView extends StatelessWidget {
@@ -13,7 +11,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('settings view'),
+        title: const Text('Settings'),
       ),
       body: const _Content(),
     );

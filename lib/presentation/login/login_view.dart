@@ -32,29 +32,13 @@ class _Content extends StatelessWidget {
     final navCubit = context.read<NavCubit>();
     final loginCubit = context.read<LoginCubit>();
     final authCubit = context.read<AuthCubit>();
-    const snackBar = SnackBar(
-      content: Text('Incorrect email or password, please try again.'),
-      backgroundColor: Colors.red,
-    );
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            BlocListener<AuthCubit, AuthState>(
-              listener: (context, state) {
-                switch (state) {
-                  case NotAuthenticated():
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    break;
-                  default:
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    break;
-                }
-              },
-              child: const SizedBox(),
-            ),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -65,14 +49,16 @@ class _Content extends StatelessWidget {
             ),
             Column(
               children: [
-                // BlocBuilder<AuthCubit, AuthState>(
-                //   builder: (context, state) {
-                //     return ( )
-                //         ? const SizedBox()
-                //         : Container(
-                //             decoration: const BoxDecoration(color: Colors.red),
-                //           );
+                // BlocListener<AuthCubit, AuthState>(
+                //   listener: (context, state) {
+                //     switch (state) {
+                //       case :
+
+                //         break;
+                //       default:
+                //     }
                 //   },
+                //   child: Container(),
                 // ),
                 WarrantyTextField.general(
                   isRequired: false,

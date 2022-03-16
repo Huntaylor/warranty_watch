@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>335544571045-1sms6mc3ha35inr00vsr3gtj0563v5qq.apps.googleusercontent.com</string>
+	<string>335544571045-qij4c9hhgqd73gfa7g3ftic0so394kj7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.335544571045-1sms6mc3ha35inr00vsr3gtj0563v5qq</string>
+	<string>com.googleusercontent.apps.335544571045-qij4c9hhgqd73gfa7g3ftic0so394kj7</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>335544571045-btg9lfgm4vpsid4lhmq4sebpjjbvcmop.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.warrantyKeeper.underDevelopment</string>
+	<string>com.warranty-keeper.underDevelopment.app</string>
 	<key>PROJECT_ID</key>
 	<string>warranty-tracker-a6492</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:335544571045:ios:e4acd72e29d7130d0e694c</string>
+	<string>1:335544571045:ios:7130e5593927804d0e694c</string>
 </dict>
 </plist>
