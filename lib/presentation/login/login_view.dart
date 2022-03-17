@@ -33,6 +33,12 @@ class _Content extends StatelessWidget {
     final loginCubit = context.read<LoginCubit>();
     final authCubit = context.read<AuthCubit>();
 
+    errorSnackBar({required String message}) {
+      return SnackBar(
+        content: Text(message),
+      );
+    }
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
@@ -42,24 +48,39 @@ class _Content extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.blue,
+                color: context.colorScheme.primary,
               ),
               padding: const EdgeInsets.all(8),
-              child: const Text('Warranty Tracker'),
+              child: Text(
+                'Warranty Tracker',
+                style: context.textTheme.headline4
+                    ?.copyWith(color: context.colorScheme.onPrimary),
+              ),
             ),
             Column(
               children: [
-                // BlocListener<AuthCubit, AuthState>(
-                //   listener: (context, state) {
-                //     switch (state) {
-                //       case :
-
-                //         break;
-                //       default:
-                //     }
-                //   },
-                //   child: Container(),
-                // ),
+                BlocListener<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    // state.map(
+                    //   initial: initial,
+                    //   loading: loading,
+                    //   authenticated: authenticated,
+                    //   notAuthenticated: notAuthenticated,
+                    //   error: error,
+                    //   passwordRequestSubmitted: passwordRequestSubmitted,
+                    //   firstRun: firstRun,
+                    //   personalDataUpdated: personalDataUpdated,
+                    // );
+                    state.mapOrNull(
+                      error: (error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          errorSnackBar(message: error.message),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(),
+                ),
                 WarrantyTextField.general(
                   isRequired: false,
                   initialValue: '',
@@ -97,7 +118,7 @@ class _Content extends StatelessWidget {
                     return BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, loginState) {
                         return WarrantyElevatedButton.loading(
-                          isLoading: state == const AuthLoading(),
+                          isLoading: state == const AuthState.loading(),
                           onPressed: () => authCubit.login(
                             loginCubit.state.email,
                             loginCubit.state.password,

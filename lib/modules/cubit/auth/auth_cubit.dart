@@ -7,32 +7,33 @@ import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/presentation/login/login_view.dart';
 
 part 'auth_state.dart';
+part 'auth_cubit.freezed.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
-  AuthCubit(this._authRepository) : super(const AuthInitial());
+  AuthCubit(this._authRepository) : super(const AuthState.initial());
 
   Future login(String email, String password) async {
     try {
       emit(
-        const AuthLoading(),
+        const AuthState.loading(),
       );
       await _authRepository.login(email, password);
       User currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
         emit(
-          Authenticated(currentUser),
+          AuthState.authenticated(user: currentUser),
         );
         NavCubit().appNavigator.pushNamedAndClearStack(HomeView.routeName);
       } else {
         emit(
-          const NotAuthenticated(),
+          const AuthState.authenticated(),
         );
       }
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
+        AuthState.error(
+          message: e.toString(),
         ),
       );
     }
@@ -40,33 +41,43 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future loginWithGoogle() async {
     try {
-      emit(const AuthLoading());
+      emit(const AuthState.loading());
       await _authRepository.signInWithGoogle();
       User currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
-        emit(Authenticated(currentUser));
+        emit(
+          AuthState.authenticated(
+            user: currentUser,
+          ),
+        );
       } else {
-        emit(const NotAuthenticated());
+        emit(
+          const AuthState.authenticated(),
+        );
       }
     } catch (e) {
-      emit(AuthError(e.toString()));
+      emit(
+        AuthState.error(
+          message: e.toString(),
+        ),
+      );
     }
   }
 
   Future register(String email, String password) async {
     try {
       emit(
-        const AuthLoading(),
+        const AuthState.loading(),
       );
       await _authRepository.register(email, password);
       User currentUser = _authRepository.currentUser();
       emit(
-        Authenticated(currentUser),
+        AuthState.authenticated(user: currentUser),
       );
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
+        AuthState.error(
+          message: e.toString(),
         ),
       );
     }
@@ -75,17 +86,17 @@ class AuthCubit extends Cubit<AuthState> {
   Future logout() async {
     try {
       emit(
-        const AuthLoading(),
+        const AuthState.loading(),
       );
       await _authRepository.logout();
       emit(
-        const NotAuthenticated(),
+        const AuthState.authenticated(),
       );
       NavCubit().appNavigator.pushNamedAndClearStack(LoginView.routeName);
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
+        AuthState.error(
+          message: e.toString(),
         ),
       );
     }
@@ -94,16 +105,16 @@ class AuthCubit extends Cubit<AuthState> {
   Future submitPasswordReset(String email) async {
     try {
       emit(
-        const AuthLoading(),
+        const AuthState.loading(),
       );
       await _authRepository.passwordResetSubmit(email);
       emit(
-        const PasswordRequestSubmitted(),
+        const AuthState.passwordRequestSubmitted(),
       );
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
+        AuthState.error(
+          message: e.toString(),
         ),
       );
     }
@@ -112,22 +123,22 @@ class AuthCubit extends Cubit<AuthState> {
   void isLoggedIn() {
     try {
       emit(
-        const AuthLoading(),
+        const AuthState.loading(),
       );
       if (_authRepository.currentUser().uid != null) {
         User currentUser = _authRepository.currentUser();
         emit(
-          Authenticated(currentUser),
+          AuthState.authenticated(user: currentUser),
         );
       } else {
         emit(
-          const NotAuthenticated(),
+          const AuthState.authenticated(),
         );
       }
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
+        AuthState.error(
+          message: e.toString(),
         ),
       );
     }
@@ -136,22 +147,22 @@ class AuthCubit extends Cubit<AuthState> {
   Future isFirstRun() async {
     try {
       emit(
-        const AuthLoading(),
+        const AuthState.loading(),
       );
       if (await _authRepository.isFirstRun()) {
         emit(
-          const FirstRun(),
+          const AuthState.firstRun(),
         );
       } else {
         User currentUser = _authRepository.currentUser();
         emit(
-          Authenticated(currentUser),
+          AuthState.authenticated(user: currentUser),
         );
       }
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
+        AuthState.error(
+          message: e.toString(),
         ),
       );
     }
@@ -161,7 +172,7 @@ class AuthCubit extends Cubit<AuthState> {
       String firstName, String lastName, String birthday) async {
     try {
       emit(
-        const AuthLoading(),
+        const AuthState.loading(),
       );
       await _authRepository.updatePersonalData(
         firstName,
@@ -169,12 +180,12 @@ class AuthCubit extends Cubit<AuthState> {
         birthday,
       );
       emit(
-        const PersonalDataUpdated(),
+        const AuthState.personalDataUpdated(),
       );
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
+        AuthState.error(
+          message: e.toString(),
         ),
       );
     }

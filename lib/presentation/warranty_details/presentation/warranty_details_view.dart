@@ -54,7 +54,7 @@ class WarrantyDetailsView extends StatelessWidget {
                 ),
               ],
             ),
-            const Content(),
+            const _Content(),
           ],
         ),
       ),
@@ -62,8 +62,8 @@ class WarrantyDetailsView extends StatelessWidget {
   }
 }
 
-class Content extends StatelessWidget {
-  const Content({
+class _Content extends StatelessWidget {
+  const _Content({
     Key? key,
   }) : super(key: key);
 
@@ -95,7 +95,7 @@ class Content extends StatelessWidget {
                       ),
                       style: TextStyle(
                         color: _dateDiff(detailsCubit.state.endOfWarr!)
-                            ? Colors.red
+                            ? context.themeData.errorColor
                             : null,
                       ),
                     ),

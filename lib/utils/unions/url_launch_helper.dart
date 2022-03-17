@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLaunchHelper {
@@ -16,7 +17,7 @@ class UrlLaunchHelper {
       }
       return false;
     } catch (e, stacktrace) {
-      print('''
+      debugPrint('''
       ---- UrlLaunchHelper : tryLaunch ----
       $e
       $stacktrace

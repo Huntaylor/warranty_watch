@@ -73,9 +73,6 @@ class WarrantyImage extends StatelessWidget {
                       // height: MediaQuery.of(context).size.height * .2,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.shade500,
-                        ),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Center(
@@ -112,10 +109,9 @@ class WarrantyImage extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey.shade500,
-                      ),
-                      borderRadius: BorderRadius.circular(5),
+                      color: context.themeData.cardColor,
+                      border: Border.all(color: context.colorScheme.primary),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     child: Center(
                       child: Column(

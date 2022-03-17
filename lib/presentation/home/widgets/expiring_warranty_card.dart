@@ -27,16 +27,26 @@ class ExpiringWarrantyCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.primary,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(appLocalizations.expiringSoon),
-                        Text(appLocalizations.dateFormat),
+                        Text(
+                          appLocalizations.expiringSoon,
+                          style: context.textTheme.subtitle1?.copyWith(
+                            color: context.colorScheme.onPrimary,
+                          ),
+                        ),
+                        Text(
+                          appLocalizations.dateFormat,
+                          style: context.textTheme.subtitle1?.copyWith(
+                            color: context.colorScheme.onPrimary,
+                          ),
+                        ),
                       ],
                     ),
                   ),
