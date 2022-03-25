@@ -1,5 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firefuel/firefuel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/data/domain/user_collection.dart';
+import 'package:warranty_keeper/data/models/firebase_user.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
@@ -11,15 +15,19 @@ part 'current_warranties_state.dart';
 class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
   CurrentWarrantiesCubit() : super(const CurrentWarrantiesState.initial());
 
-  void addOrEditWarranty(WarrantyInfo warrantyInfo) {
+  void addOrEditWarranty(WarrantyInfo warrantyInfo) async {
+    final userColletion = UserCollection();
+    // const userId = 'userId';
+
     List<WarrantyInfo> newList;
     List<WarrantyInfo> expiringList;
     newList = List.from(state.warrantyInfoList);
     expiringList = List.from(state.warrantyInfoList);
 
-    if (expiringList.any((e) => e.key == warrantyInfo.key)) {
+    if (expiringList.any((e) => e.warrantyId == warrantyInfo.warrantyId)) {
       expiringList[state.warrantyInfoList
-          .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
+              .indexWhere((e) => e.warrantyId == warrantyInfo.warrantyId)] =
+          warrantyInfo;
       emit(
         state.copyWith(
           removeBool: false,
@@ -28,18 +36,43 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
       );
     } else {
       expiringList.add(warrantyInfo);
+      try {
+        await userColletion.updateOrCreate(
+          docId: userColletion.currentUserDocId,
+          value: FirebaseUser(
+            warrantyId: warrantyInfo.warrantyId.toString(),
+            name: warrantyInfo.name,
+            purchaseDate: warrantyInfo.purchaseDate,
+            warrWebsite: warrantyInfo.warrWebsite,
+            endOfWarr: warrantyInfo.endOfWarr,
+            reminderDate: warrantyInfo.reminderDate,
+            details: warrantyInfo.details,
+            lifeTime: warrantyInfo.lifeTime,
+            isEditing: warrantyInfo.isEditing,
+            wantsReminders: warrantyInfo.wantsReminders,
+          ),
+        );
+        NavCubit().pop();
+      } catch (e) {
+        debugPrint('$e');
+      }
     }
     if (expiringList.any((e) => e.lifeTime)) {
       expiringList.removeWhere((ee) => ee.lifeTime);
     }
 
-    if (expiringList
-        .any((e) => e.endOfWarr!.difference(DateTime.now()).inDays < 30)) {
-      expiringList.removeWhere((ee) =>
-          ee.endOfWarr!.difference(DateTime.now()).inDays > 30 || ee.lifeTime);
+    if (expiringList.any(
+      (e) => e.endOfWarr!.difference(DateTime.now()).inDays < 30,
+    )) {
+      expiringList.removeWhere(
+        (ee) =>
+            ee.endOfWarr!.difference(DateTime.now()).inDays > 30 || ee.lifeTime,
+      );
 
       expiringList.sort(
-        ((a, b) => a.endOfWarr!.compareTo(b.endOfWarr!)),
+        (a, b) => a.endOfWarr!.compareTo(
+          b.endOfWarr!,
+        ),
       );
       emit(
         state.copyWith(
@@ -48,9 +81,10 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
       );
     }
 
-    if (newList.any((e) => e.key == warrantyInfo.key)) {
+    if (newList.any((e) => e.warrantyId == warrantyInfo.warrantyId)) {
       newList[state.warrantyInfoList
-          .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
+              .indexWhere((e) => e.warrantyId == warrantyInfo.warrantyId)] =
+          warrantyInfo;
       emit(
         state.copyWith(
           removeBool: false,

@@ -12,7 +12,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         lifeTime: !state.lifeTime,
-        imagesList: state.imagesList,
         name: state.name,
         purchaseDate: state.purchaseDate,
         endOfWarr: state.endOfWarr,
@@ -33,7 +32,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         purchaseDate: DateFormat.yMd().parse(date),
         endOfWarr: state.endOfWarr,
         lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
         name: state.name,
         reminderDate: state.reminderDate,
         warrWebsite: state.warrWebsite,
@@ -51,7 +49,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       state.copyWith(
         name: productName,
         lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
         purchaseDate: state.purchaseDate,
         endOfWarr: state.endOfWarr,
         reminderDate: state.reminderDate,
@@ -70,7 +67,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       state.copyWith(
         warrWebsite: websiteName,
         lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
         name: state.name,
         purchaseDate: state.purchaseDate,
         endOfWarr: state.endOfWarr,
@@ -89,7 +85,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       state.copyWith(
         details: additionalDetails,
         lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
         name: state.name,
         purchaseDate: state.purchaseDate,
         endOfWarr: state.endOfWarr,
@@ -109,7 +104,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         endOfWarr: DateFormat('MM/dd/yyyy').parse(date),
         purchaseDate: state.purchaseDate,
         lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
         name: state.name,
         reminderDate: state.reminderDate,
         warrWebsite: state.warrWebsite,
@@ -135,7 +129,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.day - 2,
             ),
             lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
             name: state.name,
             purchaseDate: state.purchaseDate,
             endOfWarr: state.endOfWarr,
@@ -156,7 +149,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.day - 7,
             ),
             lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
             name: state.name,
             purchaseDate: state.purchaseDate,
             endOfWarr: state.endOfWarr,
@@ -177,7 +169,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.day - 14,
             ),
             lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
             name: state.name,
             purchaseDate: state.purchaseDate,
             endOfWarr: state.endOfWarr,
@@ -198,7 +189,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.day - 30,
             ),
             lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
             name: state.name,
             purchaseDate: state.purchaseDate,
             endOfWarr: state.endOfWarr,
@@ -219,7 +209,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.day - 30,
             ),
             lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
             name: state.name,
             purchaseDate: state.purchaseDate,
             endOfWarr: state.endOfWarr,
@@ -236,7 +225,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
           state.copyWith(
             reminderDate: DateFormat('MM/dd/yyyy').parse(date),
             lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
             name: state.name,
             purchaseDate: state.purchaseDate,
             endOfWarr: state.endOfWarr,
@@ -265,7 +253,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       state.copyWith(
         wantsReminders: value,
         lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
         name: state.name,
         purchaseDate: state.purchaseDate,
         endOfWarr: state.endOfWarr,
@@ -287,13 +274,12 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     if (imagePicker != null) {
       final appDir = await syspaths.getApplicationDocumentsDirectory();
       final fileName = path.basename(imagePicker.path);
-      final savedImage = imagePicker.saveTo('${appDir.path}/$fileName');
+      final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
 
       emit(
         state.copyWith(
-          image: File(imagePicker.path),
+          image: imagePicker.path,
           lifeTime: state.lifeTime,
-          imagesList: state.imagesList,
           name: state.name,
           purchaseDate: state.purchaseDate,
           endOfWarr: state.endOfWarr,
@@ -317,13 +303,12 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     if (imagePicker != null) {
       final appDir = await syspaths.getApplicationDocumentsDirectory();
       final fileName = path.basename(imagePicker.path);
-      final savedImage = imagePicker.saveTo('${appDir.path}/$fileName');
+      final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
 
       emit(
         state.copyWith(
-            image: File(imagePicker.path),
+            image: imagePicker.path,
             lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
             name: state.name,
             purchaseDate: state.purchaseDate,
             endOfWarr: state.endOfWarr,
@@ -347,13 +332,13 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     if (imagePicker != null) {
       final appDir = await syspaths.getApplicationDocumentsDirectory();
       final fileName = path.basename(imagePicker.path);
-      final savedreceiptImage = imagePicker.saveTo('${appDir.path}/$fileName');
+      final savedreceiptImage =
+          await imagePicker.saveTo('${appDir.path}/$fileName');
 
       emit(
         state.copyWith(
-          receiptImage: File(imagePicker.path),
+          receiptImage: imagePicker.path,
           lifeTime: state.lifeTime,
-          imagesList: state.imagesList,
           name: state.name,
           purchaseDate: state.purchaseDate,
           endOfWarr: state.endOfWarr,
@@ -377,13 +362,13 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     if (imagePicker != null) {
       final appDir = await syspaths.getApplicationDocumentsDirectory();
       final fileName = path.basename(imagePicker.path);
-      final savedreceiptImage = imagePicker.saveTo('${appDir.path}/$fileName');
+      final savedreceiptImage =
+          await imagePicker.saveTo('${appDir.path}/$fileName');
 
       emit(
         state.copyWith(
-          receiptImage: File(imagePicker.path),
+          receiptImage: imagePicker.path,
           lifeTime: state.lifeTime,
-          imagesList: state.imagesList,
           name: state.name,
           purchaseDate: state.purchaseDate,
           endOfWarr: state.endOfWarr,

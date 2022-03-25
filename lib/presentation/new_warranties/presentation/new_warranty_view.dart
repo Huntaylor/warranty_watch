@@ -1,6 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
@@ -44,7 +43,6 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final newWarrantyCubit = context.read<NewWarrantyCubit>();
     final currWarrantyCubit = context.read<CurrentWarrantiesCubit>();
-    final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
     return SafeArea(
@@ -179,7 +177,7 @@ class _Content extends StatelessWidget {
                           previous.receiptImage != current.receiptImage,
                       builder: (context, state) {
                         return WarrantyImage(
-                          image: state.receiptImage,
+                          image: File(state.receiptImage!),
                           onTap: () {
                             showModalBottomSheet(
                               isDismissible: false,
@@ -215,7 +213,7 @@ class _Content extends StatelessWidget {
                           previous.image != current.image,
                       builder: (context, state) {
                         return WarrantyImage(
-                          image: state.image,
+                          image: File(state.image!),
                           onTap: () {
                             showModalBottomSheet(
                               enableDrag: false,
@@ -261,8 +259,6 @@ class _Content extends StatelessWidget {
                       if (newWarrantyCubit.verifyWarranty()) {
                         newWarrantyCubit.changeEditing();
                         currWarrantyCubit.addOrEditWarranty(state);
-                        newWarrantyCubit.clear();
-                        navCubit.pop();
                       }
                     },
                     text: (state.isEditing)

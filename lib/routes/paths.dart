@@ -4,8 +4,11 @@ class Paths {
   Paths._();
 
   static Path get initial => Path('');
-  static Path get login => Path('login');
   static Path get settings => Path('settings');
+  static Path get home => Path('home');
+  // static Path get login => Path('login');
+  static LoginPath get login => LoginPath();
+  static Path get signup => Path('signup');
   static WarrantyPath get warranty => WarrantyPath();
 }
 
@@ -19,4 +22,10 @@ class WarrantyPath extends Path {
         'selectedId',
         path: path,
       );
+}
+
+class LoginPath extends Path {
+  LoginPath() : super('login');
+
+  Path get signup => Path('signup', path);
 }

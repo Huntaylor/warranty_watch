@@ -1,11 +1,15 @@
 part of 'auth_cubit.dart';
 
-//todo: change back to immutable if this doesn't work
 @freezed
 class AuthState with _$AuthState {
   const factory AuthState.initial() = _Initial;
 
-  const factory AuthState.loading() = _Loading;
+  const factory AuthState.loading({
+    @Default(false) bool isEmail,
+    @Default(false) bool isGmail,
+    @Default(false) bool isFacebook,
+    @Default(false) bool isApple,
+  }) = _Loading;
 
   const factory AuthState.authenticated({
     @Default(null) User? user,

@@ -6,7 +6,7 @@ import 'package:warranty_keeper/presentation/new_warranties/presentation/new_war
 import 'package:warranty_keeper/presentation/settings/settings_view.dart';
 import 'package:warranty_keeper/presentation/warranty_details/presentation/warranty_details_view.dart';
 
-final appRoutes = {
+final oldAppRoutes = {
   HomeView.routeName: (BuildContext context) => const HomeView(),
   NewWarrantyView.routeName: (BuildContext context) => const NewWarrantyView(),
   CurrentWarrantiesView.routeName: (BuildContext context) =>

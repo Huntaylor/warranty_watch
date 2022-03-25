@@ -3,7 +3,6 @@ import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
-import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/presentation/login/login_view.dart';
 
 part 'auth_state.dart';
@@ -16,7 +15,8 @@ class AuthCubit extends Cubit<AuthState> {
   Future login(String email, String password) async {
     try {
       emit(
-        const AuthState.loading(),
+        const AuthState.loading(
+            isApple: false, isEmail: true, isGmail: false, isFacebook: false),
       );
       await _authRepository.login(email, password);
       User currentUser = _authRepository.currentUser();
@@ -24,10 +24,10 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           AuthState.authenticated(user: currentUser),
         );
-        NavCubit().appNavigator.pushNamedAndClearStack(HomeView.routeName);
+        // NavCubit().appNavigator.pushNamedAndClearStack(HomeView.routeName);
       } else {
         emit(
-          const AuthState.authenticated(),
+          const AuthState.notAuthenticated(),
         );
       }
     } catch (e) {
@@ -41,7 +41,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future loginWithGoogle() async {
     try {
-      emit(const AuthState.loading());
+      emit(
+        const AuthState.loading(
+            isApple: false, isEmail: false, isGmail: true, isFacebook: false),
+      );
       await _authRepository.signInWithGoogle();
       User currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
@@ -52,7 +55,8 @@ class AuthCubit extends Cubit<AuthState> {
         );
       } else {
         emit(
-          const AuthState.authenticated(),
+          //TODO: change back to authenticated if there is a problem
+          const AuthState.notAuthenticated(),
         );
       }
     } catch (e) {
@@ -90,7 +94,8 @@ class AuthCubit extends Cubit<AuthState> {
       );
       await _authRepository.logout();
       emit(
-        const AuthState.authenticated(),
+        //TODO: change back to authenticated if there is a problem
+        const AuthState.notAuthenticated(),
       );
       NavCubit().appNavigator.pushNamedAndClearStack(LoginView.routeName);
     } catch (e) {

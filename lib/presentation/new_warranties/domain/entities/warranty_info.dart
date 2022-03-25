@@ -1,16 +1,20 @@
+import 'package:firefuel/firefuel.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:warranty_keeper/app_library.dart';
 
-class WarrantyInfo extends Equatable {
-  final Key key;
+part 'warranty_info.g.dart';
+
+@JsonSerializable()
+class WarrantyInfo extends Equatable implements Serializable {
+  final Key warrantyId;
   final String? name;
   final DateTime? purchaseDate;
   final String? warrWebsite;
   final DateTime? endOfWarr;
   final DateTime? reminderDate;
   final String? details;
-  final List<File>? imagesList;
-  final File? image;
-  final File? receiptImage;
+  final String? image;
+  final String? receiptImage;
   final bool lifeTime;
   final bool isEditing;
   final bool wantsReminders;
@@ -21,17 +25,15 @@ class WarrantyInfo extends Equatable {
     this.warrWebsite,
     this.endOfWarr,
     this.details,
-    this.imagesList,
     this.image,
     this.receiptImage,
     this.lifeTime = false,
     this.isEditing = false,
     this.wantsReminders = false,
-  }) : key = UniqueKey();
+  }) : warrantyId = UniqueKey();
 
   @override
   List<Object?> get props => [
-        imagesList,
         name,
         purchaseDate,
         endOfWarr,
@@ -41,21 +43,20 @@ class WarrantyInfo extends Equatable {
         receiptImage,
         lifeTime,
         isEditing,
-        key,
+        warrantyId,
         wantsReminders,
         reminderDate,
       ];
 
   WarrantyInfo copyWith({
-    List<File>? imagesList,
     String? name,
     DateTime? purchaseDate,
     DateTime? endOfWarr,
     DateTime? reminderDate,
     String? warrWebsite,
     String? details,
-    File? image,
-    File? receiptImage,
+    String? image,
+    String? receiptImage,
     bool? lifeTime,
     bool? isEditing,
     bool? wantsReminders,
@@ -63,9 +64,8 @@ class WarrantyInfo extends Equatable {
     return WarrantyInfo._(
       reminderDate: reminderDate ?? this.reminderDate,
       wantsReminders: wantsReminders ?? this.wantsReminders,
-      imagesList: imagesList ?? this.imagesList,
       isEditing: isEditing ?? this.isEditing,
-      key: key,
+      warrantyId: warrantyId,
       name: name ?? this.name,
       purchaseDate: purchaseDate ?? DateTime.now(),
       endOfWarr: endOfWarr ?? this.endOfWarr,
@@ -89,7 +89,6 @@ class WarrantyInfo extends Equatable {
 
   const WarrantyInfo._({
     this.reminderDate,
-    this.imagesList,
     this.name,
     this.purchaseDate,
     this.warrWebsite,
@@ -99,7 +98,13 @@ class WarrantyInfo extends Equatable {
     this.receiptImage,
     required this.lifeTime,
     required this.isEditing,
-    required this.key,
+    required this.warrantyId,
     required this.wantsReminders,
   });
+
+  factory WarrantyInfo.fromJson(Map<String, dynamic> json, String warrantyId) =>
+      _$WarrantyInfoFromJson({'warrantyId': warrantyId, ...json});
+
+  @override
+  Map<String, dynamic> toJson() => _$WarrantyInfoToJson(this);
 }

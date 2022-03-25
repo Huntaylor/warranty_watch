@@ -1,8 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
-import 'package:warranty_keeper/presentation/home/home_view.dart';
+import 'package:warranty_keeper/routes/paths.dart';
+import 'package:warranty_keeper/widgets/sign_in_options_icons.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
@@ -29,7 +30,6 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navCubit = context.read<NavCubit>();
     final loginCubit = context.read<LoginCubit>();
     final authCubit = context.read<AuthCubit>();
 
@@ -57,59 +57,62 @@ class _Content extends StatelessWidget {
                     ?.copyWith(color: context.colorScheme.onPrimary),
               ),
             ),
-            Column(
-              children: [
-                BlocListener<AuthCubit, AuthState>(
-                  listener: (context, state) {
-                    // state.map(
-                    //   initial: initial,
-                    //   loading: loading,
-                    //   authenticated: authenticated,
-                    //   notAuthenticated: notAuthenticated,
-                    //   error: error,
-                    //   passwordRequestSubmitted: passwordRequestSubmitted,
-                    //   firstRun: firstRun,
-                    //   personalDataUpdated: personalDataUpdated,
-                    // );
-                    state.mapOrNull(
-                      error: (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          errorSnackBar(message: error.message),
-                        );
-                      },
-                    );
-                  },
-                  child: Container(),
-                ),
-                WarrantyTextField.general(
-                  isRequired: false,
-                  initialValue: '',
-                  hintText: 'Email',
-                  onChanged: loginCubit.changeEmail,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                        return WarrantyTextField.obscured(
-                          onObscuredTap: loginCubit.toggleObscurity,
-                          isObscuredFunction: state.isObscured,
-                          isRequired: false,
-                          initialValue: '',
-                          hintText: 'Password',
-                          onChanged: loginCubit.changePassword,
+                    BlocListener<AuthCubit, AuthState>(
+                      listener: (context, state) {
+                        // state.map(
+                        //   initial: initial,
+                        //   loading: loading,
+                        //   authenticated: authenticated,
+                        //   notAuthenticated: notAuthenticated,
+                        //   error: error,
+                        //   passwordRequestSubmitted: passwordRequestSubmitted,
+                        //   firstRun: firstRun,
+                        //   personalDataUpdated: personalDataUpdated,
+                        // );
+                        state.mapOrNull(
+                          error: (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              errorSnackBar(message: error.message),
+                            );
+                          },
                         );
                       },
+                      child: Container(),
                     ),
-                    TextButton(
-                      child: const Text('Forgot Password?'),
-                      onPressed: () =>
-                          navCubit.appNavigator.pushNamed(HomeView.routeName),
+                    WarrantyTextField.general(
+                      isRequired: false,
+                      initialValue: '',
+                      hintText: 'Email',
+                      onChanged: loginCubit.changeEmail,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        BlocBuilder<LoginCubit, LoginState>(
+                          builder: (context, state) {
+                            return WarrantyTextField.obscured(
+                              onObscuredTap: loginCubit.toggleObscurity,
+                              isObscuredFunction: state.isObscured,
+                              isRequired: false,
+                              initialValue: '',
+                              hintText: 'Password',
+                              onChanged: loginCubit.changePassword,
+                            );
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('Forgot Password?'),
+                          onPressed: () => context.pushNamed(Paths.home.path),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
             Column(
               children: [
@@ -118,12 +121,14 @@ class _Content extends StatelessWidget {
                     return BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, loginState) {
                         return WarrantyElevatedButton.loading(
-                          isLoading: state == const AuthState.loading(),
-                          onPressed: () => authCubit.login(
-                            loginCubit.state.email,
-                            loginCubit.state.password,
-                          ),
-                          // navCubit.appNavigator.pushNamed(HomeView.routeName),
+                          isLoading:
+                              state == const AuthState.loading(isEmail: true),
+                          onPressed: () async {
+                            await authCubit.login(
+                              loginCubit.state.email,
+                              loginCubit.state.password,
+                            );
+                          },
                           text: 'Login',
                           isEnabled: loginCubit.enabledLogin(),
                         );
@@ -133,19 +138,67 @@ class _Content extends StatelessWidget {
                 ),
                 TextButton(
                   child: const Text('Sign up'),
-                  onPressed: () =>
-                      navCubit.appNavigator.pushNamed(HomeView.routeName),
+                  onPressed: () => context.push(Paths.login.signup.path),
                 ),
-                // BlocBuilder<AuthCubit, AuthState>(
-                //   builder: (context, state) {
-                //     return WarrantyElevatedButton.iconLoading(
-                //       onPressed: () {},
-                //       isLoading: state == const AuthLoading(),
-                //       isEnabled: true,
-                //       widget: const Icon(Icons.circle),
-                //     );
-                //   },
-                // ),
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        WarrantyElevatedButton.iconLoading(
+                          onPressed: () {},
+                          isLoading:
+                              state == const AuthState.loading(isGmail: true),
+                          isEnabled: true,
+                          widget: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(SignInOptions.google),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Text('Gmail'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        WarrantyElevatedButton.iconLoading(
+                          onPressed: () {},
+                          isLoading: state ==
+                              const AuthState.loading(isFacebook: true),
+                          isEnabled: true,
+                          widget: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(SignInOptions.facebook),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Text('Facebook'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Platform.isIOS
+                            ? WarrantyElevatedButton.iconLoading(
+                                onPressed: () {},
+                                isLoading: state ==
+                                    const AuthState.loading(isApple: true),
+                                isEnabled: true,
+                                widget: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Icon(SignInOptions.apple),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 8.0),
+                                      child: Text('Apple'),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : const SizedBox(),
+                      ],
+                    );
+                  },
+                ),
               ],
             )
           ],

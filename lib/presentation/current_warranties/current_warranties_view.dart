@@ -1,10 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'package:warranty_keeper/presentation/current_warranties/widgets/current_widget_card.dart';
-import 'package:warranty_keeper/presentation/new_warranties/presentation/new_warranty_view.dart';
+import 'package:warranty_keeper/routes/paths.dart';
 
 class CurrentWarrantiesView extends StatelessWidget {
   static const routeName = '/currentWarrantiesView';
@@ -31,7 +31,6 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentCubit = context.read<CurrentWarrantiesCubit>();
-    final navCubit = context.read<NavCubit>();
     final newRead = context.read<NewWarrantyCubit>();
     final detailsCubit = context.read<WarrantyDetailsCubit>();
     return SafeArea(
@@ -46,7 +45,8 @@ class _Content extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CurrentWidgetCard(
                         onSelect: () {
-                          navCubit.detailsNav();
+                          //TODO: add in go_router
+                          // navCubit.detailsNav();
                           detailsCubit.selectedWarrantyInitial(
                             state.warrantyInfoList[index],
                           );
@@ -54,8 +54,7 @@ class _Content extends StatelessWidget {
                         onEdit: () {
                           newRead.editWarrantyInitial(
                               state.warrantyInfoList[index]);
-                          navCubit.appNavigator
-                              .pushNamed(NewWarrantyView.routeName);
+                          context.pushNamed(Paths.warranty.newWarranty.path);
                         },
                         onRemove: () => currentCubit.removeWarranty(index),
                         warrantyInfo: state.warrantyInfoList[index],

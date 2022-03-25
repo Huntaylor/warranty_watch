@@ -1,6 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
 class ExpiringWarrantyCard extends StatelessWidget {
@@ -11,7 +10,6 @@ class ExpiringWarrantyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
-    final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
     return Flexible(
@@ -78,7 +76,8 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                       detailsCubit.selectedWarrantyInitial(
                                         state.expiringList[index],
                                       );
-                                      navCubit.detailsNav();
+                                      //TODO: change to go_router
+                                      // navCubit.detailsNav();
                                     },
                                     child: Column(
                                       children: [
@@ -105,9 +104,10 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                                       .name!,
                                                 ),
                                                 Text(
-                                                  _dateFormat(state
-                                                      .expiringList[index]
-                                                      .endOfWarr!),
+                                                  _dateFormat(
+                                                    state.expiringList[index]
+                                                        .endOfWarr!,
+                                                  ),
                                                 ),
                                               ],
                                             ),

@@ -64,20 +64,23 @@ class WarrantyElevatedButton extends StatelessWidget {
                 ? null
                 : onPressed
             : null,
-        child: isLoading
-            ? Transform.scale(
-                scale: 0.5,
-                child: const CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              )
-            : hasIcon
-                ? const Icon(Icons.circle)
-                : Center(
-                    child: Text(
-                      text,
-                    ),
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 100),
+          child: isLoading
+              ? Transform.scale(
+                  scale: 0.5,
+                  child: const CircularProgressIndicator(
+                    color: Colors.white,
                   ),
+                )
+              : hasIcon
+                  ? widget
+                  : Center(
+                      child: Text(
+                        text,
+                      ),
+                    ),
+        ),
       ),
     );
   }

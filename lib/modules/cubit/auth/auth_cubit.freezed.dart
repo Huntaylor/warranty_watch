@@ -22,8 +22,17 @@ class _$AuthStateTearOff {
     return const _Initial();
   }
 
-  _Loading loading() {
-    return const _Loading();
+  _Loading loading(
+      {bool isEmail = false,
+      bool isGmail = false,
+      bool isFacebook = false,
+      bool isApple = false}) {
+    return _Loading(
+      isEmail: isEmail,
+      isGmail: isGmail,
+      isFacebook: isFacebook,
+      isApple: isApple,
+    );
   }
 
   _Authenticated authenticated({User? user = null}) {
@@ -63,7 +72,9 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -75,7 +86,8 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -87,7 +99,8 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -197,7 +210,9 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -212,7 +227,8 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -227,7 +243,8 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -301,6 +318,7 @@ abstract class _Initial implements AuthState {
 abstract class _$LoadingCopyWith<$Res> {
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
+  $Res call({bool isEmail, bool isGmail, bool isFacebook, bool isApple});
 }
 
 /// @nodoc
@@ -311,38 +329,105 @@ class __$LoadingCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 
   @override
   _Loading get _value => super._value as _Loading;
+
+  @override
+  $Res call({
+    Object? isEmail = freezed,
+    Object? isGmail = freezed,
+    Object? isFacebook = freezed,
+    Object? isApple = freezed,
+  }) {
+    return _then(_Loading(
+      isEmail: isEmail == freezed
+          ? _value.isEmail
+          : isEmail // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isGmail: isGmail == freezed
+          ? _value.isGmail
+          : isGmail // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFacebook: isFacebook == freezed
+          ? _value.isFacebook
+          : isFacebook // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isApple: isApple == freezed
+          ? _value.isApple
+          : isApple // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Loading with DiagnosticableTreeMixin implements _Loading {
-  const _$_Loading();
+  const _$_Loading(
+      {this.isEmail = false,
+      this.isGmail = false,
+      this.isFacebook = false,
+      this.isApple = false});
+
+  @JsonKey()
+  @override
+  final bool isEmail;
+  @JsonKey()
+  @override
+  final bool isGmail;
+  @JsonKey()
+  @override
+  final bool isFacebook;
+  @JsonKey()
+  @override
+  final bool isApple;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState.loading()';
+    return 'AuthState.loading(isEmail: $isEmail, isGmail: $isGmail, isFacebook: $isFacebook, isApple: $isApple)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'AuthState.loading'));
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState.loading'))
+      ..add(DiagnosticsProperty('isEmail', isEmail))
+      ..add(DiagnosticsProperty('isGmail', isGmail))
+      ..add(DiagnosticsProperty('isFacebook', isFacebook))
+      ..add(DiagnosticsProperty('isApple', isApple));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Loading);
+        (other.runtimeType == runtimeType &&
+            other is _Loading &&
+            const DeepCollectionEquality().equals(other.isEmail, isEmail) &&
+            const DeepCollectionEquality().equals(other.isGmail, isGmail) &&
+            const DeepCollectionEquality()
+                .equals(other.isFacebook, isFacebook) &&
+            const DeepCollectionEquality().equals(other.isApple, isApple));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(isEmail),
+      const DeepCollectionEquality().hash(isGmail),
+      const DeepCollectionEquality().hash(isFacebook),
+      const DeepCollectionEquality().hash(isApple));
+
+  @JsonKey(ignore: true)
+  @override
+  _$LoadingCopyWith<_Loading> get copyWith =>
+      __$LoadingCopyWithImpl<_Loading>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -350,14 +435,15 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     required TResult Function() firstRun,
     required TResult Function() personalDataUpdated,
   }) {
-    return loading();
+    return loading(isEmail, isGmail, isFacebook, isApple);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -365,14 +451,15 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     TResult Function()? firstRun,
     TResult Function()? personalDataUpdated,
   }) {
-    return loading?.call();
+    return loading?.call(isEmail, isGmail, isFacebook, isApple);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -382,7 +469,7 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading();
+      return loading(isEmail, isGmail, isFacebook, isApple);
     }
     return orElse();
   }
@@ -439,7 +526,16 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
 }
 
 abstract class _Loading implements AuthState {
-  const factory _Loading() = _$_Loading;
+  const factory _Loading(
+      {bool isEmail, bool isGmail, bool isFacebook, bool isApple}) = _$_Loading;
+
+  bool get isEmail;
+  bool get isGmail;
+  bool get isFacebook;
+  bool get isApple;
+  @JsonKey(ignore: true)
+  _$LoadingCopyWith<_Loading> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -516,7 +612,9 @@ class _$_Authenticated with DiagnosticableTreeMixin implements _Authenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -531,7 +629,8 @@ class _$_Authenticated with DiagnosticableTreeMixin implements _Authenticated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -546,7 +645,8 @@ class _$_Authenticated with DiagnosticableTreeMixin implements _Authenticated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -671,7 +771,9 @@ class _$_NotAuthenticated
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -686,7 +788,8 @@ class _$_NotAuthenticated
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -701,7 +804,8 @@ class _$_NotAuthenticated
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -843,7 +947,9 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -858,7 +964,8 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -873,7 +980,8 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -1000,7 +1108,9 @@ class _$_PasswordRequestSubmitted
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -1015,7 +1125,8 @@ class _$_PasswordRequestSubmitted
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -1030,7 +1141,8 @@ class _$_PasswordRequestSubmitted
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -1145,7 +1257,9 @@ class _$_FirstRun with DiagnosticableTreeMixin implements _FirstRun {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -1160,7 +1274,8 @@ class _$_FirstRun with DiagnosticableTreeMixin implements _FirstRun {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -1175,7 +1290,8 @@ class _$_FirstRun with DiagnosticableTreeMixin implements _FirstRun {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -1296,7 +1412,9 @@ class _$_PersonalDataUpdated
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(
+            bool isEmail, bool isGmail, bool isFacebook, bool isApple)
+        loading,
     required TResult Function(User? user) authenticated,
     required TResult Function() notAuthenticated,
     required TResult Function(String message) error,
@@ -1311,7 +1429,8 @@ class _$_PersonalDataUpdated
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,
@@ -1326,7 +1445,8 @@ class _$_PersonalDataUpdated
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool isEmail, bool isGmail, bool isFacebook, bool isApple)?
+        loading,
     TResult Function(User? user)? authenticated,
     TResult Function()? notAuthenticated,
     TResult Function(String message)? error,

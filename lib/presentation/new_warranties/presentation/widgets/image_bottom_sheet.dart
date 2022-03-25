@@ -1,5 +1,5 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 
 class ImageBottomSheet extends StatelessWidget {
   final VoidCallback? onRecieptPhotoTap;
@@ -16,7 +16,6 @@ class ImageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navCubit = context.read<NavCubit>();
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -29,7 +28,7 @@ class ImageBottomSheet extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    navCubit.pop();
+                    context.pop();
                   },
                   child: Text(context.appLocalizations.cancel),
                 ),

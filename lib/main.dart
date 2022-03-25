@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firefuel/firefuel.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
@@ -11,9 +14,7 @@ import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.da
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
-import 'package:warranty_keeper/presentation/login/login_view.dart';
-import 'package:warranty_keeper/routes.dart';
-import 'package:warranty_keeper/utils/app_navigator.dart';
+import 'package:warranty_keeper/routes/app_routes.dart';
 
 import 'app_library.dart';
 import 'firebase_options.dart';
@@ -23,6 +24,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Firefuel.initialize(FirebaseFirestore.instance);
   runApp(const MyApp());
 }
 
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _router = appRoutes();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<MainCubit>(
@@ -60,8 +64,9 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthCubit(FirebaseAuthRepository()),
         ),
       ],
-      child: MaterialApp(
-        navigatorKey: AppNavigator.rootNavigatorKey,
+      child: MaterialApp.router(
+        routerDelegate: _router.routerDelegate,
+        routeInformationParser: _router.routeInformationParser,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         title: 'Warranty Tracker',
@@ -86,7 +91,6 @@ class MyApp extends StatelessWidget {
           darkIsTrueBlack: false,
           useSubThemes: true,
           visualDensity: FlexColorScheme.comfortablePlatformDensity,
-          // To use playground font, add GoogleFonts package and uncomment:
           fontFamily: GoogleFonts.notoSans().fontFamily,
           subThemesData: const FlexSubThemesData(
             useTextTheme: true,
@@ -156,8 +160,8 @@ class MyApp extends StatelessWidget {
             },
           ),
         ), */
-        home: const LoginView(),
-        routes: appRoutes,
+        // home: const LoginView(),
+        // routes: appRoutes,
       ),
     );
   }
