@@ -1,6 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
+
+import '../../../routes/paths.dart';
 
 class ExpiringWarrantyCard extends StatelessWidget {
   const ExpiringWarrantyCard({
@@ -76,8 +79,8 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                       detailsCubit.selectedWarrantyInitial(
                                         state.expiringList[index],
                                       );
-                                      //TODO: change to go_router
-                                      // navCubit.detailsNav();
+                                      context
+                                          .push(Paths.warranty.selected.path);
                                     },
                                     child: Column(
                                       children: [

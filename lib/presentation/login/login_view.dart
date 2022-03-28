@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
@@ -7,8 +8,9 @@ import 'package:warranty_keeper/widgets/sign_in_options_icons.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
+import 'widgets/login_options.dart';
+
 class LoginView extends StatelessWidget {
-  static const routeName = '/loginView';
   const LoginView({Key? key}) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final loginCubit = context.read<LoginCubit>();
     final authCubit = context.read<AuthCubit>();
+    final appLocalizations = context.appLocalizations;
 
     errorSnackBar({required String message}) {
       return SnackBar(
@@ -52,65 +55,70 @@ class _Content extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(8),
               child: Text(
-                'Warranty Tracker',
+                appLocalizations.mainTitle,
                 style: context.textTheme.headline4
                     ?.copyWith(color: context.colorScheme.onPrimary),
               ),
             ),
             Flexible(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    BlocListener<AuthCubit, AuthState>(
-                      listener: (context, state) {
-                        // state.map(
-                        //   initial: initial,
-                        //   loading: loading,
-                        //   authenticated: authenticated,
-                        //   notAuthenticated: notAuthenticated,
-                        //   error: error,
-                        //   passwordRequestSubmitted: passwordRequestSubmitted,
-                        //   firstRun: firstRun,
-                        //   personalDataUpdated: personalDataUpdated,
-                        // );
-                        state.mapOrNull(
-                          error: (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              errorSnackBar(message: error.message),
-                            );
-                          },
-                        );
-                      },
-                      child: Container(),
-                    ),
-                    WarrantyTextField.general(
-                      isRequired: false,
-                      initialValue: '',
-                      hintText: 'Email',
-                      onChanged: loginCubit.changeEmail,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        BlocBuilder<LoginCubit, LoginState>(
-                          builder: (context, state) {
-                            return WarrantyTextField.obscured(
-                              onObscuredTap: loginCubit.toggleObscurity,
-                              isObscuredFunction: state.isObscured,
-                              isRequired: false,
-                              initialValue: '',
-                              hintText: 'Password',
-                              onChanged: loginCubit.changePassword,
-                            );
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Forgot Password?'),
-                          onPressed: () => context.push(Paths.warranty.name),
-                        ),
-                      ],
-                    ),
-                  ],
+              child: ScrollConfiguration(
+                behavior: const ScrollBehavior().copyWith(
+                  overscroll: false,
+                ),
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      BlocListener<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          // state.map(
+                          //   initial: initial,
+                          //   loading: loading,
+                          //   authenticated: authenticated,
+                          //   notAuthenticated: notAuthenticated,
+                          //   error: error,
+                          //   passwordRequestSubmitted: passwordRequestSubmitted,
+                          //   firstRun: firstRun,
+                          //   personalDataUpdated: personalDataUpdated,
+                          // );
+                          state.mapOrNull(
+                            error: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                errorSnackBar(message: error.message),
+                              );
+                            },
+                          );
+                        },
+                        child: const SizedBox(),
+                      ),
+                      WarrantyTextField.email(
+                        isRequired: false,
+                        initialValue: '',
+                        onChanged: loginCubit.changeEmail,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          BlocBuilder<LoginCubit, LoginState>(
+                            builder: (context, state) {
+                              return WarrantyTextField.obscured(
+                                onObscuredTap: loginCubit.toggleObscurity,
+                                isObscuredFunction: state.isObscured,
+                                isRequired: false,
+                                initialValue: '',
+                                hintText: 'Password',
+                                onChanged: loginCubit.changePassword,
+                              );
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Forgot Password?'),
+                            onPressed: () => context.push(Paths.warranty.name),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -147,64 +155,20 @@ class _Content extends StatelessWidget {
                 ),
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        WarrantyElevatedButton.iconLoading(
-                          onPressed: () {},
-                          isLoading:
-                              state == const AuthState.loading(isGmail: true),
-                          isEnabled: true,
-                          widget: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon(SignInOptions.google),
-                              Padding(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Text('Gmail'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                          child: WarrantyElevatedButton.iconLoading(
-                            onPressed: () {},
-                            isLoading: state ==
-                                const AuthState.loading(isFacebook: true),
-                            isEnabled: true,
-                            widget: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(SignInOptions.facebook),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child: Text('Facebook'),
-                                ),
-                              ],
+                    return Platform.isIOS
+                        ? LoginOptions(
+                            state: state,
+                            widget: WarrantyElevatedButton.iconLoading(
+                              onPressed: () {},
+                              isLoading: state ==
+                                  const AuthState.loading(isApple: true),
+                              isEnabled: true,
+                              widget: const Icon(SignInOptions.apple),
                             ),
-                          ),
-                        ),
-                        Platform.isIOS
-                            ? WarrantyElevatedButton.iconLoading(
-                                onPressed: () {},
-                                isLoading: state ==
-                                    const AuthState.loading(isApple: true),
-                                isEnabled: true,
-                                widget: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(SignInOptions.apple),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8.0),
-                                      child: Text('Apple'),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
-                      ],
-                    );
+                          )
+                        : LoginOptions(
+                            state: state,
+                          );
                   },
                 ),
               ],

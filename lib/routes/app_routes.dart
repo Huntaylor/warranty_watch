@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/presentation/login/login_view.dart';
@@ -21,9 +22,15 @@ GoRouter appRoutes(/* StreamController controller */) => GoRouter(
         ),
         GoRoute(
           path: Paths.login.name,
-          builder: (context, state) {
-            return const LoginView();
-          },
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            child: const LoginView(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          ),
           routes: [
             GoRoute(
               path: Paths.login.signup.name,

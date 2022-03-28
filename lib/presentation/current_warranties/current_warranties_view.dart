@@ -45,9 +45,7 @@ class _Content extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CurrentWidgetCard(
                         onSelect: () {
-                          context.push(Paths.warranty.selected.name);
-                          //TODO: add in go_router
-                          // navCubit.detailsNav();
+                          context.push(Paths.warranty.selected.path);
                           detailsCubit.selectedWarrantyInitial(
                             state.warrantyInfoList[index],
                           );

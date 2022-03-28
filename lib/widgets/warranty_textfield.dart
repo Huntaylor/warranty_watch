@@ -97,6 +97,29 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.text,
         super(key: key);
 
+  const WarrantyTextField.email({
+    this.maxLength,
+    this.maxLengthEnforcement,
+    required this.isRequired,
+    required this.initialValue,
+    this.onTap,
+    required this.onChanged,
+    this.initialDateTime,
+    this.startDateTime,
+    this.endDateTime,
+    key,
+    this.currentLength,
+  })  : initialText = '',
+        hintText = 'Email',
+        isDate = false,
+        isTextObscured = false,
+        onObscuredTap = null,
+        isObscuredFunction = false,
+        isLifeTime = false,
+        maxLines = 1,
+        textInputType = TextInputType.emailAddress,
+        super(key: key);
+
   const WarrantyTextField.obscured({
     this.maxLength,
     this.maxLengthEnforcement,

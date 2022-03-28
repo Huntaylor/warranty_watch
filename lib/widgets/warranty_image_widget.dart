@@ -69,13 +69,13 @@ class WarrantyImage extends StatelessWidget {
           (image != null)
               ? Stack(
                   children: [
-                    Container(
-                      // height: MediaQuery.of(context).size.height * .2,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
+                    Center(
+                      child: Container(
+                        // height: MediaQuery.of(context).size.height * .2,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         child: Image(
                           image: FileImage(File(image!)),
                           fit: BoxFit.fill,
@@ -93,9 +93,9 @@ class WarrantyImage extends StatelessWidget {
                               color: Colors.black,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.change_circle,
-                              color: Colors.lightBlue,
+                              color: Theme.of(context).primaryColorLight,
                               size: 36,
                             ),
                           ),
@@ -109,7 +109,7 @@ class WarrantyImage extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     decoration: BoxDecoration(
-                      color: context.themeData.cardColor,
+                      color: Theme.of(context).inputDecorationTheme.fillColor,
                       border: Border.all(color: context.colorScheme.primary),
                       borderRadius: BorderRadius.circular(15),
                     ),
