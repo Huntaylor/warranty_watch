@@ -10,7 +10,7 @@ class WarrantyImage extends StatelessWidget {
     required this.icon,
   }) : super(key: key);
 
-  final File? image;
+  final String? image;
   // final List<WarrantyImages>? fileList;
   final String text;
   final VoidCallback onTap;
@@ -77,7 +77,7 @@ class WarrantyImage extends StatelessWidget {
                       ),
                       child: Center(
                         child: Image(
-                          image: FileImage(image!),
+                          image: FileImage(File(image!)),
                           fit: BoxFit.fill,
                         ),
                       ),

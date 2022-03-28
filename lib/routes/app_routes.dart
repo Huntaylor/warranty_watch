@@ -3,6 +3,7 @@ import 'package:warranty_keeper/presentation/current_warranties/current_warranti
 import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/presentation/login/login_view.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/new_warranty_view.dart';
+import 'package:warranty_keeper/presentation/settings/settings_view.dart';
 import 'package:warranty_keeper/presentation/sign_up/sign_up_view.dart';
 import 'package:warranty_keeper/presentation/warranty_details/presentation/warranty_details_view.dart';
 import 'package:warranty_keeper/routes/paths.dart';
@@ -11,7 +12,8 @@ import 'package:warranty_keeper/routes/paths.dart';
 // context.go for navigation
 // eg. context.go(Paths.warranty.current.path);
 
-GoRouter appRoutes() => GoRouter(
+GoRouter appRoutes(/* StreamController controller */) => GoRouter(
+      // refreshListenable: GoRouterRefreshStream(controller.stream),
       routes: [
         GoRoute(
           path: Paths.initial.name,
@@ -31,10 +33,16 @@ GoRouter appRoutes() => GoRouter(
             ),
           ],
         ),
+        // GoRoute(
+        //   path: Paths.home.name,
+        //   builder: (context, state) {
+        //     return const HomeView();
+        //   },
+        // ),
         GoRoute(
-          path: Paths.home.name,
+          path: Paths.settings.name,
           builder: (context, state) {
-            return const HomeView();
+            return const SettingsView();
           },
         ),
         // GoRoute(
@@ -66,8 +74,8 @@ GoRouter appRoutes() => GoRouter(
               // /warranties/selected/:selectedId
               path: Paths.warranty.selected.name,
               builder: (context, state) {
-                final selectedId =
-                    state.params[Paths.warranty.selected.param] as String;
+                // final selectedId =
+                //     state.params[Paths.warranty.selected.param] as String;
                 return const WarrantyDetailsView();
               },
             ),

@@ -9,8 +9,8 @@ class WarrantyInfo extends Equatable implements Serializable {
   final Key warrantyId;
   final String? name;
   final DateTime? purchaseDate;
-  final String? warrWebsite;
-  final DateTime? endOfWarr;
+  final String? warrantyWebsite;
+  final DateTime? endOfWarranty;
   final DateTime? reminderDate;
   final String? details;
   final String? image;
@@ -22,8 +22,8 @@ class WarrantyInfo extends Equatable implements Serializable {
     this.name,
     this.purchaseDate,
     this.reminderDate,
-    this.warrWebsite,
-    this.endOfWarr,
+    this.warrantyWebsite,
+    this.endOfWarranty,
     this.details,
     this.image,
     this.receiptImage,
@@ -36,8 +36,8 @@ class WarrantyInfo extends Equatable implements Serializable {
   List<Object?> get props => [
         name,
         purchaseDate,
-        endOfWarr,
-        warrWebsite,
+        endOfWarranty,
+        warrantyWebsite,
         details,
         image,
         receiptImage,
@@ -68,8 +68,8 @@ class WarrantyInfo extends Equatable implements Serializable {
       warrantyId: warrantyId,
       name: name ?? this.name,
       purchaseDate: purchaseDate ?? DateTime.now(),
-      endOfWarr: endOfWarr ?? this.endOfWarr,
-      warrWebsite: warrWebsite ?? this.warrWebsite,
+      endOfWarranty: endOfWarr ?? this.endOfWarranty,
+      warrantyWebsite: warrWebsite ?? this.warrantyWebsite,
       details: details ?? this.details,
       image: image ?? this.image,
       receiptImage: receiptImage ?? this.receiptImage,
@@ -81,9 +81,9 @@ class WarrantyInfo extends Equatable implements Serializable {
     if (name == null) return false;
     if (name!.isEmpty) return false;
     if (purchaseDate == null) return false;
-    if (warrWebsite == 'https://' || warrWebsite == null) return false;
+    if (warrantyWebsite == 'https://' || warrantyWebsite == null) return false;
     if (image == null) return false;
-    if (endOfWarr == null && lifeTime != true) return false;
+    if (endOfWarranty == null && lifeTime != true) return false;
     return true;
   }
 
@@ -91,8 +91,8 @@ class WarrantyInfo extends Equatable implements Serializable {
     this.reminderDate,
     this.name,
     this.purchaseDate,
-    this.warrWebsite,
-    this.endOfWarr,
+    this.warrantyWebsite,
+    this.endOfWarranty,
     this.details,
     this.image,
     this.receiptImage,

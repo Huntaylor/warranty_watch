@@ -106,7 +106,7 @@ class _Content extends StatelessWidget {
                         ),
                         TextButton(
                           child: const Text('Forgot Password?'),
-                          onPressed: () => context.pushNamed(Paths.home.path),
+                          onPressed: () => context.push(Paths.warranty.name),
                         ),
                       ],
                     ),
@@ -116,7 +116,12 @@ class _Content extends StatelessWidget {
             ),
             Column(
               children: [
-                BlocBuilder<AuthCubit, AuthState>(
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    state.mapOrNull(
+                      authenticated: (value) => context.go(Paths.warranty.name),
+                    );
+                  },
                   builder: (context, state) {
                     return BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, loginState) {
@@ -138,7 +143,7 @@ class _Content extends StatelessWidget {
                 ),
                 TextButton(
                   child: const Text('Sign up'),
-                  onPressed: () => context.push(Paths.login.signup.path),
+                  onPressed: () => context.push(Paths.login.signup.name),
                 ),
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
@@ -161,20 +166,23 @@ class _Content extends StatelessWidget {
                             ],
                           ),
                         ),
-                        WarrantyElevatedButton.iconLoading(
-                          onPressed: () {},
-                          isLoading: state ==
-                              const AuthState.loading(isFacebook: true),
-                          isEnabled: true,
-                          widget: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon(SignInOptions.facebook),
-                              Padding(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Text('Facebook'),
-                              ),
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                          child: WarrantyElevatedButton.iconLoading(
+                            onPressed: () {},
+                            isLoading: state ==
+                                const AuthState.loading(isFacebook: true),
+                            isEnabled: true,
+                            widget: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(SignInOptions.facebook),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Text('Facebook'),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Platform.isIOS

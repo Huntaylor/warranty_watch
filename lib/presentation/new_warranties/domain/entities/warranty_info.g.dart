@@ -14,8 +14,8 @@ WarrantyInfo _$WarrantyInfoFromJson(Map json) => WarrantyInfo(
       reminderDate: json['reminderDate'] == null
           ? null
           : DateTime.parse(json['reminderDate'] as String),
-      warrWebsite: json['warrWebsite'] as String?,
-      endOfWarr: json['endOfWarr'] == null
+      warrantyWebsite: json['warrWebsite'] as String?,
+      endOfWarranty: json['endOfWarr'] == null
           ? null
           : DateTime.parse(json['endOfWarr'] as String),
       details: json['details'] as String?,
@@ -37,8 +37,8 @@ Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
 
   writeNotNull('name', instance.name);
   writeNotNull('purchaseDate', instance.purchaseDate?.toIso8601String());
-  writeNotNull('warrWebsite', instance.warrWebsite);
-  writeNotNull('endOfWarr', instance.endOfWarr?.toIso8601String());
+  writeNotNull('warrWebsite', instance.warrantyWebsite);
+  writeNotNull('endOfWarr', instance.endOfWarranty?.toIso8601String());
   writeNotNull('reminderDate', instance.reminderDate?.toIso8601String());
   writeNotNull('details', instance.details);
   writeNotNull('image', instance.image);

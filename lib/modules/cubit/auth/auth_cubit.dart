@@ -2,8 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
-import 'package:warranty_keeper/presentation/login/login_view.dart';
 
 part 'auth_state.dart';
 part 'auth_cubit.freezed.dart';
@@ -18,7 +16,7 @@ class AuthCubit extends Cubit<AuthState> {
         const AuthState.loading(
             isApple: false, isEmail: true, isGmail: false, isFacebook: false),
       );
-      await _authRepository.login(email, password);
+      await _authRepository.login(email.trim(), password.trim());
       User currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
         emit(
@@ -97,7 +95,7 @@ class AuthCubit extends Cubit<AuthState> {
         //TODO: change back to authenticated if there is a problem
         const AuthState.notAuthenticated(),
       );
-      NavCubit().appNavigator.pushNamedAndClearStack(LoginView.routeName);
+      // NavCubit().appNavigator.pushNamedAndClearStack(LoginView.routeName);
     } catch (e) {
       emit(
         AuthState.error(

@@ -89,11 +89,11 @@ class _Content extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Text(
                       appLocalizations.expiresOn(
-                        _countDown(detailsCubit.state.endOfWarr!),
-                        _dateFormat(detailsCubit.state.endOfWarr!),
+                        _countDown(detailsCubit.state.endOfWarranty!),
+                        _dateFormat(detailsCubit.state.endOfWarranty!),
                       ),
                       style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarr!)
+                        color: _dateDiff(detailsCubit.state.endOfWarranty!)
                             ? context.themeData.errorColor
                             : null,
                       ),
@@ -134,9 +134,9 @@ class _Content extends StatelessWidget {
             detailType: appLocalizations.productWebsite,
             detailContent: GestureDetector(
                 onTap: () =>
-                    detailsCubit.launch(detailsCubit.state.warrWebsite!),
+                    detailsCubit.launch(detailsCubit.state.warrantyWebsite!),
                 child: Text(
-                  detailsCubit.state.warrWebsite!,
+                  detailsCubit.state.warrantyWebsite!,
                   style: const TextStyle(
                     color: Colors.lightBlue,
                     decoration: TextDecoration.underline,

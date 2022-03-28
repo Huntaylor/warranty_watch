@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
@@ -42,7 +43,7 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final newWarrantyCubit = context.read<NewWarrantyCubit>();
-    final currWarrantyCubit = context.read<CurrentWarrantiesCubit>();
+    final currantWarrantyCubit = context.read<CurrentWarrantiesCubit>();
     final appLocalizations = context.appLocalizations;
 
     return SafeArea(
@@ -89,7 +90,7 @@ class _Content extends StatelessWidget {
                     ),
                     WarrantyTextField.webSite(
                       initialValue:
-                          newWarrantyCubit.state.warrWebsite ?? 'https://',
+                          newWarrantyCubit.state.warrantyWebsite ?? 'https://',
                       isRequired: true,
                       onChanged: newWarrantyCubit.changeWebsiteName,
                       hintText: appLocalizations.companyWebsite,
@@ -97,13 +98,15 @@ class _Content extends StatelessWidget {
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       builder: (context, state) {
                         return WarrantyTextField.date(
-                          initialValue: newWarrantyCubit.state.endOfWarr != null
-                              ? _dateFormat(newWarrantyCubit.state.endOfWarr!)
-                              : '',
+                          initialValue:
+                              newWarrantyCubit.state.endOfWarranty != null
+                                  ? _dateFormat(
+                                      newWarrantyCubit.state.endOfWarranty!)
+                                  : '',
                           isRequired: true,
                           isLifeTime: state.lifeTime,
                           endDateTime: DateTime(2050),
-                          initialDateTime: newWarrantyCubit.state.endOfWarr,
+                          initialDateTime: newWarrantyCubit.state.endOfWarranty,
                           startDateTime: DateTime.now(),
                           onChanged: newWarrantyCubit.changeEndDate,
                           hintText: appLocalizations.expirationDate,
@@ -126,7 +129,7 @@ class _Content extends StatelessWidget {
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       builder: (context, state) {
-                        return (state.lifeTime || state.endOfWarr == null)
+                        return (state.lifeTime || state.endOfWarranty == null)
                             ? const SizedBox()
                             : Column(
                                 children: [
@@ -149,7 +152,7 @@ class _Content extends StatelessWidget {
                                       isRequired: true,
                                       isLifeTime: state.lifeTime,
                                       endDateTime:
-                                          newWarrantyCubit.state.endOfWarr,
+                                          newWarrantyCubit.state.endOfWarranty,
                                       initialDateTime:
                                           newWarrantyCubit.state.reminderDate,
                                       startDateTime: DateTime.now(),
@@ -177,7 +180,7 @@ class _Content extends StatelessWidget {
                           previous.receiptImage != current.receiptImage,
                       builder: (context, state) {
                         return WarrantyImage(
-                          image: File(state.receiptImage!),
+                          image: state.receiptImage,
                           onTap: () {
                             showModalBottomSheet(
                               isDismissible: false,
@@ -193,10 +196,16 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  onRecieptPhotoTap:
-                                      newWarrantyCubit.changeReceiptPhotos,
-                                  onRecieptCameraTap:
-                                      newWarrantyCubit.changeReceiptCamera,
+                                  onRecieptPhotoTap: () async {
+                                    await newWarrantyCubit
+                                        .changeReceiptPhotos();
+                                    Navigator.pop(context);
+                                  },
+                                  onRecieptCameraTap: () async {
+                                    await newWarrantyCubit
+                                        .changeReceiptCamera();
+                                    Navigator.pop(context);
+                                  },
                                 );
                               },
                             );
@@ -213,7 +222,7 @@ class _Content extends StatelessWidget {
                           previous.image != current.image,
                       builder: (context, state) {
                         return WarrantyImage(
-                          image: File(state.image!),
+                          image: state.image,
                           onTap: () {
                             showModalBottomSheet(
                               enableDrag: false,
@@ -229,10 +238,17 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  onRecieptPhotoTap:
-                                      newWarrantyCubit.changeProductPhotos,
-                                  onRecieptCameraTap:
-                                      newWarrantyCubit.changeProductCamera,
+                                  onRecieptPhotoTap: () async {
+                                    await newWarrantyCubit
+                                        .changeProductPhotos();
+                                    Navigator.pop(context);
+                                  },
+                                  onRecieptCameraTap: () async {
+                                    await newWarrantyCubit
+                                        .changeProductCamera();
+                                    // Navigator.of(context).pop();
+                                    Navigator.pop(context);
+                                  },
                                 );
                               },
                             );
@@ -257,8 +273,13 @@ class _Content extends StatelessWidget {
                     isEnabled: newWarrantyCubit.verifyWarranty(),
                     onPressed: () async {
                       if (newWarrantyCubit.verifyWarranty()) {
-                        newWarrantyCubit.changeEditing();
-                        currWarrantyCubit.addOrEditWarranty(state);
+                        try {
+                          await newWarrantyCubit.changeEditing();
+                          await currantWarrantyCubit.addOrEditWarranty(state);
+                          context.pop();
+                        } catch (e) {
+                          debugPrint('$e');
+                        }
                       }
                     },
                     text: (state.isEditing)

@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firefuel/firefuel.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _router = appRoutes();
+    // final streamController = StreamController();
+    final _router = appRoutes(/* streamController */);
 
     return MultiBlocProvider(
       providers: [
@@ -130,7 +132,6 @@ class MyApp extends StatelessWidget {
           lightIsWhite: false,
           useSubThemes: true,
           visualDensity: FlexColorScheme.comfortablePlatformDensity,
-          // To use playground font, add GoogleFonts package and uncomment:
           fontFamily: GoogleFonts.notoSans().fontFamily,
           subThemesData: const FlexSubThemesData(
             useTextTheme: true,

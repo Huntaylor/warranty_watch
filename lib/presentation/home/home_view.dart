@@ -6,7 +6,6 @@ import 'package:warranty_keeper/routes/paths.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class HomeView extends StatelessWidget {
-  static const routeName = '/homeView';
   const HomeView({Key? key}) : super(key: key);
 
   @override
@@ -25,7 +24,7 @@ class HomeView extends StatelessWidget {
               itemBuilder: (_) => [
                 PopupMenuItem(
                   onTap: () {
-                    context.pushNamed(Paths.settings.path);
+                    context.push(Paths.settings.name);
                   },
                   child: const Text('Settings'),
                 ),
@@ -69,7 +68,8 @@ class _Content extends StatelessWidget {
             WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
-                context.pushNamed(Paths.warranty.current.path);
+                context.push(Paths.warranty.current.path);
+
                 // navCubit.appNavigator
                 //     .pushNamed(CurrentWarrantiesView.routeName);
               },
@@ -79,7 +79,7 @@ class _Content extends StatelessWidget {
             WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
-                context.pushNamed(Paths.warranty.newWarranty.path);
+                context.push(Paths.warranty.newWarranty.path);
                 newWarrCubit.clear();
                 // navCubit.newWarrNav();
               },

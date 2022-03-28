@@ -1,4 +1,3 @@
-import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 
 class ImageBottomSheet extends StatelessWidget {
@@ -28,7 +27,8 @@ class ImageBottomSheet extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    context.pop();
+                    // context.pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text(context.appLocalizations.cancel),
                 ),

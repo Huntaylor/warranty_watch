@@ -45,6 +45,7 @@ class _Content extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CurrentWidgetCard(
                         onSelect: () {
+                          context.push(Paths.warranty.selected.name);
                           //TODO: add in go_router
                           // navCubit.detailsNav();
                           detailsCubit.selectedWarrantyInitial(
@@ -54,7 +55,7 @@ class _Content extends StatelessWidget {
                         onEdit: () {
                           newRead.editWarrantyInitial(
                               state.warrantyInfoList[index]);
-                          context.pushNamed(Paths.warranty.newWarranty.path);
+                          context.push(Paths.warranty.newWarranty.name);
                         },
                         onRemove: () => currentCubit.removeWarranty(index),
                         warrantyInfo: state.warrantyInfoList[index],

@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firefuel/firefuel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/domain/user_collection.dart';
-import 'package:warranty_keeper/data/models/firebase_user.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
@@ -15,9 +13,9 @@ part 'current_warranties_state.dart';
 class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
   CurrentWarrantiesCubit() : super(const CurrentWarrantiesState.initial());
 
-  void addOrEditWarranty(WarrantyInfo warrantyInfo) async {
+  Future<void> addOrEditWarranty(WarrantyInfo warrantyInfo) async {
     final userColletion = UserCollection();
-    // const userId = 'userId';
+    final warrantyCollection = WarrantyCollection();
 
     List<WarrantyInfo> newList;
     List<WarrantyInfo> expiringList;
@@ -37,9 +35,12 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     } else {
       expiringList.add(warrantyInfo);
       try {
-        await userColletion.updateOrCreate(
-          docId: userColletion.currentUserDocId,
-          value: FirebaseUser(
+        await warrantyCollection.updateOrCreate(
+            docId: DocumentId(
+              warrantyInfo.warrantyId.toString(),
+            ),
+            value:
+                warrantyInfo /* FirebaseUser(
             warrantyId: warrantyInfo.warrantyId.toString(),
             name: warrantyInfo.name,
             purchaseDate: warrantyInfo.purchaseDate,
@@ -50,9 +51,8 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
             lifeTime: warrantyInfo.lifeTime,
             isEditing: warrantyInfo.isEditing,
             wantsReminders: warrantyInfo.wantsReminders,
-          ),
-        );
-        NavCubit().pop();
+          ), */
+            );
       } catch (e) {
         debugPrint('$e');
       }
@@ -62,16 +62,17 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     }
 
     if (expiringList.any(
-      (e) => e.endOfWarr!.difference(DateTime.now()).inDays < 30,
+      (e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30,
     )) {
       expiringList.removeWhere(
         (ee) =>
-            ee.endOfWarr!.difference(DateTime.now()).inDays > 30 || ee.lifeTime,
+            ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
+            ee.lifeTime,
       );
 
       expiringList.sort(
-        (a, b) => a.endOfWarr!.compareTo(
-          b.endOfWarr!,
+        (a, b) => a.endOfWarranty!.compareTo(
+          b.endOfWarranty!,
         ),
       );
       emit(

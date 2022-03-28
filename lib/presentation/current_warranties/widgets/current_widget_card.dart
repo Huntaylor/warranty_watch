@@ -52,10 +52,10 @@ class CurrentWidgetCard extends StatelessWidget {
                         ? Text(appLocalizations.hasLifetime)
                         : Text(
                             appLocalizations.expirationDetailsDate(
-                              _dateFormat(warrantyInfo.endOfWarr!),
+                              _dateFormat(warrantyInfo.endOfWarranty!),
                             ),
                             style: TextStyle(
-                              color: _dateDiff(warrantyInfo.endOfWarr!)
+                              color: _dateDiff(warrantyInfo.endOfWarranty!)
                                   ? Colors.red
                                   : null,
                             ),

@@ -106,7 +106,7 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                                 Text(
                                                   _dateFormat(
                                                     state.expiringList[index]
-                                                        .endOfWarr!,
+                                                        .endOfWarranty!,
                                                   ),
                                                 ),
                                               ],

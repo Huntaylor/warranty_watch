@@ -5,7 +5,7 @@ class Paths {
 
   static Path get initial => Path('');
   static Path get settings => Path('settings');
-  static Path get home => Path('home');
+  // static Path get home => Path('home');
   // static Path get login => Path('login');
   static LoginPath get login => LoginPath();
   static Path get signup => Path('signup');
@@ -17,11 +17,12 @@ class WarrantyPath extends Path {
 
   Path get newWarranty => Path('new', path);
   Path get current => Path('current', path);
-  PathWithParam get selected => PathWithParam(
-        'selected',
-        'selectedId',
-        path: path,
-      );
+  Path get selected => Path('selected', path);
+  // PathWithParam get selected => PathWithParam(
+  //       'selected',
+  //       'selectedId',
+  //       path: path,
+  //     );
 }
 
 class LoginPath extends Path {
