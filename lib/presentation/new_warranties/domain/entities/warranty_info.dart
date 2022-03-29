@@ -1,5 +1,6 @@
 import 'package:firefuel/firefuel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:warranty_keeper/app_library.dart';
 
 part 'warranty_info.g.dart';
@@ -18,18 +19,20 @@ class WarrantyInfo extends Equatable implements Serializable {
   final bool lifeTime;
   final bool isEditing;
   final bool wantsReminders;
+  final bool isLoading;
   WarrantyInfo({
     this.name,
     this.purchaseDate,
-    this.reminderDate,
     this.warrantyWebsite,
     this.endOfWarranty,
+    this.reminderDate,
     this.details,
     this.image,
     this.receiptImage,
     this.lifeTime = false,
     this.isEditing = false,
     this.wantsReminders = false,
+    this.isLoading = false,
   }) : warrantyId = UniqueKey();
 
   @override
@@ -46,6 +49,7 @@ class WarrantyInfo extends Equatable implements Serializable {
         warrantyId,
         wantsReminders,
         reminderDate,
+        isLoading,
       ];
 
   WarrantyInfo copyWith({
@@ -60,21 +64,22 @@ class WarrantyInfo extends Equatable implements Serializable {
     bool? lifeTime,
     bool? isEditing,
     bool? wantsReminders,
+    bool? isLoading,
   }) {
     return WarrantyInfo._(
-      reminderDate: reminderDate ?? this.reminderDate,
-      wantsReminders: wantsReminders ?? this.wantsReminders,
-      isEditing: isEditing ?? this.isEditing,
-      warrantyId: warrantyId,
-      name: name ?? this.name,
-      purchaseDate: purchaseDate ?? DateTime.now(),
-      endOfWarranty: endOfWarranty ?? this.endOfWarranty,
-      warrantyWebsite: warrantyWebsite ?? this.warrantyWebsite,
-      details: details ?? this.details,
-      image: image ?? this.image,
-      receiptImage: receiptImage ?? this.receiptImage,
-      lifeTime: lifeTime ?? this.lifeTime,
-    );
+        reminderDate: reminderDate ?? this.reminderDate,
+        wantsReminders: wantsReminders ?? this.wantsReminders,
+        isEditing: isEditing ?? this.isEditing,
+        warrantyId: warrantyId,
+        name: name ?? this.name,
+        purchaseDate: purchaseDate ?? DateTime.now(),
+        endOfWarranty: endOfWarranty ?? this.endOfWarranty,
+        warrantyWebsite: warrantyWebsite ?? this.warrantyWebsite,
+        details: details ?? this.details,
+        image: image ?? this.image,
+        receiptImage: receiptImage ?? this.receiptImage,
+        lifeTime: lifeTime ?? this.lifeTime,
+        isLoading: isLoading ?? this.isLoading);
   }
 
   bool canSave() {
@@ -96,6 +101,7 @@ class WarrantyInfo extends Equatable implements Serializable {
     this.details,
     this.image,
     this.receiptImage,
+    required this.isLoading,
     required this.lifeTime,
     required this.isEditing,
     required this.warrantyId,

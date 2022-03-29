@@ -14,7 +14,10 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(
         const AuthState.loading(
-            isApple: false, isEmail: true, isGmail: false, isFacebook: false),
+          isApple: false,
+          isEmail: true,
+          isGmail: false,
+        ),
       );
       await _authRepository.login(email.trim(), password.trim());
       User currentUser = _authRepository.currentUser();
@@ -22,7 +25,6 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           AuthState.authenticated(user: currentUser),
         );
-        // NavCubit().appNavigator.pushNamedAndClearStack(HomeView.routeName);
       } else {
         emit(
           const AuthState.notAuthenticated(),
@@ -41,7 +43,72 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(
         const AuthState.loading(
-            isApple: false, isEmail: false, isGmail: true, isFacebook: false),
+          isApple: false,
+          isEmail: false,
+          isGmail: true,
+        ),
+      );
+      await _authRepository.signInWithGoogle();
+      User currentUser = _authRepository.currentUser();
+      if (currentUser.uid != null) {
+        emit(
+          AuthState.authenticated(
+            user: currentUser,
+          ),
+        );
+      } else {
+        emit(
+          const AuthState.notAuthenticated(),
+        );
+      }
+    } catch (e) {
+      emit(
+        AuthState.error(
+          message: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future loginWithApple() async {
+    try {
+      emit(
+        const AuthState.loading(
+          isApple: true,
+          isEmail: false,
+          isGmail: false,
+        ),
+      );
+      await _authRepository.signinWithApple();
+      User currentUser = _authRepository.currentUser();
+      if (currentUser.uid != null) {
+        emit(
+          AuthState.authenticated(
+            user: currentUser,
+          ),
+        );
+      } else {
+        emit(
+          const AuthState.notAuthenticated(),
+        );
+      }
+    } catch (e) {
+      emit(
+        AuthState.error(
+          message: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future loginWithFacebook() async {
+    try {
+      emit(
+        const AuthState.loading(
+          isApple: false,
+          isEmail: false,
+          isGmail: true,
+        ),
       );
       await _authRepository.signInWithGoogle();
       User currentUser = _authRepository.currentUser();
@@ -95,7 +162,6 @@ class AuthCubit extends Cubit<AuthState> {
         //TODO: change back to authenticated if there is a problem
         const AuthState.notAuthenticated(),
       );
-      // NavCubit().appNavigator.pushNamedAndClearStack(LoginView.routeName);
     } catch (e) {
       emit(
         AuthState.error(

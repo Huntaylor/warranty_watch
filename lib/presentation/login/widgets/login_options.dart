@@ -18,20 +18,20 @@ class LoginOptions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         WarrantyElevatedButton.iconLoading(
-          onPressed: () {},
+          onPressed: () => context.read<AuthCubit>().loginWithGoogle(),
           isLoading: state == const AuthState.loading(isGmail: true),
           isEnabled: true,
           widget: const Icon(SignInOptions.google),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3.0),
-          child: WarrantyElevatedButton.iconLoading(
-            onPressed: () {},
-            isLoading: state == const AuthState.loading(isFacebook: true),
-            isEnabled: true,
-            widget: const Icon(SignInOptions.facebook),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 3.0),
+        //   child: WarrantyElevatedButton.iconLoading(
+        //     onPressed: () {},
+        //     isLoading: state == const AuthState.loading(isFacebook: true),
+        //     isEnabled: true,
+        //     widget: const Icon(SignInOptions.facebook),
+        //   ),
+        // ),
         if (widget != null) widget!
       ],
     );

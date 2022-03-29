@@ -7,7 +7,6 @@ class AuthState with _$AuthState {
   const factory AuthState.loading({
     @Default(false) bool isEmail,
     @Default(false) bool isGmail,
-    @Default(false) bool isFacebook,
     @Default(false) bool isApple,
   }) = _Loading;
 

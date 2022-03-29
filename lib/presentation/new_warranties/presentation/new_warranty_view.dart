@@ -196,6 +196,7 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
+                                  isLoading: state.isLoading,
                                   onRecieptPhotoTap: () async {
                                     await newWarrantyCubit
                                         .changeReceiptPhotos();
@@ -238,6 +239,7 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
+                                  isLoading: state.isLoading,
                                   onRecieptPhotoTap: () async {
                                     await newWarrantyCubit
                                         .changeProductPhotos();

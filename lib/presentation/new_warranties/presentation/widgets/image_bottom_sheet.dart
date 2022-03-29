@@ -5,86 +5,93 @@ class ImageBottomSheet extends StatelessWidget {
   final VoidCallback? onRecieptCameraTap;
   final VoidCallback? onProductCameraTap;
   final VoidCallback? onProductPhotoTap;
+  final bool isLoading;
   const ImageBottomSheet({
     Key? key,
     this.onRecieptPhotoTap,
     this.onRecieptCameraTap,
     this.onProductCameraTap,
     this.onProductPhotoTap,
+    required this.isLoading,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    // context.pop();
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(context.appLocalizations.cancel),
-                ),
-                Text(context.appLocalizations.addItem),
-                const SizedBox(
-                  width: 48,
-                ),
-              ],
-            ),
-          ),
-          const Divider(
-            height: 24,
-            thickness: 2,
-          ),
-          Flexible(
-            child: Column(
+      child: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: onRecieptPhotoTap ?? onProductPhotoTap ?? () {},
+                Flexible(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        Icons.photo_outlined,
-                        color: Colors.orange[400],
+                      TextButton(
+                        onPressed: () {
+                          // context.pop();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(context.appLocalizations.cancel),
                       ),
+                      Text(context.appLocalizations.addItem),
                       const SizedBox(
-                        width: 8,
+                        width: 48,
                       ),
-                      Text(context.appLocalizations.photos),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 16,
+                const Divider(
+                  height: 24,
+                  thickness: 2,
                 ),
-                GestureDetector(
-                  onTap: onRecieptCameraTap ?? onProductCameraTap ?? () {},
-                  child: Row(
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.green[400],
+                      GestureDetector(
+                        onTap: onRecieptPhotoTap ?? onProductPhotoTap ?? () {},
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.photo_outlined,
+                              color: Colors.orange[400],
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(context.appLocalizations.photos),
+                          ],
+                        ),
                       ),
                       const SizedBox(
-                        width: 8,
+                        height: 16,
                       ),
-                      Text(context.appLocalizations.camera),
+                      GestureDetector(
+                        onTap:
+                            onRecieptCameraTap ?? onProductCameraTap ?? () {},
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.camera_alt_outlined,
+                              color: Colors.green[400],
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(context.appLocalizations.camera),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

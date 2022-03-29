@@ -266,45 +266,61 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
   }
 
   Future<void> changeProductCamera() async {
-    final imagePicker = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxWidth: 600,
+    emit(
+      state.copyWith(
+        isLoading: true,
+      ),
     );
-    if (imagePicker != null) {
-      final appDir = await syspaths.getApplicationDocumentsDirectory();
-      final fileName = path.basename(imagePicker.path);
-      final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
-
-      emit(
-        state.copyWith(
-          image: imagePicker.path,
-          lifeTime: state.lifeTime,
-          name: state.name,
-          purchaseDate: state.purchaseDate,
-          endOfWarranty: state.endOfWarranty,
-          reminderDate: state.reminderDate,
-          warrantyWebsite: state.warrantyWebsite,
-          details: state.details,
-          receiptImage: state.receiptImage,
-          isEditing: state.isEditing,
-          wantsReminders: state.wantsReminders,
-        ),
+    try {
+      final imagePicker = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        maxWidth: 600,
       );
+      if (imagePicker != null) {
+        final appDir = await syspaths.getApplicationDocumentsDirectory();
+        final fileName = path.basename(imagePicker.path);
+        final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
+
+        emit(
+          state.copyWith(
+            image: imagePicker.path,
+            lifeTime: state.lifeTime,
+            name: state.name,
+            purchaseDate: state.purchaseDate,
+            endOfWarranty: state.endOfWarranty,
+            reminderDate: state.reminderDate,
+            warrantyWebsite: state.warrantyWebsite,
+            details: state.details,
+            receiptImage: state.receiptImage,
+            isEditing: state.isEditing,
+            wantsReminders: state.wantsReminders,
+            isLoading: false,
+          ),
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<void> changeProductPhotos() async {
-    final imagePicker = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 600,
+    emit(
+      state.copyWith(
+        isLoading: true,
+      ),
     );
-    if (imagePicker != null) {
-      final appDir = await syspaths.getApplicationDocumentsDirectory();
-      final fileName = path.basename(imagePicker.path);
-      final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
+    try {
+      final imagePicker = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 600,
+      );
+      if (imagePicker != null) {
+        final appDir = await syspaths.getApplicationDocumentsDirectory();
+        final fileName = path.basename(imagePicker.path);
+        final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
 
-      emit(
-        state.copyWith(
+        emit(
+          state.copyWith(
             image: imagePicker.path,
             lifeTime: state.lifeTime,
             name: state.name,
@@ -315,67 +331,92 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             details: state.details,
             isEditing: state.isEditing,
             wantsReminders: state.wantsReminders,
-            receiptImage: state.receiptImage),
-      );
+            receiptImage: state.receiptImage,
+            isLoading: false,
+          ),
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<void> changeReceiptCamera() async {
-    final imagePicker = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxWidth: 600,
+    emit(
+      state.copyWith(
+        isLoading: true,
+      ),
     );
-
-    if (imagePicker != null) {
-      final appDir = await syspaths.getApplicationDocumentsDirectory();
-      final fileName = path.basename(imagePicker.path);
-      final savedreceiptImage =
-          await imagePicker.saveTo('${appDir.path}/$fileName');
-
-      emit(
-        state.copyWith(
-          receiptImage: imagePicker.path,
-          lifeTime: state.lifeTime,
-          name: state.name,
-          purchaseDate: state.purchaseDate,
-          endOfWarranty: state.endOfWarranty,
-          reminderDate: state.reminderDate,
-          warrantyWebsite: state.warrantyWebsite,
-          details: state.details,
-          image: state.image,
-          isEditing: state.isEditing,
-          wantsReminders: state.wantsReminders,
-        ),
+    try {
+      final imagePicker = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        maxWidth: 600,
       );
+
+      if (imagePicker != null) {
+        final appDir = await syspaths.getApplicationDocumentsDirectory();
+        final fileName = path.basename(imagePicker.path);
+        final savedreceiptImage =
+            await imagePicker.saveTo('${appDir.path}/$fileName');
+
+        emit(
+          state.copyWith(
+            receiptImage: imagePicker.path,
+            lifeTime: state.lifeTime,
+            name: state.name,
+            purchaseDate: state.purchaseDate,
+            endOfWarranty: state.endOfWarranty,
+            reminderDate: state.reminderDate,
+            warrantyWebsite: state.warrantyWebsite,
+            details: state.details,
+            image: state.image,
+            isEditing: state.isEditing,
+            wantsReminders: state.wantsReminders,
+            isLoading: false,
+          ),
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<void> changeReceiptPhotos() async {
+    emit(
+      state.copyWith(
+        isLoading: true,
+      ),
+    );
     final imagePicker = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 600,
     );
-    if (imagePicker != null) {
-      final appDir = await syspaths.getApplicationDocumentsDirectory();
-      final fileName = path.basename(imagePicker.path);
-      final savedreceiptImage =
-          await imagePicker.saveTo('${appDir.path}/$fileName');
+    try {
+      if (imagePicker != null) {
+        final appDir = await syspaths.getApplicationDocumentsDirectory();
+        final fileName = path.basename(imagePicker.path);
+        final savedreceiptImage =
+            await imagePicker.saveTo('${appDir.path}/$fileName');
 
-      emit(
-        state.copyWith(
-          receiptImage: imagePicker.path,
-          lifeTime: state.lifeTime,
-          name: state.name,
-          purchaseDate: state.purchaseDate,
-          endOfWarranty: state.endOfWarranty,
-          reminderDate: state.reminderDate,
-          warrantyWebsite: state.warrantyWebsite,
-          details: state.details,
-          image: state.image,
-          isEditing: state.isEditing,
-          wantsReminders: state.wantsReminders,
-        ),
-      );
+        emit(
+          state.copyWith(
+            receiptImage: imagePicker.path,
+            lifeTime: state.lifeTime,
+            name: state.name,
+            purchaseDate: state.purchaseDate,
+            endOfWarranty: state.endOfWarranty,
+            reminderDate: state.reminderDate,
+            warrantyWebsite: state.warrantyWebsite,
+            details: state.details,
+            image: state.image,
+            isEditing: state.isEditing,
+            wantsReminders: state.wantsReminders,
+            isLoading: false,
+          ),
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 

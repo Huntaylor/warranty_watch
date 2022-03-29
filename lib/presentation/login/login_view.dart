@@ -159,7 +159,9 @@ class _Content extends StatelessWidget {
                         ? LoginOptions(
                             state: state,
                             widget: WarrantyElevatedButton.iconLoading(
-                              onPressed: () {},
+                              onPressed: () async {
+                                await authCubit.loginWithApple();
+                              },
                               isLoading: state ==
                                   const AuthState.loading(isApple: true),
                               isEnabled: true,
