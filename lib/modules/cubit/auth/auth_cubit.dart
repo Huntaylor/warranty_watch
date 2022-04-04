@@ -120,7 +120,6 @@ class AuthCubit extends Cubit<AuthState> {
         );
       } else {
         emit(
-          //TODO: change back to authenticated if there is a problem
           const AuthState.notAuthenticated(),
         );
       }
@@ -159,7 +158,6 @@ class AuthCubit extends Cubit<AuthState> {
       );
       await _authRepository.logout();
       emit(
-        //TODO: change back to authenticated if there is a problem
         const AuthState.notAuthenticated(),
       );
     } catch (e) {

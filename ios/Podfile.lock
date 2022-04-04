@@ -10,14 +10,6 @@ PODS:
     - Firebase/Firestore (= 8.11.0)
     - firebase_core
     - Flutter
-  - FBAEMKit (13.0.0):
-    - FBSDKCoreKit_Basics (= 13.0.0)
-  - FBSDKCoreKit (13.0.0):
-    - FBAEMKit (= 13.0.0)
-    - FBSDKCoreKit_Basics (= 13.0.0)
-  - FBSDKCoreKit_Basics (13.0.0)
-  - FBSDKLoginKit (13.0.0):
-    - FBSDKCoreKit (= 13.0.0)
   - Firebase/Analytics (8.11.0):
     - Firebase/Core
   - Firebase/Auth (8.11.0):
@@ -34,6 +26,9 @@ PODS:
   - Firebase/Messaging (8.11.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.11.0)
+  - Firebase/Storage (8.11.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 8.11.0)
   - firebase_analytics (9.1.2):
     - Firebase/Analytics (= 8.11.0)
     - firebase_core
@@ -47,6 +42,10 @@ PODS:
     - Flutter
   - firebase_messaging (11.2.11):
     - Firebase/Messaging (= 8.11.0)
+    - firebase_core
+    - Flutter
+  - firebase_storage (10.2.10):
+    - Firebase/Storage (= 8.11.0)
     - firebase_core
     - Flutter
   - FirebaseAnalytics (8.11.0):
@@ -103,11 +102,10 @@ PODS:
     - GoogleUtilities/Reachability (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
     - nanopb (~> 2.30908.0)
+  - FirebaseStorage (8.11.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
   - Flutter (1.0.0)
-  - flutter_facebook_auth (4.1.2):
-    - FBSDKCoreKit (~> 13.0.0)
-    - FBSDKLoginKit (~> 13.0.0)
-    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -192,9 +190,9 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
+  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `8.11.0`)
   - Flutter (from `Flutter`)
-  - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
@@ -206,10 +204,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
-    - FBAEMKit
-    - FBSDKCoreKit
-    - FBSDKCoreKit_Basics
-    - FBSDKLoginKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -217,6 +211,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
     - FirebaseMessaging
+    - FirebaseStorage
     - FMDB
     - GoogleAppMeasurement
     - GoogleDataTransport
@@ -240,13 +235,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
+  firebase_storage:
+    :path: ".symlinks/plugins/firebase_storage/ios"
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
     :tag: 8.11.0
   Flutter:
     :path: Flutter
-  flutter_facebook_auth:
-    :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_picker:
@@ -271,15 +266,12 @@ SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   camera: 9993f92f2c793e87b65e35f3a23c70582afb05b1
   cloud_firestore: c6c42fe62809b7417aa3c45a6ef0c2812f7fb0d6
-  FBAEMKit: 11a0bcdc7a88e26ed764bcf56372afc6cbbbdcd9
-  FBSDKCoreKit: 00e1e751257e1005304fa29cb683d2dfe008f41a
-  FBSDKCoreKit_Basics: 96ec2ddb67a032e54f0754ea3d59db6f84f42389
-  FBSDKLoginKit: 66ff4ddf372d9c3fc360e65ae048a47a482c29b9
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
   firebase_analytics: 20841ef6a705a412c737deb2fe98290e9242d323
   firebase_auth: bdfbd5b10da1db6d5eb6ae7dbda5d81365b9cc9d
   firebase_core: 08f6a85f62060111de5e98d6a214810d11365de9
   firebase_messaging: 4a993bb4aa1a83349988d853c637fbb0494dab15
+  firebase_storage: 335d55eff0dcf435230b43c8ffa5c55b769fc7eb
   FirebaseAnalytics: 4e4b13031034e6561ed3bd1d47b6fdabbd6487c6
   FirebaseAuth: d96d73aba85d192d7a7aa0b86dd6d7f8ec170b4b
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
@@ -287,8 +279,8 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 8a0c6a06219bbaad86c72bcb66688c28995dde84
   FirebaseInstallations: 25764cf322e77f99449395870a65b2bef88e1545
   FirebaseMessaging: 02e248e8997f71fa8cc9d78e9d49ec1a701ba14a
+  FirebaseStorage: 4d05cb1112ff8822a0f9f5090da8bd6d550602ec
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_facebook_auth: c0a8473f857cf44b0a27bfe752facf1d5fedd863
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: f669f45933dad48cd218dc3e189726bced3d19f4
   GoogleAppMeasurement: aa3cb422fab2b05d2efac543a5720d1a85b9dea5

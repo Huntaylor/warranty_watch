@@ -27,7 +27,9 @@ class UserCollection extends FirefuelCollection<FirebaseUser> {
 
 class WarrantyCollection extends FirefuelCollection<WarrantyInfo> {
   WarrantyCollection()
-      : super('users/${FirebaseAuth.instance.currentUser!.uid}/warranties');
+      : super('users/${FirebaseAuth.instance.currentUser!.uid}/$name');
+
+  static const String name = 'warranties';
 
   @override
   WarrantyInfo? fromFirestore(

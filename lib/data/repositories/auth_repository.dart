@@ -132,7 +132,12 @@ class FirebaseAuthRepository implements AuthRepository {
       String firstname, String lastName, String birthday) async {
     try {
       await users.doc(currentUser().uid).set(
-          {'firstName': firstname, 'lastName': lastName, 'birthday': birthday});
+        {
+          'firstName': firstname,
+          'lastName': lastName,
+          'birthday': birthday,
+        },
+      );
     } catch (e) {
       rethrow;
     }

@@ -151,7 +151,7 @@ class _Content extends StatelessWidget {
                 ),
                 TextButton(
                   child: const Text('Sign up'),
-                  onPressed: () => context.push(Paths.login.signup.name),
+                  onPressed: () => context.push(Paths.login.signup.path),
                 ),
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
@@ -160,7 +160,8 @@ class _Content extends StatelessWidget {
                             state: state,
                             widget: WarrantyElevatedButton.iconLoading(
                               onPressed: () async {
-                                await authCubit.loginWithApple();
+                                //TODO: ADD AFTER APPLE ID IS SET UP
+                                // await authCubit.loginWithApple();
                               },
                               isLoading: state ==
                                   const AuthState.loading(isApple: true),

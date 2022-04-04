@@ -34,9 +34,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSCameraUsageDescription</key>
-<string>Can I use the camera please?</string>
+<string>We need access for you to pick an image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-<string>Can I use the camera please?</string>
+<string>We need access for you to use an image</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -11,19 +11,20 @@ WarrantyInfo _$WarrantyInfoFromJson(Map json) => WarrantyInfo(
       purchaseDate: json['purchaseDate'] == null
           ? null
           : DateTime.parse(json['purchaseDate'] as String),
+      warrantyWebsite: json['warrantyWebsite'] as String?,
+      endOfWarranty: json['endOfWarranty'] == null
+          ? null
+          : DateTime.parse(json['endOfWarranty'] as String),
       reminderDate: json['reminderDate'] == null
           ? null
           : DateTime.parse(json['reminderDate'] as String),
-      warrantyWebsite: json['warrWebsite'] as String?,
-      endOfWarranty: json['endOfWarr'] == null
-          ? null
-          : DateTime.parse(json['endOfWarr'] as String),
       details: json['details'] as String?,
       image: json['image'] as String?,
       receiptImage: json['receiptImage'] as String?,
       lifeTime: json['lifeTime'] as bool? ?? false,
       isEditing: json['isEditing'] as bool? ?? false,
       wantsReminders: json['wantsReminders'] as bool? ?? false,
+      isLoading: json['isLoading'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
@@ -37,8 +38,8 @@ Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
 
   writeNotNull('name', instance.name);
   writeNotNull('purchaseDate', instance.purchaseDate?.toIso8601String());
-  writeNotNull('warrWebsite', instance.warrantyWebsite);
-  writeNotNull('endOfWarr', instance.endOfWarranty?.toIso8601String());
+  writeNotNull('warrantyWebsite', instance.warrantyWebsite);
+  writeNotNull('endOfWarranty', instance.endOfWarranty?.toIso8601String());
   writeNotNull('reminderDate', instance.reminderDate?.toIso8601String());
   writeNotNull('details', instance.details);
   writeNotNull('image', instance.image);
@@ -46,5 +47,6 @@ Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
   val['lifeTime'] = instance.lifeTime;
   val['isEditing'] = instance.isEditing;
   val['wantsReminders'] = instance.wantsReminders;
+  val['isLoading'] = instance.isLoading;
   return val;
 }

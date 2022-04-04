@@ -164,20 +164,24 @@ class _Content extends StatelessWidget {
                       },
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                        builder: (context, state) {
-                      return WarrantyTextField.form(
-                        currentLength:
-                            (state.details != null) ? state.details!.length : 0,
-                        maxLength: 100,
-                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                        initialValue: state.details ?? '',
-                        onChanged: newWarrantyCubit.changeAddtionalDetails,
-                        hintText: appLocalizations.additionalDetails,
-                      );
-                    }),
+                      builder: (context, state) {
+                        return WarrantyTextField.form(
+                          currentLength: (state.details != null)
+                              ? state.details!.length
+                              : 0,
+                          maxLength: 100,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                          initialValue: state.details ?? '',
+                          onChanged: newWarrantyCubit.changeAddtionalDetails,
+                          hintText: appLocalizations.additionalDetails,
+                        );
+                      },
+                    ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.receiptImage != current.receiptImage,
+                      // buildWhen: (previous, current) {
+                      //   return previous.receiptImage != current.receiptImage ||
+                      //       previous.isLoading != current.isLoading;
+                      // },
                       builder: (context, state) {
                         return WarrantyImage(
                           image: state.receiptImage,
@@ -196,16 +200,18 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  isLoading: state.isLoading,
                                   onRecieptPhotoTap: () async {
+                                    // await newWarrantyCubit.loadingImage();
                                     await newWarrantyCubit
                                         .changeReceiptPhotos();
                                     Navigator.pop(context);
+                                    await newWarrantyCubit.loadingImage();
                                   },
                                   onRecieptCameraTap: () async {
                                     await newWarrantyCubit
                                         .changeReceiptCamera();
                                     Navigator.pop(context);
+                                    await newWarrantyCubit.loadingImage();
                                   },
                                 );
                               },
@@ -219,8 +225,8 @@ class _Content extends StatelessWidget {
                       },
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.image != current.image,
+                      // buildWhen: (previous, current) =>
+                      //     previous.image != current.image,
                       builder: (context, state) {
                         return WarrantyImage(
                           image: state.image,
@@ -239,7 +245,6 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  isLoading: state.isLoading,
                                   onRecieptPhotoTap: () async {
                                     await newWarrantyCubit
                                         .changeProductPhotos();
