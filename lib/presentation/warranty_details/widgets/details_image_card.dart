@@ -1,10 +1,10 @@
 import 'package:warranty_keeper/app_library.dart';
 
 class DetailsImageCard extends StatelessWidget {
-  final File file;
+  final String url;
   const DetailsImageCard({
     Key? key,
-    required this.file,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -14,8 +14,8 @@ class DetailsImageCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
       ),
-      child: Image.file(
-        file,
+      child: Image.network(
+        url,
         height: MediaQuery.of(context).size.height * .3,
       ),
     );

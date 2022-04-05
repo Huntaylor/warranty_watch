@@ -3,14 +3,14 @@ import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.da
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 class ImageBottomSheet extends StatelessWidget {
-  final VoidCallback? onRecieptPhotoTap;
-  final VoidCallback? onRecieptCameraTap;
+  final VoidCallback? onReceiptPhotoTap;
+  final VoidCallback? onReceiptCameraTap;
   final VoidCallback? onProductCameraTap;
   final VoidCallback? onProductPhotoTap;
   const ImageBottomSheet({
     Key? key,
-    this.onRecieptPhotoTap,
-    this.onRecieptCameraTap,
+    this.onReceiptPhotoTap,
+    this.onReceiptCameraTap,
     this.onProductCameraTap,
     this.onProductPhotoTap,
   }) : super(key: key);
@@ -18,7 +18,8 @@ class ImageBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-      buildWhen: (previous, current) => previous.isLoading != current.isLoading,
+      buildWhen: (previous, current) =>
+          previous.warrantyState != current.warrantyState,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(15.0),
@@ -49,7 +50,7 @@ class ImageBottomSheet extends StatelessWidget {
                 thickness: 2,
               ),
               Flexible(
-                child: state.isLoading
+                child: state.warrantyState == WarrantyState.loadingImage
                     ? const Align(
                         alignment: Alignment.center,
                         child: CircularProgressIndicator(),
@@ -59,7 +60,7 @@ class ImageBottomSheet extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap:
-                                onRecieptPhotoTap ?? onProductPhotoTap ?? () {},
+                                onReceiptPhotoTap ?? onProductPhotoTap ?? () {},
                             child: Row(
                               children: [
                                 Icon(
@@ -77,7 +78,7 @@ class ImageBottomSheet extends StatelessWidget {
                             height: 16,
                           ),
                           GestureDetector(
-                            onTap: onRecieptCameraTap ??
+                            onTap: onReceiptCameraTap ??
                                 onProductCameraTap ??
                                 () {},
                             child: Row(

@@ -7,6 +7,10 @@ part of 'warranty_info.dart';
 // **************************************************************************
 
 WarrantyInfo _$WarrantyInfoFromJson(Map json) => WarrantyInfo(
+      warrantyId: json['warrantyId'] as String,
+      warrantyState:
+          $enumDecodeNullable(_$WarrantyStateEnumMap, json['warrantyState']) ??
+              WarrantyState.initial,
       name: json['name'] as String?,
       purchaseDate: json['purchaseDate'] == null
           ? null
@@ -20,15 +24,18 @@ WarrantyInfo _$WarrantyInfoFromJson(Map json) => WarrantyInfo(
           : DateTime.parse(json['reminderDate'] as String),
       details: json['details'] as String?,
       image: json['image'] as String?,
+      imageUrl: json['imageUrl'] as String?,
       receiptImage: json['receiptImage'] as String?,
+      receiptImageUrl: json['receiptImageUrl'] as String?,
       lifeTime: json['lifeTime'] as bool? ?? false,
-      isEditing: json['isEditing'] as bool? ?? false,
       wantsReminders: json['wantsReminders'] as bool? ?? false,
-      isLoading: json['isLoading'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'warrantyState': _$WarrantyStateEnumMap[instance.warrantyState],
+    'warrantyId': instance.warrantyId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -43,10 +50,17 @@ Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
   writeNotNull('reminderDate', instance.reminderDate?.toIso8601String());
   writeNotNull('details', instance.details);
   writeNotNull('image', instance.image);
+  writeNotNull('imageUrl', instance.imageUrl);
   writeNotNull('receiptImage', instance.receiptImage);
+  writeNotNull('receiptImageUrl', instance.receiptImageUrl);
   val['lifeTime'] = instance.lifeTime;
-  val['isEditing'] = instance.isEditing;
   val['wantsReminders'] = instance.wantsReminders;
-  val['isLoading'] = instance.isLoading;
   return val;
 }
+
+const _$WarrantyStateEnumMap = {
+  WarrantyState.loading: 'loading',
+  WarrantyState.initial: 'initial',
+  WarrantyState.editing: 'editing',
+  WarrantyState.submitted: 'submitted',
+};

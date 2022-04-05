@@ -1,13 +1,13 @@
 part of 'auth_cubit.dart';
 
+enum LoadingState { email, gmail, apple, initial }
+
 @freezed
 class AuthState with _$AuthState {
   const factory AuthState.initial() = _Initial;
 
   const factory AuthState.loading({
-    @Default(false) bool isEmail,
-    @Default(false) bool isGmail,
-    @Default(false) bool isApple,
+    @Default(LoadingState.initial) LoadingState loadingState,
   }) = _Loading;
 
   const factory AuthState.authenticated({

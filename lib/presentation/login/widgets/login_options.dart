@@ -19,7 +19,8 @@ class LoginOptions extends StatelessWidget {
       children: [
         WarrantyElevatedButton.iconLoading(
           onPressed: () => context.read<AuthCubit>().loginWithGoogle(),
-          isLoading: state == const AuthState.loading(isGmail: true),
+          isLoading: state ==
+              const AuthState.loading(loadingState: LoadingState.gmail),
           isEnabled: true,
           widget: const Icon(SignInOptions.google),
         ),

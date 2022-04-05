@@ -53,7 +53,7 @@ class _Content extends StatelessWidget {
                         onEdit: () {
                           newRead.editWarrantyInitial(
                               state.warrantyInfoList[index]);
-                          context.push(Paths.warranty.newWarranty.name);
+                          context.push(Paths.warranty.newWarranty.path);
                         },
                         onRemove: () => currentCubit.removeWarranty(index),
                         warrantyInfo: state.warrantyInfoList[index],

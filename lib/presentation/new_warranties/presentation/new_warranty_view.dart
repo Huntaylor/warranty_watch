@@ -25,7 +25,7 @@ class NewWarrantyView extends StatelessWidget {
         title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
           builder: (context, state) {
             return Text(
-              (state.isEditing)
+              (state.warrantyState == WarrantyState.editing)
                   ? appLocalizations.editWarrantyTitle
                   : appLocalizations.addWarrantyTitle,
             );
@@ -200,14 +200,14 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  onRecieptPhotoTap: () async {
+                                  onReceiptPhotoTap: () async {
                                     // await newWarrantyCubit.loadingImage();
                                     await newWarrantyCubit
                                         .changeReceiptPhotos();
                                     Navigator.pop(context);
                                     await newWarrantyCubit.loadingImage();
                                   },
-                                  onRecieptCameraTap: () async {
+                                  onReceiptCameraTap: () async {
                                     await newWarrantyCubit
                                         .changeReceiptCamera();
                                     Navigator.pop(context);
@@ -245,16 +245,17 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  onRecieptPhotoTap: () async {
+                                  onReceiptPhotoTap: () async {
                                     await newWarrantyCubit
                                         .changeProductPhotos();
                                     Navigator.pop(context);
+                                    await newWarrantyCubit.loadingImage();
                                   },
-                                  onRecieptCameraTap: () async {
+                                  onReceiptCameraTap: () async {
                                     await newWarrantyCubit
                                         .changeProductCamera();
-                                    // Navigator.of(context).pop();
                                     Navigator.pop(context);
+                                    await newWarrantyCubit.loadingImage();
                                   },
                                 );
                               },
@@ -276,20 +277,24 @@ class _Content extends StatelessWidget {
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 15),
-                  child: WarrantyElevatedButton.general(
+                  child: WarrantyElevatedButton.loading(
+                    isLoading: state.warrantyState == WarrantyState.loading,
                     isEnabled: newWarrantyCubit.verifyWarranty(),
                     onPressed: () async {
                       if (newWarrantyCubit.verifyWarranty()) {
                         try {
-                          await newWarrantyCubit.changeEditing();
+                          await newWarrantyCubit
+                              .changeEditing(WarrantyState.loading);
                           await currantWarrantyCubit.addOrEditWarranty(state);
                           context.pop();
+                          await newWarrantyCubit
+                              .changeEditing(WarrantyState.submitted);
                         } catch (e) {
                           debugPrint('$e');
                         }
                       }
                     },
-                    text: (state.isEditing)
+                    text: (state.warrantyState == WarrantyState.editing)
                         ? appLocalizations.editProductBtn
                         : appLocalizations.addproductButton,
                   ),

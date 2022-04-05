@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         routeInformationParser: _router.routeInformationParser,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        title: 'Warranty Tracker',
+        title: 'Warranty Tracker or Warranty Notifier',
         darkTheme: FlexThemeData.dark(
           colors: const FlexSchemeColor(
             primary: Color(0xff5b7cb5),

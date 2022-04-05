@@ -134,8 +134,9 @@ class _Content extends StatelessWidget {
                     return BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, loginState) {
                         return WarrantyElevatedButton.loading(
-                          isLoading:
-                              state == const AuthState.loading(isEmail: true),
+                          isLoading: state ==
+                              const AuthState.loading(
+                                  loadingState: LoadingState.email),
                           onPressed: () async {
                             await authCubit.login(
                               loginCubit.state.email,
@@ -164,7 +165,8 @@ class _Content extends StatelessWidget {
                                 // await authCubit.loginWithApple();
                               },
                               isLoading: state ==
-                                  const AuthState.loading(isApple: true),
+                                  const AuthState.loading(
+                                      loadingState: LoadingState.apple),
                               isEnabled: true,
                               widget: const Icon(SignInOptions.apple),
                             ),

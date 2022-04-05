@@ -67,12 +67,7 @@ class _Content extends StatelessWidget {
             //  Current Warranty
             WarrantyElevatedButton.general(
               isEnabled: true,
-              onPressed: () {
-                context.push(Paths.warranty.current.path);
-
-                // navCubit.appNavigator
-                //     .pushNamed(CurrentWarrantiesView.routeName);
-              },
+              onPressed: () => context.push(Paths.warranty.current.path),
               text: context.appLocalizations.currentWarrantyBtn,
             ),
             //  Add Warranty
@@ -81,7 +76,6 @@ class _Content extends StatelessWidget {
               onPressed: () {
                 context.push(Paths.warranty.newWarranty.path);
                 newWarrCubit.clear();
-                // navCubit.newWarrNav();
               },
               text: context.appLocalizations.newWarrantyBtn,
             ),

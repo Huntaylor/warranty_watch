@@ -24,8 +24,8 @@ class WarrantyDetailsView extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .4,
                   width: double.infinity,
-                  child: Image.file(
-                    File(detailsCubit.state.image!),
+                  child: Image.network(
+                    detailsCubit.state.imageUrl!,
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -146,7 +146,8 @@ class _Content extends StatelessWidget {
           if (detailsCubit.state.receiptImage != null)
             IndividualDetailWidget.general(
               detailContent: DetailsImageCard(
-                  file: File(detailsCubit.state.receiptImage!)),
+                url: detailsCubit.state.receiptImageUrl!,
+              ),
               detailType: appLocalizations.receiptPhoto,
             ),
         ],

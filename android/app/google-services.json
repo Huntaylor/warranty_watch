@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:335544571045:android:cc3308192b89c8770e694c",
         "android_client_info": {
-          "package_name": "com.warranty_keeper.underDevelopment"
+          "package_name": "com.warranty-tracker.underDevelopment.app"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "335544571045-f8i2oecv9mmsf9t75m3papadcm3kv18r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.warranty_keeper.underDevelopment",
+            "package_name": "com.warranty-tracker.underDevelopment.app",
             "certificate_hash": "31a4a41e1de840642cc6b6e19a4b995b49938d78"
           }
         },

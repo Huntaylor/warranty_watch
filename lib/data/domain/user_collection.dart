@@ -31,6 +31,14 @@ class WarrantyCollection extends FirefuelCollection<WarrantyInfo> {
 
   static const String name = 'warranties';
 
+  static String productUrlPath(
+          {required String warrantyId, required String imagePath}) =>
+      '${WarrantyCollection().path}/$name/$warrantyId/product';
+
+  static String receiptUrlPath(
+          {required String warrantyId, required String imagePath}) =>
+      '${WarrantyCollection().path}/$name/$warrantyId/receipt';
+
   @override
   WarrantyInfo? fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,

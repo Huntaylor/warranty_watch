@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
+import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 
 part 'auth_state.dart';
 part 'auth_cubit.freezed.dart';
@@ -13,15 +14,12 @@ class AuthCubit extends Cubit<AuthState> {
   Future login(String email, String password) async {
     try {
       emit(
-        const AuthState.loading(
-          isApple: false,
-          isEmail: true,
-          isGmail: false,
-        ),
+        const AuthState.loading(loadingState: LoadingState.email),
       );
       await _authRepository.login(email.trim(), password.trim());
       User currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
+        await CurrentWarrantiesCubit().initialStartUp();
         emit(
           AuthState.authenticated(user: currentUser),
         );
@@ -42,11 +40,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future loginWithGoogle() async {
     try {
       emit(
-        const AuthState.loading(
-          isApple: false,
-          isEmail: false,
-          isGmail: true,
-        ),
+        const AuthState.loading(loadingState: LoadingState.gmail),
       );
       await _authRepository.signInWithGoogle();
       User currentUser = _authRepository.currentUser();
@@ -73,11 +67,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future loginWithApple() async {
     try {
       emit(
-        const AuthState.loading(
-          isApple: true,
-          isEmail: false,
-          isGmail: false,
-        ),
+        const AuthState.loading(loadingState: LoadingState.apple),
       );
       await _authRepository.signinWithApple();
       User currentUser = _authRepository.currentUser();
@@ -104,11 +94,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future loginWithFacebook() async {
     try {
       emit(
-        const AuthState.loading(
-          isApple: false,
-          isEmail: false,
-          isGmail: true,
-        ),
+        const AuthState.loading(loadingState: LoadingState.initial),
       );
       await _authRepository.signInWithGoogle();
       User currentUser = _authRepository.currentUser();

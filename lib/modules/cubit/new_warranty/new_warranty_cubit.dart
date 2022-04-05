@@ -1,11 +1,9 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart' as syspaths;
 
 class NewWarrantyCubit extends Cubit<WarrantyInfo> {
-  NewWarrantyCubit() : super(WarrantyInfo());
+  NewWarrantyCubit() : super(WarrantyInfo(warrantyId: ''));
 
   toggleLifeTime() {
     emit(
@@ -19,7 +17,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         details: state.details,
         image: state.image,
         receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
+        warrantyState: state.warrantyState,
         wantsReminders: state.wantsReminders,
       ),
     );
@@ -37,7 +35,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         details: state.details,
         image: state.image,
         receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
+        warrantyState: state.warrantyState,
         wantsReminders: state.wantsReminders,
       ),
     );
@@ -55,7 +53,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         details: state.details,
         image: state.image,
         receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
+        warrantyState: state.warrantyState,
         wantsReminders: state.wantsReminders,
       ),
     );
@@ -73,7 +71,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         details: state.details,
         image: state.image,
         receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
+        warrantyState: state.warrantyState,
         wantsReminders: state.wantsReminders,
       ),
     );
@@ -91,7 +89,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         warrantyWebsite: state.warrantyWebsite,
         image: state.image,
         receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
+        warrantyState: state.warrantyState,
         wantsReminders: state.wantsReminders,
       ),
     );
@@ -109,7 +107,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         details: state.details,
         image: state.image,
         receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
+        warrantyState: state.warrantyState,
         wantsReminders: state.wantsReminders,
       ),
     );
@@ -135,7 +133,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             details: state.details,
             image: state.image,
             receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -155,7 +153,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             details: state.details,
             image: state.image,
             receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -175,7 +173,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             details: state.details,
             image: state.image,
             receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -195,7 +193,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             details: state.details,
             image: state.image,
             receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -215,7 +213,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             details: state.details,
             image: state.image,
             receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -231,7 +229,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             details: state.details,
             image: state.image,
             receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -239,10 +237,10 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     }
   }
 
-  changeEditing() {
+  changeEditing(WarrantyState warrantyState) {
     emit(
       state.copyWith(
-        isEditing: false,
+        warrantyState: warrantyState,
       ),
     );
   }
@@ -260,7 +258,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         details: state.details,
         image: state.image,
         receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
+        warrantyState: state.warrantyState,
       ),
     );
   }
@@ -273,9 +271,9 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         maxWidth: 600,
       );
       if (imagePicker != null) {
-        final appDir = await syspaths.getApplicationDocumentsDirectory();
-        final fileName = path.basename(imagePicker.path);
-        final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
+        // final appDir = await syspaths.getApplicationDocumentsDirectory();
+        // final fileName = path.basename(imagePicker.path);
+        // final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
 
         emit(
           state.copyWith(
@@ -288,7 +286,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             warrantyWebsite: state.warrantyWebsite,
             details: state.details,
             receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -306,9 +304,9 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         maxWidth: 600,
       );
       if (imagePicker != null) {
-        final appDir = await syspaths.getApplicationDocumentsDirectory();
-        final fileName = path.basename(imagePicker.path);
-        final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
+        // final appDir = await syspaths.getApplicationDocumentsDirectory();
+        // final fileName = path.basename(imagePicker.path);
+        // final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
 
         emit(
           state.copyWith(
@@ -320,7 +318,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             reminderDate: state.reminderDate,
             warrantyWebsite: state.warrantyWebsite,
             details: state.details,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
             receiptImage: state.receiptImage,
           ),
@@ -340,14 +338,14 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       );
 
       if (imagePicker != null) {
-        final appDir = await syspaths.getApplicationDocumentsDirectory();
-        final fileName = path.basename(imagePicker.path);
+        // final appDir = await syspaths.getApplicationDocumentsDirectory();
+        // final fileName = path.basename(imagePicker.path);
         // final savedreceiptImage =
         //     await imagePicker.saveTo('${appDir.path}/$fileName');
 
         emit(
           state.copyWith(
-            receiptImage: fileName,
+            receiptImage: imagePicker.path,
             lifeTime: state.lifeTime,
             name: state.name,
             purchaseDate: state.purchaseDate,
@@ -356,7 +354,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             warrantyWebsite: state.warrantyWebsite,
             details: state.details,
             image: state.image,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -369,14 +367,15 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
   Future<void> changeReceiptPhotos() async {
     try {
       await loadingImage();
-      final imagePicker = await ImagePicker().pickImage(
+      final picker = ImagePicker();
+      final imagePicker = await picker.pickImage(
         source: ImageSource.gallery,
         maxWidth: 600,
       );
 
       if (imagePicker != null) {
-        final appDir = await syspaths.getApplicationDocumentsDirectory();
-        final fileName = '${appDir.absolute}/${imagePicker.path}';
+        // final appDir = await syspaths.getApplicationDocumentsDirectory();
+        // final fileName = '${appDir.absolute}/${imagePicker.path}';
         // final fileName = path.basename(imagePicker.path);
         // final savedreceiptImage =
         //     await imagePicker.saveTo('${appDir.path}/$fileName');
@@ -385,7 +384,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
         emit(
           state.copyWith(
-            receiptImage: /* imagePicker.path */ fileName,
+            receiptImage: imagePicker.path,
             lifeTime: state.lifeTime,
             name: state.name,
             purchaseDate: state.purchaseDate,
@@ -394,7 +393,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             warrantyWebsite: state.warrantyWebsite,
             details: state.details,
             image: state.image,
-            isEditing: state.isEditing,
+            warrantyState: state.warrantyState,
             wantsReminders: state.wantsReminders,
           ),
         );
@@ -405,11 +404,19 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
   }
 
   Future<void> loadingImage() async {
-    return emit(
-      state.copyWith(
-        isLoading: !state.isLoading,
-      ),
-    );
+    if (state.warrantyState == WarrantyState.loadingImage) {
+      return emit(
+        state.copyWith(
+          warrantyState: WarrantyState.initial,
+        ),
+      );
+    } else {
+      return emit(
+        state.copyWith(
+          warrantyState: WarrantyState.loadingImage,
+        ),
+      );
+    }
   }
 
   void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
@@ -417,7 +424,9 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       editWarrantyInfo,
     );
     emit(
-      state.copyWith(isEditing: true),
+      state.copyWith(
+        warrantyState: WarrantyState.editing,
+      ),
     );
   }
 
@@ -431,7 +440,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
   clear() {
     emit(
-      WarrantyInfo(),
+      WarrantyInfo(warrantyId: ''),
     );
   }
 }

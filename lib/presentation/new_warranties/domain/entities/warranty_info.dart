@@ -5,9 +5,12 @@ import 'package:warranty_keeper/app_library.dart';
 
 part 'warranty_info.g.dart';
 
+enum WarrantyState { loading, initial, editing, submitted, loadingImage }
+
 @JsonSerializable()
 class WarrantyInfo extends Equatable implements Serializable {
-  final Key warrantyId;
+  final WarrantyState warrantyState;
+  final String warrantyId;
   final String? name;
   final DateTime? purchaseDate;
   final String? warrantyWebsite;
@@ -15,12 +18,14 @@ class WarrantyInfo extends Equatable implements Serializable {
   final DateTime? reminderDate;
   final String? details;
   final String? image;
+  final String? imageUrl;
   final String? receiptImage;
+  final String? receiptImageUrl;
   final bool lifeTime;
-  final bool isEditing;
   final bool wantsReminders;
-  final bool isLoading;
-  WarrantyInfo({
+  const WarrantyInfo({
+    required this.warrantyId,
+    this.warrantyState = WarrantyState.initial,
     this.name,
     this.purchaseDate,
     this.warrantyWebsite,
@@ -28,12 +33,12 @@ class WarrantyInfo extends Equatable implements Serializable {
     this.reminderDate,
     this.details,
     this.image,
+    this.imageUrl,
     this.receiptImage,
+    this.receiptImageUrl,
     this.lifeTime = false,
-    this.isEditing = false,
     this.wantsReminders = false,
-    this.isLoading = false,
-  }) : warrantyId = UniqueKey();
+  });
 
   @override
   List<Object?> get props => [
@@ -41,45 +46,50 @@ class WarrantyInfo extends Equatable implements Serializable {
         purchaseDate,
         endOfWarranty,
         warrantyWebsite,
+        imageUrl,
+        receiptImageUrl,
         details,
         image,
         receiptImage,
         lifeTime,
-        isEditing,
         warrantyId,
         wantsReminders,
         reminderDate,
-        isLoading,
+        warrantyState,
       ];
 
   WarrantyInfo copyWith({
+    String? warrantyId,
     String? name,
     DateTime? purchaseDate,
     DateTime? endOfWarranty,
     DateTime? reminderDate,
     String? warrantyWebsite,
     String? details,
+    String? receiptImageUrl,
+    String? imageUrl,
     String? image,
     String? receiptImage,
     bool? lifeTime,
-    bool? isEditing,
     bool? wantsReminders,
-    bool? isLoading,
+    WarrantyState? warrantyState,
   }) {
     return WarrantyInfo._(
-        reminderDate: reminderDate ?? this.reminderDate,
-        wantsReminders: wantsReminders ?? this.wantsReminders,
-        isEditing: isEditing ?? this.isEditing,
-        warrantyId: warrantyId,
-        name: name ?? this.name,
-        purchaseDate: purchaseDate ?? DateTime.now(),
-        endOfWarranty: endOfWarranty ?? this.endOfWarranty,
-        warrantyWebsite: warrantyWebsite ?? this.warrantyWebsite,
-        details: details ?? this.details,
-        image: image ?? this.image,
-        receiptImage: receiptImage ?? this.receiptImage,
-        lifeTime: lifeTime ?? this.lifeTime,
-        isLoading: isLoading ?? this.isLoading);
+      imageUrl: imageUrl ?? this.imageUrl,
+      receiptImageUrl: receiptImageUrl ?? this.receiptImageUrl,
+      warrantyState: warrantyState ?? this.warrantyState,
+      reminderDate: reminderDate ?? this.reminderDate,
+      wantsReminders: wantsReminders ?? this.wantsReminders,
+      warrantyId: warrantyId ?? this.warrantyId,
+      name: name ?? this.name,
+      purchaseDate: purchaseDate ?? DateTime.now(),
+      endOfWarranty: endOfWarranty ?? this.endOfWarranty,
+      warrantyWebsite: warrantyWebsite ?? this.warrantyWebsite,
+      details: details ?? this.details,
+      image: image ?? this.image,
+      receiptImage: receiptImage ?? this.receiptImage,
+      lifeTime: lifeTime ?? this.lifeTime,
+    );
   }
 
   bool canSave() {
@@ -93,6 +103,8 @@ class WarrantyInfo extends Equatable implements Serializable {
   }
 
   const WarrantyInfo._({
+    this.imageUrl,
+    this.receiptImageUrl,
     this.reminderDate,
     this.name,
     this.purchaseDate,
@@ -101,9 +113,8 @@ class WarrantyInfo extends Equatable implements Serializable {
     this.details,
     this.image,
     this.receiptImage,
-    required this.isLoading,
+    required this.warrantyState,
     required this.lifeTime,
-    required this.isEditing,
     required this.warrantyId,
     required this.wantsReminders,
   });

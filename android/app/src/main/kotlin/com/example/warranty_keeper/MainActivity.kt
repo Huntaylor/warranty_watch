@@ -1,4 +1,4 @@
-package com.warranty_keeper.underDevelopment
+package com.warranty-tracker.underDevelopment.app
 
 import io.flutter.embedding.android.FlutterActivity
 
