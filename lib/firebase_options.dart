@@ -54,8 +54,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '335544571045',
     projectId: 'warranty-tracker-a6492',
     storageBucket: 'warranty-tracker-a6492.appspot.com',
-    androidClientId: '335544571045-btg9lfgm4vpsid4lhmq4sebpjjbvcmop.apps.googleusercontent.com',
-    iosClientId: '335544571045-qij4c9hhgqd73gfa7g3ftic0so394kj7.apps.googleusercontent.com',
-    iosBundleId: 'com.warranty-keeper.underDevelopment.app',
+    androidClientId:
+        '335544571045-btg9lfgm4vpsid4lhmq4sebpjjbvcmop.apps.googleusercontent.com',
+    iosClientId:
+        '335544571045-qij4c9hhgqd73gfa7g3ftic0so394kj7.apps.googleusercontent.com',
+    iosBundleId: 'com.warranty_tracker.underDevelopment.app',
   );
 }

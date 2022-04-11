@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.warranty-keeper.underDevelopment.app</string>
+	<string>com.warranty_tracker.underDevelopment.app</string>
 	<key>PROJECT_ID</key>
 	<string>warranty-tracker-a6492</string>
 	<key>STORAGE_BUCKET</key>

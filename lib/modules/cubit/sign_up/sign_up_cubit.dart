@@ -71,16 +71,64 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 
   changePassword(String password) {
+    if (password.length >= 6) {
+      emit(
+        state.copyWith(
+          hasSixCharacters: true,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          hasSixCharacters: false,
+        ),
+      );
+    }
+
+    if (password.contains(RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])'))) {
+      emit(
+        state.copyWith(
+          hasLowerUpperCase: true,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          hasLowerUpperCase: false,
+        ),
+      );
+    }
+
+    if (password.contains(RegExp(r'^(?=.*[^A-Za-z0-9_])'))) {
+      emit(
+        state.copyWith(
+          hasSpecialCharacter: true,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          hasSpecialCharacter: false,
+        ),
+      );
+    }
+    if (password.contains(RegExp(r'^(?=.*[0-9])'))) {
+      emit(
+        state.copyWith(
+          hasNumber: true,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          hasNumber: false,
+        ),
+      );
+    }
+
     emit(
       state.copyWith(
-        birthday: state.birthday,
-        email: state.email,
         password: password,
-        confirmPassword: state.confirmPassword,
-        isConfirmObscured: state.isConfirmObscured,
-        isObscured: state.isObscured,
-        firstName: state.firstName,
-        lastName: state.lastName,
       ),
     );
     enabledRegister();
@@ -88,6 +136,19 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 
   changeConfirmPassword(String confirmPassword) {
+    if (confirmPassword == state.password) {
+      emit(
+        state.copyWith(
+          isMatching: true,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          isMatching: false,
+        ),
+      );
+    }
     emit(
       state.copyWith(
         birthday: state.birthday,

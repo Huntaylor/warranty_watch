@@ -1,4 +1,5 @@
 import 'package:warranty_keeper/modules/cubit/sign_up/sign_up_cubit.dart';
+import 'package:warranty_keeper/presentation/sign_up/widgets/password_requirement_widget.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
@@ -12,6 +13,7 @@ class SignUpView extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Step 1 of 3'),
       ),
       body: BlocProvider(
@@ -37,22 +39,51 @@ class _Content extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  const Text(
-                    'Enter your email, we will have your confirm it after your register',
+                  const Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Text(
+                      'Enter your email, we will have your confirm it after you register',
+                    ),
                   ),
                   WarrantyTextField.email(
                     isRequired: true,
                     initialValue: '',
                     onChanged: context.read<SignUpCubit>().changeEmail,
                   ),
-                  const Text(
-                    'Password must be 6 Characters or more',
-                  ),
-                  const Text(
-                    'Password must contain a special character',
-                  ),
-                  const Text(
-                    'Password must contain a lower and upper case letter',
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: BlocBuilder<SignUpCubit, SignUpState>(
+                      builder: (context, state) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.only(top: 15),
+                                child: Text('Your Password must contain:')),
+                            PasswordRequirementWidget(
+                              isTrue: state.hasSixCharacters,
+                              title: '6 characters or more',
+                            ),
+                            PasswordRequirementWidget(
+                              isTrue: state.hasLowerUpperCase,
+                              title: 'A lower and upper case letter',
+                            ),
+                            PasswordRequirementWidget(
+                              isTrue: state.hasNumber,
+                              title: 'A number',
+                            ),
+                            PasswordRequirementWidget(
+                              isTrue: state.hasSpecialCharacter,
+                              title: 'A special character',
+                            ),
+                            PasswordRequirementWidget(
+                              isTrue: state.isMatching,
+                              title: 'Passwords must match',
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                   BlocBuilder<SignUpCubit, SignUpState>(
                     builder: (context, state) {
@@ -66,10 +97,6 @@ class _Content extends StatelessWidget {
                             context.read<SignUpCubit>().toggleObscurity,
                       );
                     },
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: Text('Passwords must match'),
                   ),
                   BlocBuilder<SignUpCubit, SignUpState>(
                     builder: (context, state) {

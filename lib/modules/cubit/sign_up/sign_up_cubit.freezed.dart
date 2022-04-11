@@ -20,6 +20,11 @@ class _$SignUpStateTearOff {
 
   _Initial initial(
       {bool isObscured = true,
+      bool hasSixCharacters = false,
+      bool hasSpecialCharacter = false,
+      bool hasLowerUpperCase = false,
+      bool hasNumber = false,
+      bool isMatching = false,
       bool isConfirmObscured = true,
       String email = '',
       String password = '',
@@ -29,6 +34,11 @@ class _$SignUpStateTearOff {
       String birthday = ''}) {
     return _Initial(
       isObscured: isObscured,
+      hasSixCharacters: hasSixCharacters,
+      hasSpecialCharacter: hasSpecialCharacter,
+      hasLowerUpperCase: hasLowerUpperCase,
+      hasNumber: hasNumber,
+      isMatching: isMatching,
       isConfirmObscured: isConfirmObscured,
       email: email,
       password: password,
@@ -46,6 +56,11 @@ const $SignUpState = _$SignUpStateTearOff();
 /// @nodoc
 mixin _$SignUpState {
   bool get isObscured => throw _privateConstructorUsedError;
+  bool get hasSixCharacters => throw _privateConstructorUsedError;
+  bool get hasSpecialCharacter => throw _privateConstructorUsedError;
+  bool get hasLowerUpperCase => throw _privateConstructorUsedError;
+  bool get hasNumber => throw _privateConstructorUsedError;
+  bool get isMatching => throw _privateConstructorUsedError;
   bool get isConfirmObscured => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
@@ -58,6 +73,11 @@ mixin _$SignUpState {
   TResult when<TResult extends Object?>({
     required TResult Function(
             bool isObscured,
+            bool hasSixCharacters,
+            bool hasSpecialCharacter,
+            bool hasLowerUpperCase,
+            bool hasNumber,
+            bool isMatching,
             bool isConfirmObscured,
             String email,
             String password,
@@ -72,6 +92,11 @@ mixin _$SignUpState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(
             bool isObscured,
+            bool hasSixCharacters,
+            bool hasSpecialCharacter,
+            bool hasLowerUpperCase,
+            bool hasNumber,
+            bool isMatching,
             bool isConfirmObscured,
             String email,
             String password,
@@ -86,6 +111,11 @@ mixin _$SignUpState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             bool isObscured,
+            bool hasSixCharacters,
+            bool hasSpecialCharacter,
+            bool hasLowerUpperCase,
+            bool hasNumber,
+            bool isMatching,
             bool isConfirmObscured,
             String email,
             String password,
@@ -126,6 +156,11 @@ abstract class $SignUpStateCopyWith<$Res> {
       _$SignUpStateCopyWithImpl<$Res>;
   $Res call(
       {bool isObscured,
+      bool hasSixCharacters,
+      bool hasSpecialCharacter,
+      bool hasLowerUpperCase,
+      bool hasNumber,
+      bool isMatching,
       bool isConfirmObscured,
       String email,
       String password,
@@ -146,6 +181,11 @@ class _$SignUpStateCopyWithImpl<$Res> implements $SignUpStateCopyWith<$Res> {
   @override
   $Res call({
     Object? isObscured = freezed,
+    Object? hasSixCharacters = freezed,
+    Object? hasSpecialCharacter = freezed,
+    Object? hasLowerUpperCase = freezed,
+    Object? hasNumber = freezed,
+    Object? isMatching = freezed,
     Object? isConfirmObscured = freezed,
     Object? email = freezed,
     Object? password = freezed,
@@ -158,6 +198,26 @@ class _$SignUpStateCopyWithImpl<$Res> implements $SignUpStateCopyWith<$Res> {
       isObscured: isObscured == freezed
           ? _value.isObscured
           : isObscured // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasSixCharacters: hasSixCharacters == freezed
+          ? _value.hasSixCharacters
+          : hasSixCharacters // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasSpecialCharacter: hasSpecialCharacter == freezed
+          ? _value.hasSpecialCharacter
+          : hasSpecialCharacter // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasLowerUpperCase: hasLowerUpperCase == freezed
+          ? _value.hasLowerUpperCase
+          : hasLowerUpperCase // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasNumber: hasNumber == freezed
+          ? _value.hasNumber
+          : hasNumber // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMatching: isMatching == freezed
+          ? _value.isMatching
+          : isMatching // ignore: cast_nullable_to_non_nullable
               as bool,
       isConfirmObscured: isConfirmObscured == freezed
           ? _value.isConfirmObscured
@@ -198,6 +258,11 @@ abstract class _$InitialCopyWith<$Res> implements $SignUpStateCopyWith<$Res> {
   @override
   $Res call(
       {bool isObscured,
+      bool hasSixCharacters,
+      bool hasSpecialCharacter,
+      bool hasLowerUpperCase,
+      bool hasNumber,
+      bool isMatching,
       bool isConfirmObscured,
       String email,
       String password,
@@ -219,6 +284,11 @@ class __$InitialCopyWithImpl<$Res> extends _$SignUpStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isObscured = freezed,
+    Object? hasSixCharacters = freezed,
+    Object? hasSpecialCharacter = freezed,
+    Object? hasLowerUpperCase = freezed,
+    Object? hasNumber = freezed,
+    Object? isMatching = freezed,
     Object? isConfirmObscured = freezed,
     Object? email = freezed,
     Object? password = freezed,
@@ -231,6 +301,26 @@ class __$InitialCopyWithImpl<$Res> extends _$SignUpStateCopyWithImpl<$Res>
       isObscured: isObscured == freezed
           ? _value.isObscured
           : isObscured // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasSixCharacters: hasSixCharacters == freezed
+          ? _value.hasSixCharacters
+          : hasSixCharacters // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasSpecialCharacter: hasSpecialCharacter == freezed
+          ? _value.hasSpecialCharacter
+          : hasSpecialCharacter // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasLowerUpperCase: hasLowerUpperCase == freezed
+          ? _value.hasLowerUpperCase
+          : hasLowerUpperCase // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasNumber: hasNumber == freezed
+          ? _value.hasNumber
+          : hasNumber // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMatching: isMatching == freezed
+          ? _value.isMatching
+          : isMatching // ignore: cast_nullable_to_non_nullable
               as bool,
       isConfirmObscured: isConfirmObscured == freezed
           ? _value.isConfirmObscured
@@ -269,6 +359,11 @@ class __$InitialCopyWithImpl<$Res> extends _$SignUpStateCopyWithImpl<$Res>
 class _$_Initial implements _Initial {
   const _$_Initial(
       {this.isObscured = true,
+      this.hasSixCharacters = false,
+      this.hasSpecialCharacter = false,
+      this.hasLowerUpperCase = false,
+      this.hasNumber = false,
+      this.isMatching = false,
       this.isConfirmObscured = true,
       this.email = '',
       this.password = '',
@@ -280,6 +375,21 @@ class _$_Initial implements _Initial {
   @JsonKey()
   @override
   final bool isObscured;
+  @JsonKey()
+  @override
+  final bool hasSixCharacters;
+  @JsonKey()
+  @override
+  final bool hasSpecialCharacter;
+  @JsonKey()
+  @override
+  final bool hasLowerUpperCase;
+  @JsonKey()
+  @override
+  final bool hasNumber;
+  @JsonKey()
+  @override
+  final bool isMatching;
   @JsonKey()
   @override
   final bool isConfirmObscured;
@@ -304,7 +414,7 @@ class _$_Initial implements _Initial {
 
   @override
   String toString() {
-    return 'SignUpState.initial(isObscured: $isObscured, isConfirmObscured: $isConfirmObscured, email: $email, password: $password, confirmPassword: $confirmPassword, firstName: $firstName, lastName: $lastName, birthday: $birthday)';
+    return 'SignUpState.initial(isObscured: $isObscured, hasSixCharacters: $hasSixCharacters, hasSpecialCharacter: $hasSpecialCharacter, hasLowerUpperCase: $hasLowerUpperCase, hasNumber: $hasNumber, isMatching: $isMatching, isConfirmObscured: $isConfirmObscured, email: $email, password: $password, confirmPassword: $confirmPassword, firstName: $firstName, lastName: $lastName, birthday: $birthday)';
   }
 
   @override
@@ -314,6 +424,15 @@ class _$_Initial implements _Initial {
             other is _Initial &&
             const DeepCollectionEquality()
                 .equals(other.isObscured, isObscured) &&
+            const DeepCollectionEquality()
+                .equals(other.hasSixCharacters, hasSixCharacters) &&
+            const DeepCollectionEquality()
+                .equals(other.hasSpecialCharacter, hasSpecialCharacter) &&
+            const DeepCollectionEquality()
+                .equals(other.hasLowerUpperCase, hasLowerUpperCase) &&
+            const DeepCollectionEquality().equals(other.hasNumber, hasNumber) &&
+            const DeepCollectionEquality()
+                .equals(other.isMatching, isMatching) &&
             const DeepCollectionEquality()
                 .equals(other.isConfirmObscured, isConfirmObscured) &&
             const DeepCollectionEquality().equals(other.email, email) &&
@@ -329,6 +448,11 @@ class _$_Initial implements _Initial {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isObscured),
+      const DeepCollectionEquality().hash(hasSixCharacters),
+      const DeepCollectionEquality().hash(hasSpecialCharacter),
+      const DeepCollectionEquality().hash(hasLowerUpperCase),
+      const DeepCollectionEquality().hash(hasNumber),
+      const DeepCollectionEquality().hash(isMatching),
       const DeepCollectionEquality().hash(isConfirmObscured),
       const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(password),
@@ -347,6 +471,11 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function(
             bool isObscured,
+            bool hasSixCharacters,
+            bool hasSpecialCharacter,
+            bool hasLowerUpperCase,
+            bool hasNumber,
+            bool isMatching,
             bool isConfirmObscured,
             String email,
             String password,
@@ -356,8 +485,20 @@ class _$_Initial implements _Initial {
             String birthday)
         initial,
   }) {
-    return initial(isObscured, isConfirmObscured, email, password,
-        confirmPassword, firstName, lastName, birthday);
+    return initial(
+        isObscured,
+        hasSixCharacters,
+        hasSpecialCharacter,
+        hasLowerUpperCase,
+        hasNumber,
+        isMatching,
+        isConfirmObscured,
+        email,
+        password,
+        confirmPassword,
+        firstName,
+        lastName,
+        birthday);
   }
 
   @override
@@ -365,6 +506,11 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(
             bool isObscured,
+            bool hasSixCharacters,
+            bool hasSpecialCharacter,
+            bool hasLowerUpperCase,
+            bool hasNumber,
+            bool isMatching,
             bool isConfirmObscured,
             String email,
             String password,
@@ -374,8 +520,20 @@ class _$_Initial implements _Initial {
             String birthday)?
         initial,
   }) {
-    return initial?.call(isObscured, isConfirmObscured, email, password,
-        confirmPassword, firstName, lastName, birthday);
+    return initial?.call(
+        isObscured,
+        hasSixCharacters,
+        hasSpecialCharacter,
+        hasLowerUpperCase,
+        hasNumber,
+        isMatching,
+        isConfirmObscured,
+        email,
+        password,
+        confirmPassword,
+        firstName,
+        lastName,
+        birthday);
   }
 
   @override
@@ -383,6 +541,11 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             bool isObscured,
+            bool hasSixCharacters,
+            bool hasSpecialCharacter,
+            bool hasLowerUpperCase,
+            bool hasNumber,
+            bool isMatching,
             bool isConfirmObscured,
             String email,
             String password,
@@ -394,8 +557,20 @@ class _$_Initial implements _Initial {
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(isObscured, isConfirmObscured, email, password,
-          confirmPassword, firstName, lastName, birthday);
+      return initial(
+          isObscured,
+          hasSixCharacters,
+          hasSpecialCharacter,
+          hasLowerUpperCase,
+          hasNumber,
+          isMatching,
+          isConfirmObscured,
+          email,
+          password,
+          confirmPassword,
+          firstName,
+          lastName,
+          birthday);
     }
     return orElse();
   }
@@ -432,6 +607,11 @@ class _$_Initial implements _Initial {
 abstract class _Initial implements SignUpState {
   const factory _Initial(
       {bool isObscured,
+      bool hasSixCharacters,
+      bool hasSpecialCharacter,
+      bool hasLowerUpperCase,
+      bool hasNumber,
+      bool isMatching,
       bool isConfirmObscured,
       String email,
       String password,
@@ -442,6 +622,16 @@ abstract class _Initial implements SignUpState {
 
   @override
   bool get isObscured;
+  @override
+  bool get hasSixCharacters;
+  @override
+  bool get hasSpecialCharacter;
+  @override
+  bool get hasLowerUpperCase;
+  @override
+  bool get hasNumber;
+  @override
+  bool get isMatching;
   @override
   bool get isConfirmObscured;
   @override

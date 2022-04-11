@@ -63,4 +63,5 @@ const _$WarrantyStateEnumMap = {
   WarrantyState.initial: 'initial',
   WarrantyState.editing: 'editing',
   WarrantyState.submitted: 'submitted',
+  WarrantyState.loadingImage: 'loadingImage',
 };

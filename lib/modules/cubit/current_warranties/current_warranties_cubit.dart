@@ -15,7 +15,6 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
 
   Future<void> initialStartUp() async {
     final warrantyCollection = WarrantyCollection();
-
     final List<WarrantyInfo>? firebaseData = await warrantyCollection.readAll();
 
     List<WarrantyInfo> initialList;
