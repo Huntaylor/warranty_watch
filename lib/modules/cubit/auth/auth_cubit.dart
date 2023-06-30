@@ -1,9 +1,10 @@
-import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:autoequal/autoequal.dart';
+import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 
 part 'auth_state.dart';
+part 'auth_cubit.g.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
@@ -152,8 +153,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future updatePersonalData(
-      String firstName, String lastName, String birthday) async {
+  Future updatePersonalData(String firstName, String lastName, String birthday) async {
     try {
       emit(
         const AuthLoading(),

@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/new_warranty_view.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 
-part 'current_warranties_cubit.freezed.dart';
 part 'current_warranties_state.dart';
+part 'current_warranties_cubit.g.dart';
 
 class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
-  CurrentWarrantiesCubit() : super(const CurrentWarrantiesState.initial());
+  CurrentWarrantiesCubit(super.initialState);
 
   void addOrEditWarranty(WarrantyInfo warrantyInfo) {
     List<WarrantyInfo> newList;
@@ -18,8 +18,7 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     expiringList = List.from(state.warrantyInfoList);
 
     if (expiringList.any((e) => e.key == warrantyInfo.key)) {
-      expiringList[state.warrantyInfoList
-          .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
+      expiringList[state.warrantyInfoList.indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
       emit(
         state.copyWith(
           removeBool: false,
@@ -33,10 +32,8 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
       expiringList.removeWhere((ee) => ee.lifeTime);
     }
 
-    if (expiringList
-        .any((e) => e.endOfWarr!.difference(DateTime.now()).inDays < 30)) {
-      expiringList.removeWhere((ee) =>
-          ee.endOfWarr!.difference(DateTime.now()).inDays > 30 || ee.lifeTime);
+    if (expiringList.any((e) => e.endOfWarr!.difference(DateTime.now()).inDays < 30)) {
+      expiringList.removeWhere((ee) => ee.endOfWarr!.difference(DateTime.now()).inDays > 30 || ee.lifeTime);
 
       expiringList.sort(
         ((a, b) => a.endOfWarr!.compareTo(b.endOfWarr!)),
@@ -49,8 +46,7 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     }
 
     if (newList.any((e) => e.key == warrantyInfo.key)) {
-      newList[state.warrantyInfoList
-          .indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
+      newList[state.warrantyInfoList.indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
       emit(
         state.copyWith(
           removeBool: false,

@@ -94,9 +94,7 @@ class Content extends StatelessWidget {
                         _dateFormat(detailsCubit.state.endOfWarr!),
                       ),
                       style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarr!)
-                            ? Colors.red
-                            : null,
+                        color: _dateDiff(detailsCubit.state.endOfWarr!) ? Colors.red : null,
                       ),
                     ),
                   ),
@@ -124,8 +122,7 @@ class Content extends StatelessWidget {
               ),
             ),
           ),
-          (detailsCubit.state.details == null ||
-                  detailsCubit.state.details!.isEmpty)
+          (detailsCubit.state.details == null || detailsCubit.state.details!.isEmpty)
               ? const SizedBox()
               : IndividualDetailWidget.general(
                   detailType: appLocalizations.details,
@@ -134,8 +131,7 @@ class Content extends StatelessWidget {
           IndividualDetailWidget.general(
             detailType: appLocalizations.productWebsite,
             detailContent: GestureDetector(
-                onTap: () =>
-                    detailsCubit.launch(detailsCubit.state.warrWebsite!),
+                onTap: () => detailsCubit.launch(detailsCubit.state.warrWebsite!),
                 child: Text(
                   detailsCubit.state.warrWebsite!,
                   style: const TextStyle(
@@ -146,8 +142,7 @@ class Content extends StatelessWidget {
           ),
           if (detailsCubit.state.receiptImage != null)
             IndividualDetailWidget.general(
-              detailContent:
-                  DetailsImageCard(file: detailsCubit.state.receiptImage!),
+              detailContent: DetailsImageCard(file: detailsCubit.state.receiptImage!),
               detailType: appLocalizations.receiptPhoto,
             ),
         ],
@@ -157,8 +152,9 @@ class Content extends StatelessWidget {
 }
 
 _countDown(DateTime expirationDate) {
-  final _expireTime = Jiffy(expirationDate).fromNow();
-  return _expireTime;
+  final jiffyExpirationDate = Jiffy.parseFromDateTime(expirationDate);
+  final expireTime = Jiffy.now().from(jiffyExpirationDate);
+  return expireTime;
 }
 
 _dateFormat(DateTime date) {

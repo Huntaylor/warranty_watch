@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'settings_cubit.dart';
 
@@ -12,28 +12,12 @@ part of 'settings_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$SettingsStateTearOff {
-  const _$SettingsStateTearOff();
-
-  _Initial initial({bool isNotifications = false, bool isSomething = false}) {
-    return _Initial(
-      isNotifications: isNotifications,
-      isSomething: isSomething,
-    );
-  }
-}
-
-/// @nodoc
-const $SettingsState = _$SettingsStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$SettingsState {
   bool get isNotifications => throw _privateConstructorUsedError;
   bool get isSomething => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(bool isNotifications, bool isSomething) initial,
@@ -41,7 +25,7 @@ mixin _$SettingsState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(bool isNotifications, bool isSomething)? initial,
+    TResult? Function(bool isNotifications, bool isSomething)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,7 +41,7 @@ mixin _$SettingsState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
+    TResult? Function(_Initial value)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -76,65 +60,70 @@ mixin _$SettingsState {
 abstract class $SettingsStateCopyWith<$Res> {
   factory $SettingsStateCopyWith(
           SettingsState value, $Res Function(SettingsState) then) =
-      _$SettingsStateCopyWithImpl<$Res>;
+      _$SettingsStateCopyWithImpl<$Res, SettingsState>;
+  @useResult
   $Res call({bool isNotifications, bool isSomething});
 }
 
 /// @nodoc
-class _$SettingsStateCopyWithImpl<$Res>
+class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     implements $SettingsStateCopyWith<$Res> {
   _$SettingsStateCopyWithImpl(this._value, this._then);
 
-  final SettingsState _value;
   // ignore: unused_field
-  final $Res Function(SettingsState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isNotifications = freezed,
-    Object? isSomething = freezed,
+    Object? isNotifications = null,
+    Object? isSomething = null,
   }) {
     return _then(_value.copyWith(
-      isNotifications: isNotifications == freezed
+      isNotifications: null == isNotifications
           ? _value.isNotifications
           : isNotifications // ignore: cast_nullable_to_non_nullable
               as bool,
-      isSomething: isSomething == freezed
+      isSomething: null == isSomething
           ? _value.isSomething
           : isSomething // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$InitialCopyWith<$Res> implements $SettingsStateCopyWith<$Res> {
-  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
-      __$InitialCopyWithImpl<$Res>;
+abstract class _$$_InitialCopyWith<$Res>
+    implements $SettingsStateCopyWith<$Res> {
+  factory _$$_InitialCopyWith(
+          _$_Initial value, $Res Function(_$_Initial) then) =
+      __$$_InitialCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({bool isNotifications, bool isSomething});
 }
 
 /// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
-    implements _$InitialCopyWith<$Res> {
-  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
-      : super(_value, (v) => _then(v as _Initial));
+class __$$_InitialCopyWithImpl<$Res>
+    extends _$SettingsStateCopyWithImpl<$Res, _$_Initial>
+    implements _$$_InitialCopyWith<$Res> {
+  __$$_InitialCopyWithImpl(_$_Initial _value, $Res Function(_$_Initial) _then)
+      : super(_value, _then);
 
-  @override
-  _Initial get _value => super._value as _Initial;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isNotifications = freezed,
-    Object? isSomething = freezed,
+    Object? isNotifications = null,
+    Object? isSomething = null,
   }) {
-    return _then(_Initial(
-      isNotifications: isNotifications == freezed
+    return _then(_$_Initial(
+      isNotifications: null == isNotifications
           ? _value.isNotifications
           : isNotifications // ignore: cast_nullable_to_non_nullable
               as bool,
-      isSomething: isSomething == freezed
+      isSomething: null == isSomething
           ? _value.isSomething
           : isSomething // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -147,11 +136,11 @@ class __$InitialCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
 class _$_Initial implements _Initial {
   const _$_Initial({this.isNotifications = false, this.isSomething = false});
 
-  @JsonKey()
   @override
+  @JsonKey()
   final bool isNotifications;
-  @JsonKey()
   @override
+  @JsonKey()
   final bool isSomething;
 
   @override
@@ -163,23 +152,21 @@ class _$_Initial implements _Initial {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Initial &&
-            const DeepCollectionEquality()
-                .equals(other.isNotifications, isNotifications) &&
-            const DeepCollectionEquality()
-                .equals(other.isSomething, isSomething));
+            other is _$_Initial &&
+            (identical(other.isNotifications, isNotifications) ||
+                other.isNotifications == isNotifications) &&
+            (identical(other.isSomething, isSomething) ||
+                other.isSomething == isSomething));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isNotifications),
-      const DeepCollectionEquality().hash(isSomething));
+  int get hashCode => Object.hash(runtimeType, isNotifications, isSomething);
 
   @JsonKey(ignore: true)
   @override
-  _$InitialCopyWith<_Initial> get copyWith =>
-      __$InitialCopyWithImpl<_Initial>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_InitialCopyWith<_$_Initial> get copyWith =>
+      __$$_InitialCopyWithImpl<_$_Initial>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -192,7 +179,7 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(bool isNotifications, bool isSomething)? initial,
+    TResult? Function(bool isNotifications, bool isSomething)? initial,
   }) {
     return initial?.call(isNotifications, isSomething);
   }
@@ -220,7 +207,7 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
+    TResult? Function(_Initial value)? initial,
   }) {
     return initial?.call(this);
   }
@@ -239,7 +226,8 @@ class _$_Initial implements _Initial {
 }
 
 abstract class _Initial implements SettingsState {
-  const factory _Initial({bool isNotifications, bool isSomething}) = _$_Initial;
+  const factory _Initial({final bool isNotifications, final bool isSomething}) =
+      _$_Initial;
 
   @override
   bool get isNotifications;
@@ -247,6 +235,6 @@ abstract class _Initial implements SettingsState {
   bool get isSomething;
   @override
   @JsonKey(ignore: true)
-  _$InitialCopyWith<_Initial> get copyWith =>
+  _$$_InitialCopyWith<_$_Initial> get copyWith =>
       throw _privateConstructorUsedError;
 }

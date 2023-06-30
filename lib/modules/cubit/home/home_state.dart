@@ -1,10 +1,8 @@
 part of 'home_cubit.dart';
 
-@freezed
-class HomeState with _$HomeState {
-  const factory HomeState.initial({
-    @Default([]) List<WarrantyInfo> expiringList,
-  }) = _Initial;
+@CopyWith()
+class HomeState {
+  final List<WarrantyInfo> expiringList;
 
-  const HomeState._();
+  HomeState({required this.expiringList});
 }

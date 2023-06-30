@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as _firebaseauth;
+import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warranty_keeper/app_library.dart';
@@ -21,11 +21,11 @@ abstract class AuthRepository {
 }
 
 class FirebaseAuthRepository implements AuthRepository {
-  final _firebaseauth.FirebaseAuth _auth = _firebaseauth.FirebaseAuth.instance;
+  final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   @override
   User currentUser() {
-    _firebaseauth.User user = _auth.currentUser!;
+    firebaseauth.User user = _auth.currentUser!;
     return User(uid: user.uid);
   }
 
@@ -42,7 +42,7 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<User> login(String email, String password) async {
     try {
-      _firebaseauth.UserCredential result = await _auth
+      firebaseauth.UserCredential result = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
@@ -78,7 +78,7 @@ class FirebaseAuthRepository implements AuthRepository {
   //firebase login with email and password
   Future<User> register(String email, String password) async {
     try {
-      _firebaseauth.UserCredential result = await _auth
+      firebaseauth.UserCredential result = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
@@ -102,14 +102,14 @@ class FirebaseAuthRepository implements AuthRepository {
           await googleUser!.authentication;
 
       // Create a new credential
-      final _firebaseauth.OAuthCredential credential =
-          _firebaseauth.GoogleAuthProvider.credential(
+      final firebaseauth.OAuthCredential credential =
+          firebaseauth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Once signed in, return the UserCredential
-      _firebaseauth.UserCredential result =
+      firebaseauth.UserCredential result =
           await _auth.signInWithCredential(credential);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';

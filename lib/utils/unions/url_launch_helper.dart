@@ -5,7 +5,7 @@ class UrlLaunchHelper {
 
   static Future<bool> launchURL(String url) async {
     try {
-      if (await canLaunch(url)) {
+      if (await canLaunchUrl(url)) {
         await launch(
           url,
           enableJavaScript: true,
