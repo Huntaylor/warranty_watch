@@ -12,17 +12,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         lifeTime: !state.lifeTime,
-        imagesList: state.imagesList,
-        name: state.name,
-        purchaseDate: state.purchaseDate,
-        endOfWarr: state.endOfWarr,
-        reminderDate: state.reminderDate,
-        warrWebsite: state.warrWebsite,
-        details: state.details,
-        image: state.image,
-        receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
-        wantsReminders: state.wantsReminders,
       ),
     );
   }
@@ -31,17 +20,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         purchaseDate: DateFormat.yMd().parse(date),
-        endOfWarr: state.endOfWarr,
-        lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
-        name: state.name,
-        reminderDate: state.reminderDate,
-        warrWebsite: state.warrWebsite,
-        details: state.details,
-        image: state.image,
-        receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
-        wantsReminders: state.wantsReminders,
       ),
     );
   }
@@ -50,17 +28,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         name: productName,
-        lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
-        purchaseDate: state.purchaseDate,
-        endOfWarr: state.endOfWarr,
-        reminderDate: state.reminderDate,
-        warrWebsite: state.warrWebsite,
-        details: state.details,
-        image: state.image,
-        receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
-        wantsReminders: state.wantsReminders,
       ),
     );
   }
@@ -69,17 +36,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         warrWebsite: websiteName,
-        lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
-        name: state.name,
-        purchaseDate: state.purchaseDate,
-        endOfWarr: state.endOfWarr,
-        reminderDate: state.reminderDate,
-        details: state.details,
-        image: state.image,
-        receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
-        wantsReminders: state.wantsReminders,
       ),
     );
   }
@@ -88,17 +44,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         details: additionalDetails,
-        lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
-        name: state.name,
-        purchaseDate: state.purchaseDate,
-        endOfWarr: state.endOfWarr,
-        reminderDate: state.reminderDate,
-        warrWebsite: state.warrWebsite,
-        image: state.image,
-        receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
-        wantsReminders: state.wantsReminders,
       ),
     );
   }
@@ -107,17 +52,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         endOfWarr: DateFormat('MM/dd/yyyy').parse(date),
-        purchaseDate: state.purchaseDate,
-        lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
-        name: state.name,
-        reminderDate: state.reminderDate,
-        warrWebsite: state.warrWebsite,
-        details: state.details,
-        image: state.image,
-        receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
-        wantsReminders: state.wantsReminders,
       ),
     );
     changeReminderDate(date);
@@ -134,17 +68,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.month,
               state.endOfWarr!.day - 2,
             ),
-            lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarr: state.endOfWarr,
-            warrWebsite: state.warrWebsite,
-            details: state.details,
-            image: state.image,
-            receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
-            wantsReminders: state.wantsReminders,
           ),
         );
       } else if (daysTill < 14 && daysTill > 7) {
@@ -155,17 +78,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.month,
               state.endOfWarr!.day - 7,
             ),
-            lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarr: state.endOfWarr,
-            warrWebsite: state.warrWebsite,
-            details: state.details,
-            image: state.image,
-            receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
-            wantsReminders: state.wantsReminders,
           ),
         );
       } else if (daysTill < 30 && daysTill > 14) {
@@ -176,39 +88,16 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.month,
               state.endOfWarr!.day - 14,
             ),
-            lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarr: state.endOfWarr,
-            warrWebsite: state.warrWebsite,
-            details: state.details,
-            image: state.image,
-            receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
-            wantsReminders: state.wantsReminders,
           ),
         );
       } else if (daysTill < 90 && daysTill > 30) {
         return emit(
           state.copyWith(
-            reminderDate: DateTime(
-              state.endOfWarr!.year,
-              state.endOfWarr!.month,
-              state.endOfWarr!.day - 30,
-            ),
-            lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarr: state.endOfWarr,
-            warrWebsite: state.warrWebsite,
-            details: state.details,
-            image: state.image,
-            receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
-            wantsReminders: state.wantsReminders,
-          ),
+              reminderDate: DateTime(
+            state.endOfWarr!.year,
+            state.endOfWarr!.month,
+            state.endOfWarr!.day - 30,
+          )),
         );
       } else if (daysTill > 90) {
         return emit(
@@ -218,34 +107,12 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
               state.endOfWarr!.month,
               state.endOfWarr!.day - 30,
             ),
-            lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarr: state.endOfWarr,
-            warrWebsite: state.warrWebsite,
-            details: state.details,
-            image: state.image,
-            receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
-            wantsReminders: state.wantsReminders,
           ),
         );
       } else {
         emit(
           state.copyWith(
             reminderDate: DateFormat('MM/dd/yyyy').parse(date),
-            lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarr: state.endOfWarr,
-            warrWebsite: state.warrWebsite,
-            details: state.details,
-            image: state.image,
-            receiptImage: state.receiptImage,
-            isEditing: state.isEditing,
-            wantsReminders: state.wantsReminders,
           ),
         );
       }
@@ -264,17 +131,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     emit(
       state.copyWith(
         wantsReminders: value,
-        lifeTime: state.lifeTime,
-        imagesList: state.imagesList,
-        name: state.name,
-        purchaseDate: state.purchaseDate,
-        endOfWarr: state.endOfWarr,
-        reminderDate: state.reminderDate,
-        warrWebsite: state.warrWebsite,
-        details: state.details,
-        image: state.image,
-        receiptImage: state.receiptImage,
-        isEditing: state.isEditing,
       ),
     );
   }
@@ -292,17 +148,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       emit(
         state.copyWith(
           image: File(imagePicker.path),
-          lifeTime: state.lifeTime,
-          imagesList: state.imagesList,
-          name: state.name,
-          purchaseDate: state.purchaseDate,
-          endOfWarr: state.endOfWarr,
-          reminderDate: state.reminderDate,
-          warrWebsite: state.warrWebsite,
-          details: state.details,
-          receiptImage: state.receiptImage,
-          isEditing: state.isEditing,
-          wantsReminders: state.wantsReminders,
         ),
       );
       NavCubit().pop();
@@ -321,18 +166,8 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
       emit(
         state.copyWith(
-            image: File(imagePicker.path),
-            lifeTime: state.lifeTime,
-            imagesList: state.imagesList,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarr: state.endOfWarr,
-            reminderDate: state.reminderDate,
-            warrWebsite: state.warrWebsite,
-            details: state.details,
-            isEditing: state.isEditing,
-            wantsReminders: state.wantsReminders,
-            receiptImage: state.receiptImage),
+          image: File(imagePicker.path),
+        ),
       );
       NavCubit().pop();
     }
@@ -352,17 +187,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       emit(
         state.copyWith(
           receiptImage: File(imagePicker.path),
-          lifeTime: state.lifeTime,
-          imagesList: state.imagesList,
-          name: state.name,
-          purchaseDate: state.purchaseDate,
-          endOfWarr: state.endOfWarr,
-          reminderDate: state.reminderDate,
-          warrWebsite: state.warrWebsite,
-          details: state.details,
-          image: state.image,
-          isEditing: state.isEditing,
-          wantsReminders: state.wantsReminders,
         ),
       );
       NavCubit().pop();
@@ -382,17 +206,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       emit(
         state.copyWith(
           receiptImage: File(imagePicker.path),
-          lifeTime: state.lifeTime,
-          imagesList: state.imagesList,
-          name: state.name,
-          purchaseDate: state.purchaseDate,
-          endOfWarr: state.endOfWarr,
-          reminderDate: state.reminderDate,
-          warrWebsite: state.warrWebsite,
-          details: state.details,
-          image: state.image,
-          isEditing: state.isEditing,
-          wantsReminders: state.wantsReminders,
         ),
       );
       NavCubit().pop();

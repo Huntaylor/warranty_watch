@@ -52,10 +52,8 @@ class _Content extends StatelessWidget {
                           );
                         },
                         onEdit: () {
-                          newRead.editWarrantyInitial(
-                              state.warrantyInfoList[index]);
-                          navCubit.appNavigator
-                              .pushNamed(NewWarrantyView.routeName);
+                          newRead.editWarrantyInitial(state.warrantyInfoList[index]);
+                          navCubit.appNavigator.pushNamed(NewWarrantyView.routeName);
                         },
                         onRemove: () => currentCubit.removeWarranty(index),
                         warrantyInfo: state.warrantyInfoList[index],

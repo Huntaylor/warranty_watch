@@ -9,7 +9,7 @@ part 'current_warranties_state.dart';
 part 'current_warranties_cubit.g.dart';
 
 class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
-  CurrentWarrantiesCubit(super.initialState);
+  CurrentWarrantiesCubit() : super(CurrentWarrantiesInitialState(warrantyInfoList: [], expiringList: [], removeBool: ));
 
   void addOrEditWarranty(WarrantyInfo warrantyInfo) {
     List<WarrantyInfo> newList;

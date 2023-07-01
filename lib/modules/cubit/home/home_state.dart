@@ -1,8 +1,10 @@
 part of 'home_cubit.dart';
 
 @CopyWith()
-class HomeState {
+class HomeState extends Cubit<HomeState> {
   final List<WarrantyInfo> expiringList;
 
-  HomeState({required this.expiringList});
+  HomeState(
+    this.expiringList,
+  ) : super(HomeState(expiringList));
 }
