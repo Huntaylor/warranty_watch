@@ -8,3 +8,7 @@ class HomeState extends Cubit<HomeState> {
     this.expiringList,
   ) : super(HomeState(expiringList));
 }
+
+class HomeInitialState extends HomeState {
+  HomeInitialState() : super([]);
+}

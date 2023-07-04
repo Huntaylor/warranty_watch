@@ -6,5 +6,5 @@ part 'home_state.dart';
 part 'home_cubit.g.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(super.initialState);
+  HomeCubit() : super(HomeInitialState());
 }

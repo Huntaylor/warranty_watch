@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
@@ -7,16 +8,19 @@ import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'firebase_options.dart';
 
 import 'package:warranty_keeper/presentation/login/login_view.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_keeper/routes.dart';
 import 'package:warranty_keeper/utils/app_navigator.dart';
 
 import 'app_library.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

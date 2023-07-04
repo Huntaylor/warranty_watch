@@ -72,10 +72,12 @@ class _Content extends StatelessWidget {
             WarrantyElevatedButton(
               isEnabled: true,
               onPressed: () {
-                navCubit.appNavigator
-                    .pushNamed(CurrentWarrantiesView.routeName);
+                navCubit.appNavigator.pushNamed(CurrentWarrantiesView.routeName);
               },
               text: context.appLocalizations.currentWarrantyBtn,
+            ),
+            const SizedBox(
+              height: 5,
             ),
             //  Add Warranty
             WarrantyElevatedButton(

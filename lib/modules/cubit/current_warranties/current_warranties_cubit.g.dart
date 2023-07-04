@@ -85,3 +85,85 @@ extension $CurrentWarrantiesStateCopyWith on CurrentWarrantiesState {
   _$CurrentWarrantiesStateCWProxy get copyWith =>
       _$CurrentWarrantiesStateCWProxyImpl(this);
 }
+
+abstract class _$CurrentWarrantiesInitialStateCWProxy {
+  CurrentWarrantiesInitialState warrantyInfoList(
+      List<WarrantyInfo> warrantyInfoList);
+
+  CurrentWarrantiesInitialState expiringList(List<WarrantyInfo> expiringList);
+
+  CurrentWarrantiesInitialState removeBool(bool removeBool);
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CurrentWarrantiesInitialState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// CurrentWarrantiesInitialState(...).copyWith(id: 12, name: "My name")
+  /// ````
+  CurrentWarrantiesInitialState call({
+    List<WarrantyInfo>? warrantyInfoList,
+    List<WarrantyInfo>? expiringList,
+    bool? removeBool,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfCurrentWarrantiesInitialState.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfCurrentWarrantiesInitialState.copyWith.fieldName(...)`
+class _$CurrentWarrantiesInitialStateCWProxyImpl
+    implements _$CurrentWarrantiesInitialStateCWProxy {
+  const _$CurrentWarrantiesInitialStateCWProxyImpl(this._value);
+
+  final CurrentWarrantiesInitialState _value;
+
+  @override
+  CurrentWarrantiesInitialState warrantyInfoList(
+          List<WarrantyInfo> warrantyInfoList) =>
+      this(warrantyInfoList: warrantyInfoList);
+
+  @override
+  CurrentWarrantiesInitialState expiringList(List<WarrantyInfo> expiringList) =>
+      this(expiringList: expiringList);
+
+  @override
+  CurrentWarrantiesInitialState removeBool(bool removeBool) =>
+      this(removeBool: removeBool);
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CurrentWarrantiesInitialState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// CurrentWarrantiesInitialState(...).copyWith(id: 12, name: "My name")
+  /// ````
+  CurrentWarrantiesInitialState call({
+    Object? warrantyInfoList = const $CopyWithPlaceholder(),
+    Object? expiringList = const $CopyWithPlaceholder(),
+    Object? removeBool = const $CopyWithPlaceholder(),
+  }) {
+    return CurrentWarrantiesInitialState(
+      warrantyInfoList: warrantyInfoList == const $CopyWithPlaceholder() ||
+              warrantyInfoList == null
+          ? _value.warrantyInfoList
+          // ignore: cast_nullable_to_non_nullable
+          : warrantyInfoList as List<WarrantyInfo>,
+      expiringList:
+          expiringList == const $CopyWithPlaceholder() || expiringList == null
+              ? _value.expiringList
+              // ignore: cast_nullable_to_non_nullable
+              : expiringList as List<WarrantyInfo>,
+      removeBool:
+          removeBool == const $CopyWithPlaceholder() || removeBool == null
+              ? _value.removeBool
+              // ignore: cast_nullable_to_non_nullable
+              : removeBool as bool,
+    );
+  }
+}
+
+extension $CurrentWarrantiesInitialStateCopyWith
+    on CurrentWarrantiesInitialState {
+  /// Returns a callable class that can be used as follows: `instanceOfCurrentWarrantiesInitialState.copyWith(...)` or like so:`instanceOfCurrentWarrantiesInitialState.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
+  _$CurrentWarrantiesInitialStateCWProxy get copyWith =>
+      _$CurrentWarrantiesInitialStateCWProxyImpl(this);
+}
