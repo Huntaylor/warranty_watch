@@ -1,12 +1,11 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
-import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 class LoginView extends StatelessWidget {
-  static const routeName = '/loginView';
   const LoginView({Key? key}) : super(key: key);
 
   @override
@@ -24,8 +23,6 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navCubit = context.read<NavCubit>();
-    final loginCubit = context.read<LoginCubit>();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
@@ -48,11 +45,11 @@ class _Content extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
+                    BlocBuilder<LoginCubit, bool>(
+                      builder: (context, isObscured) {
                         return WarrantyTextField.obscured(
-                          onObscuredTap: loginCubit.toggleObscurity,
-                          isObscuredFunction: state.isObscured,
+                          onObscuredTap: () => context.read<LoginCubit>().toggleObscurity(),
+                          isObscuredFunction: isObscured,
                           isRequired: false,
                           initialValue: '',
                           hintText: 'Password',
@@ -62,8 +59,9 @@ class _Content extends StatelessWidget {
                     ),
                     TextButton(
                       child: const Text('Forgot Password?'),
-                      onPressed: () =>
-                          navCubit.appNavigator.pushNamed(HomeView.routeName),
+                      onPressed: () {
+                        context.push(Paths.login.forgotPassword.path);
+                      },
                     ),
                   ],
                 ),
@@ -72,15 +70,13 @@ class _Content extends StatelessWidget {
             Column(
               children: [
                 WarrantyElevatedButton(
-                  onPressed: () =>
-                      navCubit.appNavigator.pushNamed(HomeView.routeName),
+                  onPressed: () => context.read<AuthCubit>().login('', ''),
                   text: 'Login',
                   isEnabled: true,
                 ),
                 TextButton(
                   child: const Text('Sign up'),
-                  onPressed: () =>
-                      navCubit.appNavigator.pushNamed(HomeView.routeName),
+                  onPressed: () => context.read<AuthCubit>().register('', ''),
                 ),
               ],
             )

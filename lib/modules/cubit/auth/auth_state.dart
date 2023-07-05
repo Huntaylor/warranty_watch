@@ -1,64 +1,43 @@
 part of 'auth_cubit.dart';
 
-@autoequal
 abstract class AuthState extends Equatable {
   const AuthState();
 
-  @override
-  List<Object?> get props => _$props;
-}
+  bool get isAuthenticated => this is _Authenticated;
+  bool get isNotAuthenticated => this is _NotAuthenticated;
+  bool get isError => this is _Error;
+  bool get isLoading => this is _Loading;
 
-class AuthInitial extends AuthState {
-  const AuthInitial();
-  @override
-  List<Object?> get props => _$props;
-}
-
-class AuthLoading extends AuthState {
-  const AuthLoading();
+  _Authenticated get asAuthenticated => this as _Authenticated;
+  _Error get asError => this as _Error;
 
   @override
-  List<Object?> get props => _$props;
+  List<Object?> get props => [];
 }
 
-class Authenticated extends AuthState {
+class _Loading extends AuthState {
+  const _Loading();
+}
+
+@autoequal
+class _Authenticated extends AuthState {
+  const _Authenticated(this.user);
+
   final User user;
-  const Authenticated(this.user);
-  @override
-  List<Object?> get props => _$props;
-}
-
-class NotAuthenticated extends AuthState {
-  const NotAuthenticated();
 
   @override
   List<Object?> get props => _$props;
 }
 
-class AuthError extends AuthState {
+class _NotAuthenticated extends AuthState {
+  const _NotAuthenticated();
+}
+
+@autoequal
+class _Error extends AuthState {
+  const _Error(this.message);
+
   final String message;
-  const AuthError(this.message);
-
-  @override
-  List<Object?> get props => _$props;
-}
-
-class PasswordRequestSubmitted extends AuthState {
-  const PasswordRequestSubmitted();
-
-  @override
-  List<Object?> get props => _$props;
-}
-
-class FirstRun extends AuthState {
-  const FirstRun();
-
-  @override
-  List<Object?> get props => _$props;
-}
-
-class PersonalDataUpdated extends AuthState {
-  const PersonalDataUpdated();
 
   @override
   List<Object?> get props => _$props;

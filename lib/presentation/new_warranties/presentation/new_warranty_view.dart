@@ -1,6 +1,6 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
@@ -10,7 +10,6 @@ import 'package:warranty_keeper/widgets/warranty_image_widget.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 class NewWarrantyView extends StatelessWidget {
-  static const routeName = '/newWarrantyView';
   const NewWarrantyView({Key? key}) : super(key: key);
 
   @override
@@ -25,9 +24,7 @@ class NewWarrantyView extends StatelessWidget {
         title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
           builder: (context, state) {
             return Text(
-              (state.isEditing)
-                  ? appLocalizations.editWarrantyTitle
-                  : appLocalizations.addWarrantyTitle,
+              (state.isEditing) ? appLocalizations.editWarrantyTitle : appLocalizations.addWarrantyTitle,
             );
           },
         ),
@@ -44,7 +41,6 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final newWarrantyCubit = context.read<NewWarrantyCubit>();
     final currWarrantyCubit = context.read<CurrentWarrantiesCubit>();
-    final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
     return SafeArea(
@@ -60,8 +56,7 @@ class _Content extends StatelessWidget {
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       builder: (context, state) {
                         return WarrantyTextField.general(
-                          currentLength:
-                              (state.name != null) ? state.name!.length : 0,
+                          currentLength: (state.name != null) ? state.name!.length : 0,
                           maxLength: 25,
                           maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           initialValue: state.name ?? '',
@@ -74,11 +69,7 @@ class _Content extends StatelessWidget {
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       builder: (context, state) {
                         return WarrantyTextField.date(
-                          initialValue:
-                              newWarrantyCubit.state.purchaseDate != null
-                                  ? _dateFormat(
-                                      newWarrantyCubit.state.purchaseDate!)
-                                  : _dateFormat(DateTime.now()),
+                          initialValue: newWarrantyCubit.state.purchaseDate != null ? _dateFormat(newWarrantyCubit.state.purchaseDate!) : _dateFormat(DateTime.now()),
                           isRequired: true,
                           isLifeTime: false,
                           endDateTime: DateTime.now(),
@@ -90,8 +81,7 @@ class _Content extends StatelessWidget {
                       },
                     ),
                     WarrantyTextField.webSite(
-                      initialValue:
-                          newWarrantyCubit.state.warrWebsite ?? 'https://',
+                      initialValue: newWarrantyCubit.state.warrWebsite ?? 'https://',
                       isRequired: true,
                       onChanged: newWarrantyCubit.changeWebsiteName,
                       hintText: appLocalizations.companyWebsite,
@@ -99,9 +89,7 @@ class _Content extends StatelessWidget {
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
                       builder: (context, state) {
                         return WarrantyTextField.date(
-                          initialValue: newWarrantyCubit.state.endOfWarr != null
-                              ? _dateFormat(newWarrantyCubit.state.endOfWarr!)
-                              : '',
+                          initialValue: newWarrantyCubit.state.endOfWarr != null ? _dateFormat(newWarrantyCubit.state.endOfWarr!) : '',
                           isRequired: true,
                           isLifeTime: state.lifeTime,
                           endDateTime: DateTime(2050),
@@ -137,8 +125,7 @@ class _Content extends StatelessWidget {
                                       Switch(
                                         value: state.wantsReminders,
                                         onChanged: (value) {
-                                          newWarrantyCubit
-                                              .toggleWantsReminders(value);
+                                          newWarrantyCubit.toggleWantsReminders(value);
                                         },
                                       ),
                                       const Text('Reminder before expiration'),
@@ -146,14 +133,11 @@ class _Content extends StatelessWidget {
                                   ),
                                   if (state.wantsReminders)
                                     WarrantyTextField.date(
-                                      initialValue: _dateFormat(
-                                          newWarrantyCubit.state.reminderDate!),
+                                      initialValue: _dateFormat(newWarrantyCubit.state.reminderDate!),
                                       isRequired: true,
                                       isLifeTime: state.lifeTime,
-                                      endDateTime:
-                                          newWarrantyCubit.state.endOfWarr,
-                                      initialDateTime:
-                                          newWarrantyCubit.state.reminderDate,
+                                      endDateTime: newWarrantyCubit.state.endOfWarr,
+                                      initialDateTime: newWarrantyCubit.state.reminderDate,
                                       startDateTime: DateTime.now(),
                                       onChanged: newWarrantyCubit.changeEndDate,
                                       hintText: 'Reminder Date',
@@ -162,11 +146,9 @@ class _Content extends StatelessWidget {
                               );
                       },
                     ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                        builder: (context, state) {
+                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(builder: (context, state) {
                       return WarrantyTextField.form(
-                        currentLength:
-                            (state.details != null) ? state.details!.length : 0,
+                        currentLength: (state.details != null) ? state.details!.length : 0,
                         maxLength: 100,
                         maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         initialValue: state.details ?? '',
@@ -175,8 +157,7 @@ class _Content extends StatelessWidget {
                       );
                     }),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.receiptImage != current.receiptImage,
+                      buildWhen: (previous, current) => previous.receiptImage != current.receiptImage,
                       builder: (context, state) {
                         return WarrantyImage(
                           image: state.receiptImage,
@@ -195,10 +176,8 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  onRecieptPhotoTap:
-                                      newWarrantyCubit.changeReceiptPhotos,
-                                  onRecieptCameraTap:
-                                      newWarrantyCubit.changeReceiptCamera,
+                                  onRecieptPhotoTap: newWarrantyCubit.changeReceiptPhotos,
+                                  onRecieptCameraTap: newWarrantyCubit.changeReceiptCamera,
                                 );
                               },
                             );
@@ -211,8 +190,7 @@ class _Content extends StatelessWidget {
                       },
                     ),
                     BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      buildWhen: (previous, current) =>
-                          previous.image != current.image,
+                      buildWhen: (previous, current) => previous.image != current.image,
                       builder: (context, state) {
                         return WarrantyImage(
                           image: state.image,
@@ -231,16 +209,13 @@ class _Content extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return ImageBottomSheet(
-                                  onRecieptPhotoTap:
-                                      newWarrantyCubit.changeProductPhotos,
-                                  onRecieptCameraTap:
-                                      newWarrantyCubit.changeProductCamera,
+                                  onRecieptPhotoTap: newWarrantyCubit.changeProductPhotos,
+                                  onRecieptCameraTap: newWarrantyCubit.changeProductCamera,
                                 );
                               },
                             );
                           },
-                          text:
-                              '${appLocalizations.addPhoto} ${appLocalizations.required}',
+                          text: '${appLocalizations.addPhoto} ${appLocalizations.required}',
                           icon: const Icon(
                             Icons.camera_alt_outlined,
                           ),
@@ -261,13 +236,11 @@ class _Content extends StatelessWidget {
                       if (newWarrantyCubit.verifyWarranty()) {
                         newWarrantyCubit.changeEditing();
                         currWarrantyCubit.addOrEditWarranty(state);
-                        newWarrantyCubit.clear();
-                        navCubit.pop();
+                        newWarrantyCubit.newWar();
+                        context.pop();
                       }
                     },
-                    text: (state.isEditing)
-                        ? appLocalizations.editProductBtn
-                        : appLocalizations.addproductButton,
+                    text: (state.isEditing) ? appLocalizations.editProductBtn : appLocalizations.addproductButton,
                   ),
                 );
               },

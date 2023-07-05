@@ -8,27 +8,27 @@ part 'auth_cubit.g.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
-  AuthCubit(this._authRepository) : super(const AuthInitial());
+  AuthCubit(this._authRepository) : super(const _Loading()) {
+    isLoggedIn();
+  }
 
   Future login(String email, String password) async {
     try {
-      emit(
-        const AuthLoading(),
-      );
+      emit(const _Loading());
       await _authRepository.login(email, password);
       User currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
         emit(
-          Authenticated(currentUser),
+          _Authenticated(currentUser),
         );
       } else {
         emit(
-          const NotAuthenticated(),
+          const _NotAuthenticated(),
         );
       }
     } catch (e) {
       emit(
-        AuthError(
+        _Error(
           e.toString(),
         ),
       );
@@ -37,32 +37,32 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future loginWithGoogle() async {
     try {
-      emit(const AuthLoading());
+      emit(const _Loading());
       await _authRepository.signInWithGoogle();
       User currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
-        emit(Authenticated(currentUser));
+        emit(_Authenticated(currentUser));
       } else {
-        emit(const NotAuthenticated());
+        emit(const _NotAuthenticated());
       }
     } catch (e) {
-      emit(AuthError(e.toString()));
+      emit(_Error(e.toString()));
     }
   }
 
   Future register(String email, String password) async {
     try {
       emit(
-        const AuthLoading(),
+        const _Loading(),
       );
       await _authRepository.register(email, password);
       User currentUser = _authRepository.currentUser();
       emit(
-        Authenticated(currentUser),
+        _Authenticated(currentUser),
       );
     } catch (e) {
       emit(
-        AuthError(
+        _Error(
           e.toString(),
         ),
       );
@@ -72,15 +72,15 @@ class AuthCubit extends Cubit<AuthState> {
   Future logout() async {
     try {
       emit(
-        const AuthLoading(),
+        const _Loading(),
       );
       await _authRepository.logout();
       emit(
-        const NotAuthenticated(),
+        const _NotAuthenticated(),
       );
     } catch (e) {
       emit(
-        AuthError(
+        _Error(
           e.toString(),
         ),
       );
@@ -89,16 +89,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future submitPasswordReset(String email) async {
     try {
-      emit(
-        const AuthLoading(),
-      );
+      emit(const _Loading());
       await _authRepository.passwordResetSubmit(email);
-      emit(
-        const PasswordRequestSubmitted(),
-      );
     } catch (e) {
       emit(
-        AuthError(
+        _Error(
           e.toString(),
         ),
       );
@@ -108,45 +103,21 @@ class AuthCubit extends Cubit<AuthState> {
   void isLoggedIn() {
     try {
       emit(
-        const AuthLoading(),
+        const _Loading(),
       );
       if (_authRepository.currentUser().uid != null) {
         User currentUser = _authRepository.currentUser();
         emit(
-          Authenticated(currentUser),
+          _Authenticated(currentUser),
         );
       } else {
         emit(
-          const NotAuthenticated(),
+          const _NotAuthenticated(),
         );
       }
     } catch (e) {
       emit(
-        AuthError(
-          e.toString(),
-        ),
-      );
-    }
-  }
-
-  Future isFirstRun() async {
-    try {
-      emit(
-        const AuthLoading(),
-      );
-      if (await _authRepository.isFirstRun()) {
-        emit(
-          const FirstRun(),
-        );
-      } else {
-        User currentUser = _authRepository.currentUser();
-        emit(
-          Authenticated(currentUser),
-        );
-      }
-    } catch (e) {
-      emit(
-        AuthError(
+        _Error(
           e.toString(),
         ),
       );
@@ -156,19 +127,21 @@ class AuthCubit extends Cubit<AuthState> {
   Future updatePersonalData(String firstName, String lastName, String birthday) async {
     try {
       emit(
-        const AuthLoading(),
+        const _Loading(),
       );
       await _authRepository.updatePersonalData(
         firstName,
         lastName,
         birthday,
       );
+
+      User currentUser = _authRepository.currentUser();
       emit(
-        const PersonalDataUpdated(),
+        _Authenticated(currentUser),
       );
     } catch (e) {
       emit(
-        AuthError(
+        _Error(
           e.toString(),
         ),
       );

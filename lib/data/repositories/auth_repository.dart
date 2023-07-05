@@ -42,8 +42,7 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<User> login(String email, String password) async {
     try {
-      firebaseauth.UserCredential result = await _auth
-          .signInWithEmailAndPassword(email: email, password: password);
+      firebaseauth.UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
@@ -78,8 +77,7 @@ class FirebaseAuthRepository implements AuthRepository {
   //firebase login with email and password
   Future<User> register(String email, String password) async {
     try {
-      firebaseauth.UserCredential result = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      firebaseauth.UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
@@ -98,19 +96,16 @@ class FirebaseAuthRepository implements AuthRepository {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser!.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
       // Create a new credential
-      final firebaseauth.OAuthCredential credential =
-          firebaseauth.GoogleAuthProvider.credential(
+      final firebaseauth.OAuthCredential credential = firebaseauth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Once signed in, return the UserCredential
-      firebaseauth.UserCredential result =
-          await _auth.signInWithCredential(credential);
+      firebaseauth.UserCredential result = await _auth.signInWithCredential(credential);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
@@ -123,11 +118,15 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   @override
-  Future<void> updatePersonalData(
-      String firstname, String lastName, String birthday) async {
+  Future<void> updatePersonalData(String firstname, String lastName, String birthday) async {
     try {
       await users.doc(currentUser().uid).set(
-          {'firstName': firstname, 'lastName': lastName, 'birthday': birthday});
+        {
+          'firstName': firstname,
+          'lastName': lastName,
+          'birthday': birthday,
+        },
+      );
     } catch (e) {
       rethrow;
     }

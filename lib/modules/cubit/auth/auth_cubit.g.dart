@@ -6,8 +6,14 @@ part of 'auth_cubit.dart';
 // AutoequalGenerator
 // **************************************************************************
 
-extension _$AuthStateAutoequal on AuthState {
+extension _$_AuthenticatedAutoequal on _Authenticated {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [];
+  List<Object?> get _$props => [user];
+}
+
+extension _$_ErrorAutoequal on _Error {
+  @Deprecated(r'Use _$props instead')
+  List<Object?> get _autoequalProps => _$props;
+  List<Object?> get _$props => [message];
 }

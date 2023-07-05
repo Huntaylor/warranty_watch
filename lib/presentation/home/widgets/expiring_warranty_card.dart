@@ -1,6 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
 class ExpiringWarrantyCard extends StatelessWidget {
@@ -11,7 +10,6 @@ class ExpiringWarrantyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
-    final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
     return Flexible(
@@ -42,10 +40,9 @@ class ExpiringWarrantyCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: BlocBuilder<CurrentWarrantiesCubit,
-                      CurrentWarrantiesState>(
+                  child: BlocBuilder<CurrentWarrantiesCubit, CurrentWarrantiesState>(
                     builder: (context, state) {
-                      return (state.expiringList.isEmpty)
+                      return (state.asReady.expiring.isEmpty)
                           ? Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
@@ -56,7 +53,7 @@ class ExpiringWarrantyCard extends StatelessWidget {
                               physics: const ClampingScrollPhysics(),
                               addAutomaticKeepAlives: true,
                               shrinkWrap: true,
-                              itemCount: state.expiringList.length,
+                              itemCount: state.asReady.expiring.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -64,18 +61,14 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                     vertical: 4,
                                   ),
                                   child: GestureDetector(
-                                    onTap: () {
-                                      detailsCubit.selectedWarrantyInitial(
-                                        state.expiringList[index],
-                                      );
-                                      navCubit.detailsNav();
-                                    },
+                                    onTap: () => detailsCubit.selectedWarrantyInitial(
+                                      state.asReady.expiring[index],
+                                    ),
                                     child: Column(
                                       children: [
                                         if (index != 0)
                                           const Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 4.0),
+                                            padding: EdgeInsets.only(bottom: 4.0),
                                             child: Divider(
                                               height: 2,
                                               color: Colors.black,
@@ -86,18 +79,13 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  state.expiringList[index]
-                                                      .name!,
+                                                  state.asReady.expiring[index].name!,
                                                 ),
                                                 Text(
-                                                  _dateFormat(state
-                                                      .expiringList[index]
-                                                      .endOfWarr!),
+                                                  _dateFormat(state.asReady.expiring[index].endOfWarr!),
                                                 ),
                                               ],
                                             ),

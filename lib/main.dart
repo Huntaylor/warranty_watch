@@ -4,23 +4,22 @@ import 'package:warranty_keeper/modules/cubit/current_warranties/current_warrant
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/main/main_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'firebase_options.dart';
 
-import 'package:warranty_keeper/presentation/login/login_view.dart';
-import 'package:warranty_keeper/routes.dart';
-import 'package:warranty_keeper/utils/app_navigator.dart';
+import 'package:warranty_keeper/go_routes.dart';
 
 import 'app_library.dart';
 
 void main() async {
+  // const webRecaptchaSiteKey = '';
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // FirebaseAppCheck.instance.activate(webRecaptchaSiteKey: webRecaptchaSiteKey);
   runApp(const MyApp());
 }
 
@@ -37,13 +36,12 @@ class MyApp extends StatelessWidget {
           create: (context) => MainCubit(),
         ),
         BlocProvider<CurrentWarrantiesCubit>(
-          create: (context) => CurrentWarrantiesCubit(),
+          create: (context) => CurrentWarrantiesCubit(
+            warrantiesSource: WarrantiesSource(),
+          ),
         ),
         BlocProvider<HomeCubit>(
           create: (context) => HomeCubit(),
-        ),
-        BlocProvider<NavCubit>(
-          create: (context) => NavCubit(),
         ),
         BlocProvider<NewWarrantyCubit>(
           create: (context) => NewWarrantyCubit(),
@@ -58,8 +56,8 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginCubit(),
         ),
       ],
-      child: MaterialApp(
-        navigatorKey: AppNavigator.rootNavigatorKey,
+      child: MaterialApp.router(
+        // navigatorKey: AppNaigvator.rootNavigatorKey,
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -81,8 +79,9 @@ class MyApp extends StatelessWidget {
             },
           ),
         ),
-        home: const LoginView(),
-        routes: appRoutes,
+
+        // home: const LoginView(),
+        routerConfig: goRoutes,
       ),
     );
   }

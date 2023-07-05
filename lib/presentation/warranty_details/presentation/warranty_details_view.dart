@@ -1,12 +1,11 @@
+import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'package:warranty_keeper/presentation/warranty_details/widgets/details_image_card.dart';
 import 'package:warranty_keeper/presentation/warranty_details/widgets/individual_detail.dart';
 
 class WarrantyDetailsView extends StatelessWidget {
-  static const routeName = '/warrantyDetails';
   const WarrantyDetailsView({
     Key? key,
   }) : super(key: key);
@@ -14,7 +13,6 @@ class WarrantyDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
-    final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
     return Scaffold(
       body: SafeArea(
@@ -33,7 +31,7 @@ class WarrantyDetailsView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton.icon(
-                    onPressed: () => navCubit.pop(),
+                    onPressed: () => context.pop(),
                     icon: const Icon(Icons.arrow_back),
                     label: Text(appLocalizations.back),
                   ),

@@ -9,3 +9,4 @@ export 'package:intl/intl.dart' hide TextDirection;
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'utils/utils.dart';
 export 'dart:io';
+export 'package:warranty_keeper/paths/paths.dart';
