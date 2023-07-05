@@ -27,9 +27,9 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     if (expiringList.any((e) => e.key == warrantyInfo.key)) {
       expiringList[state.asReady.warrantyInfo.indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
       emit(
-        state.copyWith(
-          removeBool: false,
-          warrantyInfoList: expiringList,
+        state.asReady.copyWith(
+          remove: false,
+          warrantyInfo: expiringList,
         ),
       );
     } else {
@@ -46,8 +46,8 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
         ((a, b) => a.endOfWarr!.compareTo(b.endOfWarr!)),
       );
       emit(
-        state.copyWith(
-          expiringList: expiringList,
+        state.asReady.copyWith(
+          expiring: expiringList,
         ),
       );
     }
@@ -55,18 +55,18 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     if (newList.any((e) => e.key == warrantyInfo.key)) {
       newList[state.asReady.warrantyInfo.indexWhere((e) => e.key == warrantyInfo.key)] = warrantyInfo;
       emit(
-        state.copyWith(
-          removeBool: false,
-          warrantyInfoList: newList,
+        state.asReady.copyWith(
+          remove: false,
+          warrantyInfo: newList,
         ),
       );
     } else {
       newList.add(warrantyInfo);
 
       emit(
-        state.copyWith(
-          removeBool: !state.asReady.remove,
-          warrantyInfoList: newList,
+        state.asReady.copyWith(
+          remove: !state.asReady.remove,
+          warrantyInfo: newList,
         ),
       );
     }
@@ -77,9 +77,9 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     removeList = state.asReady.warrantyInfo;
     removeList.removeAt(index);
     emit(
-      state.copyWith(
-        removeBool: !state.asReady.remove,
-        warrantyInfoList: removeList,
+      state.asReady.copyWith(
+        remove: !state.asReady.remove,
+        warrantyInfo: removeList,
       ),
     );
   }
