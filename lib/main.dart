@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
+import 'package:warranty_keeper/data/repositories/auth_repository.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
@@ -35,8 +38,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<MainCubit>(
           create: (context) => MainCubit(),
         ),
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(FirebaseAuthRepository()),
+        ),
         BlocProvider<CurrentWarrantiesCubit>(
           create: (context) => CurrentWarrantiesCubit(
+            FirebaseAuthRepository(),
             warrantiesSource: WarrantiesSource(),
           ),
         ),
@@ -57,7 +64,6 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        // navigatorKey: AppNaigvator.rootNavigatorKey,
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -79,8 +85,6 @@ class MyApp extends StatelessWidget {
             },
           ),
         ),
-
-        // home: const LoginView(),
         routerConfig: goRoutes,
       ),
     );

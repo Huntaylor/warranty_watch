@@ -77,6 +77,44 @@ class WarrantyInfo extends Equatable {
     );
   }
 
+  // factory WarrantyInfo.fromFirestore(
+  //   DocumentSnapshot<Map<String, dynamic>> snapshot,
+  //   SnapshotOptions? options,
+  // ) {
+  //   final data = snapshot.data();
+  //   return WarrantyInfo(
+  //     name: data?['name'],
+  //     imagesList: data?['imagesList'],
+  //     purchaseDate: data?['purchaseDate'],
+  //     endOfWarr: data?['endOfWarr'],
+  //     reminderDate: data?['reminderDate'],
+  //     warrWebsite: data?['warrWebsite'],
+  //     details: data?['details'],
+  //     image: data?['image'],
+  //     receiptImage: data?['receiptImage'],
+  //     lifeTime: data?['lifeTime'],
+  //     isEditing: data?['isEditing'],
+  //     wantsReminders: data?['wantsReminders'],
+  //   );
+  // }
+
+  // Map<String, dynamic> toFirestore() {
+  //   return {
+  //     if (name != null) "name": name,
+  //     if (imagesList != null) "imagesList": imagesList,
+  //     if (purchaseDate != null) "purchaseDate": purchaseDate,
+  //     if (endOfWarr != null) "endOfWarr": endOfWarr,
+  //     if (reminderDate != null) "reminderDate": reminderDate,
+  //     if (warrWebsite != null) "warrWebsite": warrWebsite,
+  //     if (details != null) "details": details,
+  //     if (image != null) "image": image,
+  //     if (receiptImage != null) "receiptImage": receiptImage,
+  //     "lifeTime": lifeTime,
+  //     "isEditing": isEditing,
+  //     "wantsReminders": wantsReminders,
+  //   };
+  // }
+
   bool canSave() {
     if (name == null) return false;
     if (name!.isEmpty) return false;

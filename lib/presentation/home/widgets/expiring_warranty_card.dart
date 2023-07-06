@@ -42,61 +42,63 @@ class ExpiringWarrantyCard extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<CurrentWarrantiesCubit, CurrentWarrantiesState>(
                     builder: (context, state) {
-                      return (state.asReady.expiring.isEmpty)
-                          ? Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                appLocalizations.noneExpiring,
-                              ),
-                            )
-                          : ListView.builder(
-                              physics: const ClampingScrollPhysics(),
-                              addAutomaticKeepAlives: true,
-                              shrinkWrap: true,
-                              itemCount: state.asReady.expiring.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 4.0,
-                                    vertical: 4,
+                      return (state.isLoading)
+                          ? const SizedBox.shrink()
+                          : (state.asReady.expiring.isEmpty)
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    appLocalizations.noneExpiring,
                                   ),
-                                  child: GestureDetector(
-                                    onTap: () => detailsCubit.selectedWarrantyInitial(
-                                      state.asReady.expiring[index],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        if (index != 0)
-                                          const Padding(
-                                            padding: EdgeInsets.only(bottom: 4.0),
-                                            child: Divider(
-                                              height: 2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        Container(
-                                          color: Colors.transparent,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  state.asReady.expiring[index].name!,
-                                                ),
-                                                Text(
-                                                  _dateFormat(state.asReady.expiring[index].endOfWarr!),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                )
+                              : ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  addAutomaticKeepAlives: true,
+                                  shrinkWrap: true,
+                                  itemCount: state.asReady.expiring.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 4.0,
+                                        vertical: 4,
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () => detailsCubit.selectedWarrantyInitial(
+                                          state.asReady.expiring[index],
                                         ),
-                                      ],
-                                    ),
-                                  ),
+                                        child: Column(
+                                          children: [
+                                            if (index != 0)
+                                              const Padding(
+                                                padding: EdgeInsets.only(bottom: 4.0),
+                                                child: Divider(
+                                                  height: 2,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            Container(
+                                              color: Colors.transparent,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(4.0),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      state.asReady.expiring[index].name!,
+                                                    ),
+                                                    Text(
+                                                      _dateFormat(state.asReady.expiring[index].endOfWarr!),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
-                              },
-                            );
                     },
                   ),
                 ),

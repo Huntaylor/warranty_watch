@@ -1,5 +1,5 @@
-import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
@@ -41,6 +41,7 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final newWarrantyCubit = context.read<NewWarrantyCubit>();
     final currWarrantyCubit = context.read<CurrentWarrantiesCubit>();
+    final authCubit = context.read<AuthCubit>();
     final appLocalizations = context.appLocalizations;
 
     return SafeArea(
@@ -235,9 +236,10 @@ class _Content extends StatelessWidget {
                     onPressed: () async {
                       if (newWarrantyCubit.verifyWarranty()) {
                         newWarrantyCubit.changeEditing();
-                        currWarrantyCubit.addOrEditWarranty(state);
-                        newWarrantyCubit.newWar();
-                        context.pop();
+                        currWarrantyCubit.addOrEditWarranty(
+                          warrantyInfo: state,
+                          user: authCubit.state.asAuthenticated.user,
+                        );
                       }
                     },
                     text: (state.isEditing) ? appLocalizations.editProductBtn : appLocalizations.addproductButton,
