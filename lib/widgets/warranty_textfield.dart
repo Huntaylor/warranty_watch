@@ -13,6 +13,7 @@ class WarrantyTextField extends StatefulWidget {
   final String initialText;
   final String initialValue;
   final bool isRequired;
+  final bool hasAutocorrect;
   final bool isTextObscured;
   final bool isObscuredFunction;
   final int? maxLines;
@@ -42,6 +43,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     required this.onChanged,
+    required this.hasAutocorrect,
     required this.isTextObscured,
     required this.isObscuredFunction,
     required this.onObscuredTap,
@@ -72,6 +74,7 @@ class WarrantyTextField extends StatefulWidget {
         isTextObscured = false,
         onObscuredTap = null,
         isObscuredFunction = false,
+        hasAutocorrect = false,
         super(key: key);
 
   const WarrantyTextField.general({
@@ -94,7 +97,32 @@ class WarrantyTextField extends StatefulWidget {
         isObscuredFunction = false,
         isLifeTime = false,
         maxLines = 1,
+        hasAutocorrect = true,
         textInputType = TextInputType.text,
+        super(key: key);
+
+  const WarrantyTextField.email({
+    this.maxLength,
+    this.maxLengthEnforcement,
+    required this.isRequired,
+    required this.initialValue,
+    this.onTap,
+    required this.onChanged,
+    this.initialDateTime,
+    this.startDateTime,
+    this.endDateTime,
+    key,
+    this.currentLength,
+  })  : initialText = '',
+        hintText = 'Email',
+        isDate = false,
+        isTextObscured = false,
+        onObscuredTap = null,
+        isObscuredFunction = false,
+        isLifeTime = false,
+        maxLines = 1,
+        hasAutocorrect = false,
+        textInputType = TextInputType.emailAddress,
         super(key: key);
 
   const WarrantyTextField.obscured({
@@ -118,6 +146,7 @@ class WarrantyTextField extends StatefulWidget {
         isLifeTime = false,
         maxLines = 1,
         textInputType = TextInputType.text,
+        hasAutocorrect = false,
         super(key: key);
 
   const WarrantyTextField.webSite({
@@ -140,6 +169,7 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isTextObscured = false,
         isObscuredFunction = false,
+        hasAutocorrect = false,
         textInputType = TextInputType.url,
         super(key: key);
 
@@ -164,6 +194,7 @@ class WarrantyTextField extends StatefulWidget {
         isObscuredFunction = false,
         isTextObscured = false,
         isRequired = false,
+        hasAutocorrect = true,
         super(key: key);
 
   @override
@@ -248,6 +279,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: TextFormField(
+            autocorrect: widget.hasAutocorrect,
             obscureText: widget.isObscuredFunction,
             maxLength: widget.maxLength,
             maxLengthEnforcement: widget.maxLengthEnforcement,
@@ -267,7 +299,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
                   ? GestureDetector(
                       onTap: widget.onObscuredTap,
                       child: Icon(
-                        widget.isObscuredFunction
+                        !widget.isObscuredFunction
                             ? Icons.remove_red_eye
                             : Icons.visibility_off,
                       ),

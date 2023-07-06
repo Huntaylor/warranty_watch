@@ -1,75 +1,90 @@
+import 'package:firefuel/firefuel.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:warranty_keeper/app_library.dart';
 
-class WarrantyInfo extends Equatable {
-  final Key key;
+part 'warranty_info.g.dart';
+
+enum WarrantyState { loading, initial, editing, submitted, loadingImage }
+
+@JsonSerializable()
+class WarrantyInfo extends Equatable implements Serializable {
+  final WarrantyState warrantyState;
+  final String warrantyId;
   final String? name;
   final DateTime? purchaseDate;
-  final String? warrWebsite;
-  final DateTime? endOfWarr;
+  final String? warrantyWebsite;
+  final DateTime? endOfWarranty;
   final DateTime? reminderDate;
   final String? details;
-  final List<File>? imagesList;
-  final File? image;
-  final File? receiptImage;
+  final String? image;
+  final String? imageUrl;
+  final String? receiptImage;
+  final String? receiptImageUrl;
   final bool lifeTime;
-  final bool isEditing;
   final bool wantsReminders;
-  WarrantyInfo({
+  const WarrantyInfo({
+    required this.warrantyId,
+    this.warrantyState = WarrantyState.initial,
     this.name,
     this.purchaseDate,
+    this.warrantyWebsite,
+    this.endOfWarranty,
     this.reminderDate,
-    this.warrWebsite,
-    this.endOfWarr,
     this.details,
-    this.imagesList,
     this.image,
+    this.imageUrl,
     this.receiptImage,
+    this.receiptImageUrl,
     this.lifeTime = false,
-    this.isEditing = false,
     this.wantsReminders = false,
-  }) : key = UniqueKey();
+  });
 
   @override
   List<Object?> get props => [
-        imagesList,
         name,
         purchaseDate,
-        endOfWarr,
-        warrWebsite,
+        endOfWarranty,
+        warrantyWebsite,
+        imageUrl,
+        receiptImageUrl,
         details,
         image,
         receiptImage,
         lifeTime,
-        isEditing,
-        key,
+        warrantyId,
         wantsReminders,
         reminderDate,
+        warrantyState,
       ];
 
   WarrantyInfo copyWith({
-    List<File>? imagesList,
+    String? warrantyId,
     String? name,
     DateTime? purchaseDate,
-    DateTime? endOfWarr,
+    DateTime? endOfWarranty,
     DateTime? reminderDate,
-    String? warrWebsite,
+    String? warrantyWebsite,
     String? details,
-    File? image,
-    File? receiptImage,
+    String? receiptImageUrl,
+    String? imageUrl,
+    String? image,
+    String? receiptImage,
     bool? lifeTime,
-    bool? isEditing,
     bool? wantsReminders,
+    WarrantyState? warrantyState,
   }) {
     return WarrantyInfo._(
+      imageUrl: imageUrl ?? this.imageUrl,
+      receiptImageUrl: receiptImageUrl ?? this.receiptImageUrl,
+      warrantyState: warrantyState ?? this.warrantyState,
       reminderDate: reminderDate ?? this.reminderDate,
       wantsReminders: wantsReminders ?? this.wantsReminders,
-      imagesList: imagesList ?? this.imagesList,
-      isEditing: isEditing ?? this.isEditing,
-      key: key,
+      warrantyId: warrantyId ?? this.warrantyId,
       name: name ?? this.name,
       purchaseDate: purchaseDate ?? DateTime.now(),
-      endOfWarr: endOfWarr ?? this.endOfWarr,
-      warrWebsite: warrWebsite ?? this.warrWebsite,
+      endOfWarranty: endOfWarranty ?? this.endOfWarranty,
+      warrantyWebsite: warrantyWebsite ?? this.warrantyWebsite,
       details: details ?? this.details,
       image: image ?? this.image,
       receiptImage: receiptImage ?? this.receiptImage,
@@ -81,25 +96,32 @@ class WarrantyInfo extends Equatable {
     if (name == null) return false;
     if (name!.isEmpty) return false;
     if (purchaseDate == null) return false;
-    if (warrWebsite == 'https://' || warrWebsite == null) return false;
+    if (warrantyWebsite == 'https://' || warrantyWebsite == null) return false;
     if (image == null) return false;
-    if (endOfWarr == null && lifeTime != true) return false;
+    if (endOfWarranty == null && lifeTime != true) return false;
     return true;
   }
 
   const WarrantyInfo._({
+    this.imageUrl,
+    this.receiptImageUrl,
     this.reminderDate,
-    this.imagesList,
     this.name,
     this.purchaseDate,
-    this.warrWebsite,
-    this.endOfWarr,
+    this.warrantyWebsite,
+    this.endOfWarranty,
     this.details,
     this.image,
     this.receiptImage,
+    required this.warrantyState,
     required this.lifeTime,
-    required this.isEditing,
-    required this.key,
+    required this.warrantyId,
     required this.wantsReminders,
   });
+
+  factory WarrantyInfo.fromJson(Map<String, dynamic> json, String warrantyId) =>
+      _$WarrantyInfoFromJson({'warrantyId': warrantyId, ...json});
+
+  @override
+  Map<String, dynamic> toJson() => _$WarrantyInfoToJson(this);
 }

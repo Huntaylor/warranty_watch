@@ -1,18 +1,18 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
-import 'package:warranty_keeper/presentation/login/login_view.dart';
+import 'package:warranty_keeper/routes/paths.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class SettingsView extends StatelessWidget {
-  static const routeName = '/settings';
   const SettingsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('settings view'),
+        title: const Text('Settings'),
       ),
       body: const _Content(),
     );
@@ -26,7 +26,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navCubit = context.read<NavCubit>();
+    final authCubit = context.read<AuthCubit>();
     final settingsCubit = context.read<SettingsCubit>();
     return SafeArea(
       child: Padding(
@@ -63,14 +63,22 @@ class _Content extends StatelessWidget {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 15),
-              child: WarrantyElevatedButton(
-                isEnabled: true,
-                onPressed: () => navCubit.appNavigator
-                    .pushNamedAndClearStack(LoginView.routeName),
-                text: 'Logout',
-              ),
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: ((context, state) => state.mapOrNull(
+                    notAuthenticated: ((value) => context.go(
+                          Paths.login.name,
+                        )),
+                  )),
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 15),
+                  child: WarrantyElevatedButton.general(
+                    isEnabled: true,
+                    onPressed: () => authCubit.logout(),
+                    text: 'Logout',
+                  ),
+                );
+              },
             ),
           ],
         ),

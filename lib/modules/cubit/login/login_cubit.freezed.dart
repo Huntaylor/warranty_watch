@@ -18,9 +18,12 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$LoginStateTearOff {
   const _$LoginStateTearOff();
 
-  _Initial initial({bool isObscured = true}) {
+  _Initial initial(
+      {bool isObscured = true, String email = '', String password = ''}) {
     return _Initial(
       isObscured: isObscured,
+      email: email,
+      password: password,
     );
   }
 }
@@ -31,20 +34,23 @@ const $LoginState = _$LoginStateTearOff();
 /// @nodoc
 mixin _$LoginState {
   bool get isObscured => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isObscured) initial,
+    required TResult Function(bool isObscured, String email, String password)
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(bool isObscured)? initial,
+    TResult Function(bool isObscured, String email, String password)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isObscured)? initial,
+    TResult Function(bool isObscured, String email, String password)? initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,7 +81,7 @@ abstract class $LoginStateCopyWith<$Res> {
   factory $LoginStateCopyWith(
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res>;
-  $Res call({bool isObscured});
+  $Res call({bool isObscured, String email, String password});
 }
 
 /// @nodoc
@@ -89,12 +95,22 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
   @override
   $Res call({
     Object? isObscured = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
   }) {
     return _then(_value.copyWith(
       isObscured: isObscured == freezed
           ? _value.isObscured
           : isObscured // ignore: cast_nullable_to_non_nullable
               as bool,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -104,7 +120,7 @@ abstract class _$InitialCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
       __$InitialCopyWithImpl<$Res>;
   @override
-  $Res call({bool isObscured});
+  $Res call({bool isObscured, String email, String password});
 }
 
 /// @nodoc
@@ -119,12 +135,22 @@ class __$InitialCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isObscured = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
   }) {
     return _then(_Initial(
       isObscured: isObscured == freezed
           ? _value.isObscured
           : isObscured // ignore: cast_nullable_to_non_nullable
               as bool,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -132,15 +158,22 @@ class __$InitialCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Initial implements _Initial {
-  const _$_Initial({this.isObscured = true});
+  const _$_Initial(
+      {this.isObscured = true, this.email = '', this.password = ''});
 
   @JsonKey()
   @override
   final bool isObscured;
+  @JsonKey()
+  @override
+  final String email;
+  @JsonKey()
+  @override
+  final String password;
 
   @override
   String toString() {
-    return 'LoginState.initial(isObscured: $isObscured)';
+    return 'LoginState.initial(isObscured: $isObscured, email: $email, password: $password)';
   }
 
   @override
@@ -149,12 +182,17 @@ class _$_Initial implements _Initial {
         (other.runtimeType == runtimeType &&
             other is _Initial &&
             const DeepCollectionEquality()
-                .equals(other.isObscured, isObscured));
+                .equals(other.isObscured, isObscured) &&
+            const DeepCollectionEquality().equals(other.email, email) &&
+            const DeepCollectionEquality().equals(other.password, password));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(isObscured));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(isObscured),
+      const DeepCollectionEquality().hash(email),
+      const DeepCollectionEquality().hash(password));
 
   @JsonKey(ignore: true)
   @override
@@ -164,27 +202,28 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool isObscured) initial,
+    required TResult Function(bool isObscured, String email, String password)
+        initial,
   }) {
-    return initial(isObscured);
+    return initial(isObscured, email, password);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(bool isObscured)? initial,
+    TResult Function(bool isObscured, String email, String password)? initial,
   }) {
-    return initial?.call(isObscured);
+    return initial?.call(isObscured, email, password);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool isObscured)? initial,
+    TResult Function(bool isObscured, String email, String password)? initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(isObscured);
+      return initial(isObscured, email, password);
     }
     return orElse();
   }
@@ -219,10 +258,15 @@ class _$_Initial implements _Initial {
 }
 
 abstract class _Initial implements LoginState {
-  const factory _Initial({bool isObscured}) = _$_Initial;
+  const factory _Initial({bool isObscured, String email, String password}) =
+      _$_Initial;
 
   @override
   bool get isObscured;
+  @override
+  String get email;
+  @override
+  String get password;
   @override
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith =>

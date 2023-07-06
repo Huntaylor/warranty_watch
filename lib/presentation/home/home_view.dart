@@ -1,19 +1,16 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
-import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
-import 'package:warranty_keeper/presentation/settings/settings_view.dart';
+import 'package:warranty_keeper/routes/paths.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class HomeView extends StatelessWidget {
-  static const routeName = '/homeView';
   const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
-    final navCubit = context.read<NavCubit>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -27,7 +24,7 @@ class HomeView extends StatelessWidget {
               itemBuilder: (_) => [
                 PopupMenuItem(
                   onTap: () {
-                    navCubit.appNavigator.pushNamed(SettingsView.routeName);
+                    context.push(Paths.settings.name);
                   },
                   child: const Text('Settings'),
                 ),
@@ -56,7 +53,6 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navCubit = context.read<NavCubit>();
     final newWarrCubit = context.read<NewWarrantyCubit>();
     return SafeArea(
       child: Padding(
@@ -69,20 +65,17 @@ class _Content extends StatelessWidget {
               height: 5,
             ),
             //  Current Warranty
-            WarrantyElevatedButton(
+            WarrantyElevatedButton.general(
               isEnabled: true,
-              onPressed: () {
-                navCubit.appNavigator
-                    .pushNamed(CurrentWarrantiesView.routeName);
-              },
+              onPressed: () => context.push(Paths.warranty.current.path),
               text: context.appLocalizations.currentWarrantyBtn,
             ),
             //  Add Warranty
-            WarrantyElevatedButton(
+            WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
+                context.push(Paths.warranty.newWarranty.path);
                 newWarrCubit.clear();
-                navCubit.newWarrNav();
               },
               text: context.appLocalizations.newWarrantyBtn,
             ),

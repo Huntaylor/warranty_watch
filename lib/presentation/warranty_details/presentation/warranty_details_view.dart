@@ -1,6 +1,6 @@
+import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'package:warranty_keeper/presentation/warranty_details/widgets/details_image_card.dart';
 import 'package:warranty_keeper/presentation/warranty_details/widgets/individual_detail.dart';
@@ -14,7 +14,6 @@ class WarrantyDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
-    final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
     return Scaffold(
       body: SafeArea(
@@ -25,15 +24,15 @@ class WarrantyDetailsView extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .4,
                   width: double.infinity,
-                  child: Image.file(
-                    detailsCubit.state.image!,
+                  child: Image.network(
+                    detailsCubit.state.imageUrl!,
                     fit: BoxFit.fitWidth,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton.icon(
-                    onPressed: () => navCubit.pop(),
+                    onPressed: () => context.pop(),
                     icon: const Icon(Icons.arrow_back),
                     label: Text(appLocalizations.back),
                   ),
@@ -54,7 +53,7 @@ class WarrantyDetailsView extends StatelessWidget {
                 ),
               ],
             ),
-            const Content(),
+            const _Content(),
           ],
         ),
       ),
@@ -62,8 +61,8 @@ class WarrantyDetailsView extends StatelessWidget {
   }
 }
 
-class Content extends StatelessWidget {
-  const Content({
+class _Content extends StatelessWidget {
+  const _Content({
     Key? key,
   }) : super(key: key);
 
@@ -90,12 +89,12 @@ class Content extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Text(
                       appLocalizations.expiresOn(
-                        _countDown(detailsCubit.state.endOfWarr!),
-                        _dateFormat(detailsCubit.state.endOfWarr!),
+                        _countDown(detailsCubit.state.endOfWarranty!),
+                        _dateFormat(detailsCubit.state.endOfWarranty!),
                       ),
                       style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarr!)
-                            ? Colors.red
+                        color: _dateDiff(detailsCubit.state.endOfWarranty!)
+                            ? context.themeData.errorColor
                             : null,
                       ),
                     ),
@@ -135,9 +134,9 @@ class Content extends StatelessWidget {
             detailType: appLocalizations.productWebsite,
             detailContent: GestureDetector(
                 onTap: () =>
-                    detailsCubit.launch(detailsCubit.state.warrWebsite!),
+                    detailsCubit.launch(detailsCubit.state.warrantyWebsite!),
                 child: Text(
-                  detailsCubit.state.warrWebsite!,
+                  detailsCubit.state.warrantyWebsite!,
                   style: const TextStyle(
                     color: Colors.lightBlue,
                     decoration: TextDecoration.underline,
@@ -146,8 +145,9 @@ class Content extends StatelessWidget {
           ),
           if (detailsCubit.state.receiptImage != null)
             IndividualDetailWidget.general(
-              detailContent:
-                  DetailsImageCard(file: detailsCubit.state.receiptImage!),
+              detailContent: DetailsImageCard(
+                url: detailsCubit.state.receiptImageUrl!,
+              ),
               detailType: appLocalizations.receiptPhoto,
             ),
         ],

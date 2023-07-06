@@ -1,60 +1,107 @@
 part of 'auth_cubit.dart';
 
-@immutable
-abstract class AuthState {
-  const AuthState();
+enum LoadingState { email, gmail, apple, initial }
+
+@freezed
+class AuthState with _$AuthState {
+  const factory AuthState.initial() = _Initial;
+
+  const factory AuthState.loading({
+    @Default(LoadingState.initial) LoadingState loadingState,
+  }) = _Loading;
+
+  const factory AuthState.authenticated({
+    @Default(null) User? user,
+  }) = _Authenticated;
+
+  const factory AuthState.notAuthenticated() = _NotAuthenticated;
+
+  const factory AuthState.error({
+    @Default('') String message,
+  }) = _Error;
+
+  const factory AuthState.passwordRequestSubmitted() =
+      _PasswordRequestSubmitted;
+
+  const factory AuthState.firstRun() = _FirstRun;
+
+  const factory AuthState.personalDataUpdated() = _PersonalDataUpdated;
 }
 
-class AuthInitial extends AuthState {
-  const AuthInitial();
-}
+// class AuthInitial extends AuthState {
+//   const AuthInitial();
 
-class AuthLoading extends AuthState {
-  const AuthLoading();
-}
+//   @override
+//   List<Object?> get props => throw UnimplementedError();
+// }
 
-class Authenticated extends AuthState {
-  final User user;
-  const Authenticated(this.user);
+// class AuthLoading extends AuthState {
+//   const AuthLoading();
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+//   @override
+//   List<Object?> get props => throw UnimplementedError();
+// }
 
-    return other is Authenticated && other.user == user;
-  }
+// class Authenticated extends AuthState {
+//   final User user;
+//   const Authenticated(this.user);
 
-  @override
-  int get hashCode => user.hashCode;
-}
+//   // @override
+//   // bool operator ==(Object other) {
+//   //   if (identical(this, other)) return true;
 
-class NotAuthenticated extends AuthState {
-  const NotAuthenticated();
-}
+//   //   return other is Authenticated && other.user == user;
+//   // }
 
-class AuthError extends AuthState {
-  final String message;
-  const AuthError(this.message);
+//   // @override
+//   // int get hashCode => user.hashCode;
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+//   @override
+//   List<Object?> get props => throw UnimplementedError();
+// }
 
-    return other is AuthError && other.message == message;
-  }
+// class NotAuthenticated extends AuthState {
+//   const NotAuthenticated();
 
-  @override
-  int get hashCode => message.hashCode;
-}
+//   @override
+//   List<Object?> get props => throw UnimplementedError();
+// }
 
-class PasswordRequestSubmitted extends AuthState {
-  const PasswordRequestSubmitted();
-}
+// class AuthError extends AuthState {
+//   final String message;
+//   const AuthError(this.message);
 
-class FirstRun extends AuthState {
-  const FirstRun();
-}
+//   // @override
+//   // bool operator ==(Object other) {
+//   //   if (identical(this, other)) return true;
 
-class PersonalDataUpdated extends AuthState {
-  const PersonalDataUpdated();
-}
+//   //   return other is AuthError && other.message == message;
+//   // }
+
+//   // @override
+//   // int get hashCode => message.hashCode;
+
+//   @override
+//   List<Object?> get props => [message];
+// }
+
+// class PasswordRequestSubmitted extends AuthState {
+//   const PasswordRequestSubmitted();
+
+//   @override
+//   List<Object?> get props => throw UnimplementedError();
+// }
+
+// class FirstRun extends AuthState {
+//   const FirstRun();
+
+//   @override
+//   List<Object?> get props => throw UnimplementedError();
+// }
+
+// class PersonalDataUpdated extends AuthState {
+//   const PersonalDataUpdated();
+
+//   @override
+//   List<Object?> get props => throw UnimplementedError();
+// }

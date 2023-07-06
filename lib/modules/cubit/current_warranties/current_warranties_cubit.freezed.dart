@@ -173,7 +173,7 @@ class __$InitialCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Initial extends _Initial {
+class _$_Initial extends _Initial with DiagnosticableTreeMixin {
   const _$_Initial(
       {this.warrantyInfoList = const [],
       this.expiringList = const [],
@@ -191,8 +191,18 @@ class _$_Initial extends _Initial {
   final bool removeBool;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CurrentWarrantiesState.initial(warrantyInfoList: $warrantyInfoList, expiringList: $expiringList, removeBool: $removeBool)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CurrentWarrantiesState.initial'))
+      ..add(DiagnosticsProperty('warrantyInfoList', warrantyInfoList))
+      ..add(DiagnosticsProperty('expiringList', expiringList))
+      ..add(DiagnosticsProperty('removeBool', removeBool));
   }
 
   @override

@@ -10,7 +10,7 @@ class WarrantyImage extends StatelessWidget {
     required this.icon,
   }) : super(key: key);
 
-  final File? image;
+  final String? image;
   // final List<WarrantyImages>? fileList;
   final String text;
   final VoidCallback onTap;
@@ -69,18 +69,15 @@ class WarrantyImage extends StatelessWidget {
           (image != null)
               ? Stack(
                   children: [
-                    Container(
-                      // height: MediaQuery.of(context).size.height * .2,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.shade500,
+                    Center(
+                      child: Container(
+                        // height: MediaQuery.of(context).size.height * .2,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
                         child: Image(
-                          image: FileImage(image!),
+                          image: FileImage(File(image!)),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -96,9 +93,9 @@ class WarrantyImage extends StatelessWidget {
                               color: Colors.black,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.change_circle,
-                              color: Colors.lightBlue,
+                              color: Theme.of(context).primaryColorLight,
                               size: 36,
                             ),
                           ),
@@ -112,10 +109,9 @@ class WarrantyImage extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey.shade500,
-                      ),
-                      borderRadius: BorderRadius.circular(5),
+                      color: Theme.of(context).inputDecorationTheme.fillColor,
+                      border: Border.all(color: context.colorScheme.primary),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     child: Center(
                       child: Column(

@@ -16,7 +16,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   toggleSomething(bool value) {
-    //todo add function
+    //TODO add function
     emit(
       state.copyWith(
         isSomething: value,

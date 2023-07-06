@@ -4,18 +4,48 @@ class WarrantyElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final bool isEnabled;
+  final bool isLoading;
+  final bool hasIcon;
+  final Widget? widget;
+
   const WarrantyElevatedButton({
     Key? key,
     required this.onPressed,
     required this.text,
     required this.isEnabled,
-  }) : super(key: key);
+    required this.isLoading,
+    this.widget,
+  })  : hasIcon = false,
+        super(key: key);
 
   const WarrantyElevatedButton.general({
     key,
     required this.onPressed,
     required this.text,
-  })  : isEnabled = true,
+    required this.isEnabled,
+  })  : isLoading = false,
+        hasIcon = false,
+        widget = null,
+        super(key: key);
+
+  const WarrantyElevatedButton.loading({
+    key,
+    required this.onPressed,
+    required this.text,
+    required this.isLoading,
+    required this.isEnabled,
+  })  : hasIcon = false,
+        widget = null,
+        super(key: key);
+
+  const WarrantyElevatedButton.iconLoading({
+    key,
+    required this.onPressed,
+    required this.isLoading,
+    required this.isEnabled,
+    required this.widget,
+  })  : hasIcon = true,
+        text = '',
         super(key: key);
 
   @override
@@ -29,11 +59,27 @@ class WarrantyElevatedButton extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: isEnabled ? onPressed : null,
-        child: Center(
-          child: Text(
-            text,
-          ),
+        onPressed: isEnabled
+            ? isLoading
+                ? null
+                : onPressed
+            : null,
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 100),
+          child: isLoading
+              ? Transform.scale(
+                  scale: 0.5,
+                  child: const CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : hasIcon
+                  ? widget
+                  : Center(
+                      child: Text(
+                        text,
+                      ),
+                    ),
         ),
       ),
     );

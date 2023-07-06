@@ -1,18 +1,26 @@
+import 'package:go_router/go_router.dart';
+
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
-import 'package:warranty_keeper/presentation/home/home_view.dart';
+import 'package:warranty_keeper/routes/paths.dart';
+import 'package:warranty_keeper/widgets/sign_in_options_icons.dart';
 import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
+import 'widgets/login_options.dart';
+
 class LoginView extends StatelessWidget {
-  static const routeName = '/loginView';
   const LoginView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: _Content(),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: BlocProvider(
+        create: (context) => LoginCubit(),
+        child: const _Content(),
+      ),
     );
   }
 }
@@ -24,8 +32,16 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navCubit = context.read<NavCubit>();
     final loginCubit = context.read<LoginCubit>();
+    final authCubit = context.read<AuthCubit>();
+    final appLocalizations = context.appLocalizations;
+
+    errorSnackBar({required String message}) {
+      return SnackBar(
+        content: Text(message),
+      );
+    }
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
@@ -33,54 +49,132 @@ class _Content extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: context.colorScheme.primary,
+              ),
               padding: const EdgeInsets.all(8),
-              color: Colors.blue,
-              child: const Text('Warranty Tracker'),
+              child: Text(
+                appLocalizations.mainTitle,
+                style: context.textTheme.headline4
+                    ?.copyWith(color: context.colorScheme.onPrimary),
+              ),
+            ),
+            Flexible(
+              child: ScrollConfiguration(
+                behavior: const ScrollBehavior().copyWith(
+                  overscroll: false,
+                ),
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      BlocListener<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          // state.map(
+                          //   initial: initial,
+                          //   loading: loading,
+                          //   authenticated: authenticated,
+                          //   notAuthenticated: notAuthenticated,
+                          //   error: error,
+                          //   passwordRequestSubmitted: passwordRequestSubmitted,
+                          //   firstRun: firstRun,
+                          //   personalDataUpdated: personalDataUpdated,
+                          // );
+                          state.mapOrNull(
+                            error: (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                errorSnackBar(message: error.message),
+                              );
+                            },
+                          );
+                        },
+                        child: const SizedBox(),
+                      ),
+                      WarrantyTextField.email(
+                        isRequired: false,
+                        initialValue: '',
+                        onChanged: loginCubit.changeEmail,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          BlocBuilder<LoginCubit, LoginState>(
+                            builder: (context, state) {
+                              return WarrantyTextField.obscured(
+                                onObscuredTap: loginCubit.toggleObscurity,
+                                isObscuredFunction: state.isObscured,
+                                isRequired: false,
+                                initialValue: '',
+                                hintText: 'Password',
+                                onChanged: loginCubit.changePassword,
+                              );
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Forgot Password?'),
+                            onPressed: () => context.push(Paths.warranty.name),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             Column(
               children: [
-                WarrantyTextField.general(
-                  isRequired: false,
-                  initialValue: '',
-                  hintText: 'Email',
-                  onChanged: (_) {},
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                        return WarrantyTextField.obscured(
-                          onObscuredTap: loginCubit.toggleObscurity,
-                          isObscuredFunction: state.isObscured,
-                          isRequired: false,
-                          initialValue: '',
-                          hintText: 'Password',
-                          onChanged: (_) {},
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    state.mapOrNull(
+                      authenticated: (value) => context.go(Paths.warranty.name),
+                    );
+                  },
+                  builder: (context, state) {
+                    return BlocBuilder<LoginCubit, LoginState>(
+                      builder: (context, loginState) {
+                        return WarrantyElevatedButton.loading(
+                          isLoading: state ==
+                              const AuthState.loading(
+                                  loadingState: LoadingState.email),
+                          onPressed: () async {
+                            await authCubit.login(
+                              loginCubit.state.email,
+                              loginCubit.state.password,
+                            );
+                          },
+                          text: 'Login',
+                          isEnabled: loginCubit.enabledLogin(),
                         );
                       },
-                    ),
-                    TextButton(
-                      child: const Text('Forgot Password?'),
-                      onPressed: () =>
-                          navCubit.appNavigator.pushNamed(HomeView.routeName),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                WarrantyElevatedButton(
-                  onPressed: () =>
-                      navCubit.appNavigator.pushNamed(HomeView.routeName),
-                  text: 'Login',
-                  isEnabled: true,
+                    );
+                  },
                 ),
                 TextButton(
                   child: const Text('Sign up'),
-                  onPressed: () =>
-                      navCubit.appNavigator.pushNamed(HomeView.routeName),
+                  onPressed: () => context.push(Paths.login.signup.path),
+                ),
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    return Platform.isIOS
+                        ? LoginOptions(
+                            state: state,
+                            widget: WarrantyElevatedButton.iconLoading(
+                              onPressed: () async {
+                                //TODO: ADD AFTER APPLE ID IS SET UP
+                                // await authCubit.loginWithApple();
+                              },
+                              isLoading: state ==
+                                  const AuthState.loading(
+                                      loadingState: LoadingState.apple),
+                              isEnabled: true,
+                              widget: const Icon(SignInOptions.apple),
+                            ),
+                          )
+                        : LoginOptions(
+                            state: state,
+                          );
+                  },
                 ),
               ],
             )

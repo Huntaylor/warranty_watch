@@ -1,7 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/nav_cubit/nav_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
+
+import '../../../routes/paths.dart';
 
 class ExpiringWarrantyCard extends StatelessWidget {
   const ExpiringWarrantyCard({
@@ -11,7 +13,6 @@ class ExpiringWarrantyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
-    final navCubit = context.read<NavCubit>();
     final appLocalizations = context.appLocalizations;
 
     return Flexible(
@@ -27,16 +28,26 @@ class ExpiringWarrantyCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.primary,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(appLocalizations.expiringSoon),
-                        Text(appLocalizations.dateFormat),
+                        Text(
+                          appLocalizations.expiringSoon,
+                          style: context.textTheme.subtitle1?.copyWith(
+                            color: context.colorScheme.onPrimary,
+                          ),
+                        ),
+                        Text(
+                          appLocalizations.dateFormat,
+                          style: context.textTheme.subtitle1?.copyWith(
+                            color: context.colorScheme.onPrimary,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -68,7 +79,8 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                       detailsCubit.selectedWarrantyInitial(
                                         state.expiringList[index],
                                       );
-                                      navCubit.detailsNav();
+                                      context
+                                          .push(Paths.warranty.selected.path);
                                     },
                                     child: Column(
                                       children: [
@@ -95,9 +107,10 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                                       .name!,
                                                 ),
                                                 Text(
-                                                  _dateFormat(state
-                                                      .expiringList[index]
-                                                      .endOfWarr!),
+                                                  _dateFormat(
+                                                    state.expiringList[index]
+                                                        .endOfWarranty!,
+                                                  ),
                                                 ),
                                               ],
                                             ),
