@@ -10,7 +10,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('settings view'),
+        title: const Text('Settings'),
       ),
       body: const _Content(),
     );
@@ -41,7 +41,7 @@ class _Content extends StatelessWidget {
                         children: [
                           const Text('Notifications'),
                           Switch(
-                            value: state.isNotifications,
+                            value: state.asSet.isNotifications ?? false,
                             onChanged: settingsCubit.toggleNotifications,
                           ),
                         ],
@@ -51,7 +51,7 @@ class _Content extends StatelessWidget {
                         children: [
                           const Text('Something else'),
                           Switch(
-                            value: state.isSomething,
+                            value: state.asSet.isSomething ?? false,
                             onChanged: settingsCubit.toggleSomething,
                           ),
                         ],
@@ -64,6 +64,7 @@ class _Content extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 15),
               child: WarrantyElevatedButton(
+                isLoading: auth.state.isLoading,
                 isEnabled: true,
                 onPressed: () {
                   auth.logout();

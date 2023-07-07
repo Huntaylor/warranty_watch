@@ -1,24 +1,24 @@
-import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:autoequal/autoequal.dart';
+import 'package:warranty_keeper/app_library.dart';
 
 part 'settings_state.dart';
-part 'settings_cubit.freezed.dart';
+part 'settings_cubit.g.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit() : super(const SettingsState.initial());
+  SettingsCubit() : super(const _Initial());
 
   toggleNotifications(bool value) {
     emit(
-      state.copyWith(
+      _SetSettings(
         isNotifications: value,
       ),
     );
   }
 
   toggleSomething(bool value) {
-    //todo add function
+    //TODO add function
     emit(
-      state.copyWith(
+      _SetSettings(
         isSomething: value,
       ),
     );

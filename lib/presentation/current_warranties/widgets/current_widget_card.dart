@@ -26,9 +26,23 @@ class CurrentWidgetCard extends StatelessWidget {
         child: Row(
           children: [
             Flexible(
-              child: Image.file(
-                warrantyInfo.image!,
+              child: Image.network(
+                warrantyInfo.imageUrl!,
                 fit: BoxFit.fitHeight,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
               ),
             ),
             Expanded(
@@ -50,10 +64,10 @@ class CurrentWidgetCard extends StatelessWidget {
                         ? Text(appLocalizations.hasLifetime)
                         : Text(
                             appLocalizations.expirationDetailsDate(
-                              _dateFormat(warrantyInfo.endOfWarr!),
+                              _dateFormat(warrantyInfo.endOfWarranty!),
                             ),
                             style: TextStyle(
-                              color: _dateDiff(warrantyInfo.endOfWarr!)
+                              color: _dateDiff(warrantyInfo.endOfWarranty!)
                                   ? Colors.red
                                   : null,
                             ),

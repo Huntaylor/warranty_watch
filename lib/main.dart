@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
@@ -22,7 +23,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // FirebaseAppCheck.instance.activate(webRecaptchaSiteKey: webRecaptchaSiteKey);
+  FirebaseAppCheck.instance.activate(androidProvider: AndroidProvider.debug);
   runApp(const MyApp());
 }
 
@@ -43,7 +44,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<CurrentWarrantiesCubit>(
           create: (context) => CurrentWarrantiesCubit(
-            FirebaseAuthRepository(),
             warrantiesSource: WarrantiesSource(),
           ),
         ),
@@ -75,6 +75,85 @@ class MyApp extends StatelessWidget {
           Locale('es'), // Spanish
         ],
         title: 'Warranty Tracker',
+
+        // darkTheme: FlexThemeData.dark(
+        //   colors: const FlexSchemeColor(
+        //     primary: Color(0xff5b7cb5),
+        //     primaryVariant: Color(0xff5a6f94),
+        //     secondary: Color(0xffc15c5c),
+        //     secondaryVariant: Color(0xffa15a5a),
+        //     appBarColor: Color(0xffa15a5a),
+        //     error: null,
+        //   ),
+        //   surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        //   blendLevel: 18,
+        //   appBarStyle: FlexAppBarStyle.background,
+        //   appBarOpacity: 0.95,
+        //   appBarElevation: 0,
+        //   transparentStatusBar: true,
+        //   tabBarStyle: FlexTabBarStyle.forAppBar,
+        //   tooltipsMatchBackground: true,
+        //   swapColors: false,
+        //   darkIsTrueBlack: false,
+        //   useSubThemes: true,
+        //   visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        //   fontFamily: GoogleFonts.notoSans().fontFamily,
+        //   subThemesData: const FlexSubThemesData(
+        //     useTextTheme: true,
+        //     fabUseShape: true,
+        //     interactionEffects: true,
+        //     bottomNavigationBarElevation: 0,
+        //     bottomNavigationBarOpacity: 0.95,
+        //     navigationBarOpacity: 0.95,
+        //     navigationBarMutedUnselectedText: true,
+        //     navigationBarMutedUnselectedIcon: true,
+        //     inputDecoratorIsFilled: true,
+        //     inputDecoratorBorderType: FlexInputBorderType.outline,
+        //     inputDecoratorUnfocusedHasBorder: true,
+        //     blendOnColors: true,
+        //     blendTextTheme: true,
+        //     popupMenuOpacity: 0.95,
+        //   ),
+        // ),
+        // theme: FlexThemeData.light(
+        //   colors: const FlexSchemeColor(
+        //     primary: Color(0xff04368e),
+        //     primaryVariant: Color(0xff03235c),
+        //     secondary: Color(0xffa00505),
+        //     secondaryVariant: Color(0xff6f0303),
+        //     appBarColor: Color(0xff6f0303),
+        //     error: null,
+        //   ),
+        //   surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        //   blendLevel: 18,
+        //   appBarStyle: FlexAppBarStyle.primary,
+        //   appBarOpacity: 0.95,
+        //   appBarElevation: 0,
+        //   transparentStatusBar: true,
+        //   tabBarStyle: FlexTabBarStyle.forAppBar,
+        //   tooltipsMatchBackground: true,
+        //   swapColors: false,
+        //   lightIsWhite: false,
+        //   useSubThemes: true,
+        //   visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        //   fontFamily: GoogleFonts.notoSans().fontFamily,
+        //   subThemesData: const FlexSubThemesData(
+        //     useTextTheme: true,
+        //     fabUseShape: true,
+        //     interactionEffects: true,
+        //     bottomNavigationBarElevation: 0,
+        //     bottomNavigationBarOpacity: 0.95,
+        //     navigationBarOpacity: 0.95,
+        //     navigationBarMutedUnselectedText: true,
+        //     navigationBarMutedUnselectedIcon: true,
+        //     inputDecoratorIsFilled: true,
+        //     inputDecoratorBorderType: FlexInputBorderType.outline,
+        //     inputDecoratorUnfocusedHasBorder: true,
+        //     blendOnColors: true,
+        //     blendTextTheme: true,
+        //     popupMenuOpacity: 0.95,
+        //   ),
+        // ),
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ).copyWith(
@@ -89,4 +168,8 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+extension ThemeX on BuildContext {
+  ThemeData get theme => Theme.of(this);
 }

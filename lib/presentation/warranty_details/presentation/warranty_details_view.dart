@@ -23,8 +23,8 @@ class WarrantyDetailsView extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .4,
                   width: double.infinity,
-                  child: Image.file(
-                    detailsCubit.state.image!,
+                  child: Image.network(
+                    detailsCubit.state.imageUrl!,
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -52,7 +52,7 @@ class WarrantyDetailsView extends StatelessWidget {
                 ),
               ],
             ),
-            const Content(),
+            const _Content(),
           ],
         ),
       ),
@@ -60,8 +60,8 @@ class WarrantyDetailsView extends StatelessWidget {
   }
 }
 
-class Content extends StatelessWidget {
-  const Content({
+class _Content extends StatelessWidget {
+  const _Content({
     Key? key,
   }) : super(key: key);
 
@@ -88,11 +88,11 @@ class Content extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Text(
                       appLocalizations.expiresOn(
-                        _countDown(detailsCubit.state.endOfWarr!),
-                        _dateFormat(detailsCubit.state.endOfWarr!),
+                        _countDown(detailsCubit.state.endOfWarranty!),
+                        _dateFormat(detailsCubit.state.endOfWarranty!),
                       ),
                       style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarr!) ? Colors.red : null,
+                        color: _dateDiff(detailsCubit.state.endOfWarranty!) ? context.themeData.errorColor : null,
                       ),
                     ),
                   ),
@@ -129,9 +129,9 @@ class Content extends StatelessWidget {
           IndividualDetailWidget.general(
             detailType: appLocalizations.productWebsite,
             detailContent: GestureDetector(
-                onTap: () => detailsCubit.launch(detailsCubit.state.warrWebsite!),
+                onTap: () => detailsCubit.launch(detailsCubit.state.warrantyWebsite!),
                 child: Text(
-                  detailsCubit.state.warrWebsite!,
+                  detailsCubit.state.warrantyWebsite!,
                   style: const TextStyle(
                     color: Colors.lightBlue,
                     decoration: TextDecoration.underline,
@@ -140,7 +140,9 @@ class Content extends StatelessWidget {
           ),
           if (detailsCubit.state.receiptImage != null)
             IndividualDetailWidget.general(
-              detailContent: DetailsImageCard(file: detailsCubit.state.receiptImage!),
+              detailContent: DetailsImageCard(
+                url: detailsCubit.state.receiptImageUrl!,
+              ),
               detailType: appLocalizations.receiptPhoto,
             ),
         ],

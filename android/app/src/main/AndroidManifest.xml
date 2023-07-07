@@ -12,7 +12,7 @@
     </queries>
       
    <application
-        android:label="warranty_keeper"
+        android:label="Warranty Tracker"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

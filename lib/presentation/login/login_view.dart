@@ -23,6 +23,14 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
+
+    errorSnackBar({required String message}) {
+      return SnackBar(
+        content: Text(message),
+      );
+    }
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
@@ -30,30 +38,44 @@ class _Content extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: context.colorScheme.primary,
+              ),
               padding: const EdgeInsets.all(8),
-              color: Colors.blue,
-              child: const Text('Warranty Tracker'),
+              child: Text(
+                appLocalizations.mainTitle,
+                style: context.textTheme.headlineMedium?.copyWith(color: context.colorScheme.onPrimary),
+              ),
             ),
             Column(
               children: [
-                WarrantyTextField.general(
-                  isRequired: false,
-                  initialValue: '',
-                  hintText: 'Email',
-                  onChanged: (_) {},
+                BlocBuilder<LoginCubit, LoginState>(
+                  builder: (context, state) {
+                    return WarrantyTextField.general(
+                      isRequired: false,
+                      initialValue: '',
+                      hintText: 'Email',
+                      onChanged: (email) {
+                        context.read<LoginCubit>().changeEmail(email);
+                      },
+                    );
+                  },
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    BlocBuilder<LoginCubit, bool>(
-                      builder: (context, isObscured) {
+                    BlocBuilder<LoginCubit, LoginState>(
+                      builder: (context, state) {
                         return WarrantyTextField.obscured(
                           onObscuredTap: () => context.read<LoginCubit>().toggleObscurity(),
-                          isObscuredFunction: isObscured,
+                          isObscuredFunction: state.asLoggingIn.isObscured,
                           isRequired: false,
                           initialValue: '',
                           hintText: 'Password',
-                          onChanged: (_) {},
+                          onChanged: (password) {
+                            context.read<LoginCubit>().changePassword(password);
+                          },
                         );
                       },
                     ),
@@ -69,10 +91,18 @@ class _Content extends StatelessWidget {
             ),
             Column(
               children: [
-                WarrantyElevatedButton(
-                  onPressed: () => context.read<AuthCubit>().login('', ''),
-                  text: 'Login',
-                  isEnabled: true,
+                BlocBuilder<LoginCubit, LoginState>(
+                  builder: (context, state) {
+                    return WarrantyElevatedButton(
+                      isLoading: false,
+                      onPressed: () => context.read<AuthCubit>().login(
+                            email: state.asLoggingIn.email,
+                            password: state.asLoggingIn.password,
+                          ),
+                      text: 'Login',
+                      isEnabled: true,
+                    );
+                  },
                 ),
                 TextButton(
                   child: const Text('Sign up'),

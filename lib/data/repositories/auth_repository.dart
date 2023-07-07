@@ -12,6 +12,7 @@ abstract class AuthRepository {
   Future<void> logout();
   Future<void> passwordResetSubmit(String email);
   Future<void> signInWithGoogle();
+  Future<void> signinWithApple();
   Future<bool> isFirstRun();
   Future<void> updatePersonalData(
     String firstName,
@@ -129,5 +130,11 @@ class FirebaseAuthRepository implements AuthRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<void> signinWithApple() {
+    // TODO: implement signinWithApple
+    throw UnimplementedError();
   }
 }

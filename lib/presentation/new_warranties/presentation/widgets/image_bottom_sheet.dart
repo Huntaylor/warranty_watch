@@ -2,14 +2,14 @@ import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 
 class ImageBottomSheet extends StatelessWidget {
-  final VoidCallback? onRecieptPhotoTap;
-  final VoidCallback? onRecieptCameraTap;
+  final VoidCallback? onReceiptPhotoTap;
+  final VoidCallback? onReceiptCameraTap;
   final VoidCallback? onProductCameraTap;
   final VoidCallback? onProductPhotoTap;
   const ImageBottomSheet({
     Key? key,
-    this.onRecieptPhotoTap,
-    this.onRecieptCameraTap,
+    this.onReceiptPhotoTap,
+    this.onReceiptCameraTap,
     this.onProductCameraTap,
     this.onProductPhotoTap,
   }) : super(key: key);
@@ -44,11 +44,17 @@ class ImageBottomSheet extends StatelessWidget {
             thickness: 2,
           ),
           Flexible(
-            child: Column(
+            child: /*  state.warrantyState == WarrantyState.loadingImage
+                ? const Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(),
+                  )
+                :  */
+                Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: onRecieptPhotoTap ?? onProductPhotoTap ?? () {},
+                  onTap: onReceiptPhotoTap ?? onProductPhotoTap ?? () {},
                   child: Row(
                     children: [
                       Icon(
@@ -66,7 +72,7 @@ class ImageBottomSheet extends StatelessWidget {
                   height: 16,
                 ),
                 GestureDetector(
-                  onTap: onRecieptCameraTap ?? onProductCameraTap ?? () {},
+                  onTap: onReceiptCameraTap ?? onProductCameraTap ?? () {},
                   child: Row(
                     children: [
                       Icon(

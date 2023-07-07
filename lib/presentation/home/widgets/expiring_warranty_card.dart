@@ -25,16 +25,26 @@ class ExpiringWarrantyCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.primary,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(appLocalizations.expiringSoon),
-                        Text(appLocalizations.dateFormat),
+                        Text(
+                          appLocalizations.expiringSoon,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: context.colorScheme.onPrimary,
+                          ),
+                        ),
+                        Text(
+                          appLocalizations.dateFormat,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: context.colorScheme.onPrimary,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -87,7 +97,7 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                                       state.asReady.expiring[index].name!,
                                                     ),
                                                     Text(
-                                                      _dateFormat(state.asReady.expiring[index].endOfWarr!),
+                                                      _dateFormat(state.asReady.expiring[index].endOfWarranty!),
                                                     ),
                                                   ],
                                                 ),

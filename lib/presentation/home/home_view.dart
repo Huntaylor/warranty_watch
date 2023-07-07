@@ -64,7 +64,7 @@ class _Content extends StatelessWidget {
               height: 5,
             ),
             //  Current Warranty
-            WarrantyElevatedButton(
+            WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
                 context.push(Paths.home.currentWarranty.goRoute);
@@ -75,7 +75,7 @@ class _Content extends StatelessWidget {
               height: 5,
             ),
             //  Add Warranty
-            WarrantyElevatedButton(
+            WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
                 newWarrCubit.newWar();
