@@ -27,7 +27,6 @@ class HomePath extends Path {
 class RegisterPath extends Path {
   RegisterPath({required super.parent}) : super('register');
 
-  Path get signUp => Path('sign-up', parent: this);
   Path get personalData => Path('personal-data', parent: this);
   Path get tos => Path('tos', parent: this);
 }

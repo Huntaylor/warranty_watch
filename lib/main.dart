@@ -1,5 +1,6 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
@@ -35,6 +36,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode = ThemeMode.system;
+
+    const FlexScheme usedScheme = FlexScheme.materialHc;
+    // const FlexScheme usedScheme = FlexScheme.deepBlue;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<MainCubit>(
@@ -158,16 +164,25 @@ class MyApp extends StatelessWidget {
         //     popupMenuOpacity: 0.95,
         //   ),
         // ),
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ).copyWith(
-          pageTransitionsTheme: const PageTransitionsTheme(
-            builders: <TargetPlatform, PageTransitionsBuilder>{
-              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            },
-          ),
+        // theme: ThemeData(
+        //   primarySwatch: Colors.blue,
+        // ).copyWith(
+        //   pageTransitionsTheme: const PageTransitionsTheme(
+        //     builders: <TargetPlatform, PageTransitionsBuilder>{
+        //       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        //       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        //     },
+        //   ),
+        // ),
+        theme: FlexThemeData.light(
+          scheme: usedScheme,
+          appBarElevation: 0.5,
         ),
+        darkTheme: FlexThemeData.dark(
+          scheme: usedScheme,
+          appBarElevation: 2,
+        ),
+        themeMode: themeMode,
         routerConfig: goRoutes,
       ),
     );

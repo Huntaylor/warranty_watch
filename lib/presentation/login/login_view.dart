@@ -109,7 +109,7 @@ class _Content extends StatelessWidget {
                   onPressed: () {
                     context.read<AuthCubit>().setInitial();
                     context.push(
-                      Paths.login.register.signUp.path,
+                      Paths.login.register.path,
                     );
                   },
                 ),

@@ -46,18 +46,16 @@ final goRoutes = GoRouter(
           path: Paths.login.forgotPassword.goRoute,
           builder: (_, __) => const ForgotPasswordView(),
         ),
-        GoRoute(
-          path: Paths.login.register.signUp.goRoute,
-          builder: (_, __) => const SignUpView(),
-        ),
-        GoRoute(
-          path: Paths.login.register.personalData.goRoute,
-          builder: (_, __) => const PersonalDataView(),
-        ),
-        GoRoute(
-          path: Paths.login.register.tos.goRoute,
-          builder: (_, __) => const TosSignUpView(),
-        ),
+        GoRoute(path: Paths.login.register.goRoute, builder: (_, __) => const SignUpView(), routes: [
+          GoRoute(
+            path: Paths.login.register.personalData.goRoute,
+            builder: (_, __) => const PersonalDataView(),
+          ),
+          GoRoute(
+            path: Paths.login.register.tos.goRoute,
+            builder: (_, __) => const TosSignUpView(),
+          ),
+        ]),
       ],
       path: Paths.login.goRoute,
       builder: (_, __) => const LoginView(),
