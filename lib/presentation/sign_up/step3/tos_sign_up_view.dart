@@ -7,7 +7,7 @@ class TosSignUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('tos sign up'),
+        title: const Text('Terms and Conditions'),
       ),
       body: const Center(
         child: Text(

@@ -38,8 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeMode themeMode = ThemeMode.system;
 
-    const FlexScheme usedScheme = FlexScheme.materialHc;
-    // const FlexScheme usedScheme = FlexScheme.deepBlue;
+    const FlexScheme usedScheme = FlexScheme.deepBlue;
 
     return MultiBlocProvider(
       providers: [
