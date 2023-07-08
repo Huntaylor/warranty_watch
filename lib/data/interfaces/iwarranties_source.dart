@@ -12,7 +12,11 @@ class WarrantiesSource implements IWarrantiesSource {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     final snapshot = await FirebaseFirestore.instance.collection('users').doc(currentUser?.uid).get();
-    final list = snapshot.get('warranties');
+    late List<WarrantyInfo> list = [];
+    if (snapshot.exists) {
+      list = snapshot.get('warranties');
+    }
+
     return list;
   }
 }

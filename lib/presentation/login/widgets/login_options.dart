@@ -1,7 +1,6 @@
 import '../../../app_library.dart';
 import '../../../modules/cubit/auth/auth_cubit.dart';
 import '../../../widgets/sign_in_options_icons.dart';
-import '../../../widgets/warranty_button.dart';
 
 class LoginOptions extends StatelessWidget {
   final Widget? widget;

@@ -12,6 +12,7 @@ class WarrantyTextField extends StatefulWidget {
   final String hintText;
   final String initialText;
   final String initialValue;
+  final String? errorText;
   final bool isRequired;
   final bool hasAutocorrect;
   final bool isTextObscured;
@@ -29,6 +30,7 @@ class WarrantyTextField extends StatefulWidget {
     Key? key,
     required this.maxLength,
     this.currentLength,
+    this.errorText,
     required this.maxLengthEnforcement,
     required this.textInputType,
     required this.hintText,
@@ -65,9 +67,8 @@ class WarrantyTextField extends StatefulWidget {
     this.maxLength,
     this.maxLengthEnforcement,
     this.currentLength,
-  })  : initialText = initialDateTime != null
-            ? DateFormat('MM/dd/yyyy').format(initialDateTime)
-            : '',
+    this.errorText,
+  })  : initialText = initialDateTime != null ? DateFormat('MM/dd/yyyy').format(initialDateTime) : '',
         textInputType = TextInputType.none,
         isDate = true,
         maxLines = 1,
@@ -76,9 +77,34 @@ class WarrantyTextField extends StatefulWidget {
         isObscuredFunction = false,
         hasAutocorrect = false,
         super(key: key);
+  WarrantyTextField.dob({
+    required this.initialDateTime,
+    required this.initialValue,
+    required this.hintText,
+    required this.onChanged,
+    required this.isRequired,
+    this.onTap,
+    key,
+    this.maxLength,
+    this.maxLengthEnforcement,
+    this.currentLength,
+    this.errorText,
+  })  : initialText = initialDateTime != null ? DateFormat('MM/dd/yyyy').format(initialDateTime) : '',
+        textInputType = TextInputType.none,
+        isDate = true,
+        maxLines = 1,
+        isTextObscured = false,
+        onObscuredTap = null,
+        isObscuredFunction = false,
+        hasAutocorrect = false,
+        isLifeTime = false,
+        startDateTime = DateTime(1920),
+        endDateTime = null,
+        super(key: key);
 
   const WarrantyTextField.general({
     this.maxLength,
+    this.errorText,
     this.maxLengthEnforcement,
     required this.isRequired,
     required this.initialValue,
@@ -101,8 +127,34 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.text,
         super(key: key);
 
+  const WarrantyTextField.number({
+    this.maxLength,
+    this.errorText,
+    this.maxLengthEnforcement,
+    required this.isRequired,
+    required this.initialValue,
+    this.onTap,
+    required this.hintText,
+    required this.onChanged,
+    this.initialDateTime,
+    this.startDateTime,
+    this.endDateTime,
+    key,
+    this.currentLength,
+  })  : initialText = '',
+        isDate = false,
+        isTextObscured = false,
+        onObscuredTap = null,
+        isObscuredFunction = false,
+        isLifeTime = false,
+        maxLines = 1,
+        hasAutocorrect = true,
+        textInputType = TextInputType.number,
+        super(key: key);
+
   const WarrantyTextField.email({
     this.maxLength,
+    this.errorText,
     this.maxLengthEnforcement,
     required this.isRequired,
     required this.initialValue,
@@ -127,6 +179,7 @@ class WarrantyTextField extends StatefulWidget {
 
   const WarrantyTextField.obscured({
     this.maxLength,
+    this.errorText,
     this.maxLengthEnforcement,
     required this.isRequired,
     required this.initialValue,
@@ -153,6 +206,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.isRequired,
     required this.initialValue,
     this.onTap,
+    this.errorText,
     required this.hintText,
     required this.onChanged,
     this.initialDateTime,
@@ -175,6 +229,7 @@ class WarrantyTextField extends StatefulWidget {
 
   const WarrantyTextField.form({
     this.onTap,
+    this.errorText,
     required this.hintText,
     required this.initialValue,
     required this.onChanged,
@@ -295,23 +350,19 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             },
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(
+              errorText: widget.errorText,
               suffixIcon: widget.isTextObscured
                   ? GestureDetector(
                       onTap: widget.onObscuredTap,
                       child: Icon(
-                        !widget.isObscuredFunction
-                            ? Icons.remove_red_eye
-                            : Icons.visibility_off,
+                        !widget.isObscuredFunction ? Icons.remove_red_eye : Icons.visibility_off,
                       ),
                     )
                   : null,
               counterText: '',
-              suffixText: (widget.maxLength != null)
-                  ? '${widget.currentLength}/${widget.maxLength}'
-                  : null,
+              suffixText: (widget.maxLength != null) ? '${widget.currentLength}/${widget.maxLength}' : null,
               alignLabelWithHint: true,
-              labelText:
-                  '${widget.hintText} ${(widget.isRequired) ? context.appLocalizations.required : ''}',
+              labelText: '${widget.hintText} ${(widget.isRequired) ? context.appLocalizations.required : ''}',
               border: const OutlineInputBorder(),
             ),
           ),
@@ -325,8 +376,7 @@ class DateTextFormatter extends TextInputFormatter {
   static const _maxChars = 8;
 
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     var text = _format(newValue.text, '/');
     return newValue.copyWith(
       text: text,

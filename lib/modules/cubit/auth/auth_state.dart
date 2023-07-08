@@ -9,6 +9,7 @@ abstract class AuthState extends Equatable {
   bool get isLoading => this is _Loading;
 
   _Authenticated get asAuthenticated => this as _Authenticated;
+  _Initial get asInitial => this as _Initial;
   _Error get asError => this as _Error;
 
   @override
@@ -23,7 +24,7 @@ class _Loading extends AuthState {
 class _Authenticated extends AuthState {
   const _Authenticated(this.user);
 
-  final User user;
+  final WarrantyUser user;
 
   @override
   List<Object?> get props => _$props;
@@ -31,6 +32,10 @@ class _Authenticated extends AuthState {
 
 class _NotAuthenticated extends AuthState {
   const _NotAuthenticated();
+}
+
+class _Initial extends AuthState {
+  const _Initial();
 }
 
 @autoequal

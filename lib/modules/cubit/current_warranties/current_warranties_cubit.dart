@@ -14,25 +14,30 @@ part 'current_warranties_cubit.g.dart';
 class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
   CurrentWarrantiesCubit({
     required this.warrantiesSource,
-  }) : super(const _Loading());
+  }) : super(const _Loading()) {
+    getWarranties();
+  }
   final IWarrantiesSource warrantiesSource;
 
-  @override
-  void emit(CurrentWarrantiesState state) async {
+  getWarranties() async {
+    await Future.delayed(const Duration(seconds: 2));
     final list = await warrantiesSource.getWarranties();
-
     emit(
       _Ready(
         warrantyInfo: list,
-        expiring: getExpiringList(),
+        expiring: await getExpiringList(),
         remove: false,
       ),
     );
-    super.emit(state);
   }
 
   getExpiringList() {
     List<WarrantyInfo> expiringList;
+
+    if (state.isLoading) {
+      return expiringList = [];
+    }
+
     expiringList = List.from(state.asReady.warrantyInfo);
     if (expiringList.any((e) => e.lifeTime)) {
       expiringList.removeWhere((ee) => ee.lifeTime);
@@ -53,7 +58,7 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     return expiringList;
   }
 
-  void addOrEditWarranty({required WarrantyInfo warrantyInfo, required User user}) async {
+  void addOrEditWarranty({required WarrantyInfo warrantyInfo, required WarrantyUser user}) async {
     List<WarrantyInfo> expiringList;
 
     expiringList = List.from(state.asReady.warrantyInfo);

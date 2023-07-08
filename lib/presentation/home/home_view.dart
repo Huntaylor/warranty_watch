@@ -2,7 +2,6 @@ import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
-import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class HomeView extends StatelessWidget {
               itemBuilder: (_) => [
                 PopupMenuItem(
                   onTap: () {
-                    context.push(Paths.home.settings.goRoute);
+                    context.push(Paths.home.settings.path);
                   },
                   child: const Text('Settings'),
                 ),
@@ -67,7 +66,7 @@ class _Content extends StatelessWidget {
             WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
-                context.push(Paths.home.currentWarranty.goRoute);
+                context.push(Paths.home.currentWarranty.path);
               },
               text: context.appLocalizations.currentWarrantyBtn,
             ),
@@ -79,7 +78,7 @@ class _Content extends StatelessWidget {
               isEnabled: true,
               onPressed: () {
                 newWarrCubit.newWar();
-                context.push(Paths.home.newWarranty.goRoute);
+                context.push(Paths.home.newWarranty.path);
               },
               text: context.appLocalizations.newWarrantyBtn,
             ),

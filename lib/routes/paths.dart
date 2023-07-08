@@ -1,32 +1,33 @@
-import 'package:warranty_keeper/routes/path.dart';
+import 'package:go_router_paths/go_router_paths.dart';
 
 class Paths {
-  Paths._();
+  const Paths._();
 
   static Path get initial => Path('');
-  static Path get settings => Path('settings');
-  // static Path get home => Path('home');
-  // static Path get login => Path('login');
   static LoginPath get login => LoginPath();
-  static Path get signup => Path('signup');
-  static WarrantyPath get warranty => WarrantyPath();
-}
-
-class WarrantyPath extends Path {
-  WarrantyPath() : super('warranties');
-
-  Path get newWarranty => Path('new', path);
-  Path get current => Path('current', path);
-  Path get selected => Path('selected', path);
-  // PathWithParam get selected => PathWithParam(
-  //       'selected',
-  //       'selectedId',
-  //       path: path,
-  //     );
+  static HomePath get home => HomePath();
 }
 
 class LoginPath extends Path {
   LoginPath() : super('login');
 
-  Path get signup => Path('signup', path);
+  Path get forgotPassword => Path('forgot-password', parent: this);
+  RegisterPath get register => RegisterPath(parent: this);
+}
+
+class HomePath extends Path {
+  HomePath() : super('home');
+
+  Path get newWarranty => Path('new-warranty', parent: this);
+  Path get currentWarranty => Path('current-warranty', parent: this);
+  Path get warrantyDetails => Path('warranty-details', parent: this);
+  Path get settings => Path('settings', parent: this);
+}
+
+class RegisterPath extends Path {
+  RegisterPath({required super.parent}) : super('register');
+
+  Path get signUp => Path('sign-up', parent: this);
+  Path get personalData => Path('personal-data', parent: this);
+  Path get tos => Path('tos', parent: this);
 }

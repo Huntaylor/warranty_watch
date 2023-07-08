@@ -3,7 +3,12 @@ part of 'sign_up_cubit.dart';
 abstract class SignUpState extends Equatable {
   const SignUpState();
 
+  bool get isLoading => this is _Loading;
+  bool get isError => this is _Error;
+
+  _Loading get asLoading => this as _Loading;
   _Initial get asInitial => this as _Initial;
+  _Error get asError => this as _Error;
   _SignUpProcess get asSignUp => this as _SignUpProcess;
 
   @override
@@ -12,6 +17,19 @@ abstract class SignUpState extends Equatable {
 
 class _Initial extends SignUpState {
   const _Initial();
+}
+
+class _Loading extends SignUpState {
+  const _Loading();
+}
+
+@autoequal
+class _Error extends SignUpState {
+  final String errorMessage;
+  const _Error(this.errorMessage) : super();
+
+  @override
+  List<Object?> get props => _$props;
 }
 
 @CopyWith()
@@ -30,6 +48,7 @@ class _SignUpProcess extends SignUpState {
   final String? firstName;
   final String? lastName;
   final String? age;
+  final bool? tosAccepted;
   const _SignUpProcess({
     required this.isObscured,
     required this.hasSixCharacters,
@@ -38,6 +57,7 @@ class _SignUpProcess extends SignUpState {
     required this.hasNumber,
     required this.isMatching,
     required this.isConfirmObscured,
+    this.tosAccepted,
     this.email,
     this.password,
     this.confirmPassword,

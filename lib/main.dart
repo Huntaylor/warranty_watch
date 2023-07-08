@@ -10,6 +10,7 @@ import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/main/main_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/sign_up/sign_up_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'firebase_options.dart';
 
@@ -61,6 +62,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<LoginCubit>(
           create: (context) => LoginCubit(),
+        ),
+        BlocProvider<SignUpCubit>(
+          create: (context) => SignUpCubit(),
         ),
       ],
       child: MaterialApp.router(

@@ -6,7 +6,7 @@ import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
 
 abstract class AuthRepository {
-  User currentUser();
+  WarrantyUser currentUser();
   Future<void> login(String email, String password);
   Future<void> register(String email, String password);
   Future<void> logout();
@@ -14,10 +14,11 @@ abstract class AuthRepository {
   Future<void> signInWithGoogle();
   Future<void> signinWithApple();
   Future<bool> isFirstRun();
+  Future<bool> isEmailAlreadyInUse(String email);
   Future<void> updatePersonalData(
     String firstName,
     String lastName,
-    String birthday,
+    String age,
   );
 }
 
@@ -25,9 +26,14 @@ class FirebaseAuthRepository implements AuthRepository {
   final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   @override
-  User currentUser() {
-    firebaseauth.User user = _auth.currentUser!;
-    return User(uid: user.uid);
+  WarrantyUser currentUser() {
+    firebaseauth.User user;
+    if (_auth.currentUser != null) {
+      user = _auth.currentUser!;
+    } else {
+      return WarrantyUser();
+    }
+    return WarrantyUser(uid: user.uid);
   }
 
   @override
@@ -41,16 +47,26 @@ class FirebaseAuthRepository implements AuthRepository {
 
   //firebase login with email and password
   @override
-  Future<User> login(String email, String password) async {
+  Future<WarrantyUser> login(String email, String password) async {
     try {
       firebaseauth.UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
-      return User(uid: result.user!.uid);
+      return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  @override
+  Future<bool> isEmailAlreadyInUse(String email) async {
+    try {
+      List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+      return signInMethods.isNotEmpty;
+    } catch (e) {
+      return false; // Return false if an error occurs
     }
   }
 
@@ -76,14 +92,14 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   //firebase login with email and password
-  Future<User> register(String email, String password) async {
+  Future<WarrantyUser> register(String email, String password) async {
     try {
       firebaseauth.UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
-      return User(uid: result.user!.uid);
+      return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
     }
@@ -91,7 +107,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   //Google Authentication
-  Future<User> signInWithGoogle() async {
+  Future<WarrantyUser> signInWithGoogle() async {
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -111,7 +127,7 @@ class FirebaseAuthRepository implements AuthRepository {
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
-      return User(uid: result.user!.uid);
+      return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
     }

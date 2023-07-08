@@ -6,18 +6,23 @@ part 'sign_up_state.dart';
 part 'sign_up_cubit.g.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit()
-      : super(
-          const _SignUpProcess(
-            isConfirmObscured: true,
-            isMatching: false,
-            isObscured: true,
-            hasLowerUpperCase: false,
-            hasNumber: false,
-            hasSixCharacters: false,
-            hasSpecialCharacter: false,
-          ),
-        );
+  SignUpCubit() : super(const _Initial()) {
+    getInitial();
+  }
+
+  getInitial() {
+    emit(
+      const _SignUpProcess(
+        isConfirmObscured: true,
+        isMatching: false,
+        isObscured: true,
+        hasLowerUpperCase: false,
+        hasNumber: false,
+        hasSixCharacters: false,
+        hasSpecialCharacter: false,
+      ),
+    );
+  }
 
   toggleObscurity() {
     emit(
@@ -38,31 +43,17 @@ class SignUpCubit extends Cubit<SignUpState> {
   changeEmail(String email) {
     emit(
       state.asSignUp.copyWith(
-        age: state.asSignUp.age,
         email: email,
-        password: state.asSignUp.password,
-        confirmPassword: state.asSignUp.confirmPassword,
-        isConfirmObscured: state.asSignUp.isConfirmObscured,
-        isObscured: state.asSignUp.isObscured,
-        firstName: state.asSignUp.firstName,
-        lastName: state.asSignUp.lastName,
       ),
     );
     enabledRegister();
-    enabledNext();
+    enabledEmailNext();
   }
 
-  changeage(String age) {
+  changeDob(String birthday) {
     emit(
       state.asSignUp.copyWith(
-        age: age,
-        email: state.asSignUp.email,
-        password: state.asSignUp.password,
-        confirmPassword: state.asSignUp.confirmPassword,
-        isConfirmObscured: state.asSignUp.isConfirmObscured,
-        isObscured: state.asSignUp.isObscured,
-        firstName: state.asSignUp.firstName,
-        lastName: state.asSignUp.lastName,
+        birthday: birthday,
       ),
     );
     enabledRegister();
@@ -130,7 +121,7 @@ class SignUpCubit extends Cubit<SignUpState> {
       ),
     );
     enabledRegister();
-    enabledNext();
+    enabledEmailNext();
   }
 
   changeConfirmPassword(String confirmPassword) {
@@ -149,31 +140,17 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
     emit(
       state.asSignUp.copyWith(
-        age: state.asSignUp.age,
-        email: state.asSignUp.email,
-        password: state.asSignUp.password,
         confirmPassword: confirmPassword,
-        isConfirmObscured: state.asSignUp.isConfirmObscured,
-        isObscured: state.asSignUp.isObscured,
-        firstName: state.asSignUp.firstName,
-        lastName: state.asSignUp.lastName,
       ),
     );
     enabledRegister();
-    enabledNext();
+    enabledEmailNext();
   }
 
   changeFirstName(String firstName) {
     emit(
       state.asSignUp.copyWith(
-        age: state.asSignUp.age,
-        email: state.asSignUp.email,
-        password: state.asSignUp.password,
-        confirmPassword: state.asSignUp.confirmPassword,
-        isConfirmObscured: state.asSignUp.isConfirmObscured,
-        isObscured: state.asSignUp.isObscured,
         firstName: firstName,
-        lastName: state.asSignUp.lastName,
       ),
     );
     enabledRegister();
@@ -182,13 +159,6 @@ class SignUpCubit extends Cubit<SignUpState> {
   changeLastName(String lastName) {
     emit(
       state.asSignUp.copyWith(
-        age: state.asSignUp.age,
-        email: state.asSignUp.email,
-        password: state.asSignUp.password,
-        confirmPassword: state.asSignUp.confirmPassword,
-        isConfirmObscured: state.asSignUp.isConfirmObscured,
-        isObscured: state.asSignUp.isObscured,
-        firstName: state.asSignUp.firstName,
         lastName: lastName,
       ),
     );
@@ -205,10 +175,22 @@ class SignUpCubit extends Cubit<SignUpState> {
     return true;
   }
 
-  bool enabledNext() {
+  bool enabledEmailNext() {
     if (state.asSignUp.email == null || state.asSignUp.email!.isEmpty) return false;
     if (state.asSignUp.password == null || state.asSignUp.password!.isEmpty) return false;
     if (state.asSignUp.confirmPassword == null || state.asSignUp.confirmPassword!.isEmpty) return false;
+    return true;
+  }
+
+  bool enabledDataNext() {
+    if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) return false;
+    if (state.asSignUp.lastName == null || state.asSignUp.lastName!.isEmpty) return false;
+    if (state.asSignUp.age == null || state.asSignUp.age!.isEmpty) return false;
+    return true;
+  }
+
+  bool enabledTosNext() {
+    if (state.asSignUp.tosAccepted == null || !state.asSignUp.tosAccepted!) return false;
     return true;
   }
 }

@@ -92,7 +92,7 @@ class _Content extends StatelessWidget {
                         _dateFormat(detailsCubit.state.endOfWarranty!),
                       ),
                       style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarranty!) ? context.themeData.errorColor : null,
+                        color: _dateDiff(detailsCubit.state.endOfWarranty!) ? context.themeData.colorScheme.error : null,
                       ),
                     ),
                   ),

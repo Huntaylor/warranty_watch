@@ -5,7 +5,6 @@ import 'package:warranty_keeper/modules/cubit/current_warranties/current_warrant
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
-import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_checkbox.dart';
 import 'package:warranty_keeper/widgets/warranty_image_widget.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';

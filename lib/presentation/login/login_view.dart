@@ -2,7 +2,6 @@ import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
-import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 class LoginView extends StatelessWidget {
@@ -25,11 +24,7 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
 
-    errorSnackBar({required String message}) {
-      return SnackBar(
-        content: Text(message),
-      );
-    }
+    final authCubit = context.watch<AuthCubit>();
 
     return SafeArea(
       child: Padding(
@@ -50,6 +45,11 @@ class _Content extends StatelessWidget {
             ),
             Column(
               children: [
+                if (authCubit.state.isError)
+                  const SizedBox(
+                    child: Text('We were unable to log you in at this time'),
+                    height: 25,
+                  ),
                 BlocBuilder<LoginCubit, LoginState>(
                   builder: (context, state) {
                     return WarrantyTextField.general(
@@ -94,7 +94,7 @@ class _Content extends StatelessWidget {
                 BlocBuilder<LoginCubit, LoginState>(
                   builder: (context, state) {
                     return WarrantyElevatedButton(
-                      isLoading: false,
+                      isLoading: context.read<AuthCubit>().state.isLoading,
                       onPressed: () => context.read<AuthCubit>().login(
                             email: state.asLoggingIn.email,
                             password: state.asLoggingIn.password,
@@ -106,7 +106,12 @@ class _Content extends StatelessWidget {
                 ),
                 TextButton(
                   child: const Text('Sign up'),
-                  onPressed: () => context.read<AuthCubit>().register('', ''),
+                  onPressed: () {
+                    context.read<AuthCubit>().setInitial();
+                    context.push(
+                      Paths.login.register.signUp.path,
+                    );
+                  },
                 ),
               ],
             )

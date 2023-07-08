@@ -30,32 +30,37 @@ class _Content extends StatelessWidget {
     final currentCubit = context.read<CurrentWarrantiesCubit>();
     final newRead = context.read<NewWarrantyCubit>();
     final detailsCubit = context.read<WarrantyDetailsCubit>();
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
         child: BlocBuilder<CurrentWarrantiesCubit, CurrentWarrantiesState>(
           builder: (context, state) {
-            return (state.asReady.warrantyInfo.isEmpty)
-                ? Text(context.appLocalizations.noCurrentWarranties)
-                : ListView.builder(
-                    itemCount: state.asReady.warrantyInfo.length,
-                    itemBuilder: (context, index) {
-                      return CurrentWidgetCard(
-                        onSelect: () {
-                          detailsCubit.selectedWarrantyInitial(
-                            state.asReady.warrantyInfo[index],
-                          );
-                          context.push(Paths.home.warrantyDetails.goRoute);
-                        },
-                        onEdit: () {
-                          newRead.editWarrantyInitial(state.asReady.warrantyInfo[index]);
-                          context.pushNamed(Paths.home.newWarranty.goRoute);
-                        },
-                        onRemove: () => currentCubit.removeWarranty(index),
-                        warrantyInfo: state.asReady.warrantyInfo[index],
-                      );
-                    },
-                  );
+            if (state.isLoading) {
+              return const CircularProgressIndicator();
+            } else {
+              return (state.asReady.warrantyInfo.isEmpty)
+                  ? Text(context.appLocalizations.noCurrentWarranties)
+                  : ListView.builder(
+                      itemCount: state.asReady.warrantyInfo.length,
+                      itemBuilder: (context, index) {
+                        return CurrentWidgetCard(
+                          onSelect: () {
+                            detailsCubit.selectedWarrantyInitial(
+                              state.asReady.warrantyInfo[index],
+                            );
+                            context.push(Paths.home.warrantyDetails.goRoute);
+                          },
+                          onEdit: () {
+                            newRead.editWarrantyInitial(state.asReady.warrantyInfo[index]);
+                            context.pushNamed(Paths.home.newWarranty.goRoute);
+                          },
+                          onRemove: () => currentCubit.removeWarranty(index),
+                          warrantyInfo: state.asReady.warrantyInfo[index],
+                        );
+                      },
+                    );
+            }
           },
         ),
       ),

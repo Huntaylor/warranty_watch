@@ -6,24 +6,17 @@ part of 'sign_up_cubit.dart';
 // AutoequalGenerator
 // **************************************************************************
 
+extension _$_ErrorAutoequal on _Error {
+  @Deprecated(r'Use _$props instead')
+  List<Object?> get _autoequalProps => _$props;
+  List<Object?> get _$props => [errorMessage];
+}
+
 extension _$_SignUpProcessAutoequal on _SignUpProcess {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [
-        isObscured,
-        hasSixCharacters,
-        hasSpecialCharacter,
-        hasLowerUpperCase,
-        hasNumber,
-        isMatching,
-        isConfirmObscured,
-        email,
-        password,
-        confirmPassword,
-        firstName,
-        lastName,
-        age
-      ];
+  List<Object?> get _$props =>
+      [isObscured, hasSixCharacters, hasSpecialCharacter, hasLowerUpperCase, hasNumber, isMatching, isConfirmObscured, email, password, confirmPassword, firstName, lastName, age];
 }
 
 // **************************************************************************
@@ -76,7 +69,7 @@ abstract class _$_SignUpProcessCWProxy {
     String? confirmPassword,
     String? firstName,
     String? lastName,
-    String? age,
+    String? birthday,
   });
 }
 
@@ -90,16 +83,13 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess isObscured(bool isObscured) => this(isObscured: isObscured);
 
   @override
-  _SignUpProcess hasSixCharacters(bool hasSixCharacters) =>
-      this(hasSixCharacters: hasSixCharacters);
+  _SignUpProcess hasSixCharacters(bool hasSixCharacters) => this(hasSixCharacters: hasSixCharacters);
 
   @override
-  _SignUpProcess hasSpecialCharacter(bool hasSpecialCharacter) =>
-      this(hasSpecialCharacter: hasSpecialCharacter);
+  _SignUpProcess hasSpecialCharacter(bool hasSpecialCharacter) => this(hasSpecialCharacter: hasSpecialCharacter);
 
   @override
-  _SignUpProcess hasLowerUpperCase(bool hasLowerUpperCase) =>
-      this(hasLowerUpperCase: hasLowerUpperCase);
+  _SignUpProcess hasLowerUpperCase(bool hasLowerUpperCase) => this(hasLowerUpperCase: hasLowerUpperCase);
 
   @override
   _SignUpProcess hasNumber(bool hasNumber) => this(hasNumber: hasNumber);
@@ -108,8 +98,7 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess isMatching(bool isMatching) => this(isMatching: isMatching);
 
   @override
-  _SignUpProcess isConfirmObscured(bool isConfirmObscured) =>
-      this(isConfirmObscured: isConfirmObscured);
+  _SignUpProcess isConfirmObscured(bool isConfirmObscured) => this(isConfirmObscured: isConfirmObscured);
 
   @override
   _SignUpProcess email(String? email) => this(email: email);
@@ -118,8 +107,7 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess password(String? password) => this(password: password);
 
   @override
-  _SignUpProcess confirmPassword(String? confirmPassword) =>
-      this(confirmPassword: confirmPassword);
+  _SignUpProcess confirmPassword(String? confirmPassword) => this(confirmPassword: confirmPassword);
 
   @override
   _SignUpProcess firstName(String? firstName) => this(firstName: firstName);
@@ -128,7 +116,7 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess lastName(String? lastName) => this(lastName: lastName);
 
   @override
-  _SignUpProcess age(String? age) => this(age: age);
+  _SignUpProcess age(String? age) => this(birthday: age);
 
   @override
 
@@ -151,27 +139,22 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
     Object? confirmPassword = const $CopyWithPlaceholder(),
     Object? firstName = const $CopyWithPlaceholder(),
     Object? lastName = const $CopyWithPlaceholder(),
-    Object? age = const $CopyWithPlaceholder(),
+    Object? birthday = const $CopyWithPlaceholder(),
   }) {
     return _SignUpProcess(
-      isObscured:
-          isObscured == const $CopyWithPlaceholder() || isObscured == null
-              ? _value.isObscured
-              // ignore: cast_nullable_to_non_nullable
-              : isObscured as bool,
-      hasSixCharacters: hasSixCharacters == const $CopyWithPlaceholder() ||
-              hasSixCharacters == null
+      isObscured: isObscured == const $CopyWithPlaceholder() || isObscured == null
+          ? _value.isObscured
+          // ignore: cast_nullable_to_non_nullable
+          : isObscured as bool,
+      hasSixCharacters: hasSixCharacters == const $CopyWithPlaceholder() || hasSixCharacters == null
           ? _value.hasSixCharacters
           // ignore: cast_nullable_to_non_nullable
           : hasSixCharacters as bool,
-      hasSpecialCharacter:
-          hasSpecialCharacter == const $CopyWithPlaceholder() ||
-                  hasSpecialCharacter == null
-              ? _value.hasSpecialCharacter
-              // ignore: cast_nullable_to_non_nullable
-              : hasSpecialCharacter as bool,
-      hasLowerUpperCase: hasLowerUpperCase == const $CopyWithPlaceholder() ||
-              hasLowerUpperCase == null
+      hasSpecialCharacter: hasSpecialCharacter == const $CopyWithPlaceholder() || hasSpecialCharacter == null
+          ? _value.hasSpecialCharacter
+          // ignore: cast_nullable_to_non_nullable
+          : hasSpecialCharacter as bool,
+      hasLowerUpperCase: hasLowerUpperCase == const $CopyWithPlaceholder() || hasLowerUpperCase == null
           ? _value.hasLowerUpperCase
           // ignore: cast_nullable_to_non_nullable
           : hasLowerUpperCase as bool,
@@ -179,13 +162,11 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
           ? _value.hasNumber
           // ignore: cast_nullable_to_non_nullable
           : hasNumber as bool,
-      isMatching:
-          isMatching == const $CopyWithPlaceholder() || isMatching == null
-              ? _value.isMatching
-              // ignore: cast_nullable_to_non_nullable
-              : isMatching as bool,
-      isConfirmObscured: isConfirmObscured == const $CopyWithPlaceholder() ||
-              isConfirmObscured == null
+      isMatching: isMatching == const $CopyWithPlaceholder() || isMatching == null
+          ? _value.isMatching
+          // ignore: cast_nullable_to_non_nullable
+          : isMatching as bool,
+      isConfirmObscured: isConfirmObscured == const $CopyWithPlaceholder() || isConfirmObscured == null
           ? _value.isConfirmObscured
           // ignore: cast_nullable_to_non_nullable
           : isConfirmObscured as bool,
@@ -209,10 +190,10 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
           ? _value.lastName
           // ignore: cast_nullable_to_non_nullable
           : lastName as String?,
-      age: age == const $CopyWithPlaceholder()
+      age: birthday == const $CopyWithPlaceholder()
           ? _value.age
           // ignore: cast_nullable_to_non_nullable
-          : age as String?,
+          : birthday as String?,
     );
   }
 }

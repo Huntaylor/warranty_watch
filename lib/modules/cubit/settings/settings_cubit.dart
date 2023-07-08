@@ -5,7 +5,19 @@ part 'settings_state.dart';
 part 'settings_cubit.g.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit() : super(const _Initial());
+  SettingsCubit() : super(const _Initial()) {
+    getNotifications();
+  }
+
+  getNotifications() {
+    //TODO: GET DATA FROM FIREBASE
+    emit(
+      const _SetSettings(
+        isNotifications: false,
+        isSomething: false,
+      ),
+    );
+  }
 
   toggleNotifications(bool value) {
     emit(
