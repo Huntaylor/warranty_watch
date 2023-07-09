@@ -1,8 +1,6 @@
-import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/sign_up/sign_up_cubit.dart';
 import 'package:warranty_keeper/presentation/sign_up/widgets/password_requirement_widget.dart';
-import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 import '../../../app_library.dart';
 
@@ -40,13 +38,13 @@ class _Content extends StatelessWidget {
     }
 
     return SafeArea(
+      minimum: const EdgeInsets.symmetric(
+        horizontal: 25.0,
+      ),
       child: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
-        child: Container(
+        child: SizedBox(
           height: getAvailableScreenHeight(context),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 25.0,
-          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

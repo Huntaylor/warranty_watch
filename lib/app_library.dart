@@ -11,3 +11,5 @@ export 'utils/utils.dart';
 export 'dart:io';
 export 'package:warranty_keeper/routes/paths.dart';
 export 'package:warranty_keeper/widgets/warranty_button.dart';
+export 'package:warranty_keeper/widgets/warranty_textfield.dart';
+export 'package:go_router/go_router.dart';

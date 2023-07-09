@@ -78,7 +78,7 @@ class WarrantyTextField extends StatefulWidget {
         hasAutocorrect = false,
         super(key: key);
   WarrantyTextField.dob({
-    required this.initialDateTime,
+    this.initialDateTime,
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
@@ -99,7 +99,11 @@ class WarrantyTextField extends StatefulWidget {
         hasAutocorrect = false,
         isLifeTime = false,
         startDateTime = DateTime(1920),
-        endDateTime = null,
+        endDateTime = DateTime.now().subtract(
+          const Duration(
+            days: 4748,
+          ),
+        ),
         super(key: key);
 
   const WarrantyTextField.general({

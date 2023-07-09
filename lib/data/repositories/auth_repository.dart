@@ -136,7 +136,7 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<void> updatePersonalData(String firstname, String lastName, String birthday) async {
     try {
-      await users.doc(currentUser().uid).set(
+      await users.doc(currentUser().uid).collection('user Data').doc().set(
         {
           'firstName': firstname,
           'lastName': lastName,

@@ -23,55 +23,63 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsCubit = context.read<SettingsCubit>();
-    final auth = context.read<AuthCubit>();
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<SettingsCubit, SettingsState>(
-                builder: (context, state) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocProvider(
+      create: (context) => SettingsCubit(),
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state.isNotAuthenticated) {
+            GoRouter.of(context).refresh();
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: BlocBuilder<SettingsCubit, SettingsState>(
+                    builder: (context, state) {
+                      return Column(
                         children: [
-                          const Text('Notifications'),
-                          Switch(
-                            value: state.asSet.isNotifications ?? false,
-                            onChanged: settingsCubit.toggleNotifications,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Notifications'),
+                              Switch(
+                                value: state.asSet.isNotifications,
+                                onChanged: context.read<SettingsCubit>().toggleNotifications,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Something else'),
+                              Switch(
+                                value: state.asSet.isSomething,
+                                onChanged: context.read<SettingsCubit>().toggleSomething,
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Something else'),
-                          Switch(
-                            value: state.asSet.isSomething ?? false,
-                            onChanged: settingsCubit.toggleSomething,
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 15),
+                  child: WarrantyElevatedButton(
+                    isLoading: context.watch<AuthCubit>().state.isLoading,
+                    isEnabled: true,
+                    onPressed: () async {
+                      await context.read<AuthCubit>().logout();
+                    },
+                    text: 'Logout',
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 15),
-              child: WarrantyElevatedButton(
-                isLoading: auth.state.isLoading,
-                isEnabled: true,
-                onPressed: () {
-                  auth.logout();
-                },
-                text: 'Logout',
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

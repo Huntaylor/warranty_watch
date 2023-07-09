@@ -1,4 +1,5 @@
 import 'package:autoequal/autoequal.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:warranty_keeper/app_library.dart';
 
 part 'settings_state.dart';
@@ -21,7 +22,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   toggleNotifications(bool value) {
     emit(
-      _SetSettings(
+      state.asSet.copyWith(
         isNotifications: value,
       ),
     );
@@ -30,7 +31,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   toggleSomething(bool value) {
     //TODO add function
     emit(
-      _SetSettings(
+      state.asSet.copyWith(
         isSomething: value,
       ),
     );

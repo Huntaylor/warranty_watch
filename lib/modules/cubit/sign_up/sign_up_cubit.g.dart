@@ -15,8 +15,22 @@ extension _$_ErrorAutoequal on _Error {
 extension _$_SignUpProcessAutoequal on _SignUpProcess {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props =>
-      [isObscured, hasSixCharacters, hasSpecialCharacter, hasLowerUpperCase, hasNumber, isMatching, isConfirmObscured, email, password, confirmPassword, firstName, lastName, age];
+  List<Object?> get _$props => [
+        isObscured,
+        hasSixCharacters,
+        hasSpecialCharacter,
+        hasLowerUpperCase,
+        hasNumber,
+        isMatching,
+        isConfirmObscured,
+        email,
+        password,
+        confirmPassword,
+        firstName,
+        lastName,
+        birthday,
+        tosAccepted
+      ];
 }
 
 // **************************************************************************
@@ -38,6 +52,8 @@ abstract class _$_SignUpProcessCWProxy {
 
   _SignUpProcess isConfirmObscured(bool isConfirmObscured);
 
+  _SignUpProcess tosAccepted(bool tosAccepted);
+
   _SignUpProcess email(String? email);
 
   _SignUpProcess password(String? password);
@@ -48,7 +64,7 @@ abstract class _$_SignUpProcessCWProxy {
 
   _SignUpProcess lastName(String? lastName);
 
-  _SignUpProcess age(String? age);
+  _SignUpProcess birthday(String? birthday);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_SignUpProcess(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -64,6 +80,7 @@ abstract class _$_SignUpProcessCWProxy {
     bool? hasNumber,
     bool? isMatching,
     bool? isConfirmObscured,
+    bool? tosAccepted,
     String? email,
     String? password,
     String? confirmPassword,
@@ -83,13 +100,16 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess isObscured(bool isObscured) => this(isObscured: isObscured);
 
   @override
-  _SignUpProcess hasSixCharacters(bool hasSixCharacters) => this(hasSixCharacters: hasSixCharacters);
+  _SignUpProcess hasSixCharacters(bool hasSixCharacters) =>
+      this(hasSixCharacters: hasSixCharacters);
 
   @override
-  _SignUpProcess hasSpecialCharacter(bool hasSpecialCharacter) => this(hasSpecialCharacter: hasSpecialCharacter);
+  _SignUpProcess hasSpecialCharacter(bool hasSpecialCharacter) =>
+      this(hasSpecialCharacter: hasSpecialCharacter);
 
   @override
-  _SignUpProcess hasLowerUpperCase(bool hasLowerUpperCase) => this(hasLowerUpperCase: hasLowerUpperCase);
+  _SignUpProcess hasLowerUpperCase(bool hasLowerUpperCase) =>
+      this(hasLowerUpperCase: hasLowerUpperCase);
 
   @override
   _SignUpProcess hasNumber(bool hasNumber) => this(hasNumber: hasNumber);
@@ -98,7 +118,12 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess isMatching(bool isMatching) => this(isMatching: isMatching);
 
   @override
-  _SignUpProcess isConfirmObscured(bool isConfirmObscured) => this(isConfirmObscured: isConfirmObscured);
+  _SignUpProcess isConfirmObscured(bool isConfirmObscured) =>
+      this(isConfirmObscured: isConfirmObscured);
+
+  @override
+  _SignUpProcess tosAccepted(bool tosAccepted) =>
+      this(tosAccepted: tosAccepted);
 
   @override
   _SignUpProcess email(String? email) => this(email: email);
@@ -107,7 +132,8 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess password(String? password) => this(password: password);
 
   @override
-  _SignUpProcess confirmPassword(String? confirmPassword) => this(confirmPassword: confirmPassword);
+  _SignUpProcess confirmPassword(String? confirmPassword) =>
+      this(confirmPassword: confirmPassword);
 
   @override
   _SignUpProcess firstName(String? firstName) => this(firstName: firstName);
@@ -116,7 +142,7 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess lastName(String? lastName) => this(lastName: lastName);
 
   @override
-  _SignUpProcess age(String? age) => this(birthday: age);
+  _SignUpProcess birthday(String? birthday) => this(birthday: birthday);
 
   @override
 
@@ -134,6 +160,7 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
     Object? hasNumber = const $CopyWithPlaceholder(),
     Object? isMatching = const $CopyWithPlaceholder(),
     Object? isConfirmObscured = const $CopyWithPlaceholder(),
+    Object? tosAccepted = const $CopyWithPlaceholder(),
     Object? email = const $CopyWithPlaceholder(),
     Object? password = const $CopyWithPlaceholder(),
     Object? confirmPassword = const $CopyWithPlaceholder(),
@@ -142,19 +169,24 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
     Object? birthday = const $CopyWithPlaceholder(),
   }) {
     return _SignUpProcess(
-      isObscured: isObscured == const $CopyWithPlaceholder() || isObscured == null
-          ? _value.isObscured
-          // ignore: cast_nullable_to_non_nullable
-          : isObscured as bool,
-      hasSixCharacters: hasSixCharacters == const $CopyWithPlaceholder() || hasSixCharacters == null
+      isObscured:
+          isObscured == const $CopyWithPlaceholder() || isObscured == null
+              ? _value.isObscured
+              // ignore: cast_nullable_to_non_nullable
+              : isObscured as bool,
+      hasSixCharacters: hasSixCharacters == const $CopyWithPlaceholder() ||
+              hasSixCharacters == null
           ? _value.hasSixCharacters
           // ignore: cast_nullable_to_non_nullable
           : hasSixCharacters as bool,
-      hasSpecialCharacter: hasSpecialCharacter == const $CopyWithPlaceholder() || hasSpecialCharacter == null
-          ? _value.hasSpecialCharacter
-          // ignore: cast_nullable_to_non_nullable
-          : hasSpecialCharacter as bool,
-      hasLowerUpperCase: hasLowerUpperCase == const $CopyWithPlaceholder() || hasLowerUpperCase == null
+      hasSpecialCharacter:
+          hasSpecialCharacter == const $CopyWithPlaceholder() ||
+                  hasSpecialCharacter == null
+              ? _value.hasSpecialCharacter
+              // ignore: cast_nullable_to_non_nullable
+              : hasSpecialCharacter as bool,
+      hasLowerUpperCase: hasLowerUpperCase == const $CopyWithPlaceholder() ||
+              hasLowerUpperCase == null
           ? _value.hasLowerUpperCase
           // ignore: cast_nullable_to_non_nullable
           : hasLowerUpperCase as bool,
@@ -162,14 +194,21 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
           ? _value.hasNumber
           // ignore: cast_nullable_to_non_nullable
           : hasNumber as bool,
-      isMatching: isMatching == const $CopyWithPlaceholder() || isMatching == null
-          ? _value.isMatching
-          // ignore: cast_nullable_to_non_nullable
-          : isMatching as bool,
-      isConfirmObscured: isConfirmObscured == const $CopyWithPlaceholder() || isConfirmObscured == null
+      isMatching:
+          isMatching == const $CopyWithPlaceholder() || isMatching == null
+              ? _value.isMatching
+              // ignore: cast_nullable_to_non_nullable
+              : isMatching as bool,
+      isConfirmObscured: isConfirmObscured == const $CopyWithPlaceholder() ||
+              isConfirmObscured == null
           ? _value.isConfirmObscured
           // ignore: cast_nullable_to_non_nullable
           : isConfirmObscured as bool,
+      tosAccepted:
+          tosAccepted == const $CopyWithPlaceholder() || tosAccepted == null
+              ? _value.tosAccepted
+              // ignore: cast_nullable_to_non_nullable
+              : tosAccepted as bool,
       email: email == const $CopyWithPlaceholder()
           ? _value.email
           // ignore: cast_nullable_to_non_nullable
@@ -190,8 +229,8 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
           ? _value.lastName
           // ignore: cast_nullable_to_non_nullable
           : lastName as String?,
-      age: birthday == const $CopyWithPlaceholder()
-          ? _value.age
+      birthday: birthday == const $CopyWithPlaceholder()
+          ? _value.birthday
           // ignore: cast_nullable_to_non_nullable
           : birthday as String?,
     );

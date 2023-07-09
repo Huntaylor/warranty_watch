@@ -4,13 +4,17 @@ abstract class LoginState extends Equatable {
   const LoginState();
 
   bool get isLoggingIn => this is _LoggingIn;
-  // bool get isInitial => this is _Initial;
+  bool get isInitial => this is _Initial;
 
-  // _Initial get asInitial => this as _Initial;
+  _Initial get asInitial => this as _Initial;
   _LoggingIn get asLoggingIn => this as _LoggingIn;
 
   @override
   List<Object?> get props => [];
+}
+
+class _Initial extends LoginState {
+  const _Initial();
 }
 
 @CopyWith()

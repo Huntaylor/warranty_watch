@@ -13,6 +13,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   getInitial() {
     emit(
       const _SignUpProcess(
+        tosAccepted: false,
         isConfirmObscured: true,
         isMatching: false,
         isObscured: true,
@@ -38,6 +39,23 @@ class SignUpCubit extends Cubit<SignUpState> {
         isConfirmObscured: !state.asSignUp.isConfirmObscured,
       ),
     );
+  }
+
+  toggleTosAccepted(bool value) {
+    emit(
+      state.asSignUp.copyWith(
+        tosAccepted: value,
+      ),
+    );
+  }
+
+  bool arePasswordRequirementsMet() {
+    final passwordRequirement = state.asSignUp;
+    return (passwordRequirement.hasLowerUpperCase &&
+        passwordRequirement.hasNumber &&
+        passwordRequirement.hasSixCharacters &&
+        passwordRequirement.isMatching &&
+        passwordRequirement.hasSpecialCharacter);
   }
 
   changeEmail(String email) {
@@ -171,7 +189,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (state.asSignUp.confirmPassword == null || state.asSignUp.confirmPassword!.isEmpty) return false;
     if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) return false;
     if (state.asSignUp.lastName == null || state.asSignUp.lastName!.isEmpty) return false;
-    if (state.asSignUp.age == null || state.asSignUp.age!.isEmpty) return false;
+    if (state.asSignUp.birthday == null || state.asSignUp.birthday!.isEmpty) return false;
     return true;
   }
 
@@ -179,18 +197,19 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (state.asSignUp.email == null || state.asSignUp.email!.isEmpty) return false;
     if (state.asSignUp.password == null || state.asSignUp.password!.isEmpty) return false;
     if (state.asSignUp.confirmPassword == null || state.asSignUp.confirmPassword!.isEmpty) return false;
+    if (!arePasswordRequirementsMet()) return false;
     return true;
   }
 
   bool enabledDataNext() {
     if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) return false;
     if (state.asSignUp.lastName == null || state.asSignUp.lastName!.isEmpty) return false;
-    if (state.asSignUp.age == null || state.asSignUp.age!.isEmpty) return false;
+    if (state.asSignUp.birthday == null || state.asSignUp.birthday!.isEmpty) return false;
     return true;
   }
 
   bool enabledTosNext() {
-    if (state.asSignUp.tosAccepted == null || !state.asSignUp.tosAccepted!) return false;
+    if (!state.asSignUp.tosAccepted) return false;
     return true;
   }
 }

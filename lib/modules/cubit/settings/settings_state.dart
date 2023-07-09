@@ -15,10 +15,14 @@ class _Initial extends SettingsState {
 }
 
 @autoequal
+@CopyWith()
 class _SetSettings extends SettingsState {
-  const _SetSettings({this.isNotifications, this.isSomething});
-  final bool? isNotifications;
-  final bool? isSomething;
+  const _SetSettings({
+    required this.isNotifications,
+    required this.isSomething,
+  });
+  final bool isNotifications;
+  final bool isSomething;
 
   @override
   List<Object?> get props => _$props;

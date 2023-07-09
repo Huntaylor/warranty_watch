@@ -8,19 +8,19 @@ class UserData {
     required this.lastName,
     required this.warranties,
     required this.email,
-    required this.age,
+    required this.birthday,
   });
   final List<WarrantyInfo> warranties;
   final String email;
   final String firstName;
   final String lastName;
-  final String age;
+  final String birthday;
 
   factory UserData.fromJson(Map json) {
     return UserData(
       firstName: json['firstName'],
       lastName: json['lastName'],
-      age: json['age'],
+      birthday: json['birthday'],
       warranties: json['warranties'],
       email: json['email'],
     );
@@ -32,7 +32,7 @@ class UserData {
       'email': email,
       'firstName': firstName,
       'lastName': lastName,
-      'age': age,
+      'birthday': birthday,
     };
   }
 
@@ -42,7 +42,7 @@ class UserData {
       email: map['email'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
-      age: map['age'] ?? '',
+      birthday: map['age'] ?? '',
     );
   }
 

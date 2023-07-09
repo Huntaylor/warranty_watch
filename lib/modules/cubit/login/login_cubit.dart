@@ -7,7 +7,19 @@ part 'login_state.dart';
 part 'login_cubit.g.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(const _LoggingIn(email: '', password: '', isObscured: true));
+  LoginCubit() : super(const _Initial()) {
+    setInitial();
+  }
+
+  setInitial() {
+    emit(
+      const _LoggingIn(
+        email: '',
+        password: '',
+        isObscured: true,
+      ),
+    );
+  }
 
   toggleObscurity() {
     emit(

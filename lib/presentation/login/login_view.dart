@@ -1,8 +1,7 @@
-import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
-import 'package:warranty_keeper/widgets/warranty_textfield.dart';
+import 'package:warranty_keeper/widgets/sign_in_options_icons.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -26,98 +25,146 @@ class _Content extends StatelessWidget {
 
     final authCubit = context.watch<AuthCubit>();
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: context.colorScheme.primary,
-              ),
-              padding: const EdgeInsets.all(8),
-              child: Text(
-                appLocalizations.mainTitle,
-                style: context.textTheme.headlineMedium?.copyWith(color: context.colorScheme.onPrimary),
-              ),
-            ),
-            Column(
-              children: [
-                if (authCubit.state.isError)
-                  const SizedBox(
-                    child: Text('We were unable to log you in at this time'),
-                    height: 25,
+    return BlocProvider<LoginCubit>(
+      create: (context) => LoginCubit(),
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state.isAuthenticated) {
+            GoRouter.of(context).refresh();
+          }
+        },
+        child: SafeArea(
+          minimum: const EdgeInsets.symmetric(horizontal: 25),
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: SizedBox(
+              height: getAvailableScreenHeight(context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: context.colorScheme.primary,
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      appLocalizations.mainTitle,
+                      style: context.textTheme.headlineMedium?.copyWith(
+                        color: context.colorScheme.onPrimary,
+                      ),
+                    ),
                   ),
-                BlocBuilder<LoginCubit, LoginState>(
-                  builder: (context, state) {
-                    return WarrantyTextField.general(
-                      isRequired: false,
-                      initialValue: '',
-                      hintText: 'Email',
-                      onChanged: (email) {
-                        context.read<LoginCubit>().changeEmail(email);
-                      },
-                    );
-                  },
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    BlocBuilder<LoginCubit, LoginState>(
-                      builder: (context, state) {
-                        return WarrantyTextField.obscured(
-                          onObscuredTap: () => context.read<LoginCubit>().toggleObscurity(),
-                          isObscuredFunction: state.asLoggingIn.isObscured,
-                          isRequired: false,
-                          initialValue: '',
-                          hintText: 'Password',
-                          onChanged: (password) {
-                            context.read<LoginCubit>().changePassword(password);
-                          },
-                        );
-                      },
-                    ),
-                    TextButton(
-                      child: const Text('Forgot Password?'),
-                      onPressed: () {
-                        context.push(Paths.login.forgotPassword.path);
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                BlocBuilder<LoginCubit, LoginState>(
-                  builder: (context, state) {
-                    return WarrantyElevatedButton(
-                      isLoading: context.read<AuthCubit>().state.isLoading,
-                      onPressed: () => context.read<AuthCubit>().login(
-                            email: state.asLoggingIn.email,
-                            password: state.asLoggingIn.password,
+                  Column(
+                    children: [
+                      if (authCubit.state.isError)
+                        RichText(
+                          text: TextSpan(
+                            text: authCubit.state.asError.message,
+                            style: TextStyle(
+                              color: context.colorScheme.error,
+                            ),
                           ),
-                      text: 'Login',
-                      isEnabled: true,
-                    );
-                  },
-                ),
-                TextButton(
-                  child: const Text('Sign up'),
-                  onPressed: () {
-                    context.read<AuthCubit>().setInitial();
-                    context.push(
-                      Paths.login.register.path,
-                    );
-                  },
-                ),
-              ],
-            )
-          ],
+                        ),
+                      BlocBuilder<LoginCubit, LoginState>(
+                        builder: (context, state) {
+                          return WarrantyTextField.general(
+                            isRequired: false,
+                            initialValue: '',
+                            hintText: 'Email',
+                            onChanged: (email) {
+                              context.read<LoginCubit>().changeEmail(email);
+                            },
+                          );
+                        },
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          BlocBuilder<LoginCubit, LoginState>(
+                            builder: (context, state) {
+                              return WarrantyTextField.obscured(
+                                onObscuredTap: () => context.read<LoginCubit>().toggleObscurity(),
+                                isObscuredFunction: state.asLoggingIn.isObscured,
+                                isRequired: false,
+                                initialValue: '',
+                                hintText: 'Password',
+                                onChanged: (password) {
+                                  context.read<LoginCubit>().changePassword(password);
+                                },
+                              );
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Forgot Password?'),
+                            onPressed: () {
+                              context.push(Paths.login.forgotPassword.path);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      BlocBuilder<LoginCubit, LoginState>(
+                        builder: (context, state) {
+                          return WarrantyElevatedButton(
+                            isLoading: context.read<AuthCubit>().state.isLoading,
+                            onPressed: () => context.read<AuthCubit>().login(
+                                  email: state.asLoggingIn.email,
+                                  password: state.asLoggingIn.password,
+                                ),
+                            text: 'Login',
+                            isEnabled: true,
+                          );
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('Sign up'),
+                        onPressed: () {
+                          context.read<AuthCubit>().setInitial();
+                          context.push(
+                            Paths.login.register.path,
+                          );
+                        },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          WarrantyElevatedButton.iconLoading(
+                            onPressed: () => context.read<AuthCubit>().loginWithGoogle(),
+                            isLoading: authCubit.state.isLoading,
+                            isEnabled: true,
+                            widget: const Icon(SignInOptions.google),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                            child: WarrantyElevatedButton.iconLoading(
+                              onPressed: () {},
+                              isLoading: authCubit.state.isLoading,
+                              isEnabled: true,
+                              widget: const Icon(SignInOptions.apple),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
+}
+
+double getAvailableScreenHeight(BuildContext context) {
+  final double screenHeight = MediaQuery.of(context).size.height;
+  final double statusBarHeight = MediaQuery.of(context).padding.top;
+  final double navigationBarHeight = MediaQuery.of(context).padding.bottom;
+  final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+  return screenHeight - statusBarHeight - navigationBarHeight - keyboardHeight;
 }
