@@ -1,6 +1,7 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/login/login_cubit.dart';
+import 'package:warranty_keeper/presentation/login/widgets/get_screen_height.dart';
 import 'package:warranty_keeper/widgets/sign_in_options_icons.dart';
 
 class LoginView extends StatelessWidget {
@@ -159,12 +160,4 @@ class _Content extends StatelessWidget {
       ),
     );
   }
-}
-
-double getAvailableScreenHeight(BuildContext context) {
-  final double screenHeight = MediaQuery.of(context).size.height;
-  final double statusBarHeight = MediaQuery.of(context).padding.top;
-  final double navigationBarHeight = MediaQuery.of(context).padding.bottom;
-  final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-  return screenHeight - statusBarHeight - navigationBarHeight - keyboardHeight;
 }

@@ -5,6 +5,8 @@ import 'package:warranty_keeper/app_library.dart';
 part 'sign_up_state.dart';
 part 'sign_up_cubit.g.dart';
 
+enum SignUpStatus { signUp, personalData, tos }
+
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(const _Initial()) {
     getInitial();
@@ -13,6 +15,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   getInitial() {
     emit(
       const _SignUpProcess(
+        signUpStatus: SignUpStatus.signUp,
         tosAccepted: false,
         isConfirmObscured: true,
         isMatching: false,
@@ -140,6 +143,38 @@ class SignUpCubit extends Cubit<SignUpState> {
     );
     enabledRegister();
     enabledEmailNext();
+  }
+
+  pushPersonalData() {
+    emit(
+      state.asSignUp.copyWith(
+        signUpStatus: SignUpStatus.personalData,
+      ),
+    );
+  }
+
+  pushTos() {
+    emit(
+      state.asSignUp.copyWith(
+        signUpStatus: SignUpStatus.tos,
+      ),
+    );
+  }
+
+  onSignUpBack() {
+    if (state.asSignUp.signUpStatus == SignUpStatus.tos) {
+      emit(
+        state.asSignUp.copyWith(
+          signUpStatus: SignUpStatus.personalData,
+        ),
+      );
+    } else if (state.asSignUp.signUpStatus == SignUpStatus.personalData) {
+      emit(
+        state.asSignUp.copyWith(
+          signUpStatus: SignUpStatus.signUp,
+        ),
+      );
+    }
   }
 
   changeConfirmPassword(String confirmPassword) {

@@ -35,6 +35,7 @@ class _Error extends SignUpState {
 @CopyWith()
 @autoequal
 class _SignUpProcess extends SignUpState {
+  final SignUpStatus signUpStatus;
   final bool isObscured;
   final bool hasSixCharacters;
   final bool hasSpecialCharacter;
@@ -50,6 +51,7 @@ class _SignUpProcess extends SignUpState {
   final String? birthday;
   final bool tosAccepted;
   const _SignUpProcess({
+    required this.signUpStatus,
     required this.isObscured,
     required this.hasSixCharacters,
     required this.hasSpecialCharacter,

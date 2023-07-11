@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:warranty_keeper/presentation/sign_up/step2/personal_data_view.dart';
-import 'package:warranty_keeper/presentation/sign_up/step3/tos_sign_up_view.dart';
+import 'package:warranty_keeper/presentation/sign_up/sign_up_initial_view.dart';
 import 'package:warranty_keeper/routes/paths.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/forgot_password/forgot_password_view.dart';
@@ -9,7 +8,6 @@ import 'package:warranty_keeper/presentation/home/home_view.dart';
 import 'package:warranty_keeper/presentation/login/login_view.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/new_warranty_view.dart';
 import 'package:warranty_keeper/presentation/settings/settings_view.dart';
-import 'package:warranty_keeper/presentation/sign_up/step1/sign_up_view.dart';
 import 'package:warranty_keeper/presentation/warranty_details/presentation/warranty_details_view.dart';
 
 import 'modules/cubit/auth/auth_cubit.dart';
@@ -46,16 +44,10 @@ final goRoutes = GoRouter(
           path: Paths.login.forgotPassword.goRoute,
           builder: (_, __) => const ForgotPasswordView(),
         ),
-        GoRoute(path: Paths.login.register.goRoute, builder: (_, __) => const SignUpView(), routes: [
-          GoRoute(
-            path: Paths.login.register.personalData.goRoute,
-            builder: (_, __) => const PersonalDataView(),
-          ),
-          GoRoute(
-            path: Paths.login.register.tos.goRoute,
-            builder: (_, __) => const TosSignUpView(),
-          ),
-        ]),
+        GoRoute(
+          path: Paths.login.register.goRoute,
+          builder: (_, __) => const SignUpInitialView(),
+        ),
       ],
       path: Paths.login.goRoute,
       builder: (_, __) => const LoginView(),

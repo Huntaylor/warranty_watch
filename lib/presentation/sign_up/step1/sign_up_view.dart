@@ -1,33 +1,19 @@
+import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/sign_up/sign_up_cubit.dart';
 import 'package:warranty_keeper/presentation/sign_up/widgets/password_requirement_widget.dart';
 
-import '../../../app_library.dart';
-
-class SignUpView extends StatelessWidget {
-  const SignUpView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Step 1 of 3'),
-      ),
-      body: const _Content(),
-    );
-  }
-}
-
-class _Content extends StatelessWidget {
-  const _Content({Key? key}) : super(key: key);
+class SignUpEmailView extends StatelessWidget {
+  final SignUpCubit signUpCubit;
+  const SignUpEmailView({
+    required this.signUpCubit,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final signUpCubit = context.watch<SignUpCubit>();
+    final state = signUpCubit.state;
     final authCubit = context.watch<AuthCubit>();
-    final state = context.watch<SignUpCubit>().state;
 
     String? errorText;
 
@@ -36,105 +22,88 @@ class _Content extends StatelessWidget {
     } else {
       errorText = null;
     }
-
-    return SafeArea(
-      minimum: const EdgeInsets.symmetric(
-        horizontal: 25.0,
-      ),
-      child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: SizedBox(
-          height: getAvailableScreenHeight(context),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: Text(
+                'Enter your email, we will have you confirm it after registering',
+              ),
+            ),
+            WarrantyTextField.email(
+              errorText: errorText,
+              isRequired: true,
+              initialValue: state.asSignUp.email ?? '',
+              onChanged: context.read<SignUpCubit>().changeEmail,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: Text(
-                      'Enter your email, we will have you confirm it after registering',
-                    ),
+                    padding: EdgeInsets.only(top: 20, bottom: 8),
+                    child: Text('Your Password must contain:'),
                   ),
-                  WarrantyTextField.email(
-                    errorText: errorText,
-                    isRequired: true,
-                    initialValue: '',
-                    onChanged: context.read<SignUpCubit>().changeEmail,
+                  PasswordRequirementWidget(
+                    isTrue: state.asSignUp.hasSixCharacters,
+                    title: '6 characters or more',
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 8),
-                          child: Text('Your Password must contain:'),
-                        ),
-                        PasswordRequirementWidget(
-                          isTrue: state.asSignUp.hasSixCharacters,
-                          title: '6 characters or more',
-                        ),
-                        PasswordRequirementWidget(
-                          isTrue: state.asSignUp.hasLowerUpperCase,
-                          title: 'A lower and upper case letter',
-                        ),
-                        PasswordRequirementWidget(
-                          isTrue: state.asSignUp.hasNumber,
-                          title: 'A number',
-                        ),
-                        PasswordRequirementWidget(
-                          isTrue: state.asSignUp.hasSpecialCharacter,
-                          title: 'A special character',
-                        ),
-                        PasswordRequirementWidget(
-                          isTrue: state.asSignUp.isMatching,
-                          title: 'Passwords must match',
-                        ),
-                      ],
-                    ),
+                  PasswordRequirementWidget(
+                    isTrue: state.asSignUp.hasLowerUpperCase,
+                    title: 'A lower and upper case letter',
                   ),
-                  WarrantyTextField.obscured(
-                    hintText: 'Password',
-                    initialValue: '',
-                    isObscuredFunction: state.asSignUp.isObscured,
-                    isRequired: true,
-                    onChanged: context.read<SignUpCubit>().changePassword,
-                    onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
+                  PasswordRequirementWidget(
+                    isTrue: state.asSignUp.hasNumber,
+                    title: 'A number',
                   ),
-                  WarrantyTextField.obscured(
-                    hintText: 'Confirm Password',
-                    initialValue: '',
-                    isObscuredFunction: state.asSignUp.isConfirmObscured,
-                    isRequired: true,
-                    onChanged: context.read<SignUpCubit>().changeConfirmPassword,
-                    onObscuredTap: context.read<SignUpCubit>().toggleConfirmObscurity,
+                  PasswordRequirementWidget(
+                    isTrue: state.asSignUp.hasSpecialCharacter,
+                    title: 'A special character',
+                  ),
+                  PasswordRequirementWidget(
+                    isTrue: state.asSignUp.isMatching,
+                    title: 'Passwords must match',
                   ),
                 ],
               ),
-              WarrantyElevatedButton.loading(
-                onPressed: () async {
-                  await authCubit.checkEmail(state.asSignUp.email!);
-                  if (!authCubit.state.isError) {
-                    context.push(Paths.login.register.personalData.path);
-                  }
-                },
-                text: 'Next',
-                isLoading: authCubit.state.isLoading,
-                isEnabled: signUpCubit.enabledEmailNext(),
-              ),
-            ],
+            ),
+            WarrantyTextField.obscured(
+              hintText: 'Password',
+              initialValue: state.asSignUp.password ?? '',
+              isObscuredFunction: state.asSignUp.isObscured,
+              isRequired: true,
+              onChanged: context.read<SignUpCubit>().changePassword,
+              onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
+            ),
+            WarrantyTextField.obscured(
+              hintText: 'Confirm Password',
+              initialValue: state.asSignUp.confirmPassword ?? '',
+              isObscuredFunction: state.asSignUp.isConfirmObscured,
+              isRequired: true,
+              onChanged: context.read<SignUpCubit>().changeConfirmPassword,
+              onObscuredTap: context.read<SignUpCubit>().toggleConfirmObscurity,
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: WarrantyElevatedButton.loading(
+            onPressed: () async {
+              await authCubit.checkEmail(state.asSignUp.email!);
+              if (!authCubit.state.isError) {
+                context.read<SignUpCubit>().pushPersonalData();
+              }
+            },
+            text: 'Next',
+            isLoading: authCubit.state.isLoading,
+            isEnabled: signUpCubit.enabledEmailNext(),
           ),
         ),
-      ),
+      ],
     );
   }
-}
-
-double getAvailableScreenHeight(BuildContext context) {
-  final double screenHeight = MediaQuery.of(context).size.height;
-  final double statusBarHeight = MediaQuery.of(context).padding.top;
-  final double navigationBarHeight = MediaQuery.of(context).padding.bottom;
-  final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-  return screenHeight - statusBarHeight - navigationBarHeight - keyboardHeight;
 }

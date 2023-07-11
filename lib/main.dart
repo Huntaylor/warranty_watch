@@ -8,7 +8,6 @@ import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/sign_up/sign_up_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'firebase_options.dart';
 
@@ -49,9 +48,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<HomeCubit>(
           create: (context) => HomeCubit(),
-        ),
-        BlocProvider<SignUpCubit>(
-          create: (context) => SignUpCubit(),
         ),
         BlocProvider<NewWarrantyCubit>(
           create: (context) => NewWarrantyCubit(),
