@@ -18,13 +18,13 @@ abstract class AuthRepository {
   Future<void> updatePersonalData(
     String firstName,
     String lastName,
-    String age,
   );
 }
 
 class FirebaseAuthRepository implements AuthRepository {
   final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+
   @override
   WarrantyUser currentUser() {
     firebaseauth.User user;
@@ -94,7 +94,10 @@ class FirebaseAuthRepository implements AuthRepository {
   //firebase login with email and password
   Future<WarrantyUser> register(String email, String password) async {
     try {
-      firebaseauth.UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      firebaseauth.UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
@@ -134,13 +137,12 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> updatePersonalData(String firstname, String lastName, String birthday) async {
+  Future<void> updatePersonalData(String firstname, String lastName) async {
     try {
-      await users.doc(currentUser().uid).collection('user Data').doc().set(
+      await users.doc(currentUser().uid).collection('User Data').doc().set(
         {
           'firstName': firstname,
           'lastName': lastName,
-          'birthday': birthday,
         },
       );
     } catch (e) {

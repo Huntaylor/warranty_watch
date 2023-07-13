@@ -9,6 +9,7 @@ import 'package:warranty_keeper/modules/cubit/current_warranties/current_warrant
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
+import 'data/repositories/warranty_repository.dart';
 import 'firebase_options.dart';
 
 import 'package:warranty_keeper/go_routes.dart';
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(FirebaseAuthRepository()),
         ),
+        BlocProvider<NewWarrantyCubit>(
+          create: (context) => NewWarrantyCubit(FirebaseDataRepository()),
+        ),
         BlocProvider<CurrentWarrantiesCubit>(
           create: (context) => CurrentWarrantiesCubit(
             warrantiesSource: WarrantiesSource(),
@@ -48,9 +52,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<HomeCubit>(
           create: (context) => HomeCubit(),
-        ),
-        BlocProvider<NewWarrantyCubit>(
-          create: (context) => NewWarrantyCubit(),
         ),
         BlocProvider<WarrantyDetailsCubit>(
           create: (context) => WarrantyDetailsCubit(),

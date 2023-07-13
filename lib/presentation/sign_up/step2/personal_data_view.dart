@@ -18,7 +18,7 @@ class PersonalDataView extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.only(top: 15),
                 child: Text(
-                  'Let\'s add some information about your account',
+                  'Let\'s add some information',
                 ),
               ),
               WarrantyTextField.general(
@@ -32,23 +32,6 @@ class PersonalDataView extends StatelessWidget {
                 initialValue: state.asSignUp.lastName ?? '',
                 isRequired: true,
                 onChanged: context.read<SignUpCubit>().changeLastName,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  'You must be 13 years or older to create an account',
-                ),
-              ),
-              WarrantyTextField.dob(
-                initialDateTime: DateTime.now().subtract(
-                  const Duration(
-                    days: 4748,
-                  ),
-                ),
-                hintText: 'Date of birth',
-                initialValue: state.asSignUp.birthday ?? '',
-                isRequired: true,
-                onChanged: context.read<SignUpCubit>().changeDob,
               ),
             ],
           ),

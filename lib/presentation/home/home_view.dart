@@ -1,5 +1,4 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
 
 class HomeView extends StatelessWidget {
@@ -50,7 +49,6 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newWarrCubit = context.read<NewWarrantyCubit>();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -76,7 +74,6 @@ class _Content extends StatelessWidget {
             WarrantyElevatedButton.general(
               isEnabled: true,
               onPressed: () {
-                newWarrCubit.newWar();
                 context.push(Paths.home.newWarranty.path);
               },
               text: context.appLocalizations.newWarrantyBtn,

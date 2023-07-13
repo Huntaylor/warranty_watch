@@ -48,7 +48,6 @@ class _SignUpProcess extends SignUpState {
   final String? confirmPassword;
   final String? firstName;
   final String? lastName;
-  final String? birthday;
   final bool tosAccepted;
   const _SignUpProcess({
     required this.signUpStatus,
@@ -65,7 +64,6 @@ class _SignUpProcess extends SignUpState {
     this.confirmPassword,
     this.firstName,
     this.lastName,
-    this.birthday,
   }) : super();
 
   @override

@@ -2,7 +2,6 @@ import 'package:autoequal/autoequal.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
-import 'package:warranty_keeper/data/models/user.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 
@@ -12,6 +11,7 @@ part 'current_warranties_cubit.g.dart';
 // import 'firebase';
 
 class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
+  //TODO: RENAME TO WARRANTIESCUBIT, IT WILL HANDLE ALL THE WARRANTIES WITHIN THE USER
   CurrentWarrantiesCubit({
     required this.warrantiesSource,
   }) : super(const _Loading()) {
@@ -58,7 +58,7 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     return expiringList;
   }
 
-  void addOrEditWarranty({required WarrantyInfo warrantyInfo, required WarrantyUser user}) async {
+  void addOrEditWarranty({required WarrantyInfo warrantyInfo}) async {
     List<WarrantyInfo> expiringList;
 
     expiringList = List.from(state.asReady.warrantyInfo);

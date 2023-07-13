@@ -155,7 +155,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future updatePersonalData(String firstName, String lastName, String birthday) async {
+  Future updatePersonalData(
+    String firstName,
+    String lastName,
+  ) async {
     try {
       emit(
         const _Loading(),
@@ -163,7 +166,6 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.updatePersonalData(
         firstName,
         lastName,
-        birthday,
       );
 
       WarrantyUser currentUser = _authRepository.currentUser();

@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/data/repositories/warranty_repository.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 class NewWarrantyCubit extends Cubit<WarrantyInfo> {
-  NewWarrantyCubit() : super(const WarrantyInfo(warrantyId: ''));
+  //TODO: RENAME TO WARRANTYCUBIT, IT WILL HANDLE CURRENT, SINGULAR, WARRANTIY TO UPDATE, CREATE, AND DELETE ONE
+  final WarrantyRepository _warrantyRepository;
+  NewWarrantyCubit(this._warrantyRepository) : super(const WarrantyInfo(warrantyId: ''));
 
   toggleLifeTime() {
     emit(
@@ -116,14 +121,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     }
   }
 
-  changeEditing(WarrantyState warrantyState) {
-    emit(
-      state.copyWith(
-        warrantyState: warrantyState,
-      ),
-    );
-  }
-
   toggleWantsReminders(bool value) {
     emit(
       state.copyWith(
@@ -139,16 +136,14 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         source: ImageSource.camera,
         maxWidth: 600,
       );
-      if (imagePicker != null) {
-        // final appDir = await syspaths.getApplicationDocumentsDirectory();
-        // final fileName = path.basename(imagePicker.path);
-        // final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
 
+      if (imagePicker != null) {
         emit(
           state.copyWith(
-            image: imagePicker.path,
+            image: imagePicker,
           ),
         );
+        await loadingImage();
       }
     } catch (e) {
       rethrow;
@@ -163,13 +158,9 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         maxWidth: 600,
       );
       if (imagePicker != null) {
-        // final appDir = await syspaths.getApplicationDocumentsDirectory();
-        // final fileName = path.basename(imagePicker.path);
-        // final savedImage = await imagePicker.saveTo('${appDir.path}/$fileName');
-
         emit(
           state.copyWith(
-            image: imagePicker.path,
+            image: imagePicker,
           ),
         );
       }
@@ -187,14 +178,9 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       );
 
       if (imagePicker != null) {
-        // final appDir = await syspaths.getApplicationDocumentsDirectory();
-        // final fileName = path.basename(imagePicker.path);
-        // final savedreceiptImage =
-        //     await imagePicker.saveTo('${appDir.path}/$fileName');
-
         emit(
           state.copyWith(
-            receiptImage: imagePicker.path,
+            receiptImage: imagePicker,
           ),
         );
       }
@@ -213,17 +199,9 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
       );
 
       if (imagePicker != null) {
-        // final appDir = await syspaths.getApplicationDocumentsDirectory();
-        // final fileName = '${appDir.absolute}/${imagePicker.path}';
-        // final fileName = path.basename(imagePicker.path);
-        // final savedreceiptImage =
-        //     await imagePicker.saveTo('${appDir.path}/$fileName');
-
-        // savedreceiptImage;
-
         emit(
           state.copyWith(
-            receiptImage: imagePicker.path,
+            receiptImage: imagePicker,
             lifeTime: state.lifeTime,
             name: state.name,
             purchaseDate: state.purchaseDate,
@@ -258,6 +236,19 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     }
   }
 
+  Future<void> submitWarranty() async {
+    emit(
+      state.copyWith(
+        warrantyState: WarrantyState.loading,
+      ),
+    );
+    try {
+      await _warrantyRepository.submitWarranty(state);
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
     emit(
       editWarrantyInfo,
@@ -275,11 +266,5 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     } else {
       return false;
     }
-  }
-
-  newWar() {
-    emit(
-      const WarrantyInfo(warrantyId: ''),
-    );
   }
 }

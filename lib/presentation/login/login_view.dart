@@ -69,10 +69,9 @@ class _Content extends StatelessWidget {
                         ),
                       BlocBuilder<LoginCubit, LoginState>(
                         builder: (context, state) {
-                          return WarrantyTextField.general(
+                          return WarrantyTextField.email(
                             isRequired: false,
                             initialValue: '',
-                            hintText: 'Email',
                             onChanged: (email) {
                               context.read<LoginCubit>().changeEmail(email);
                             },

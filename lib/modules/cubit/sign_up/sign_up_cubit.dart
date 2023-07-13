@@ -71,15 +71,6 @@ class SignUpCubit extends Cubit<SignUpState> {
     enabledEmailNext();
   }
 
-  changeDob(String birthday) {
-    emit(
-      state.asSignUp.copyWith(
-        birthday: birthday,
-      ),
-    );
-    enabledRegister();
-  }
-
   changePassword(String password) {
     if (password.length >= 6) {
       emit(
@@ -224,7 +215,6 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (state.asSignUp.confirmPassword == null || state.asSignUp.confirmPassword!.isEmpty) return false;
     if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) return false;
     if (state.asSignUp.lastName == null || state.asSignUp.lastName!.isEmpty) return false;
-    if (state.asSignUp.birthday == null || state.asSignUp.birthday!.isEmpty) return false;
     return true;
   }
 
@@ -239,7 +229,6 @@ class SignUpCubit extends Cubit<SignUpState> {
   bool enabledDataNext() {
     if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) return false;
     if (state.asSignUp.lastName == null || state.asSignUp.lastName!.isEmpty) return false;
-    if (state.asSignUp.birthday == null || state.asSignUp.birthday!.isEmpty) return false;
     return true;
   }
 

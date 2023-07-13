@@ -29,7 +29,6 @@ extension _$_SignUpProcessAutoequal on _SignUpProcess {
         confirmPassword,
         firstName,
         lastName,
-        birthday,
         tosAccepted
       ];
 }
@@ -67,8 +66,6 @@ abstract class _$_SignUpProcessCWProxy {
 
   _SignUpProcess lastName(String? lastName);
 
-  _SignUpProcess birthday(String? birthday);
-
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_SignUpProcess(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -90,7 +87,6 @@ abstract class _$_SignUpProcessCWProxy {
     String? confirmPassword,
     String? firstName,
     String? lastName,
-    String? birthday,
   });
 }
 
@@ -150,9 +146,6 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   _SignUpProcess lastName(String? lastName) => this(lastName: lastName);
 
   @override
-  _SignUpProcess birthday(String? birthday) => this(birthday: birthday);
-
-  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_SignUpProcess(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -175,7 +168,6 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
     Object? confirmPassword = const $CopyWithPlaceholder(),
     Object? firstName = const $CopyWithPlaceholder(),
     Object? lastName = const $CopyWithPlaceholder(),
-    Object? birthday = const $CopyWithPlaceholder(),
   }) {
     return _SignUpProcess(
       signUpStatus:
@@ -243,10 +235,6 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
           ? _value.lastName
           // ignore: cast_nullable_to_non_nullable
           : lastName as String?,
-      birthday: birthday == const $CopyWithPlaceholder()
-          ? _value.birthday
-          // ignore: cast_nullable_to_non_nullable
-          : birthday as String?,
     );
   }
 }
