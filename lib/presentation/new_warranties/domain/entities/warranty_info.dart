@@ -6,12 +6,9 @@ import 'package:warranty_keeper/app_library.dart';
 
 part 'warranty_info.g.dart';
 
-enum WarrantyState { loading, initial, editing, submitted, loadingImage }
-
 @CopyWith()
 class WarrantyInfo extends Equatable {
-  final WarrantyState warrantyState;
-  final String warrantyId;
+  final String id;
   final String? name;
   final DateTime? purchaseDate;
   final String? warrantyWebsite;
@@ -25,8 +22,7 @@ class WarrantyInfo extends Equatable {
   final bool lifeTime;
   final bool wantsReminders;
   const WarrantyInfo({
-    required this.warrantyId,
-    this.warrantyState = WarrantyState.initial,
+    required this.id,
     this.name,
     this.purchaseDate,
     this.warrantyWebsite,
@@ -53,49 +49,10 @@ class WarrantyInfo extends Equatable {
         image,
         receiptImage,
         lifeTime,
-        warrantyId,
+        id,
         wantsReminders,
         reminderDate,
-        warrantyState,
       ];
-
-  // factory WarrantyInfo.fromFirestore(
-  //   DocumentSnapshot<Map<String, dynamic>> snapshot,
-  //   SnapshotOptions? options,
-  // ) {
-  //   final data = snapshot.data();
-  //   return WarrantyInfo(
-  //     name: data?['name'],
-  //     imagesList: data?['imagesList'],
-  //     purchaseDate: data?['purchaseDate'],
-  //     endOfWarr: data?['endOfWarr'],
-  //     reminderDate: data?['reminderDate'],
-  //     warrWebsite: data?['warrWebsite'],
-  //     details: data?['details'],
-  //     image: data?['image'],
-  //     receiptImage: data?['receiptImage'],
-  //     lifeTime: data?['lifeTime'],
-  //     isEditing: data?['isEditing'],
-  //     wantsReminders: data?['wantsReminders'],
-  //   );
-  // }
-
-  // Map<String, dynamic> toFirestore() {
-  //   return {
-  //     if (name != null) "name": name,
-  //     if (imagesList != null) "imagesList": imagesList,
-  //     if (purchaseDate != null) "purchaseDate": purchaseDate,
-  //     if (endOfWarr != null) "endOfWarr": endOfWarr,
-  //     if (reminderDate != null) "reminderDate": reminderDate,
-  //     if (warrWebsite != null) "warrWebsite": warrWebsite,
-  //     if (details != null) "details": details,
-  //     if (image != null) "image": image,
-  //     if (receiptImage != null) "receiptImage": receiptImage,
-  //     "lifeTime": lifeTime,
-  //     "isEditing": isEditing,
-  //     "wantsReminders": wantsReminders,
-  //   };
-  // }
 
   bool canSave() {
     if (name == null) return false;
@@ -104,17 +61,17 @@ class WarrantyInfo extends Equatable {
     return true;
   }
 
-  Map<String, dynamic> toMap({final String? newImageUrl, final String? newReceiptImageUrl, final String? warrantyUUID}) {
+  Map<String, dynamic> toMap() {
     return {
-      'warrantyId': warrantyUUID,
+      'warrantyId': id,
       'name': name,
       'purchaseDate': purchaseDate?.millisecondsSinceEpoch,
       'warrantyWebsite': warrantyWebsite,
       'endOfWarranty': endOfWarranty?.millisecondsSinceEpoch,
       'reminderDate': reminderDate?.millisecondsSinceEpoch,
       'details': details,
-      'imageUrl': newImageUrl ?? imageUrl,
-      'receiptImageUrl': newReceiptImageUrl ?? receiptImageUrl,
+      'imageUrl': imageUrl,
+      'receiptImageUrl': receiptImageUrl,
       'lifeTime': lifeTime,
       'wantsReminders': wantsReminders,
     };
@@ -122,13 +79,24 @@ class WarrantyInfo extends Equatable {
 
   factory WarrantyInfo.fromMap(Map<String, dynamic> map) {
     return WarrantyInfo(
-      warrantyState: map['warrantyState'],
-      warrantyId: map['warrantyId'] ?? '',
+      id: map['warrantyId'] ?? '',
       name: map['name'],
-      purchaseDate: map['purchaseDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['purchaseDate']) : null,
+      purchaseDate: map['purchaseDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              map['purchaseDate'],
+            )
+          : null,
       warrantyWebsite: map['warrantyWebsite'],
-      endOfWarranty: map['endOfWarranty'] != null ? DateTime.fromMillisecondsSinceEpoch(map['endOfWarranty']) : null,
-      reminderDate: map['reminderDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['reminderDate']) : null,
+      endOfWarranty: map['endOfWarranty'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              map['endOfWarranty'],
+            )
+          : null,
+      reminderDate: map['reminderDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              map['reminderDate'],
+            )
+          : null,
       details: map['details'],
       image: map['image'],
       imageUrl: map['imageUrl'],

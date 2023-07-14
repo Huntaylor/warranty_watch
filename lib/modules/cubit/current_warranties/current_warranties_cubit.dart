@@ -2,6 +2,7 @@ import 'package:autoequal/autoequal.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
+import 'package:warranty_keeper/data/repositories/warranty_repository.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 
@@ -14,14 +15,16 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
   //TODO: RENAME TO WARRANTIESCUBIT, IT WILL HANDLE ALL THE WARRANTIES WITHIN THE USER
   CurrentWarrantiesCubit({
     required this.warrantiesSource,
+    required this.warrantyRepository,
   }) : super(const _Loading()) {
     getWarranties();
   }
   final IWarrantiesSource warrantiesSource;
+  final WarrantyRepository warrantyRepository;
 
   getWarranties() async {
     await Future.delayed(const Duration(seconds: 2));
-    final list = await warrantiesSource.getWarranties();
+    final list = await warrantyRepository.getAll();
     emit(
       _Ready(
         warrantyInfo: list,
@@ -63,8 +66,8 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
 
     expiringList = List.from(state.asReady.warrantyInfo);
 
-    if (expiringList.any((e) => e.warrantyId == warrantyInfo.warrantyId)) {
-      expiringList[state.asReady.warrantyInfo.indexWhere((e) => e.warrantyId == warrantyInfo.warrantyId)] = warrantyInfo;
+    if (expiringList.any((e) => e.id == warrantyInfo.id)) {
+      expiringList[state.asReady.warrantyInfo.indexWhere((e) => e.id == warrantyInfo.id)] = warrantyInfo;
       emit(
         state.asReady.copyWith(
           remove: false,
@@ -80,8 +83,8 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     newList = List.from(state.asReady.warrantyInfo);
     getExpiringList();
 
-    if (newList.any((e) => e.warrantyId == warrantyInfo.warrantyId)) {
-      newList[state.asReady.warrantyInfo.indexWhere((e) => e.warrantyId == warrantyInfo.warrantyId)] = warrantyInfo;
+    if (newList.any((e) => e.id == warrantyInfo.id)) {
+      newList[state.asReady.warrantyInfo.indexWhere((e) => e.id == warrantyInfo.id)] = warrantyInfo;
       emit(
         state.asReady.copyWith(
           remove: false,

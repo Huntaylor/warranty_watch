@@ -26,9 +26,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentCubit = context.read<CurrentWarrantiesCubit>();
-    final newRead = context.read<NewWarrantyCubit>();
-    final detailsCubit = context.read<WarrantyDetailsCubit>();
+    final list = context.watch<CurrentWarrantiesCubit>().state.asReady.warrantyInfo;
 
     return SafeArea(
       child: Padding(
@@ -38,24 +36,24 @@ class _Content extends StatelessWidget {
             if (state.isLoading) {
               return const CircularProgressIndicator();
             } else {
-              return (state.asReady.warrantyInfo.isEmpty)
+              return (list.isEmpty)
                   ? Text(context.appLocalizations.noCurrentWarranties)
                   : ListView.builder(
-                      itemCount: state.asReady.warrantyInfo.length,
+                      itemCount: list.length,
                       itemBuilder: (context, index) {
                         return CurrentWidgetCard(
                           onSelect: () {
-                            detailsCubit.selectedWarrantyInitial(
-                              state.asReady.warrantyInfo[index],
-                            );
+                            context.read<WarrantyDetailsCubit>().selectedWarrantyInitial(
+                                  list[index],
+                                );
                             context.push(Paths.home.warrantyDetails.goRoute);
                           },
                           onEdit: () {
-                            newRead.editWarrantyInitial(state.asReady.warrantyInfo[index]);
+                            context.read<NewWarrantyCubit>().editWarrantyInitial(list[index]);
                             context.pushNamed(Paths.home.newWarranty.goRoute);
                           },
-                          onRemove: () => currentCubit.removeWarranty(index),
-                          warrantyInfo: state.asReady.warrantyInfo[index],
+                          onRemove: () => context.read<CurrentWarrantiesCubit>().removeWarranty(index),
+                          warrantyInfo: list[index],
                         );
                       },
                     );

@@ -29,17 +29,13 @@ class CurrentWidgetCard extends StatelessWidget {
               child: Image.network(
                 warrantyInfo.imageUrl!,
                 fit: BoxFit.fitHeight,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
+                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                   if (loadingProgress == null) {
                     return child;
                   }
                   return Center(
                     child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
+                      value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null,
                     ),
                   );
                 },
@@ -55,11 +51,12 @@ class CurrentWidgetCard extends StatelessWidget {
                     Text(
                       appLocalizations.detailsName(warrantyInfo.name!),
                     ),
-                    Text(
-                      appLocalizations.purchaseDateDetails(
-                        _dateFormat(warrantyInfo.purchaseDate!),
+                    if (warrantyInfo.purchaseDate != null)
+                      Text(
+                        appLocalizations.purchaseDateDetails(
+                          _dateFormat(warrantyInfo.purchaseDate!),
+                        ),
                       ),
-                    ),
                     warrantyInfo.lifeTime
                         ? Text(appLocalizations.hasLifetime)
                         : Text(
@@ -67,9 +64,7 @@ class CurrentWidgetCard extends StatelessWidget {
                               _dateFormat(warrantyInfo.endOfWarranty!),
                             ),
                             style: TextStyle(
-                              color: _dateDiff(warrantyInfo.endOfWarranty!)
-                                  ? Colors.red
-                                  : null,
+                              color: _dateDiff(warrantyInfo.endOfWarranty!) ? Colors.red : null,
                             ),
                           ),
                   ],

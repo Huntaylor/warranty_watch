@@ -20,7 +20,7 @@ class NewWarrantyView extends StatelessWidget {
             centerTitle: true,
             automaticallyImplyLeading: true,
             title: Text(
-              (state.warrantyState == WarrantyState.editing) ? appLocalizations.editWarrantyTitle : appLocalizations.addWarrantyTitle,
+              /*    (state.warrantyState == WarrantyState.editing) ? appLocalizations.editWarrantyTitle :  */ appLocalizations.addWarrantyTitle,
             ),
           ),
           body: _Content(
@@ -214,7 +214,8 @@ class _Content extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 15),
               child: WarrantyElevatedButton.loading(
-                isLoading: state.warrantyState == WarrantyState.loading,
+                isLoading: false,
+                // isLoading: state.warrantyState == WarrantyState.loading,
                 isEnabled: context.watch<NewWarrantyCubit>().verifyWarranty(),
                 onPressed: () async {
                   try {
@@ -225,7 +226,7 @@ class _Content extends StatelessWidget {
                     debugPrint('$e');
                   }
                 },
-                text: (state.warrantyState == WarrantyState.editing) ? appLocalizations.editProductBtn : appLocalizations.addproductButton,
+                text: /*  (state.warrantyState == WarrantyState.editing) ? appLocalizations.editProductBtn :  */ appLocalizations.addproductButton,
               ),
             ),
           ],

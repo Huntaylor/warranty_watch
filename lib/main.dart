@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<CurrentWarrantiesCubit>(
           create: (context) => CurrentWarrantiesCubit(
+            warrantyRepository: FirebaseDataRepository(),
             warrantiesSource: WarrantiesSource(),
           ),
         ),

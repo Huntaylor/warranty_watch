@@ -11,8 +11,8 @@ abstract class WarrantyRepository {
   Future<void> submitWarranty(WarrantyInfo warrantyInfo);
   Future<void> editWarranty(WarrantyInfo warrantyInfo);
   Future<void> deleteWarranty(WarrantyInfo warrantyInfo);
-  Future<void> getAll();
-  Future<void> getById();
+  Future<List<WarrantyInfo>> getAll();
+  Future<WarrantyInfo> getById(WarrantyInfo warrantyInfo);
 }
 
 class FirebaseDataRepository implements WarrantyRepository {
@@ -21,9 +21,39 @@ class FirebaseDataRepository implements WarrantyRepository {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   @override
-  Future<void> editWarranty(WarrantyInfo warrantyInfo) {
-    // TODO: implement editWarranty
-    throw UnimplementedError();
+  Future<void> editWarranty(WarrantyInfo warrantyInfo) async {
+    final currentUser = _auth.currentUser!.uid;
+    final String warrantyFilePath = 'users/$currentUser/warrantyImages';
+    final String downloadImageUrl;
+    final String downloadReceiptUrl;
+
+    final referenceProduct = storage.ref('$warrantyFilePath/products').child('${warrantyInfo.name}');
+    final referenceReceipts = storage.ref('$warrantyFilePath/receipts').child('${warrantyInfo.name}');
+
+    if (warrantyInfo.image != null) {
+      final imageTask = referenceProduct.putFile(File(warrantyInfo.image!.path));
+
+      final snapshot = await imageTask.whenComplete(() {});
+      downloadImageUrl = await snapshot.ref.getDownloadURL();
+    } else {
+      downloadImageUrl = '';
+    }
+    if (warrantyInfo.receiptImage != null) {
+      final receiptTask = referenceReceipts.putFile(File(warrantyInfo.receiptImage!.path));
+
+      final snapshot = await receiptTask.whenComplete(() {});
+      downloadReceiptUrl = await snapshot.ref.getDownloadURL();
+    } else {
+      downloadReceiptUrl = '';
+    }
+    await users.doc(currentUser).collection('warranties').doc(warrantyInfo.id).update(
+          warrantyInfo
+              .copyWith(
+                imageUrl: downloadImageUrl,
+                receiptImageUrl: downloadReceiptUrl,
+              )
+              .toMap(),
+        );
   }
 
   @override
@@ -31,10 +61,11 @@ class FirebaseDataRepository implements WarrantyRepository {
     final String downloadImageUrl;
     final String downloadReceiptUrl;
     final warrantyUuid = const Uuid().v1();
+    final currentUser = _auth.currentUser!.uid;
+    final String warrantyFilePath = 'users/$currentUser/warrantyImages';
     try {
-      final currentUser = _auth.currentUser!.uid;
-      final referenceProduct = storage.ref('users/$currentUser/warrantyImages/products').child('${warrantyInfo.name}');
-      final referenceReceipts = storage.ref('users/$currentUser/warrantyImages/receipts').child('${warrantyInfo.name}');
+      final referenceProduct = storage.ref('$warrantyFilePath/products').child('${warrantyInfo.name}');
+      final referenceReceipts = storage.ref('$warrantyFilePath/receipts').child('${warrantyInfo.name}');
 
       if (warrantyInfo.image != null) {
         final imageTask = referenceProduct.putFile(File(warrantyInfo.image!.path));
@@ -53,22 +84,37 @@ class FirebaseDataRepository implements WarrantyRepository {
         downloadReceiptUrl = '';
       }
 
-      await users.doc(currentUser).collection('warranties').doc(warrantyInfo.name).set(
-            warrantyInfo.toMap(
-              newImageUrl: downloadImageUrl,
-              newReceiptImageUrl: downloadReceiptUrl,
-              warrantyUUID: warrantyUuid,
-            ),
+      await users.doc(currentUser).collection('warranties').doc(warrantyUuid).set(
+            warrantyInfo
+                .copyWith(
+                  imageUrl: downloadImageUrl,
+                  receiptImageUrl: downloadReceiptUrl,
+                  id: warrantyUuid,
+                )
+                .toMap(),
           );
     } catch (e) {
-      log(e.toString());
+      log(
+        'Submitting the warranty didn\'t work - ${e.toString()}',
+      );
     }
   }
 
   @override
-  Future<void> getAll() {
-    // TODO: implement getWarranties
-    throw UnimplementedError();
+  Future<List<WarrantyInfo>> getAll() async {
+    final List<WarrantyInfo> warranties = [];
+    final currentUser = _auth.currentUser!.uid;
+    final warrantiesData = await users.doc(currentUser).collection('warranties').get();
+
+    for (var i = 0; i < warrantiesData.docs.length; i++) {
+      warranties.add(
+        WarrantyInfo.fromMap(
+          warrantiesData.docs[i].data(),
+        ),
+      );
+    }
+
+    return warranties;
   }
 
   @override
@@ -78,8 +124,10 @@ class FirebaseDataRepository implements WarrantyRepository {
   }
 
   @override
-  Future<void> getById() {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<WarrantyInfo> getById(WarrantyInfo warrantyInfo) async {
+    //TODO: NEED TO ADD LISTENER TO REFRESH WHEN A NEW WARRANTY IS ADDED
+    final currentUser = _auth.currentUser!.uid;
+    final currentWarranty = await users.doc(currentUser).collection('warranties').doc(warrantyInfo.id).get();
+    return WarrantyInfo.fromMap(currentWarranty.data()!);
   }
 }

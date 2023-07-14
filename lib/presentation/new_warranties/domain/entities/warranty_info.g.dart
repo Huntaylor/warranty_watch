@@ -7,9 +7,7 @@ part of 'warranty_info.dart';
 // **************************************************************************
 
 abstract class _$WarrantyInfoCWProxy {
-  WarrantyInfo warrantyId(String warrantyId);
-
-  WarrantyInfo warrantyState(WarrantyState warrantyState);
+  WarrantyInfo id(String id);
 
   WarrantyInfo name(String? name);
 
@@ -42,8 +40,7 @@ abstract class _$WarrantyInfoCWProxy {
   /// WarrantyInfo(...).copyWith(id: 12, name: "My name")
   /// ````
   WarrantyInfo call({
-    String? warrantyId,
-    WarrantyState? warrantyState,
+    String? id,
     String? name,
     DateTime? purchaseDate,
     String? warrantyWebsite,
@@ -66,11 +63,7 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
   final WarrantyInfo _value;
 
   @override
-  WarrantyInfo warrantyId(String warrantyId) => this(warrantyId: warrantyId);
-
-  @override
-  WarrantyInfo warrantyState(WarrantyState warrantyState) =>
-      this(warrantyState: warrantyState);
+  WarrantyInfo id(String id) => this(id: id);
 
   @override
   WarrantyInfo name(String? name) => this(name: name);
@@ -124,8 +117,7 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
   /// WarrantyInfo(...).copyWith(id: 12, name: "My name")
   /// ````
   WarrantyInfo call({
-    Object? warrantyId = const $CopyWithPlaceholder(),
-    Object? warrantyState = const $CopyWithPlaceholder(),
+    Object? id = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
     Object? purchaseDate = const $CopyWithPlaceholder(),
     Object? warrantyWebsite = const $CopyWithPlaceholder(),
@@ -140,16 +132,10 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
     Object? wantsReminders = const $CopyWithPlaceholder(),
   }) {
     return WarrantyInfo(
-      warrantyId:
-          warrantyId == const $CopyWithPlaceholder() || warrantyId == null
-              ? _value.warrantyId
-              // ignore: cast_nullable_to_non_nullable
-              : warrantyId as String,
-      warrantyState:
-          warrantyState == const $CopyWithPlaceholder() || warrantyState == null
-              ? _value.warrantyState
-              // ignore: cast_nullable_to_non_nullable
-              : warrantyState as WarrantyState,
+      id: id == const $CopyWithPlaceholder() || id == null
+          ? _value.id
+          // ignore: cast_nullable_to_non_nullable
+          : id as String,
       name: name == const $CopyWithPlaceholder()
           ? _value.name
           // ignore: cast_nullable_to_non_nullable

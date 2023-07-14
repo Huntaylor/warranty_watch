@@ -8,7 +8,7 @@ import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warr
 class NewWarrantyCubit extends Cubit<WarrantyInfo> {
   //TODO: RENAME TO WARRANTYCUBIT, IT WILL HANDLE CURRENT, SINGULAR, WARRANTIY TO UPDATE, CREATE, AND DELETE ONE
   final WarrantyRepository _warrantyRepository;
-  NewWarrantyCubit(this._warrantyRepository) : super(const WarrantyInfo(warrantyId: ''));
+  NewWarrantyCubit(this._warrantyRepository) : super(const WarrantyInfo(id: ''));
 
   toggleLifeTime() {
     emit(
@@ -131,7 +131,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
   Future<void> changeProductCamera() async {
     try {
-      await loadingImage();
       final imagePicker = await ImagePicker().pickImage(
         source: ImageSource.camera,
         maxWidth: 600,
@@ -143,7 +142,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
             image: imagePicker,
           ),
         );
-        await loadingImage();
       }
     } catch (e) {
       rethrow;
@@ -152,7 +150,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
   Future<void> changeProductPhotos() async {
     try {
-      await loadingImage();
       final imagePicker = await ImagePicker().pickImage(
         source: ImageSource.gallery,
         maxWidth: 600,
@@ -171,7 +168,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
   Future<void> changeReceiptCamera() async {
     try {
-      await loadingImage();
       final imagePicker = await ImagePicker().pickImage(
         source: ImageSource.camera,
         maxWidth: 600,
@@ -191,7 +187,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
   Future<void> changeReceiptPhotos() async {
     try {
-      await loadingImage();
       final picker = ImagePicker();
       final imagePicker = await picker.pickImage(
         source: ImageSource.gallery,
@@ -202,16 +197,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
         emit(
           state.copyWith(
             receiptImage: imagePicker,
-            lifeTime: state.lifeTime,
-            name: state.name,
-            purchaseDate: state.purchaseDate,
-            endOfWarranty: state.endOfWarranty,
-            reminderDate: state.reminderDate,
-            warrantyWebsite: state.warrantyWebsite,
-            details: state.details,
-            image: state.image,
-            warrantyState: state.warrantyState,
-            wantsReminders: state.wantsReminders,
           ),
         );
       }
@@ -220,28 +205,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
     }
   }
 
-  Future<void> loadingImage() async {
-    if (state.warrantyState == WarrantyState.loadingImage) {
-      return emit(
-        state.copyWith(
-          warrantyState: WarrantyState.initial,
-        ),
-      );
-    } else {
-      return emit(
-        state.copyWith(
-          warrantyState: WarrantyState.loadingImage,
-        ),
-      );
-    }
-  }
-
   Future<void> submitWarranty() async {
-    emit(
-      state.copyWith(
-        warrantyState: WarrantyState.loading,
-      ),
-    );
     try {
       await _warrantyRepository.submitWarranty(state);
     } catch (e) {
@@ -252,11 +216,6 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
   void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
     emit(
       editWarrantyInfo,
-    );
-    emit(
-      state.copyWith(
-        warrantyState: WarrantyState.editing,
-      ),
     );
   }
 
