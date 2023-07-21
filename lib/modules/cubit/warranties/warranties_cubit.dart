@@ -1,30 +1,26 @@
 import 'package:autoequal/autoequal.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
 import 'package:warranty_keeper/data/repositories/warranty_repository.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 
-part 'current_warranties_state.dart';
-part 'current_warranties_cubit.g.dart';
+part 'warranties_state.dart';
+part 'warranties_cubit.g.dart';
 
 // import 'firebase';
 
-class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
-  //TODO: RENAME TO WARRANTIESCUBIT, IT WILL HANDLE ALL THE WARRANTIES WITHIN THE USER
-  CurrentWarrantiesCubit({
-    required this.warrantiesSource,
-    required this.warrantyRepository,
+class WarrantiesCubit extends Cubit<WarrantiesState> {
+  WarrantiesCubit({
+    required this.firebaseDataRepository,
   }) : super(const _Loading()) {
     getWarranties();
   }
-  final IWarrantiesSource warrantiesSource;
-  final WarrantyRepository warrantyRepository;
+  final FirebaseDataRepository firebaseDataRepository;
 
   getWarranties() async {
     await Future.delayed(const Duration(seconds: 2));
-    final list = await warrantyRepository.getAll();
+    final list = await firebaseDataRepository.getAll();
     emit(
       _Ready(
         warrantyInfo: list,
@@ -46,8 +42,11 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
       expiringList.removeWhere((ee) => ee.lifeTime);
     }
 
-    if (expiringList.any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
-      expiringList.removeWhere((ee) => ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 || ee.lifeTime);
+    if (expiringList
+        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
+      expiringList.removeWhere((ee) =>
+          ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
+          ee.lifeTime);
 
       expiringList.sort(
         ((a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!)),
@@ -67,7 +66,8 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     expiringList = List.from(state.asReady.warrantyInfo);
 
     if (expiringList.any((e) => e.id == warrantyInfo.id)) {
-      expiringList[state.asReady.warrantyInfo.indexWhere((e) => e.id == warrantyInfo.id)] = warrantyInfo;
+      expiringList[state.asReady.warrantyInfo
+          .indexWhere((e) => e.id == warrantyInfo.id)] = warrantyInfo;
       emit(
         state.asReady.copyWith(
           remove: false,
@@ -84,7 +84,8 @@ class CurrentWarrantiesCubit extends Cubit<CurrentWarrantiesState> {
     getExpiringList();
 
     if (newList.any((e) => e.id == warrantyInfo.id)) {
-      newList[state.asReady.warrantyInfo.indexWhere((e) => e.id == warrantyInfo.id)] = warrantyInfo;
+      newList[state.asReady.warrantyInfo
+          .indexWhere((e) => e.id == warrantyInfo.id)] = warrantyInfo;
       emit(
         state.asReady.copyWith(
           remove: false,

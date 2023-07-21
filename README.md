@@ -18,6 +18,9 @@ samples, guidance on mobile development, and a full API reference.
 ## Q&A
 
 - Can't access context.appLocalizations? Be sure to import 'package:warranty_keeper/app_library.dart';
-# warranty_keeper
-# warranty_keeper
-# warranty_keeper
+
+### Warranty Tracker
+
+---
+
+This app helps people keep tabs on their warranties that they purchased

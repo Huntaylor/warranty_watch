@@ -5,10 +5,10 @@ import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/repositories/warranty_repository.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
-class NewWarrantyCubit extends Cubit<WarrantyInfo> {
+class WarrantyCubit extends Cubit<WarrantyInfo> {
   //TODO: RENAME TO WARRANTYCUBIT, IT WILL HANDLE CURRENT, SINGULAR, WARRANTIY TO UPDATE, CREATE, AND DELETE ONE
-  final WarrantyRepository _warrantyRepository;
-  NewWarrantyCubit(this._warrantyRepository) : super(const WarrantyInfo(id: ''));
+  final FirebaseDataRepository _dataRepository;
+  WarrantyCubit(this._dataRepository) : super(const WarrantyInfo(id: ''));
 
   toggleLifeTime() {
     emit(
@@ -207,7 +207,7 @@ class NewWarrantyCubit extends Cubit<WarrantyInfo> {
 
   Future<void> submitWarranty() async {
     try {
-      await _warrantyRepository.submitWarranty(state);
+      await _dataRepository.submitWarranty(state);
     } catch (e) {
       log(e.toString());
     }

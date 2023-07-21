@@ -1,5 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
 class ExpiringWarrantyCard extends StatelessWidget {
@@ -49,7 +49,7 @@ class ExpiringWarrantyCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                BlocBuilder<CurrentWarrantiesCubit, CurrentWarrantiesState>(
+                BlocBuilder<WarrantiesCubit, WarrantiesState>(
                   builder: (context, state) {
                     if (state.isLoading) {
                       return const LinearProgressIndicator();
@@ -74,14 +74,16 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                       vertical: 4,
                                     ),
                                     child: GestureDetector(
-                                      onTap: () => detailsCubit.selectedWarrantyInitial(
+                                      onTap: () =>
+                                          detailsCubit.selectedWarrantyInitial(
                                         state.asReady.expiring[index],
                                       ),
                                       child: Column(
                                         children: [
                                           if (index != 0)
                                             const Padding(
-                                              padding: EdgeInsets.only(bottom: 4.0),
+                                              padding:
+                                                  EdgeInsets.only(bottom: 4.0),
                                               child: Divider(
                                                 height: 2,
                                                 color: Colors.black,
@@ -90,15 +92,22 @@ class ExpiringWarrantyCard extends StatelessWidget {
                                           Container(
                                             color: Colors.transparent,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(4.0),
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    state.asReady.expiring[index].name!,
+                                                    state.asReady
+                                                        .expiring[index].name!,
                                                   ),
                                                   Text(
-                                                    _dateFormat(state.asReady.expiring[index].endOfWarranty!),
+                                                    _dateFormat(state
+                                                        .asReady
+                                                        .expiring[index]
+                                                        .endOfWarranty!),
                                                   ),
                                                 ],
                                               ),

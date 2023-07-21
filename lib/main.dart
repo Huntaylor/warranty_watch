@@ -2,12 +2,11 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranty/warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'data/repositories/warranty_repository.dart';
 import 'firebase_options.dart';
@@ -42,13 +41,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(FirebaseAuthRepository()),
         ),
-        BlocProvider<NewWarrantyCubit>(
-          create: (context) => NewWarrantyCubit(FirebaseDataRepository()),
+        BlocProvider<WarrantyCubit>(
+          create: (context) => WarrantyCubit(FirebaseDataRepository()),
         ),
-        BlocProvider<CurrentWarrantiesCubit>(
-          create: (context) => CurrentWarrantiesCubit(
-            warrantyRepository: FirebaseDataRepository(),
-            warrantiesSource: WarrantiesSource(),
+        BlocProvider<WarrantiesCubit>(
+          create: (context) => WarrantiesCubit(
+            firebaseDataRepository: FirebaseDataRepository(),
           ),
         ),
         BlocProvider<HomeCubit>(

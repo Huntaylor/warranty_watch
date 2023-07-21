@@ -1,7 +1,7 @@
-part of 'current_warranties_cubit.dart';
+part of 'warranties_cubit.dart';
 
-class CurrentWarrantiesState extends Equatable {
-  const CurrentWarrantiesState();
+class WarrantiesState extends Equatable {
+  const WarrantiesState();
 
   bool get isLoading => this is _Loading;
   bool get isReady => this is _Ready;
@@ -13,13 +13,13 @@ class CurrentWarrantiesState extends Equatable {
   List<Object?> get props => [];
 }
 
-class _Loading extends CurrentWarrantiesState {
+class _Loading extends WarrantiesState {
   const _Loading();
 }
 
 @autoequal
 @CopyWith()
-class _Ready extends CurrentWarrantiesState {
+class _Ready extends WarrantiesState {
   const _Ready({
     required this.warrantyInfo,
     required this.expiring,

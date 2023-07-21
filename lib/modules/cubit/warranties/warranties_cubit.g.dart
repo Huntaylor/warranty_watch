@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_warranties_cubit.dart';
+part of 'warranties_cubit.dart';
 
 // **************************************************************************
 // AutoequalGenerator

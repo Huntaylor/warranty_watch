@@ -1,6 +1,6 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranty/warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'package:warranty_keeper/presentation/current_warranties/widgets/current_widget_card.dart';
 
@@ -26,12 +26,12 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final list = context.watch<CurrentWarrantiesCubit>().state.asReady.warrantyInfo;
+    final list = context.watch<WarrantiesCubit>().state.asReady.warrantyInfo;
 
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
-        child: BlocBuilder<CurrentWarrantiesCubit, CurrentWarrantiesState>(
+        child: BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {
             if (state.isLoading) {
               return const CircularProgressIndicator();
@@ -43,16 +43,22 @@ class _Content extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return CurrentWidgetCard(
                           onSelect: () {
-                            context.read<WarrantyDetailsCubit>().selectedWarrantyInitial(
+                            context
+                                .read<WarrantyDetailsCubit>()
+                                .selectedWarrantyInitial(
                                   list[index],
                                 );
                             context.push(Paths.home.warrantyDetails.goRoute);
                           },
                           onEdit: () {
-                            context.read<NewWarrantyCubit>().editWarrantyInitial(list[index]);
+                            context
+                                .read<WarrantyCubit>()
+                                .editWarrantyInitial(list[index]);
                             context.pushNamed(Paths.home.newWarranty.goRoute);
                           },
-                          onRemove: () => context.read<CurrentWarrantiesCubit>().removeWarranty(index),
+                          onRemove: () => context
+                              .read<WarrantiesCubit>()
+                              .removeWarranty(index),
                           warrantyInfo: list[index],
                         );
                       },

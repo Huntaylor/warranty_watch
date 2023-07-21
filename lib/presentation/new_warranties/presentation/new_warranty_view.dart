@@ -1,5 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranty/warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_keeper/widgets/warranty_checkbox.dart';
@@ -11,7 +11,7 @@ class NewWarrantyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
-    return BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
+    return BlocBuilder<WarrantyCubit, WarrantyInfo>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -20,7 +20,8 @@ class NewWarrantyView extends StatelessWidget {
             centerTitle: true,
             automaticallyImplyLeading: true,
             title: Text(
-              /*    (state.warrantyState == WarrantyState.editing) ? appLocalizations.editWarrantyTitle :  */ appLocalizations.addWarrantyTitle,
+              /*    (state.warrantyState == WarrantyState.editing) ? appLocalizations.editWarrantyTitle :  */ appLocalizations
+                  .addWarrantyTitle,
             ),
           ),
           body: _Content(
@@ -51,12 +52,14 @@ class _Content extends StatelessWidget {
                 child: Column(
                   children: [
                     WarrantyTextField.general(
-                      currentLength: (state.name != null) ? state.name!.length : 0,
+                      currentLength:
+                          (state.name != null) ? state.name!.length : 0,
                       maxLength: 25,
                       maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       initialValue: state.name ?? '',
                       isRequired: true,
-                      onChanged: context.read<NewWarrantyCubit>().changeProductName,
+                      onChanged:
+                          context.read<WarrantyCubit>().changeProductName,
                       hintText: appLocalizations.productName,
                     ),
                     WarrantyTextField.date(
@@ -70,23 +73,27 @@ class _Content extends StatelessWidget {
                       endDateTime: DateTime.now(),
                       initialDateTime: state.purchaseDate,
                       startDateTime: DateTime(2000),
-                      onChanged: context.read<NewWarrantyCubit>().changePurchaseDate,
+                      onChanged:
+                          context.read<WarrantyCubit>().changePurchaseDate,
                       hintText: appLocalizations.purchaseDate,
                     ),
                     WarrantyTextField.webSite(
                       isRequired: false,
                       initialValue: state.warrantyWebsite ?? 'https://',
-                      onChanged: context.read<NewWarrantyCubit>().changeWebsiteName,
+                      onChanged:
+                          context.read<WarrantyCubit>().changeWebsiteName,
                       hintText: appLocalizations.companyWebsite,
                     ),
                     WarrantyTextField.date(
-                      initialValue: state.endOfWarranty != null ? _dateFormat(state.endOfWarranty!) : '',
+                      initialValue: state.endOfWarranty != null
+                          ? _dateFormat(state.endOfWarranty!)
+                          : '',
                       isRequired: true,
                       isLifeTime: state.lifeTime,
                       endDateTime: DateTime(2050),
                       initialDateTime: state.endOfWarranty,
                       startDateTime: DateTime.now(),
-                      onChanged: context.read<NewWarrantyCubit>().changeEndDate,
+                      onChanged: context.read<WarrantyCubit>().changeEndDate,
                       hintText: appLocalizations.expirationDate,
                     ),
                     Column(
@@ -95,7 +102,7 @@ class _Content extends StatelessWidget {
                         WarrantyCheckBox(
                           isChecked: state.lifeTime,
                           text: appLocalizations.lifeTime,
-                          onTap: context.read<NewWarrantyCubit>().toggleLifeTime,
+                          onTap: context.read<WarrantyCubit>().toggleLifeTime,
                         ),
                       ],
                     ),
@@ -108,7 +115,9 @@ class _Content extends StatelessWidget {
                                   Switch(
                                     value: state.wantsReminders,
                                     onChanged: (value) {
-                                      context.read<NewWarrantyCubit>().toggleWantsReminders(value);
+                                      context
+                                          .read<WarrantyCubit>()
+                                          .toggleWantsReminders(value);
                                     },
                                   ),
                                   const Text('Reminder before expiration'),
@@ -116,23 +125,28 @@ class _Content extends StatelessWidget {
                               ),
                               if (state.wantsReminders)
                                 WarrantyTextField.date(
-                                  initialValue: _dateFormat(state.reminderDate!),
+                                  initialValue:
+                                      _dateFormat(state.reminderDate!),
                                   isRequired: true,
                                   isLifeTime: state.lifeTime,
                                   endDateTime: state.endOfWarranty,
                                   initialDateTime: state.reminderDate,
                                   startDateTime: DateTime.now(),
-                                  onChanged: context.read<NewWarrantyCubit>().changeEndDate,
+                                  onChanged: context
+                                      .read<WarrantyCubit>()
+                                      .changeEndDate,
                                   hintText: 'Reminder Date',
                                 ),
                             ],
                           ),
                     WarrantyTextField.form(
-                      currentLength: (state.details != null) ? state.details!.length : 0,
+                      currentLength:
+                          (state.details != null) ? state.details!.length : 0,
                       maxLength: 100,
                       maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       initialValue: state.details ?? '',
-                      onChanged: context.read<NewWarrantyCubit>().changeAddtionalDetails,
+                      onChanged:
+                          context.read<WarrantyCubit>().changeAddtionalDetails,
                       hintText: appLocalizations.additionalDetails,
                     ),
                     WarrantyImage(
@@ -154,12 +168,16 @@ class _Content extends StatelessWidget {
                             return ImageBottomSheet(
                               onReceiptPhotoTap: () async {
                                 print('ON TAP');
-                                await context.read<NewWarrantyCubit>().changeReceiptPhotos();
+                                await context
+                                    .read<WarrantyCubit>()
+                                    .changeReceiptPhotos();
                                 context.pop();
                               },
                               onReceiptCameraTap: () async {
                                 print('ON TAP');
-                                await context.read<NewWarrantyCubit>().changeReceiptCamera();
+                                await context
+                                    .read<WarrantyCubit>()
+                                    .changeReceiptCamera();
                                 context.pop();
                               },
                             );
@@ -190,12 +208,16 @@ class _Content extends StatelessWidget {
                             return ImageBottomSheet(
                               onReceiptPhotoTap: () async {
                                 print('ON TAP');
-                                await context.read<NewWarrantyCubit>().changeProductPhotos();
+                                await context
+                                    .read<WarrantyCubit>()
+                                    .changeProductPhotos();
                                 context.pop();
                               },
                               onReceiptCameraTap: () async {
                                 print('ON TAP');
-                                await context.read<NewWarrantyCubit>().changeProductCamera();
+                                await context
+                                    .read<WarrantyCubit>()
+                                    .changeProductCamera();
                                 context.pop();
                               },
                             );
@@ -216,17 +238,21 @@ class _Content extends StatelessWidget {
               child: WarrantyElevatedButton.loading(
                 isLoading: false,
                 // isLoading: state.warrantyState == WarrantyState.loading,
-                isEnabled: context.watch<NewWarrantyCubit>().verifyWarranty(),
+                isEnabled: context.watch<WarrantyCubit>().verifyWarranty(),
                 onPressed: () async {
                   try {
-                    await context.read<NewWarrantyCubit>().submitWarranty().whenComplete(
+                    await context
+                        .read<WarrantyCubit>()
+                        .submitWarranty()
+                        .whenComplete(
                           () => context.pop(),
                         );
                   } catch (e) {
                     debugPrint('$e');
                   }
                 },
-                text: /*  (state.warrantyState == WarrantyState.editing) ? appLocalizations.editProductBtn :  */ appLocalizations.addproductButton,
+                text: /*  (state.warrantyState == WarrantyState.editing) ? appLocalizations.editProductBtn :  */
+                    appLocalizations.addproductButton,
               ),
             ),
           ],
