@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:jiffy/jiffy.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';

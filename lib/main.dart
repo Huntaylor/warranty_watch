@@ -2,6 +2,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:warranty_keeper/data/data_sources.dart/firebase_data_source.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
@@ -21,6 +22,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseAPI().initNotifications();
   FirebaseAppCheck.instance.activate(androidProvider: AndroidProvider.debug);
   runApp(const MyApp());
 }

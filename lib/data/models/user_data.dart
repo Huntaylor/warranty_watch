@@ -9,11 +9,13 @@ class UserData {
     required this.warranties,
     required this.email,
     required this.agreedToServices,
+    required this.messageToken,
   });
   final List<WarrantyInfo> warranties;
   final String email;
   final String firstName;
   final String lastName;
+  final String messageToken;
   final bool agreedToServices;
 
   factory UserData.fromJson(Map json) {
@@ -23,6 +25,7 @@ class UserData {
       agreedToServices: json['agreedToServices'],
       warranties: json['warranties'],
       email: json['email'],
+      messageToken: json['messageToken'],
     );
   }
 
@@ -33,6 +36,7 @@ class UserData {
       'firstName': firstName,
       'lastName': lastName,
       'agreedToServices': agreedToServices,
+      'messageToken': messageToken,
     };
   }
 
@@ -44,6 +48,7 @@ class UserData {
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
       agreedToServices: map['age'] ?? '',
+      messageToken: map['messageToken'] ?? '',
     );
   }
 

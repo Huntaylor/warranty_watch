@@ -15,6 +15,7 @@ abstract class AuthRepository {
   Future<void> passwordResetSubmit(String email);
   Future<void> signInWithGoogle();
   Future<void> signinWithApple();
+  Future<void> generateMessageToken(String token);
   Future<bool> isFirstRun();
   Future<bool> isEmailAlreadyInUse(String email);
   Future<void> updatePersonalData(
@@ -150,7 +151,7 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<void> updatePersonalData(
       String firstname, String lastName, bool agreedToServices) async {
     try {
-      await users.doc(currentUser().uid).collection('User Data').doc().set(
+      await users.doc('${currentUser().uid}/User Data').set(
         {
           'firstName': firstname,
           'lastName': lastName,
@@ -166,5 +167,12 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<void> signinWithApple() {
     // TODO: implement signinWithApple
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> generateMessageToken(String token) async {
+    await users.doc('${currentUser().uid}/User Data').set({
+      'token': token,
+    });
   }
 }
