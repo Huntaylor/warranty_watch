@@ -52,6 +52,7 @@ class TosSignUpView extends StatelessWidget {
               await authCubit.updatePersonalData(
                 signUpCubit.state.asSignUp.firstName!,
                 signUpCubit.state.asSignUp.lastName!,
+                signUpCubit.state.asSignUp.tosAccepted,
               );
               if (authCubit.state.isError) {
                 ScaffoldMessenger.of(context).showSnackBar(snackBarError);

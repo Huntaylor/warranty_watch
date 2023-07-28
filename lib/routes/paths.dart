@@ -6,6 +6,7 @@ class Paths {
   static Path get initial => Path('');
   static LoginPath get login => LoginPath();
   static HomePath get home => HomePath();
+  static LoadingPath get loading => LoadingPath();
 }
 
 class LoginPath extends Path {
@@ -19,9 +20,12 @@ class HomePath extends Path {
   HomePath() : super('home');
 
   Path get newWarranty => Path('new-warranty', parent: this);
-  Path get currentWarranty => Path('current-warranty', parent: this);
-  Path get warrantyDetails => Path('warranty-details', parent: this);
+  WarrantyPath get warranties => WarrantyPath(parent: this);
   Path get settings => Path('settings', parent: this);
+}
+
+class LoadingPath extends Path {
+  LoadingPath() : super('loading');
 }
 
 class RegisterPath extends Path {
@@ -29,4 +33,10 @@ class RegisterPath extends Path {
 
   Path get personalData => Path('personal-data', parent: this);
   Path get tos => Path('tos', parent: this);
+}
+
+class WarrantyPath extends Path {
+  WarrantyPath({required super.parent}) : super('warranties');
+
+  Path get details => Path('warranty-details', parent: this);
 }

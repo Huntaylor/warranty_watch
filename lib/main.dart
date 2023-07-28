@@ -42,15 +42,17 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthCubit(FirebaseAuthRepository()),
         ),
         BlocProvider<WarrantyCubit>(
-          create: (context) => WarrantyCubit(FirebaseDataRepository()),
+          create: (context) => WarrantyCubit(DataRepository()),
         ),
         BlocProvider<WarrantiesCubit>(
           create: (context) => WarrantiesCubit(
-            firebaseDataRepository: FirebaseDataRepository(),
+            dataRepository: DataRepository(),
           ),
         ),
         BlocProvider<HomeCubit>(
-          create: (context) => HomeCubit(),
+          create: (context) => HomeCubit(
+            DataRepository(),
+          ),
         ),
         BlocProvider<WarrantyDetailsCubit>(
           create: (context) => WarrantyDetailsCubit(),

@@ -25,8 +25,6 @@ class LoginCubit extends Cubit<LoginState> {
     emit(
       state.asLoggingIn.copyWith(
         isObscured: !state.asLoggingIn.isObscured,
-        email: state.asLoggingIn.email,
-        password: state.asLoggingIn.password,
       ),
     );
   }
@@ -35,8 +33,6 @@ class LoginCubit extends Cubit<LoginState> {
     emit(
       state.asLoggingIn.copyWith(
         email: email,
-        isObscured: state.asLoggingIn.isObscured,
-        password: state.asLoggingIn.password,
       ),
     );
     enabledLogin();
@@ -45,8 +41,6 @@ class LoginCubit extends Cubit<LoginState> {
   changePassword(String password) {
     emit(
       state.asLoggingIn.copyWith(
-        email: state.asLoggingIn.email,
-        isObscured: state.asLoggingIn.isObscured,
         password: password,
       ),
     );

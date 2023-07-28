@@ -25,12 +25,14 @@ final goRoutes = GoRouter(
           builder: (_, __) => const NewWarrantyView(),
         ),
         GoRoute(
-          path: Paths.home.currentWarranty.goRoute,
+          path: Paths.home.warranties.goRoute,
           builder: (_, __) => const CurrentWarrantiesView(),
-        ),
-        GoRoute(
-          path: Paths.home.warrantyDetails.goRoute,
-          builder: (_, __) => const WarrantyDetailsView(),
+          routes: [
+            GoRoute(
+              path: Paths.home.warranties.details.goRoute,
+              builder: (_, __) => const WarrantyDetailsView(),
+            ),
+          ],
         ),
         GoRoute(
           path: Paths.home.settings.goRoute,

@@ -84,13 +84,18 @@ class _Content extends StatelessWidget {
                           BlocBuilder<LoginCubit, LoginState>(
                             builder: (context, state) {
                               return WarrantyTextField.obscured(
-                                onObscuredTap: () => context.read<LoginCubit>().toggleObscurity(),
-                                isObscuredFunction: state.asLoggingIn.isObscured,
+                                onObscuredTap: () => context
+                                    .read<LoginCubit>()
+                                    .toggleObscurity(),
+                                isObscuredFunction:
+                                    state.asLoggingIn.isObscured,
                                 isRequired: false,
                                 initialValue: '',
                                 hintText: 'Password',
                                 onChanged: (password) {
-                                  context.read<LoginCubit>().changePassword(password);
+                                  context
+                                      .read<LoginCubit>()
+                                      .changePassword(password);
                                 },
                               );
                             },
@@ -110,13 +115,15 @@ class _Content extends StatelessWidget {
                       BlocBuilder<LoginCubit, LoginState>(
                         builder: (context, state) {
                           return WarrantyElevatedButton(
-                            isLoading: context.read<AuthCubit>().state.isLoading,
+                            isLoading: authCubit.state.isLoading &&
+                                authCubit.state.asLoading.loginType ==
+                                    LoginType.email,
                             onPressed: () => context.read<AuthCubit>().login(
                                   email: state.asLoggingIn.email,
                                   password: state.asLoggingIn.password,
                                 ),
                             text: 'Login',
-                            isEnabled: true,
+                            isEnabled: !authCubit.state.isLoading,
                           );
                         },
                       ),
@@ -133,17 +140,23 @@ class _Content extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           WarrantyElevatedButton.iconLoading(
-                            onPressed: () => context.read<AuthCubit>().loginWithGoogle(),
-                            isLoading: authCubit.state.isLoading,
-                            isEnabled: true,
+                            onPressed: () =>
+                                context.read<AuthCubit>().loginWithGoogle(),
+                            isLoading: authCubit.state.isLoading &&
+                                authCubit.state.asLoading.loginType ==
+                                    LoginType.google,
+                            isEnabled: !authCubit.state.isLoading,
                             widget: const Icon(SignInOptions.google),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 3.0),
                             child: WarrantyElevatedButton.iconLoading(
                               onPressed: () {},
-                              isLoading: authCubit.state.isLoading,
-                              isEnabled: true,
+                              isLoading: authCubit.state.isLoading &&
+                                  authCubit.state.asLoading.loginType ==
+                                      LoginType.apple,
+                              isEnabled: !authCubit.state.isLoading,
                               widget: const Icon(SignInOptions.apple),
                             ),
                           ),

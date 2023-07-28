@@ -8,7 +8,8 @@ part 'auth_cubit.g.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
-  AuthCubit(this._authRepository) : super(const _Loading()) {
+  AuthCubit(this._authRepository)
+      : super(const _Loading(loginType: LoginType.initial)) {
     isLoggedIn();
   }
 
@@ -45,7 +46,12 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
   }) async {
     try {
-      emit(const _Loading());
+      emit(
+        const _Loading(
+          loginType: LoginType.email,
+        ),
+      );
+
       await _authRepository.login(email, password);
       WarrantyUser currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
@@ -68,7 +74,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future loginWithGoogle() async {
     try {
-      emit(const _Loading());
+      emit(
+        const _Loading(
+          loginType: LoginType.google,
+        ),
+      );
       await _authRepository.signInWithGoogle();
       WarrantyUser currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
@@ -156,9 +166,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future updatePersonalData(
-    String firstName,
-    String lastName,
-  ) async {
+      String firstName, String lastName, bool agreedToServices) async {
     try {
       emit(
         const _Loading(),
@@ -166,6 +174,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.updatePersonalData(
         firstName,
         lastName,
+        agreedToServices,
       );
 
       WarrantyUser currentUser = _authRepository.currentUser();

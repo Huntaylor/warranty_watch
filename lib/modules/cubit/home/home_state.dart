@@ -12,3 +12,10 @@ class HomeState extends Cubit<HomeState> {
 class HomeInitialState extends HomeState {
   HomeInitialState() : super([]);
 }
+
+class HomeExpiredLoaded extends HomeState {
+  final List<WarrantyInfo> expiringList;
+  HomeExpiredLoaded(
+    this.expiringList,
+  ) : super(expiringList);
+}

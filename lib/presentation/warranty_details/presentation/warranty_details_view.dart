@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:jiffy/jiffy.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
@@ -91,7 +93,9 @@ class _Content extends StatelessWidget {
                         _dateFormat(detailsCubit.state.endOfWarranty!),
                       ),
                       style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarranty!) ? context.themeData.colorScheme.error : null,
+                        color: _dateDiff(detailsCubit.state.endOfWarranty!)
+                            ? context.themeData.colorScheme.error
+                            : null,
                       ),
                     ),
                   ),
@@ -110,16 +114,18 @@ class _Content extends StatelessWidget {
                     appLocalizations.noReminderSet,
                   ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: .0),
-            child: IndividualDetailWidget.general(
-              detailType: appLocalizations.purchasedOn,
-              detailContent: Text(
-                _dateFormat(detailsCubit.state.purchaseDate!),
+          if (detailsCubit.state.purchaseDate != null)
+            Padding(
+              padding: const EdgeInsets.only(top: .0),
+              child: IndividualDetailWidget.general(
+                detailType: appLocalizations.purchasedOn,
+                detailContent: Text(
+                  _dateFormat(detailsCubit.state.purchaseDate!),
+                ),
               ),
             ),
-          ),
-          (detailsCubit.state.details == null || detailsCubit.state.details!.isEmpty)
+          (detailsCubit.state.details == null ||
+                  detailsCubit.state.details!.isEmpty)
               ? const SizedBox()
               : IndividualDetailWidget.general(
                   detailType: appLocalizations.details,
@@ -128,7 +134,8 @@ class _Content extends StatelessWidget {
           IndividualDetailWidget.general(
             detailType: appLocalizations.productWebsite,
             detailContent: GestureDetector(
-                onTap: () => detailsCubit.launch(detailsCubit.state.warrantyWebsite!),
+                onTap: () =>
+                    detailsCubit.launch(detailsCubit.state.warrantyWebsite!),
                 child: Text(
                   detailsCubit.state.warrantyWebsite!,
                   style: const TextStyle(

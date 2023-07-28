@@ -1,6 +1,7 @@
 // A screen that allows users to take a picture using a given camera.
 import 'package:camera/camera.dart';
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/presentation/loading/widgets/triangle_loading_indicator.dart';
 
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
@@ -45,7 +46,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           return CameraPreview(_controller);
         } else {
           // Otherwise, display a loading indicator.
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: TriangleLoadingIndicator());
         }
       },
     );

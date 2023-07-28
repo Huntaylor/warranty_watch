@@ -20,7 +20,11 @@ class _Initial extends LoginState {
 @CopyWith()
 @autoequal
 class _LoggingIn extends LoginState {
-  const _LoggingIn({required this.email, required this.password, required this.isObscured});
+  const _LoggingIn({
+    required this.email,
+    required this.password,
+    required this.isObscured,
+  });
 
   final String email;
   final String password;

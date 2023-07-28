@@ -8,19 +8,19 @@ class UserData {
     required this.lastName,
     required this.warranties,
     required this.email,
-    required this.birthday,
+    required this.agreedToServices,
   });
   final List<WarrantyInfo> warranties;
   final String email;
   final String firstName;
   final String lastName;
-  final String birthday;
+  final bool agreedToServices;
 
   factory UserData.fromJson(Map json) {
     return UserData(
       firstName: json['firstName'],
       lastName: json['lastName'],
-      birthday: json['birthday'],
+      agreedToServices: json['agreedToServices'],
       warranties: json['warranties'],
       email: json['email'],
     );
@@ -32,17 +32,18 @@ class UserData {
       'email': email,
       'firstName': firstName,
       'lastName': lastName,
-      'birthday': birthday,
+      'agreedToServices': agreedToServices,
     };
   }
 
   factory UserData.fromMap(Map<String, dynamic> map) {
     return UserData(
-      warranties: List<WarrantyInfo>.from(map['warranties']?.map((x) => WarrantyInfo.fromMap(x))),
+      warranties: List<WarrantyInfo>.from(
+          map['warranties']?.map((x) => WarrantyInfo.fromMap(x))),
       email: map['email'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
-      birthday: map['age'] ?? '',
+      agreedToServices: map['age'] ?? '',
     );
   }
 

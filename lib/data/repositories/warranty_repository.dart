@@ -8,7 +8,8 @@ import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/interfaces/iwarranties_source.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
-class FirebaseDataRepository implements IWarrantiesSource {
+class DataRepository implements IWarrantiesSource {
+  final firebase = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -17,14 +18,21 @@ class FirebaseDataRepository implements IWarrantiesSource {
   Future<List<WarrantyInfo>> getAll() async {
     final currentUser = _auth.currentUser!.uid;
 
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUser)
-        .get();
     late List<WarrantyInfo> list = [];
-    if (snapshot.exists) {
-      list = snapshot.get('warranties');
-    }
+
+    await firebase.collection('users/$currentUser/warranties').get().then(
+      (snapshot) {
+        if (snapshot.docs.first.exists) {
+          for (var i = 0; i < snapshot.docs.length; i++) {
+            list.add(
+              WarrantyInfo.fromMap(
+                snapshot.docs[i].data(),
+              ),
+            );
+          }
+        }
+      },
+    );
 
     return list;
   }
@@ -161,5 +169,34 @@ class FirebaseDataRepository implements IWarrantiesSource {
         .doc(warrantyInfo.id)
         .get();
     return WarrantyInfo.fromMap(currentWarranty.data()!);
+  }
+
+  @override
+  Future<List<WarrantyInfo>> getAllExpired() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<WarrantyInfo>> getAllExpiring() async {
+    List<WarrantyInfo> expiringList;
+
+    final allWarranties = await getAll();
+
+    expiringList = List.from(allWarranties);
+    if (expiringList.any((e) => e.lifeTime)) {
+      expiringList.removeWhere((ee) => ee.lifeTime);
+    }
+
+    if (expiringList
+        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
+      expiringList.removeWhere((ee) =>
+          ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
+          ee.lifeTime);
+
+      expiringList.sort(
+        ((a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!)),
+      );
+    }
+    return expiringList;
   }
 }

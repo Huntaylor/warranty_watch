@@ -8,56 +8,23 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 part 'warranties_state.dart';
 part 'warranties_cubit.g.dart';
 
-// import 'firebase';
-
 class WarrantiesCubit extends Cubit<WarrantiesState> {
   WarrantiesCubit({
-    required this.firebaseDataRepository,
+    required this.dataRepository,
   }) : super(const _Loading()) {
     getWarranties();
   }
-  final FirebaseDataRepository firebaseDataRepository;
+  final DataRepository dataRepository;
 
   getWarranties() async {
-    await Future.delayed(const Duration(seconds: 2));
-    final list = await firebaseDataRepository.getAll();
+    final list = await dataRepository.getAll();
     emit(
       _Ready(
         warrantyInfo: list,
-        expiring: await getExpiringList(),
+        expiring: await dataRepository.getAllExpiring(),
         remove: false,
       ),
     );
-  }
-
-  getExpiringList() {
-    List<WarrantyInfo> expiringList;
-
-    if (state.isLoading) {
-      return expiringList = [];
-    }
-
-    expiringList = List.from(state.asReady.warrantyInfo);
-    if (expiringList.any((e) => e.lifeTime)) {
-      expiringList.removeWhere((ee) => ee.lifeTime);
-    }
-
-    if (expiringList
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
-      expiringList.removeWhere((ee) =>
-          ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
-          ee.lifeTime);
-
-      expiringList.sort(
-        ((a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!)),
-      );
-      emit(
-        state.asReady.copyWith(
-          expiring: expiringList,
-        ),
-      );
-    }
-    return expiringList;
   }
 
   void addOrEditWarranty({required WarrantyInfo warrantyInfo}) async {
@@ -77,11 +44,11 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
     } else {
       expiringList.add(warrantyInfo);
     }
-    getExpiringList();
+    getWarranties();
 
     List<WarrantyInfo> newList;
     newList = List.from(state.asReady.warrantyInfo);
-    getExpiringList();
+    getWarranties();
 
     if (newList.any((e) => e.id == warrantyInfo.id)) {
       newList[state.asReady.warrantyInfo

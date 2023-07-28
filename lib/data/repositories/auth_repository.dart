@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -18,6 +20,7 @@ abstract class AuthRepository {
   Future<void> updatePersonalData(
     String firstName,
     String lastName,
+    bool agreedToServices,
   );
 }
 
@@ -49,7 +52,8 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<WarrantyUser> login(String email, String password) async {
     try {
-      firebaseauth.UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      firebaseauth.UserCredential result = await _auth
+          .signInWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
@@ -63,7 +67,8 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<bool> isEmailAlreadyInUse(String email) async {
     try {
-      List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+      List<String> signInMethods =
+          await _auth.fetchSignInMethodsForEmail(email);
       return signInMethods.isNotEmpty;
     } catch (e) {
       return false; // Return false if an error occurs
@@ -94,7 +99,8 @@ class FirebaseAuthRepository implements AuthRepository {
   //firebase login with email and password
   Future<WarrantyUser> register(String email, String password) async {
     try {
-      firebaseauth.UserCredential result = await _auth.createUserWithEmailAndPassword(
+      firebaseauth.UserCredential result =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -116,33 +122,39 @@ class FirebaseAuthRepository implements AuthRepository {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
 
       // Create a new credential
-      final firebaseauth.OAuthCredential credential = firebaseauth.GoogleAuthProvider.credential(
+      final firebaseauth.OAuthCredential credential =
+          firebaseauth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Once signed in, return the UserCredential
-      firebaseauth.UserCredential result = await _auth.signInWithCredential(credential);
+      firebaseauth.UserCredential result =
+          await _auth.signInWithCredential(credential);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
       return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }
 
   @override
-  Future<void> updatePersonalData(String firstname, String lastName) async {
+  Future<void> updatePersonalData(
+      String firstname, String lastName, bool agreedToServices) async {
     try {
       await users.doc(currentUser().uid).collection('User Data').doc().set(
         {
           'firstName': firstname,
           'lastName': lastName,
+          'agreedToServices': agreedToServices,
         },
       );
     } catch (e) {

@@ -7,7 +7,7 @@ import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warr
 
 class WarrantyCubit extends Cubit<WarrantyInfo> {
   //TODO: RENAME TO WARRANTYCUBIT, IT WILL HANDLE CURRENT, SINGULAR, WARRANTIY TO UPDATE, CREATE, AND DELETE ONE
-  final FirebaseDataRepository _dataRepository;
+  final DataRepository _dataRepository;
   WarrantyCubit(this._dataRepository) : super(const WarrantyInfo(id: ''));
 
   toggleLifeTime() {

@@ -1,5 +1,7 @@
 part of 'auth_cubit.dart';
 
+enum LoginType { email, google, apple, initial }
+
 abstract class AuthState extends Equatable {
   const AuthState();
 
@@ -11,13 +13,15 @@ abstract class AuthState extends Equatable {
   _Authenticated get asAuthenticated => this as _Authenticated;
   _Initial get asInitial => this as _Initial;
   _Error get asError => this as _Error;
+  _Loading get asLoading => this as _Loading;
 
   @override
   List<Object?> get props => [];
 }
 
 class _Loading extends AuthState {
-  const _Loading();
+  final LoginType? loginType;
+  const _Loading({this.loginType});
 }
 
 @autoequal
