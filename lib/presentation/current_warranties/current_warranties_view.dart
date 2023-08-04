@@ -1,6 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/warranty/warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'package:warranty_keeper/presentation/current_warranties/widgets/current_widget_card.dart';
 import 'package:warranty_keeper/presentation/loading/widgets/triangle_loading_indicator.dart';
@@ -52,10 +51,10 @@ class _Content extends StatelessWidget {
                             context.push(Paths.home.warranties.details.path);
                           },
                           onEdit: () {
-                            context
-                                .read<WarrantyCubit>()
-                                .editWarrantyInitial(list[index]);
-                            context.pushNamed(Paths.home.newWarranty.path);
+                            // context
+                            //     .read<WarrantyCubit>()
+                            //     .editWarrantyInitial(list[index]);
+                            // context.pushNamed(Paths.home.newWarranty.path);
                           },
                           onRemove: () => context
                               .read<WarrantiesCubit>()

@@ -1,56 +1,53 @@
-import 'dart:convert';
-
+import 'package:autoequal/autoequal.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
-class UserData {
-  UserData({
+part 'user_data.g.dart';
+
+@CopyWith()
+@JsonSerializable()
+@autoequal
+class UserData extends Equatable {
+  const UserData({
     required this.firstName,
     required this.lastName,
-    required this.warranties,
     required this.email,
     required this.agreedToServices,
-    required this.messageToken,
+    required this.tokens,
   });
-  final List<WarrantyInfo> warranties;
   final String email;
   final String firstName;
   final String lastName;
-  final String messageToken;
+  final Set<String> tokens;
   final bool agreedToServices;
 
-  factory UserData.fromJson(Map json) {
-    return UserData(
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      agreedToServices: json['agreedToServices'],
-      warranties: json['warranties'],
-      email: json['email'],
-      messageToken: json['messageToken'],
-    );
-  }
+  factory UserData.fromJson(Map json) => _$UserDataFromJson(json);
 
-  Map<String, dynamic> toMap() {
-    return {
-      'warranties': warranties.map((x) => x.toMap()).toList(),
-      'email': email,
-      'firstName': firstName,
-      'lastName': lastName,
-      'agreedToServices': agreedToServices,
-      'messageToken': messageToken,
-    };
-  }
+  UserData.create({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required bool agreedToServices,
+  }) : this(
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          agreedToServices: agreedToServices,
+          tokens: <String>{},
+        );
+  UserData.tokens({required Set<String> tokens})
+      : this(
+          firstName: '',
+          lastName: '',
+          email: '',
+          agreedToServices: true,
+          tokens: tokens,
+        );
 
-  factory UserData.fromMap(Map<String, dynamic> map) {
-    return UserData(
-      warranties: List<WarrantyInfo>.from(
-          map['warranties']?.map((x) => WarrantyInfo.fromMap(x))),
-      email: map['email'] ?? '',
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
-      agreedToServices: map['age'] ?? '',
-      messageToken: map['messageToken'] ?? '',
-    );
-  }
+  Map<String, dynamic> toJson() => _$UserDataToJson(this);
 
-  String toJson() => json.encode(toMap());
+  @override
+  List<Object?> get props => _$props;
 }

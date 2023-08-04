@@ -8,7 +8,7 @@ class WarrantyTextField extends StatefulWidget {
   final int? maxLength;
   final int? currentLength;
   final MaxLengthEnforcement? maxLengthEnforcement;
-  final TextInputType textInputType;
+  final TextInputType? textInputType;
   final String hintText;
   final String initialText;
   final String initialValue;
@@ -24,6 +24,7 @@ class WarrantyTextField extends StatefulWidget {
   final DateTime? initialDateTime;
   final DateTime? startDateTime;
   final DateTime? endDateTime;
+  final List<TextInputFormatter>? inputFormatter;
   final Function(String)? onChanged;
   final VoidCallback? onObscuredTap;
   const WarrantyTextField({
@@ -31,6 +32,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.maxLength,
     this.currentLength,
     this.errorText,
+    this.inputFormatter,
     required this.maxLengthEnforcement,
     required this.textInputType,
     required this.hintText,
@@ -68,7 +70,10 @@ class WarrantyTextField extends StatefulWidget {
     this.maxLengthEnforcement,
     this.currentLength,
     this.errorText,
-  })  : initialText = initialDateTime != null ? DateFormat('MM/dd/yyyy').format(initialDateTime) : '',
+  })  : initialText = initialDateTime != null
+            ? DateFormat('MM/dd/yyyy').format(initialDateTime)
+            : '',
+        inputFormatter = [],
         textInputType = TextInputType.none,
         isDate = true,
         maxLines = 1,
@@ -77,6 +82,7 @@ class WarrantyTextField extends StatefulWidget {
         isObscuredFunction = false,
         hasAutocorrect = false,
         super(key: key);
+
   WarrantyTextField.dob({
     this.initialDateTime,
     required this.initialValue,
@@ -89,9 +95,12 @@ class WarrantyTextField extends StatefulWidget {
     this.maxLengthEnforcement,
     this.currentLength,
     this.errorText,
-  })  : initialText = initialDateTime != null ? DateFormat('MM/dd/yyyy').format(initialDateTime) : '',
+  })  : initialText = initialDateTime != null
+            ? DateFormat('MM/dd/yyyy').format(initialDateTime)
+            : '',
         textInputType = TextInputType.none,
         isDate = true,
+        inputFormatter = [],
         maxLines = 1,
         isTextObscured = false,
         onObscuredTap = null,
@@ -114,6 +123,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     this.onTap,
     required this.hintText,
+    this.inputFormatter,
     required this.onChanged,
     this.initialDateTime,
     this.startDateTime,
@@ -143,6 +153,7 @@ class WarrantyTextField extends StatefulWidget {
     this.initialDateTime,
     this.startDateTime,
     this.endDateTime,
+    this.inputFormatter,
     key,
     this.currentLength,
   })  : initialText = '',
@@ -164,6 +175,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     this.onTap,
     required this.onChanged,
+    this.inputFormatter,
     this.initialDateTime,
     this.startDateTime,
     this.endDateTime,
@@ -187,6 +199,7 @@ class WarrantyTextField extends StatefulWidget {
     this.maxLengthEnforcement,
     required this.isRequired,
     required this.initialValue,
+    this.inputFormatter,
     this.onTap,
     required this.hintText,
     required this.onChanged,
@@ -214,6 +227,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.hintText,
     required this.onChanged,
     this.initialDateTime,
+    this.inputFormatter,
     this.startDateTime,
     this.endDateTime,
     key,
@@ -235,6 +249,7 @@ class WarrantyTextField extends StatefulWidget {
     this.onTap,
     this.errorText,
     required this.hintText,
+    this.inputFormatter,
     required this.initialValue,
     required this.onChanged,
     this.initialDateTime,
@@ -307,11 +322,12 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
 
     Future<void> buildMaterialDatePicker() async {
       final datePicked = await showDatePicker(
+        keyboardType: TextInputType.text,
         context: context,
         initialDate: widget.initialDateTime ?? DateTime.now(),
         firstDate: widget.startDateTime ?? DateTime(2000),
         lastDate: widget.endDateTime ?? DateTime(2050),
-        initialEntryMode: DatePickerEntryMode.input,
+        initialEntryMode: DatePickerEntryMode.calendar,
       );
       if (datePicked != null && datePicked != widget.initialDateTime) {
         controller.text = _dateToString(datePicked);
@@ -344,9 +360,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             maxLengthEnforcement: widget.maxLengthEnforcement,
             keyboardType: widget.textInputType,
             enabled: widget.isLifeTime ? false : true,
-            inputFormatters: [
-              if (widget.isDate) DateTextFormatter(),
-            ],
+            inputFormatters: widget.inputFormatter,
             controller: controller,
             onChanged: widget.onChanged,
             onTap: () {
@@ -359,14 +373,19 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
                   ? GestureDetector(
                       onTap: widget.onObscuredTap,
                       child: Icon(
-                        !widget.isObscuredFunction ? Icons.remove_red_eye : Icons.visibility_off,
+                        !widget.isObscuredFunction
+                            ? Icons.remove_red_eye
+                            : Icons.visibility_off,
                       ),
                     )
                   : null,
               counterText: '',
-              suffixText: (widget.maxLength != null) ? '${widget.currentLength}/${widget.maxLength}' : null,
+              suffixText: (widget.maxLength != null)
+                  ? '${widget.currentLength}/${widget.maxLength}'
+                  : null,
               alignLabelWithHint: true,
-              labelText: '${widget.hintText} ${(widget.isRequired) ? context.appLocalizations.required : ''}',
+              labelText:
+                  '${widget.hintText} ${(widget.isRequired) ? context.appLocalizations.required : ''}',
               border: const OutlineInputBorder(),
             ),
           ),
@@ -380,7 +399,8 @@ class DateTextFormatter extends TextInputFormatter {
   static const _maxChars = 8;
 
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     var text = _format(newValue.text, '/');
     return newValue.copyWith(
       text: text,

@@ -9,7 +9,6 @@ class ExpiringWarrantyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailsCubit = context.read<WarrantyDetailsCubit>();
     final appLocalizations = context.appLocalizations;
 
     return Padding(
@@ -48,79 +47,98 @@ class ExpiringWarrantyCard extends StatelessWidget {
                   ),
                 ),
               ),
-              BlocBuilder<WarrantiesCubit, WarrantiesState>(
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const LinearProgressIndicator();
-                  } else {
-                    return (state.asReady.expiring.isEmpty)
-                        ? Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(
-                              appLocalizations.noneExpiring,
-                            ),
-                          )
-                        : ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            addAutomaticKeepAlives: true,
-                            shrinkWrap: true,
-                            itemCount: state.asReady.expiring.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 4.0,
-                                  vertical: 4,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () =>
-                                      detailsCubit.selectedWarrantyInitial(
-                                    state.asReady.expiring[index],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      if (index != 0)
-                                        const Padding(
-                                          padding: EdgeInsets.only(bottom: 4.0),
-                                          child: Divider(
-                                            height: 2,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      Container(
-                                        color: Colors.transparent,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                state.asReady.expiring[index]
-                                                    .name!,
-                                              ),
-                                              Text(
-                                                _dateFormat(state
-                                                    .asReady
-                                                    .expiring[index]
-                                                    .endOfWarranty!),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                  }
-                },
-              ),
+              const IndividualWarranties(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class IndividualWarranties extends StatelessWidget {
+  const IndividualWarranties({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final detailsCubit = context.read<WarrantyDetailsCubit>();
+    final appLocalizations = context.appLocalizations;
+
+    return BlocBuilder<WarrantiesCubit, WarrantiesState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return const LinearProgressIndicator();
+        } else if (state.isError) {
+          return const Padding(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'There was an issue loading your expiring warranties. Please try again later.',
+            ),
+          );
+        } else if (state.asReady.expiring == null ||
+            state.asReady.expiring!.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              appLocalizations.noneExpiring,
+            ),
+          );
+        }
+        return Expanded(
+          child: ListView.builder(
+            physics: const ClampingScrollPhysics(),
+            addAutomaticKeepAlives: true,
+            shrinkWrap: true,
+            itemCount: state.asReady.expiring!.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 4.0,
+                  vertical: 4,
+                ),
+                child: GestureDetector(
+                  onTap: () => detailsCubit.selectedWarrantyInitial(
+                    state.asReady.expiring![index],
+                  ),
+                  child: Column(
+                    children: [
+                      if (index != 0)
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 4.0),
+                          child: Divider(
+                            height: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      Container(
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                state.asReady.expiring![index].name!,
+                              ),
+                              Text(
+                                _dateFormat(
+                                  state.asReady.expiring![index].endOfWarranty!,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

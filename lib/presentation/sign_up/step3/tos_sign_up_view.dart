@@ -1,4 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/data/models/user_data.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/sign_up/sign_up_cubit.dart';
 
@@ -43,23 +44,23 @@ class TosSignUpView extends StatelessWidget {
         ),
         WarrantyElevatedButton.loading(
           onPressed: () async {
-            await authCubit
-                .register(
+            final userData = UserData.create(
+              firstName: signUpCubit.state.asSignUp.firstName!,
+              lastName: signUpCubit.state.asSignUp.lastName!,
+              email: signUpCubit.state.asSignUp.email!,
+              agreedToServices: signUpCubit.state.asSignUp.tosAccepted,
+            );
+            await authCubit.register(
               signUpCubit.state.asSignUp.email!,
               signUpCubit.state.asSignUp.password!,
-            )
-                .whenComplete(() async {
-              await authCubit.updatePersonalData(
-                signUpCubit.state.asSignUp.firstName!,
-                signUpCubit.state.asSignUp.lastName!,
-                signUpCubit.state.asSignUp.tosAccepted,
-              );
-              if (authCubit.state.isError) {
-                ScaffoldMessenger.of(context).showSnackBar(snackBarError);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-            });
+              userData,
+            );
+
+            if (authCubit.state.isError) {
+              ScaffoldMessenger.of(context).showSnackBar(snackBarError);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
           },
           text: 'Next',
           isLoading: authCubit.state.isLoading,

@@ -44,7 +44,7 @@ class _TriangleLoadingIndicatorState extends State<TriangleLoadingIndicator>
       width: widget.size,
       height: widget.size,
       child: Transform.translate(
-        offset: Offset(0, 7),
+        offset: const Offset(0, 7),
         child: Center(
           child: Stack(
             alignment: Alignment.center,

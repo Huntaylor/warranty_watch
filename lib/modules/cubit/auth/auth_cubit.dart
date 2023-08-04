@@ -1,6 +1,7 @@
 import 'package:autoequal/autoequal.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
+import 'package:warranty_keeper/data/models/user_data.dart';
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 
 part 'auth_state.dart';
@@ -91,12 +92,16 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future register(String email, String password) async {
+  Future register(String email, String password, UserData userData) async {
     try {
       emit(
         const _Loading(),
       );
-      await _authRepository.register(email, password);
+      await _authRepository.register(
+        email,
+        password,
+        userData,
+      );
       WarrantyUser currentUser = _authRepository.currentUser();
       emit(
         _Authenticated(currentUser),
@@ -165,17 +170,12 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future updatePersonalData(
-      String firstName, String lastName, bool agreedToServices) async {
+  Future updatePersonalData(UserData userData) async {
     try {
       emit(
         const _Loading(),
       );
-      await _authRepository.updatePersonalData(
-        firstName,
-        lastName,
-        agreedToServices,
-      );
+      await _authRepository.updatePersonalData(userData);
 
       WarrantyUser currentUser = _authRepository.currentUser();
       emit(

@@ -6,8 +6,6 @@ import 'package:warranty_keeper/data/data_sources.dart/firebase_data_source.dart
 import 'package:warranty_keeper/data/repositories/auth_repository.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/home/home_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/warranty/warranty_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
 import 'data/repositories/warranty_repository.dart';
 import 'firebase_options.dart';
@@ -43,17 +41,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(FirebaseAuthRepository()),
         ),
-        BlocProvider<WarrantyCubit>(
-          create: (context) => WarrantyCubit(DataRepository()),
-        ),
         BlocProvider<WarrantiesCubit>(
           create: (context) => WarrantiesCubit(
             dataRepository: DataRepository(),
-          ),
-        ),
-        BlocProvider<HomeCubit>(
-          create: (context) => HomeCubit(
-            DataRepository(),
+            authRepository: FirebaseAuthRepository(),
           ),
         ),
         BlocProvider<WarrantyDetailsCubit>(

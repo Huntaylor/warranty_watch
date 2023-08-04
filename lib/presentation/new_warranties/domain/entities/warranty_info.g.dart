@@ -3,6 +3,30 @@
 part of 'warranty_info.dart';
 
 // **************************************************************************
+// AutoequalGenerator
+// **************************************************************************
+
+extension _$WarrantyInfoAutoequal on WarrantyInfo {
+  @Deprecated(r'Use _$props instead')
+  List<Object?> get _autoequalProps => _$props;
+  List<Object?> get _$props => [
+        id,
+        name,
+        purchaseDate,
+        warrantyWebsite,
+        endOfWarranty,
+        reminderDate,
+        details,
+        image,
+        imageUrl,
+        receiptImage,
+        receiptImageUrl,
+        lifeTime,
+        wantsReminders
+      ];
+}
+
+// **************************************************************************
 // CopyWithGenerator
 // **************************************************************************
 

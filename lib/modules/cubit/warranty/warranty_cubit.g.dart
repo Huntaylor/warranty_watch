@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'warranties_cubit.dart';
+part of 'warranty_cubit.dart';
 
 // **************************************************************************
 // AutoequalGenerator
@@ -9,13 +9,7 @@ part of 'warranties_cubit.dart';
 extension _$_ReadyAutoequal on _Ready {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [warrantyInfo, expiring, remove];
-}
-
-extension _$_ErrorAutoequal on _Error {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [error];
+  List<Object?> get _$props => [warrantyInfo];
 }
 
 // **************************************************************************
@@ -23,11 +17,7 @@ extension _$_ErrorAutoequal on _Error {
 // **************************************************************************
 
 abstract class _$_ReadyCWProxy {
-  _Ready warrantyInfo(List<WarrantyInfo> warrantyInfo);
-
-  _Ready expiring(List<WarrantyInfo>? expiring);
-
-  _Ready remove(bool? remove);
+  _Ready warrantyInfo(WarrantyInfo warrantyInfo);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -36,9 +26,7 @@ abstract class _$_ReadyCWProxy {
   /// _Ready(...).copyWith(id: 12, name: "My name")
   /// ````
   _Ready call({
-    List<WarrantyInfo>? warrantyInfo,
-    List<WarrantyInfo>? expiring,
-    bool? remove,
+    WarrantyInfo? warrantyInfo,
   });
 }
 
@@ -49,14 +37,8 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   final _Ready _value;
 
   @override
-  _Ready warrantyInfo(List<WarrantyInfo> warrantyInfo) =>
+  _Ready warrantyInfo(WarrantyInfo warrantyInfo) =>
       this(warrantyInfo: warrantyInfo);
-
-  @override
-  _Ready expiring(List<WarrantyInfo>? expiring) => this(expiring: expiring);
-
-  @override
-  _Ready remove(bool? remove) => this(remove: remove);
 
   @override
 
@@ -68,23 +50,13 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   /// ````
   _Ready call({
     Object? warrantyInfo = const $CopyWithPlaceholder(),
-    Object? expiring = const $CopyWithPlaceholder(),
-    Object? remove = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warrantyInfo:
           warrantyInfo == const $CopyWithPlaceholder() || warrantyInfo == null
               ? _value.warrantyInfo
               // ignore: cast_nullable_to_non_nullable
-              : warrantyInfo as List<WarrantyInfo>,
-      expiring: expiring == const $CopyWithPlaceholder()
-          ? _value.expiring
-          // ignore: cast_nullable_to_non_nullable
-          : expiring as List<WarrantyInfo>?,
-      remove: remove == const $CopyWithPlaceholder()
-          ? _value.remove
-          // ignore: cast_nullable_to_non_nullable
-          : remove as bool?,
+              : warrantyInfo as WarrantyInfo,
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
 import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
 
 class HomeView extends StatelessWidget {
@@ -48,13 +47,7 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
-      body: RefreshIndicator.adaptive(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        child: const _Content(),
-        onRefresh: () {
-          return context.read<WarrantiesCubit>().getWarranties();
-        },
-      ),
+      body: const _Content(),
     );
   }
 }
@@ -64,31 +57,28 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const ExpiringWarrantyCard(),
-              const SizedBox(
-                height: 5,
-              ),
-              //  Current Warranty
-              WarrantyElevatedButton.general(
-                isEnabled: true,
-                onPressed: () {
-                  context.push(Paths.home.warranties.path);
-                },
-                text: context.appLocalizations.currentWarrantyBtn,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-            ],
-          ),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const ExpiringWarrantyCard(),
+            const SizedBox(
+              height: 5,
+            ),
+            //  Current Warranty
+            WarrantyElevatedButton.general(
+              isEnabled: true,
+              onPressed: () {
+                context.push(Paths.home.warranties.path);
+              },
+              text: context.appLocalizations.currentWarrantyBtn,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+          ],
         ),
       ),
     );

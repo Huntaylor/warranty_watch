@@ -6,23 +6,23 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
+import 'package:warranty_keeper/data/models/user_data.dart';
 
 abstract class AuthRepository {
   WarrantyUser currentUser();
   Future<void> login(String email, String password);
-  Future<void> register(String email, String password);
+  Future<void> register(
+    String email,
+    String password,
+    UserData userData,
+  );
   Future<void> logout();
   Future<void> passwordResetSubmit(String email);
   Future<void> signInWithGoogle();
   Future<void> signinWithApple();
-  Future<void> generateMessageToken(String token);
   Future<bool> isFirstRun();
   Future<bool> isEmailAlreadyInUse(String email);
-  Future<void> updatePersonalData(
-    String firstName,
-    String lastName,
-    bool agreedToServices,
-  );
+  Future<void> updatePersonalData(UserData userData);
 }
 
 class FirebaseAuthRepository implements AuthRepository {
@@ -59,6 +59,8 @@ class FirebaseAuthRepository implements AuthRepository {
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
+
+      _auth.currentUser!.getIdToken(true);
       return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
@@ -98,7 +100,8 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   //firebase login with email and password
-  Future<WarrantyUser> register(String email, String password) async {
+  Future<WarrantyUser> register(
+      String email, String password, UserData userData) async {
     try {
       firebaseauth.UserCredential result =
           await _auth.createUserWithEmailAndPassword(
@@ -109,6 +112,11 @@ class FirebaseAuthRepository implements AuthRepository {
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
+
+      await users.doc(currentUser().uid).set(
+            userData.toJson(),
+          );
+
       return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
@@ -148,16 +156,9 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> updatePersonalData(
-      String firstname, String lastName, bool agreedToServices) async {
+  Future<void> updatePersonalData(UserData userData) async {
     try {
-      await users.doc('${currentUser().uid}/User Data').set(
-        {
-          'firstName': firstname,
-          'lastName': lastName,
-          'agreedToServices': agreedToServices,
-        },
-      );
+      await users.doc(currentUser().uid).update({...userData.toJson()});
     } catch (e) {
       rethrow;
     }
@@ -167,12 +168,5 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<void> signinWithApple() {
     // TODO: implement signinWithApple
     throw UnimplementedError();
-  }
-
-  @override
-  Future<void> generateMessageToken(String token) async {
-    await users.doc('${currentUser().uid}/User Data').set({
-      'token': token,
-    });
   }
 }

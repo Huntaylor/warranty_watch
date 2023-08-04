@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:autoequal/autoequal.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_keeper/app_library.dart';
@@ -7,6 +8,7 @@ import 'package:warranty_keeper/app_library.dart';
 part 'warranty_info.g.dart';
 
 @CopyWith()
+@autoequal
 class WarrantyInfo extends Equatable {
   final String id;
   final String? name;
@@ -38,21 +40,7 @@ class WarrantyInfo extends Equatable {
   });
 
   @override
-  List<Object?> get props => [
-        name,
-        purchaseDate,
-        endOfWarranty,
-        warrantyWebsite,
-        imageUrl,
-        receiptImageUrl,
-        details,
-        image,
-        receiptImage,
-        lifeTime,
-        id,
-        wantsReminders,
-        reminderDate,
-      ];
+  List<Object?> get props => _$props;
 
   bool canSave() {
     if (name == null) return false;
@@ -109,5 +97,6 @@ class WarrantyInfo extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory WarrantyInfo.fromJson(String source) => WarrantyInfo.fromMap(json.decode(source));
+  factory WarrantyInfo.fromJson(String source) =>
+      WarrantyInfo.fromMap(json.decode(source));
 }
