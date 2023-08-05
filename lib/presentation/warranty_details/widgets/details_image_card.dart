@@ -15,7 +15,7 @@ class DetailsImageCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
       ),
       child: AnimatedSize(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 150),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
@@ -29,7 +29,9 @@ class DetailsImageCard extends StatelessWidget {
               if (loadingProgress == null) {
                 return child;
               }
-              return Center(
+              return Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * .3,
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
                       ? loadingProgress.cumulativeBytesLoaded /

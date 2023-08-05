@@ -158,7 +158,7 @@ class _Content extends StatelessWidget {
                 ),
               ),
             ),
-          if (detailsCubit.state.details != null ||
+          if (detailsCubit.state.details != null &&
               detailsCubit.state.details!.isNotEmpty)
             IndividualDetailWidget.general(
               detailType: appLocalizations.details,
@@ -178,16 +178,13 @@ class _Content extends StatelessWidget {
               ),
             ),
           ),
-          Visibility(
-            replacement: const SizedBox.shrink(),
-            visible: _isUrlValid(detailsCubit.state.receiptImageUrl),
-            child: IndividualDetailWidget.general(
+          if (_isUrlValid(detailsCubit.state.receiptImageUrl))
+            IndividualDetailWidget.general(
               detailContent: DetailsImageCard(
                 url: detailsCubit.state.receiptImageUrl!,
               ),
               detailType: appLocalizations.receiptPhoto,
             ),
-          ),
         ],
       ),
     );
