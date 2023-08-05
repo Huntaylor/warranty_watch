@@ -35,35 +35,34 @@ class _Content extends StatelessWidget {
           builder: (context, state) {
             if (state.isLoading) {
               return const TriangleLoadingIndicator();
-            } else {
-              return (list.isEmpty)
-                  ? Text(context.appLocalizations.noCurrentWarranties)
-                  : ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: (context, index) {
-                        return CurrentWidgetCard(
-                          onSelect: () {
-                            context
-                                .read<WarrantyDetailsCubit>()
-                                .selectedWarrantyInitial(
-                                  list[index],
-                                );
-                            context.push(Paths.home.warranties.details.path);
-                          },
-                          onEdit: () {
-                            // context
-                            //     .read<WarrantyCubit>()
-                            //     .editWarrantyInitial(list[index]);
-                            // context.pushNamed(Paths.home.newWarranty.path);
-                          },
-                          onRemove: () => context
-                              .read<WarrantiesCubit>()
-                              .removeWarranty(index),
-                          warrantyInfo: list[index],
-                        );
-                      },
-                    );
             }
+            return (list.isEmpty)
+                ? Text(context.appLocalizations.noCurrentWarranties)
+                : ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+                      return CurrentWidgetCard(
+                        onSelect: () {
+                          context
+                              .read<WarrantyDetailsCubit>()
+                              .selectedWarrantyInitial(
+                                list[index],
+                              );
+                          context.push(Paths.home.warranties.details.path);
+                        },
+                        onEdit: () {
+                          // context
+                          //     .read<WarrantyCubit>()
+                          //     .editWarrantyInitial(list[index]);
+                          // context.pushNamed(Paths.home.newWarranty.path);
+                        },
+                        onRemove: () => context
+                            .read<WarrantiesCubit>()
+                            .removeWarranty(index),
+                        warrantyInfo: list[index],
+                      );
+                    },
+                  );
           },
         ),
       ),

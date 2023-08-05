@@ -21,7 +21,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseAPI().initNotifications();
-  FirebaseAppCheck.instance.activate(androidProvider: AndroidProvider.debug);
+  FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+  );
   runApp(const MyApp());
 }
 

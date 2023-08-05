@@ -36,9 +36,13 @@ class IndividualDetailWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
         child: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 16,
+          ),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
+            color: context.colorScheme.primaryContainer,
+            border: Border.all(),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Stack(
@@ -47,13 +51,22 @@ class IndividualDetailWidget extends StatelessWidget {
                 offset: const Offset(0, -16),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
+                    // color: context.colorScheme.background,
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        context.colorScheme.background,
+                        context.colorScheme.background,
+                        context.colorScheme.primaryContainer,
+                      ],
+                    ),
                   ),
                   child: Text(
                     detailType,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: Colors.grey,
+                      color: context.colorScheme.onPrimaryContainer,
                     ),
                   ),
                 ),

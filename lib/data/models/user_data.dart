@@ -2,7 +2,6 @@ import 'package:autoequal/autoequal.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 part 'user_data.g.dart';
 
@@ -37,7 +36,7 @@ class UserData extends Equatable {
           agreedToServices: agreedToServices,
           tokens: <String>{},
         );
-  UserData.tokens({required Set<String> tokens})
+  const UserData.tokens({required Set<String> tokens})
       : this(
           firstName: '',
           lastName: '',

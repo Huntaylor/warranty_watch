@@ -37,6 +37,7 @@ dependencies:
   go_router: ^9.0.0
   go_router_paths: ^0.2.0
   google_sign_in: ^6.1.4
+  home_widget: ^0.3.0
   image_picker: ^1.0.0
   intl: ^0.18.0
   jiffy: ^6.2.1
