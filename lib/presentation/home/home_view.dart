@@ -17,28 +17,19 @@ class HomeView extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: const SizedBox(),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: PopupMenuButton(
+            child: IconButton(
               icon: const Icon(
-                Icons.menu,
+                Icons.settings,
               ),
-              itemBuilder: (_) => [
-                PopupMenuItem(
-                  onTap: () {
-                    context.push(Paths.home.settings.path);
-                  },
-                  child: const Text('Settings'),
-                ),
-                PopupMenuItem(
-                  onTap: () {},
-                  child: const Text('Help'),
-                ),
-              ],
+              onPressed: () {
+                context.push(Paths.home.settings.path);
+              },
             ),
-          )
+          ),
         ],
         centerTitle: true,
         title: Center(

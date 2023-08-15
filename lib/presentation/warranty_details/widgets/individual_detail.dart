@@ -43,7 +43,7 @@ class IndividualDetailWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.colorScheme.primaryContainer,
             border: Border.all(),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Stack(
             children: [
@@ -51,7 +51,6 @@ class IndividualDetailWidget extends StatelessWidget {
                 offset: const Offset(0, -16),
                 child: Container(
                   decoration: BoxDecoration(
-                    // color: context.colorScheme.background,
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,

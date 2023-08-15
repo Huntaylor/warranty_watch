@@ -21,7 +21,9 @@ class WarrantyDetailsView extends StatelessWidget {
             Stack(
               children: [
                 Visibility(
-                  visible: _isUrlValid(detailsCubit.state.imageUrl),
+                  visible: _isUrlValid(
+                    detailsCubit.state.imageUrl,
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
@@ -115,37 +117,27 @@ class _Content extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Text(appLocalizations.lifeTime),
                 )
-              : Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      (_isExpired(detailsCubit.state.endOfWarranty!))
-                          ? 'Warranty expired ${_expired(detailsCubit.state.endOfWarranty!)}'
-                          : appLocalizations.expiresOn(
-                              _countDown(detailsCubit.state.endOfWarranty!),
-                              _dateFormat(detailsCubit.state.endOfWarranty!),
-                            ),
-                      style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarranty!)
-                            ? context.themeData.colorScheme.error
-                            : null,
-                      ),
-                    ),
-                  ),
+              : warrantyText(
+                  detailsCubit,
+                  appLocalizations,
+                  context,
                 ),
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: (detailsCubit.state.wantsReminders)
                 ? Text(
-                    appLocalizations.noReminderSet,
-                  )
-                : Text(
                     appLocalizations.remindsOn(
-                      _countDown(detailsCubit.state.reminderDate!),
-                      _dateFormat(detailsCubit.state.reminderDate!),
+                      _countDown(
+                        detailsCubit.state.reminderDate!,
+                      ),
+                      _dateFormat(
+                        detailsCubit.state.reminderDate!,
+                      ),
                     ),
                     textAlign: TextAlign.center,
+                  )
+                : Text(
+                    appLocalizations.noReminderSet,
                   ),
           ),
           if (detailsCubit.state.purchaseDate != null)
@@ -167,9 +159,9 @@ class _Content extends StatelessWidget {
           IndividualDetailWidget.general(
             detailType: appLocalizations.productWebsite,
             detailContent: GestureDetector(
-              onTap: () => context
-                  .read<WarrantyDetailsCubit>()
-                  .launch(detailsCubit.state.warrantyWebsite!),
+              onTap: () => context.read<WarrantyDetailsCubit>().launch(
+                    detailsCubit.state.warrantyWebsite!,
+                  ),
               child: Text(
                 detailsCubit.state.warrantyWebsite!,
                 style: const TextStyle(
@@ -186,6 +178,35 @@ class _Content extends StatelessWidget {
               detailType: appLocalizations.receiptPhoto,
             ),
         ],
+      ),
+    );
+  }
+
+  Widget warrantyText(WarrantyDetailsCubit detailsCubit,
+      AppLocalizations appLocalizations, BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Text(
+          (_isExpired(detailsCubit.state.endOfWarranty!))
+              ? 'Warranty expired ${_expired(
+                  detailsCubit.state.endOfWarranty!,
+                )}'
+              : appLocalizations.expiresOn(
+                  _countDown(
+                    detailsCubit.state.endOfWarranty!,
+                  ),
+                  _dateFormat(
+                    detailsCubit.state.endOfWarranty!,
+                  ),
+                ),
+          style: TextStyle(
+            color: _dateDiff(detailsCubit.state.endOfWarranty!)
+                ? context.themeData.colorScheme.error
+                : null,
+          ),
+        ),
       ),
     );
   }

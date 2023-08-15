@@ -52,11 +52,11 @@ dev_dependencies:
   autoequal_gen: ^0.5.1
   build_runner: ^2.1.7
   copy_with_extension_gen: ^5.0.2
+  json_serializable: ^6.7.1
 
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.7.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

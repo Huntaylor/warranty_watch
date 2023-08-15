@@ -53,10 +53,10 @@ class WarrantyInfo extends Equatable {
     return {
       'warrantyId': id,
       'name': name,
-      'purchaseDate': purchaseDate?.millisecondsSinceEpoch,
+      'purchaseDate': purchaseDate?.toString(),
       'warrantyWebsite': warrantyWebsite,
-      'endOfWarranty': endOfWarranty?.millisecondsSinceEpoch,
-      'reminderDate': reminderDate?.millisecondsSinceEpoch,
+      'endOfWarranty': endOfWarranty?.toString(),
+      'reminderDate': reminderDate?.toString(),
       'details': details,
       'imageUrl': imageUrl,
       'receiptImageUrl': receiptImageUrl,
@@ -70,18 +70,18 @@ class WarrantyInfo extends Equatable {
       id: map['warrantyId'] ?? '',
       name: map['name'],
       purchaseDate: map['purchaseDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(
+          ? DateTime.tryParse(
               map['purchaseDate'],
             )
           : null,
       warrantyWebsite: map['warrantyWebsite'],
       endOfWarranty: map['endOfWarranty'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(
+          ? DateTime.tryParse(
               map['endOfWarranty'],
             )
           : null,
       reminderDate: map['reminderDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(
+          ? DateTime.tryParse(
               map['reminderDate'],
             )
           : null,

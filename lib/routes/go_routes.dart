@@ -1,7 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/presentation/sign_up/sign_up_initial_view.dart';
-import 'package:warranty_keeper/routes/paths.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/forgot_password/forgot_password_view.dart';
 import 'package:warranty_keeper/presentation/home/home_view.dart';
@@ -10,7 +8,7 @@ import 'package:warranty_keeper/presentation/new_warranties/presentation/new_war
 import 'package:warranty_keeper/presentation/settings/settings_view.dart';
 import 'package:warranty_keeper/presentation/warranty_details/presentation/warranty_details_view.dart';
 
-import 'modules/cubit/auth/auth_cubit.dart';
+import '../modules/cubit/auth/auth_cubit.dart';
 
 final goRoutes = GoRouter(
   initialLocation: Paths.login.goRoute,

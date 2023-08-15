@@ -10,7 +10,7 @@ import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_
 import 'data/repositories/warranty_repository.dart';
 import 'firebase_options.dart';
 
-import 'package:warranty_keeper/go_routes.dart';
+import 'package:warranty_keeper/routes/go_routes.dart';
 
 import 'app_library.dart';
 
@@ -20,8 +20,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseAPI().initNotifications();
-  FirebaseAppCheck.instance.activate(
+  await FirebaseAPI().initNotifications();
+  await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
   );
   runApp(const MyApp());
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeMode themeMode = ThemeMode.system;
 
-    const FlexScheme usedScheme = FlexScheme.deepBlue;
+    const usedScheme = FlexScheme.deepBlue;
 
     return MultiBlocProvider(
       providers: [

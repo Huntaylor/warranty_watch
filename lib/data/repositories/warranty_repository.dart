@@ -38,7 +38,7 @@ class DataRepository implements IWarrantiesSource {
     final warranties =
         firebase.collection('users/$currentUser/warranties').snapshots().map(
       (snapshot) {
-        if (snapshot.docs.first.exists) {
+        if (snapshot.docs.isNotEmpty) {
           return snapshot.docs
               .map(
                 (e) => WarrantyInfo.fromMap(
