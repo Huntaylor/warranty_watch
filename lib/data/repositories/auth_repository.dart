@@ -113,6 +113,9 @@ class FirebaseAuthRepository implements AuthRepository {
       var val = result.user!.uid;
       prefs.setString(key, val);
 
+      FirebaseFirestore.instance
+          .collection('users/${currentUser().uid}/warranties');
+
       await users.doc(currentUser().uid).set(
             userData.toJson(),
           );
@@ -150,7 +153,9 @@ class FirebaseAuthRepository implements AuthRepository {
       prefs.setString(key, val);
       return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
-      log(e.toString());
+      log(
+        e.toString(),
+      );
       rethrow;
     }
   }
@@ -158,7 +163,11 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<void> updatePersonalData(UserData userData) async {
     try {
-      await users.doc(currentUser().uid).update({...userData.toJson()});
+      await users.doc(currentUser().uid).update(
+        {
+          ...userData.toJson(),
+        },
+      );
     } catch (e) {
       rethrow;
     }
