@@ -26,16 +26,18 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final list = context.watch<WarrantiesCubit>().state.asReady.warrantyInfo;
-
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
         child: BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {
-            if (state.isLoading) {
+            if (state.isError) {
+              return const Text('Unable to find warranties');
+            } else if (state.isLoading) {
               return const TriangleLoadingIndicator();
             }
+            final list =
+                context.watch<WarrantiesCubit>().state.asReady.warrantyInfo;
             return (list.isEmpty)
                 ? Text(context.appLocalizations.noCurrentWarranties)
                 : ListView.builder(

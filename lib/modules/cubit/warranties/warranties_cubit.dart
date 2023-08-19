@@ -33,7 +33,7 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
         );
       },
       onError: (e) {
-        log('There was a problem with the listener', error: e);
+        log('There was a problem with the listener: $e', error: e);
         emit(
           const _Error(),
         );
