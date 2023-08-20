@@ -36,7 +36,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeMode themeMode = ThemeMode.system;
 
-    const usedScheme = FlexScheme.deepBlue;
+    // const usedScheme = FlexScheme.deepBlue;
+    // const usedScheme = FlexScheme.flutterDash;
+    const usedScheme = FlexScheme.blue;
+    // const usedScheme = FlexScheme.aquaBlue;
+    // const usedScheme = FlexScheme.brandBlue;
+    // const usedScheme = FlexScheme.hippieBlue;
+    // const usedScheme = FlexScheme.bahamaBlue;
 
     return MultiBlocProvider(
       providers: [

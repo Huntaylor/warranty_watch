@@ -1,4 +1,5 @@
 import 'package:warranty_keeper/app_library.dart';
+import 'package:warranty_keeper/presentation/login/login_view_v2.dart';
 import 'package:warranty_keeper/presentation/sign_up/sign_up_initial_view.dart';
 import 'package:warranty_keeper/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_keeper/presentation/forgot_password/forgot_password_view.dart';
@@ -50,7 +51,7 @@ final goRoutes = GoRouter(
         ),
       ],
       path: Paths.login.goRoute,
-      builder: (_, __) => const LoginView(),
+      builder: (_, __) => const LoginViewV2(),
     ),
   ],
   redirect: (context, state) {
