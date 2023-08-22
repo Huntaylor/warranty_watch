@@ -41,13 +41,13 @@ class _Content extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
                   decoration: BoxDecoration(
                     color: context.colorScheme.primary,
-                    border: Border.all(color: Colors.black, width: 0.0),
-                    borderRadius:
-                        const BorderRadius.all(Radius.elliptical(100, 50)),
+                    borderRadius: const BorderRadius.all(
+                      Radius.elliptical(360, 180),
+                    ),
                   ),
-                  padding: const EdgeInsets.all(8),
                   child: Text(
                     appLocalizations.mainTitle,
                     style: TextStyle(
