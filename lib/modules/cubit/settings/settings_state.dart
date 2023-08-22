@@ -1,9 +1,31 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'settings_cubit.dart';
 
-@freezed
-class SettingsState with _$SettingsState {
-  const factory SettingsState.initial({
-    @Default(false) bool isNotifications,
-    @Default(false) bool isSomething,
-  }) = _Initial;
+abstract class SettingsState extends Equatable {
+  const SettingsState();
+
+  _Initial get asInitial => this as _Initial;
+  _SetSettings get asSet => this as _SetSettings;
+
+  @override
+  List<Object?> get props => [];
+}
+
+class _Initial extends SettingsState {
+  const _Initial();
+}
+
+@autoequal
+@CopyWith()
+class _SetSettings extends SettingsState {
+  const _SetSettings({
+    required this.isNotifications,
+    required this.isSomething,
+  });
+  final bool isNotifications;
+  final bool isSomething;
+
+  @override
+  List<Object?> get props => _$props;
 }

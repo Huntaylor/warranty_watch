@@ -1,15 +1,28 @@
-import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:autoequal/autoequal.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:warranty_keeper/app_library.dart';
 
 part 'settings_state.dart';
-part 'settings_cubit.freezed.dart';
+part 'settings_cubit.g.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit() : super(const SettingsState.initial());
+  SettingsCubit() : super(const _Initial()) {
+    getNotifications();
+  }
+
+  getNotifications() {
+    //TODO: GET DATA FROM FIREBASE
+    emit(
+      const _SetSettings(
+        isNotifications: false,
+        isSomething: false,
+      ),
+    );
+  }
 
   toggleNotifications(bool value) {
     emit(
-      state.copyWith(
+      state.asSet.copyWith(
         isNotifications: value,
       ),
     );
@@ -18,7 +31,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   toggleSomething(bool value) {
     //TODO add function
     emit(
-      state.copyWith(
+      state.asSet.copyWith(
         isSomething: value,
       ),
     );

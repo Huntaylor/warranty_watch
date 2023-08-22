@@ -21,30 +21,48 @@ class CurrentWidgetCard extends StatelessWidget {
     return GestureDetector(
       onTap: onSelect,
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(),
+        ),
+        color: context.colorScheme.primaryContainer,
         clipBehavior: Clip.antiAlias,
         elevation: 5,
         child: Row(
           children: [
-            Flexible(
-              child: Image.network(
-                warrantyInfo.imageUrl!,
-                fit: BoxFit.fitHeight,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                    ),
-                  );
-                },
+            if (warrantyInfo.imageUrl != null &&
+                warrantyInfo.imageUrl!.isNotEmpty)
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: context.colorScheme.onSecondaryContainer,
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  constraints: const BoxConstraints(
+                    maxHeight: 75,
+                    minHeight: 50,
+                  ),
+                  child: Image.network(
+                    warrantyInfo.imageUrl!,
+                    fit: BoxFit.fitHeight,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
             Expanded(
               flex: 4,
               child: Padding(
@@ -55,11 +73,12 @@ class CurrentWidgetCard extends StatelessWidget {
                     Text(
                       appLocalizations.detailsName(warrantyInfo.name!),
                     ),
-                    Text(
-                      appLocalizations.purchaseDateDetails(
-                        _dateFormat(warrantyInfo.purchaseDate!),
+                    if (warrantyInfo.purchaseDate != null)
+                      Text(
+                        appLocalizations.purchaseDateDetails(
+                          _dateFormat(warrantyInfo.purchaseDate!),
+                        ),
                       ),
-                    ),
                     warrantyInfo.lifeTime
                         ? Text(appLocalizations.hasLifetime)
                         : Text(

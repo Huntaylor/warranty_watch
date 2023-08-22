@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:warranty_keeper/app_library.dart';
 
 class WarrantyImage extends StatelessWidget {
@@ -10,7 +11,7 @@ class WarrantyImage extends StatelessWidget {
     required this.icon,
   }) : super(key: key);
 
-  final String? image;
+  final XFile? image;
   // final List<WarrantyImages>? fileList;
   final String text;
   final VoidCallback onTap;
@@ -77,7 +78,7 @@ class WarrantyImage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Image(
-                          image: FileImage(File(image!)),
+                          image: FileImage(File(image!.path)),
                           fit: BoxFit.fill,
                         ),
                       ),

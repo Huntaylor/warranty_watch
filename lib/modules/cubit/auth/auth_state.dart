@@ -1,107 +1,55 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'auth_cubit.dart';
 
-enum LoadingState { email, gmail, apple, initial }
+enum LoginType { email, google, apple, initial }
 
-@freezed
-class AuthState with _$AuthState {
-  const factory AuthState.initial() = _Initial;
+abstract class AuthState extends Equatable {
+  const AuthState();
 
-  const factory AuthState.loading({
-    @Default(LoadingState.initial) LoadingState loadingState,
-  }) = _Loading;
+  bool get isAuthenticated => this is _Authenticated;
+  bool get isNotAuthenticated => this is _NotAuthenticated;
+  bool get isError => this is _Error;
+  bool get isLoading => this is _Loading;
 
-  const factory AuthState.authenticated({
-    @Default(null) User? user,
-  }) = _Authenticated;
+  _Authenticated get asAuthenticated => this as _Authenticated;
+  _Initial get asInitial => this as _Initial;
+  _Error get asError => this as _Error;
+  _Loading get asLoading => this as _Loading;
 
-  const factory AuthState.notAuthenticated() = _NotAuthenticated;
-
-  const factory AuthState.error({
-    @Default('') String message,
-  }) = _Error;
-
-  const factory AuthState.passwordRequestSubmitted() =
-      _PasswordRequestSubmitted;
-
-  const factory AuthState.firstRun() = _FirstRun;
-
-  const factory AuthState.personalDataUpdated() = _PersonalDataUpdated;
+  @override
+  List<Object?> get props => [];
 }
 
-// class AuthInitial extends AuthState {
-//   const AuthInitial();
+class _Loading extends AuthState {
+  final LoginType? loginType;
+  const _Loading({this.loginType});
+}
 
-//   @override
-//   List<Object?> get props => throw UnimplementedError();
-// }
+@autoequal
+class _Authenticated extends AuthState {
+  const _Authenticated(this.user);
 
-// class AuthLoading extends AuthState {
-//   const AuthLoading();
+  final WarrantyUser user;
 
-//   @override
-//   List<Object?> get props => throw UnimplementedError();
-// }
+  @override
+  List<Object?> get props => _$props;
+}
 
-// class Authenticated extends AuthState {
-//   final User user;
-//   const Authenticated(this.user);
+class _NotAuthenticated extends AuthState {
+  const _NotAuthenticated();
+}
 
-//   // @override
-//   // bool operator ==(Object other) {
-//   //   if (identical(this, other)) return true;
+class _Initial extends AuthState {
+  const _Initial();
+}
 
-//   //   return other is Authenticated && other.user == user;
-//   // }
+@autoequal
+class _Error extends AuthState {
+  const _Error(this.message);
 
-//   // @override
-//   // int get hashCode => user.hashCode;
+  final String message;
 
-//   @override
-//   List<Object?> get props => throw UnimplementedError();
-// }
-
-// class NotAuthenticated extends AuthState {
-//   const NotAuthenticated();
-
-//   @override
-//   List<Object?> get props => throw UnimplementedError();
-// }
-
-// class AuthError extends AuthState {
-//   final String message;
-//   const AuthError(this.message);
-
-//   // @override
-//   // bool operator ==(Object other) {
-//   //   if (identical(this, other)) return true;
-
-//   //   return other is AuthError && other.message == message;
-//   // }
-
-//   // @override
-//   // int get hashCode => message.hashCode;
-
-//   @override
-//   List<Object?> get props => [message];
-// }
-
-// class PasswordRequestSubmitted extends AuthState {
-//   const PasswordRequestSubmitted();
-
-//   @override
-//   List<Object?> get props => throw UnimplementedError();
-// }
-
-// class FirstRun extends AuthState {
-//   const FirstRun();
-
-//   @override
-//   List<Object?> get props => throw UnimplementedError();
-// }
-
-// class PersonalDataUpdated extends AuthState {
-//   const PersonalDataUpdated();
-
-//   @override
-//   List<Object?> get props => throw UnimplementedError();
-// }
+  @override
+  List<Object?> get props => _$props;
+}

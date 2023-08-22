@@ -1,56 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firefuel/firefuel.dart';
+import 'package:warranty_keeper/data/models/user_data.dart';
+import 'package:warranty_keeper/data/interfaces/iuser_collection_source.dart';
 
-import 'package:warranty_keeper/data/models/firebase_user.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
-
-class UserCollection extends FirefuelCollection<FirebaseUser> {
-  UserCollection() : super('users');
-  DocumentId get currentUserDocId =>
-      DocumentId(FirebaseAuth.instance.currentUser!.uid);
+class UserCollection extends IUserCollection {
+  UserCollection();
 
   @override
-  FirebaseUser? fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options,
-  ) {
-    final data = snapshot.data();
+  Future<UserData> getUserData() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    assert(currentUser?.uid != null, 'Current user uid cannot be null');
 
-    return data == null ? null : FirebaseUser.fromJson(data, snapshot.id);
-  }
-
-  @override
-  Map<String, Object?> toFirestore(FirebaseUser? model, SetOptions? options) {
-    return model?.toJson() ?? <String, Object>{};
-  }
-}
-
-class WarrantyCollection extends FirefuelCollection<WarrantyInfo> {
-  WarrantyCollection()
-      : super('users/${FirebaseAuth.instance.currentUser!.uid}/$name');
-
-  static const String name = 'warranties';
-
-  static String productUrlPath(
-          {required String warrantyId, required String imagePath}) =>
-      '${WarrantyCollection().path}/$name/$warrantyId/product';
-
-  static String receiptUrlPath(
-          {required String warrantyId, required String imagePath}) =>
-      '${WarrantyCollection().path}/$name/$warrantyId/receipt';
-
-  @override
-  WarrantyInfo? fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options,
-  ) {
-    final data = snapshot.data();
-
-    return data == null ? null : WarrantyInfo.fromJson(data, snapshot.id);
-  }
-
-  @override
-  Map<String, Object?> toFirestore(WarrantyInfo? model, SetOptions? options) {
-    return model?.toJson() ?? <String, Object>{};
+    final userDocs = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser?.uid)
+        .get();
+    final userData = UserData.fromJson(Map.from(userDocs.data() as Map));
+    return userData;
   }
 }

@@ -1,85 +1,86 @@
-import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:autoequal/autoequal.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:warranty_keeper/app_library.dart';
 
 part 'sign_up_state.dart';
-part 'sign_up_cubit.freezed.dart';
+part 'sign_up_cubit.g.dart';
+
+enum SignUpStatus { signUp, personalData, tos }
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit() : super(const SignUpState.initial());
+  SignUpCubit() : super(const _Initial()) {
+    getInitial();
+  }
+
+  getInitial() {
+    emit(
+      const _SignUpProcess(
+        signUpStatus: SignUpStatus.signUp,
+        tosAccepted: false,
+        isConfirmObscured: true,
+        isMatching: false,
+        isObscured: true,
+        hasLowerUpperCase: false,
+        hasNumber: false,
+        hasSixCharacters: false,
+        hasSpecialCharacter: false,
+      ),
+    );
+  }
 
   toggleObscurity() {
     emit(
-      state.copyWith(
-        birthday: state.birthday,
-        email: state.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isConfirmObscured: state.isConfirmObscured,
-        isObscured: !state.isObscured,
-        firstName: state.firstName,
-        lastName: state.lastName,
+      state.asSignUp.copyWith(
+        isObscured: !state.asSignUp.isObscured,
       ),
     );
   }
 
   toggleConfirmObscurity() {
     emit(
-      state.copyWith(
-        birthday: state.birthday,
-        email: state.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isConfirmObscured: !state.isConfirmObscured,
-        isObscured: state.isObscured,
-        firstName: state.firstName,
-        lastName: state.lastName,
+      state.asSignUp.copyWith(
+        isConfirmObscured: !state.asSignUp.isConfirmObscured,
       ),
     );
+  }
+
+  toggleTosAccepted(bool value) {
+    emit(
+      state.asSignUp.copyWith(
+        tosAccepted: value,
+      ),
+    );
+  }
+
+  bool arePasswordRequirementsMet() {
+    final passwordRequirement = state.asSignUp;
+    return (passwordRequirement.hasLowerUpperCase &&
+        passwordRequirement.hasNumber &&
+        passwordRequirement.hasSixCharacters &&
+        passwordRequirement.isMatching &&
+        passwordRequirement.hasSpecialCharacter);
   }
 
   changeEmail(String email) {
     emit(
-      state.copyWith(
-        birthday: state.birthday,
+      state.asSignUp.copyWith(
         email: email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isConfirmObscured: state.isConfirmObscured,
-        isObscured: state.isObscured,
-        firstName: state.firstName,
-        lastName: state.lastName,
       ),
     );
     enabledRegister();
-    enabledNext();
-  }
-
-  changeBirthday(String birthday) {
-    emit(
-      state.copyWith(
-        birthday: birthday,
-        email: state.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isConfirmObscured: state.isConfirmObscured,
-        isObscured: state.isObscured,
-        firstName: state.firstName,
-        lastName: state.lastName,
-      ),
-    );
-    enabledRegister();
+    enabledEmailNext();
   }
 
   changePassword(String password) {
     if (password.length >= 6) {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasSixCharacters: true,
         ),
       );
     } else {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasSixCharacters: false,
         ),
       );
@@ -87,13 +88,13 @@ class SignUpCubit extends Cubit<SignUpState> {
 
     if (password.contains(RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])'))) {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasLowerUpperCase: true,
         ),
       );
     } else {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasLowerUpperCase: false,
         ),
       );
@@ -101,81 +102,99 @@ class SignUpCubit extends Cubit<SignUpState> {
 
     if (password.contains(RegExp(r'^(?=.*[^A-Za-z0-9_])'))) {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasSpecialCharacter: true,
         ),
       );
     } else {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasSpecialCharacter: false,
         ),
       );
     }
     if (password.contains(RegExp(r'^(?=.*[0-9])'))) {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasNumber: true,
         ),
       );
     } else {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           hasNumber: false,
         ),
       );
     }
 
     emit(
-      state.copyWith(
+      state.asSignUp.copyWith(
         password: password,
       ),
     );
     enabledRegister();
-    enabledNext();
+    enabledEmailNext();
+  }
+
+  pushPersonalData() {
+    emit(
+      state.asSignUp.copyWith(
+        signUpStatus: SignUpStatus.personalData,
+      ),
+    );
+  }
+
+  pushTos() {
+    emit(
+      state.asSignUp.copyWith(
+        signUpStatus: SignUpStatus.tos,
+      ),
+    );
+  }
+
+  onSignUpBack() {
+    if (state.asSignUp.signUpStatus == SignUpStatus.tos) {
+      emit(
+        state.asSignUp.copyWith(
+          signUpStatus: SignUpStatus.personalData,
+        ),
+      );
+    } else if (state.asSignUp.signUpStatus == SignUpStatus.personalData) {
+      emit(
+        state.asSignUp.copyWith(
+          signUpStatus: SignUpStatus.signUp,
+        ),
+      );
+    }
   }
 
   changeConfirmPassword(String confirmPassword) {
-    if (confirmPassword == state.password) {
+    if (confirmPassword == state.asSignUp.password) {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           isMatching: true,
         ),
       );
     } else {
       emit(
-        state.copyWith(
+        state.asSignUp.copyWith(
           isMatching: false,
         ),
       );
     }
     emit(
-      state.copyWith(
-        birthday: state.birthday,
-        email: state.email,
-        password: state.password,
+      state.asSignUp.copyWith(
         confirmPassword: confirmPassword,
-        isConfirmObscured: state.isConfirmObscured,
-        isObscured: state.isObscured,
-        firstName: state.firstName,
-        lastName: state.lastName,
       ),
     );
     enabledRegister();
-    enabledNext();
+    enabledEmailNext();
   }
 
   changeFirstName(String firstName) {
     emit(
-      state.copyWith(
-        birthday: state.birthday,
-        email: state.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isConfirmObscured: state.isConfirmObscured,
-        isObscured: state.isObscured,
+      state.asSignUp.copyWith(
         firstName: firstName,
-        lastName: state.lastName,
       ),
     );
     enabledRegister();
@@ -183,14 +202,7 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   changeLastName(String lastName) {
     emit(
-      state.copyWith(
-        birthday: state.birthday,
-        email: state.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isConfirmObscured: state.isConfirmObscured,
-        isObscured: state.isObscured,
-        firstName: state.firstName,
+      state.asSignUp.copyWith(
         lastName: lastName,
       ),
     );
@@ -198,19 +210,30 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 
   bool enabledRegister() {
-    if (state.email.isEmpty) return false;
-    if (state.password.isEmpty) return false;
-    if (state.confirmPassword.isEmpty) return false;
-    if (state.firstName.isEmpty) return false;
-    if (state.lastName.isEmpty) return false;
-    if (state.birthday.isEmpty) return false;
+    if (state.asSignUp.email == null || state.asSignUp.email!.isEmpty) return false;
+    if (state.asSignUp.password == null || state.asSignUp.password!.isEmpty) return false;
+    if (state.asSignUp.confirmPassword == null || state.asSignUp.confirmPassword!.isEmpty) return false;
+    if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) return false;
+    if (state.asSignUp.lastName == null || state.asSignUp.lastName!.isEmpty) return false;
     return true;
   }
 
-  bool enabledNext() {
-    if (state.email.isEmpty) return false;
-    if (state.password.isEmpty) return false;
-    if (state.confirmPassword.isEmpty) return false;
+  bool enabledEmailNext() {
+    if (state.asSignUp.email == null || state.asSignUp.email!.isEmpty) return false;
+    if (state.asSignUp.password == null || state.asSignUp.password!.isEmpty) return false;
+    if (state.asSignUp.confirmPassword == null || state.asSignUp.confirmPassword!.isEmpty) return false;
+    if (!arePasswordRequirementsMet()) return false;
+    return true;
+  }
+
+  bool enabledDataNext() {
+    if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) return false;
+    if (state.asSignUp.lastName == null || state.asSignUp.lastName!.isEmpty) return false;
+    return true;
+  }
+
+  bool enabledTosNext() {
+    if (!state.asSignUp.tosAccepted) return false;
     return true;
   }
 }

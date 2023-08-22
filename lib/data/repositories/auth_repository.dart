@@ -1,38 +1,43 @@
-import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crypto/crypto.dart';
-import 'package:firebase_auth/firebase_auth.dart' as _firebaseauth;
+import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/data/models/user.dart';
+import 'package:warranty_keeper/data/models/user_data.dart';
 
 abstract class AuthRepository {
-  User currentUser();
+  WarrantyUser currentUser();
   Future<void> login(String email, String password);
-  Future<void> register(String email, String password);
+  Future<void> register(
+    String email,
+    String password,
+    UserData userData,
+  );
   Future<void> logout();
   Future<void> passwordResetSubmit(String email);
   Future<void> signInWithGoogle();
   Future<void> signinWithApple();
   Future<bool> isFirstRun();
-  Future<void> updatePersonalData(
-    String firstName,
-    String lastName,
-    String birthday,
-  );
+  Future<bool> isEmailAlreadyInUse(String email);
+  Future<void> updatePersonalData(UserData userData);
 }
 
 class FirebaseAuthRepository implements AuthRepository {
-  final _firebaseauth.FirebaseAuth _auth = _firebaseauth.FirebaseAuth.instance;
+  final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+
   @override
-  User currentUser() {
-    _firebaseauth.User user = _auth.currentUser!;
-    return User(uid: user.uid);
+  WarrantyUser currentUser() {
+    firebaseauth.User user;
+    if (_auth.currentUser != null) {
+      user = _auth.currentUser!;
+    } else {
+      return WarrantyUser();
+    }
+    return WarrantyUser(uid: user.uid);
   }
 
   @override
@@ -46,17 +51,30 @@ class FirebaseAuthRepository implements AuthRepository {
 
   //firebase login with email and password
   @override
-  Future<User> login(String email, String password) async {
+  Future<WarrantyUser> login(String email, String password) async {
     try {
-      _firebaseauth.UserCredential result = await _auth
+      firebaseauth.UserCredential result = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
-      return User(uid: result.user!.uid);
+
+      _auth.currentUser!.getIdToken(true);
+      return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  @override
+  Future<bool> isEmailAlreadyInUse(String email) async {
+    try {
+      List<String> signInMethods =
+          await _auth.fetchSignInMethodsForEmail(email);
+      return signInMethods.isNotEmpty;
+    } catch (e) {
+      return false; // Return false if an error occurs
     }
   }
 
@@ -82,15 +100,27 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   //firebase login with email and password
-  Future<User> register(String email, String password) async {
+  Future<WarrantyUser> register(
+      String email, String password, UserData userData) async {
     try {
-      _firebaseauth.UserCredential result = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      firebaseauth.UserCredential result =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
-      return User(uid: result.user!.uid);
+
+      FirebaseFirestore.instance
+          .collection('users/${currentUser().uid}/warranties');
+
+      await users.doc(currentUser().uid).set(
+            userData.toJson(),
+          );
+
+      return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
     }
@@ -98,7 +128,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   //Google Authentication
-  Future<User> signInWithGoogle() async {
+  Future<WarrantyUser> signInWithGoogle() async {
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -108,34 +138,34 @@ class FirebaseAuthRepository implements AuthRepository {
           await googleUser!.authentication;
 
       // Create a new credential
-      final _firebaseauth.OAuthCredential credential =
-          _firebaseauth.GoogleAuthProvider.credential(
+      final firebaseauth.OAuthCredential credential =
+          firebaseauth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Once signed in, return the UserCredential
-      _firebaseauth.UserCredential result =
+      firebaseauth.UserCredential result =
           await _auth.signInWithCredential(credential);
       final prefs = await SharedPreferences.getInstance();
       var key = 'uid';
       var val = result.user!.uid;
       prefs.setString(key, val);
-      return User(uid: result.user!.uid);
+      return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
+      log(
+        e.toString(),
+      );
       rethrow;
     }
   }
 
   @override
-  Future<void> updatePersonalData(
-      String firstname, String lastName, String birthday) async {
+  Future<void> updatePersonalData(UserData userData) async {
     try {
-      await users.doc(currentUser().uid).set(
+      await users.doc(currentUser().uid).update(
         {
-          'firstName': firstname,
-          'lastName': lastName,
-          'birthday': birthday,
+          ...userData.toJson(),
         },
       );
     } catch (e) {
@@ -143,59 +173,9 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
-  String generateNonce([int length = 32]) {
-    const charset =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
-    final random = Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
-        .join();
-  }
-
-  /// Returns the sha256 hash of [input] in hex notation.
-  String sha256ofString(String input) {
-    final bytes = utf8.encode(input);
-    final digest = sha256.convert(bytes);
-    return digest.toString();
-  }
-
   @override
-  Future<User> signinWithApple() async {
-    // To prevent replay attacks with the credential returned from Apple, we
-    // include a nonce in the credential request. When signing in with
-    // Firebase, the nonce in the id token returned by Apple, is expected to
-    // match the sha256 hash of `rawNonce`.
-    try {
-      final rawNonce = generateNonce();
-      final nonce = sha256ofString(rawNonce);
-
-      // Request credential for the currently signed in Apple account.
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-        nonce: nonce,
-      );
-
-      // Create an `OAuthCredential` from the credential returned by Apple.
-      final oauthCredential =
-          _firebaseauth.OAuthProvider("apple.com").credential(
-        idToken: appleCredential.identityToken,
-        rawNonce: rawNonce,
-      );
-
-      _firebaseauth.UserCredential result = await _firebaseauth
-          .FirebaseAuth.instance
-          .signInWithCredential(oauthCredential);
-      final prefs = await SharedPreferences.getInstance();
-      var key = 'uid';
-      var val = result.user!.uid;
-      prefs.setString(key, val);
-      // Sign in the user with Firebase. If the nonce we generated earlier does
-      // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-      return User(uid: result.user!.uid);
-    } catch (e) {
-      rethrow;
-    }
+  Future<void> signinWithApple() {
+    // TODO: implement signinWithApple
+    throw UnimplementedError();
   }
 }

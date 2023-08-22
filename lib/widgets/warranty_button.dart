@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warranty_keeper/presentation/loading/widgets/triangle_loading_indicator.dart';
 
 class WarrantyElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -55,7 +56,7 @@ class WarrantyElevatedButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              30,
+              8,
             ),
           ),
         ),
@@ -66,20 +67,21 @@ class WarrantyElevatedButton extends StatelessWidget {
             : null,
         child: AnimatedSize(
           duration: const Duration(milliseconds: 100),
-          child: isLoading
-              ? Transform.scale(
-                  scale: 0.5,
-                  child: const CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                )
-              : hasIcon
-                  ? widget
-                  : Center(
-                      child: Text(
-                        text,
+          child: SizedBox(
+            height: 45,
+            child: isLoading
+                ? Transform.scale(
+                    scale: 0.5,
+                    child: const TriangleLoadingIndicator(),
+                  )
+                : hasIcon
+                    ? widget
+                    : Center(
+                        child: Text(
+                          text,
+                        ),
                       ),
-                    ),
+          ),
         ),
       ),
     );

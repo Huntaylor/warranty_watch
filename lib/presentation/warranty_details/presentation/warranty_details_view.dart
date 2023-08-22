@@ -1,4 +1,3 @@
-import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/warranty_details/warranty_details_cubit.dart';
@@ -6,7 +5,6 @@ import 'package:warranty_keeper/presentation/warranty_details/widgets/details_im
 import 'package:warranty_keeper/presentation/warranty_details/widgets/individual_detail.dart';
 
 class WarrantyDetailsView extends StatelessWidget {
-  static const routeName = '/warrantyDetails';
   const WarrantyDetailsView({
     Key? key,
   }) : super(key: key);
@@ -16,17 +14,53 @@ class WarrantyDetailsView extends StatelessWidget {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
     final appLocalizations = context.appLocalizations;
     return Scaffold(
+      backgroundColor: context.colorScheme.background,
       body: SafeArea(
         child: ListView(
           children: [
             Stack(
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .4,
-                  width: double.infinity,
-                  child: Image.network(
-                    detailsCubit.state.imageUrl!,
-                    fit: BoxFit.fitWidth,
+                Visibility(
+                  visible: _isUrlValid(
+                    detailsCubit.state.imageUrl,
+                  ),
+                  replacement: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            context.colorScheme.secondaryContainer,
+                            context.colorScheme.primaryContainer,
+                            context.colorScheme.primary,
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 1,
+                          ),
+                        ],
+                      ),
+                      height: MediaQuery.of(context).size.height * .1,
+                      width: double.infinity,
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: const [
+                        BoxShadow(),
+                      ],
+                    ),
+                    height: MediaQuery.of(context).size.height * .4,
+                    width: double.infinity,
+                    child: Image.network(
+                      detailsCubit.state.imageUrl!,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 Padding(
@@ -44,7 +78,7 @@ class WarrantyDetailsView extends StatelessWidget {
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Colors.white70,
+                      color: context.themeData.dialogBackgroundColor,
                     ),
                     child: Text(
                       detailsCubit.state.name!,
@@ -68,7 +102,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailsCubit = context.read<WarrantyDetailsCubit>();
+    final detailsCubit = context.watch<WarrantyDetailsCubit>();
     final appLocalizations = context.appLocalizations;
 
     return SingleChildScrollView(
@@ -83,30 +117,22 @@ class _Content extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Text(appLocalizations.lifeTime),
                 )
-              : Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      appLocalizations.expiresOn(
-                        _countDown(detailsCubit.state.endOfWarranty!),
-                        _dateFormat(detailsCubit.state.endOfWarranty!),
-                      ),
-                      style: TextStyle(
-                        color: _dateDiff(detailsCubit.state.endOfWarranty!)
-                            ? context.themeData.errorColor
-                            : null,
-                      ),
-                    ),
-                  ),
+              : warrantyText(
+                  detailsCubit,
+                  appLocalizations,
+                  context,
                 ),
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: (detailsCubit.state.wantsReminders)
                 ? Text(
                     appLocalizations.remindsOn(
-                      _countDown(detailsCubit.state.reminderDate!),
-                      _dateFormat(detailsCubit.state.reminderDate!),
+                      _countDown(
+                        detailsCubit.state.reminderDate!,
+                      ),
+                      _dateFormat(
+                        detailsCubit.state.reminderDate!,
+                      ),
                     ),
                     textAlign: TextAlign.center,
                   )
@@ -114,36 +140,37 @@ class _Content extends StatelessWidget {
                     appLocalizations.noReminderSet,
                   ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: .0),
-            child: IndividualDetailWidget.general(
-              detailType: appLocalizations.purchasedOn,
-              detailContent: Text(
-                _dateFormat(detailsCubit.state.purchaseDate!),
+          if (detailsCubit.state.purchaseDate != null)
+            Padding(
+              padding: const EdgeInsets.only(top: .0),
+              child: IndividualDetailWidget.general(
+                detailType: appLocalizations.purchasedOn,
+                detailContent: Text(
+                  _dateFormat(detailsCubit.state.purchaseDate!),
+                ),
               ),
             ),
-          ),
-          (detailsCubit.state.details == null ||
-                  detailsCubit.state.details!.isEmpty)
-              ? const SizedBox()
-              : IndividualDetailWidget.general(
-                  detailType: appLocalizations.details,
-                  detailContent: Text(detailsCubit.state.details!),
-                ),
+          if (detailsCubit.state.details != null &&
+              detailsCubit.state.details!.isNotEmpty)
+            IndividualDetailWidget.general(
+              detailType: appLocalizations.details,
+              detailContent: Text(detailsCubit.state.details ?? ''),
+            ),
           IndividualDetailWidget.general(
             detailType: appLocalizations.productWebsite,
             detailContent: GestureDetector(
-                onTap: () =>
-                    detailsCubit.launch(detailsCubit.state.warrantyWebsite!),
-                child: Text(
-                  detailsCubit.state.warrantyWebsite!,
-                  style: const TextStyle(
-                    color: Colors.lightBlue,
-                    decoration: TextDecoration.underline,
+              onTap: () => context.read<WarrantyDetailsCubit>().launch(
+                    detailsCubit.state.warrantyWebsite!,
                   ),
-                )),
+              child: Text(
+                detailsCubit.state.warrantyWebsite!,
+                style: const TextStyle(
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
           ),
-          if (detailsCubit.state.receiptImage != null)
+          if (_isUrlValid(detailsCubit.state.receiptImageUrl))
             IndividualDetailWidget.general(
               detailContent: DetailsImageCard(
                 url: detailsCubit.state.receiptImageUrl!,
@@ -154,11 +181,56 @@ class _Content extends StatelessWidget {
       ),
     );
   }
+
+  Widget warrantyText(WarrantyDetailsCubit detailsCubit,
+      AppLocalizations appLocalizations, BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Text(
+          (_isExpired(detailsCubit.state.endOfWarranty!))
+              ? 'Warranty expired ${_expired(
+                  detailsCubit.state.endOfWarranty!,
+                )}'
+              : appLocalizations.expiresOn(
+                  _countDown(
+                    detailsCubit.state.endOfWarranty!,
+                  ),
+                  _dateFormat(
+                    detailsCubit.state.endOfWarranty!,
+                  ),
+                ),
+          style: TextStyle(
+            color: _dateDiff(detailsCubit.state.endOfWarranty!)
+                ? context.themeData.colorScheme.error
+                : null,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 _countDown(DateTime expirationDate) {
-  final _expireTime = Jiffy(expirationDate).fromNow();
-  return _expireTime;
+  final expireTime = Jiffy.parseFromDateTime(expirationDate).fromNow();
+
+  return expireTime;
+}
+
+_expired(DateTime expirationDate) {
+  final jiffyExpirationDate = Jiffy.parseFromDateTime(expirationDate);
+  final expireTime = Jiffy.now().from(jiffyExpirationDate);
+
+  return expireTime;
+}
+
+bool _isExpired(DateTime expirationDate) =>
+    _countDown(expirationDate).endsWith('ago');
+
+bool _isUrlValid(String? url) {
+  if (url == null) return false;
+  return Uri.parse(url).isAbsolute;
 }
 
 _dateFormat(DateTime date) {

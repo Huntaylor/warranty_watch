@@ -1,9 +1,6 @@
-import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
 import 'package:warranty_keeper/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_keeper/modules/cubit/settings/settings_cubit.dart';
-import 'package:warranty_keeper/routes/paths.dart';
-import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -26,61 +23,63 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authCubit = context.read<AuthCubit>();
-    final settingsCubit = context.read<SettingsCubit>();
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<SettingsCubit, SettingsState>(
-                builder: (context, state) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocProvider(
+      create: (context) => SettingsCubit(),
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state.isNotAuthenticated) {
+            GoRouter.of(context).refresh();
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: BlocBuilder<SettingsCubit, SettingsState>(
+                    builder: (context, state) {
+                      return Column(
                         children: [
-                          const Text('Notifications'),
-                          Switch(
-                            value: state.isNotifications,
-                            onChanged: settingsCubit.toggleNotifications,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Notifications'),
+                              Switch(
+                                value: state.asSet.isNotifications,
+                                onChanged: context.read<SettingsCubit>().toggleNotifications,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Something else'),
+                              Switch(
+                                value: state.asSet.isSomething,
+                                onChanged: context.read<SettingsCubit>().toggleSomething,
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Something else'),
-                          Switch(
-                            value: state.isSomething,
-                            onChanged: settingsCubit.toggleSomething,
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            BlocConsumer<AuthCubit, AuthState>(
-              listener: ((context, state) => state.mapOrNull(
-                    notAuthenticated: ((value) => context.go(
-                          Paths.login.name,
-                        )),
-                  )),
-              builder: (context, state) {
-                return Padding(
+                      );
+                    },
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 15),
-                  child: WarrantyElevatedButton.general(
+                  child: WarrantyElevatedButton(
+                    isLoading: context.watch<AuthCubit>().state.isLoading,
                     isEnabled: true,
-                    onPressed: () => authCubit.logout(),
+                    onPressed: () async {
+                      await context.read<AuthCubit>().logout();
+                    },
                     text: 'Logout',
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

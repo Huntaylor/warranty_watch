@@ -1,9 +1,5 @@
-import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/home/widgets/expiring_warranty_card.dart';
-import 'package:warranty_keeper/routes/paths.dart';
-import 'package:warranty_keeper/widgets/warranty_button.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -12,29 +8,28 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          context.push(Paths.home.newWarranty.path);
+        },
+        label: Text(
+          context.appLocalizations.newWarrantyBtn,
+        ),
+      ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: const SizedBox(),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: PopupMenuButton(
+            child: IconButton(
               icon: const Icon(
-                Icons.menu,
+                Icons.settings,
               ),
-              itemBuilder: (_) => [
-                PopupMenuItem(
-                  onTap: () {
-                    context.push(Paths.settings.name);
-                  },
-                  child: const Text('Settings'),
-                ),
-                PopupMenuItem(
-                  onTap: () {},
-                  child: const Text('Help'),
-                ),
-              ],
+              onPressed: () {
+                context.push(Paths.home.settings.path);
+              },
             ),
-          )
+          ),
         ],
         centerTitle: true,
         title: Center(
@@ -53,7 +48,6 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newWarrCubit = context.read<NewWarrantyCubit>();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -67,17 +61,13 @@ class _Content extends StatelessWidget {
             //  Current Warranty
             WarrantyElevatedButton.general(
               isEnabled: true,
-              onPressed: () => context.push(Paths.warranty.current.path),
+              onPressed: () {
+                context.push(Paths.home.warranties.path);
+              },
               text: context.appLocalizations.currentWarrantyBtn,
             ),
-            //  Add Warranty
-            WarrantyElevatedButton.general(
-              isEnabled: true,
-              onPressed: () {
-                context.push(Paths.warranty.newWarranty.path);
-                newWarrCubit.clear();
-              },
-              text: context.appLocalizations.newWarrantyBtn,
+            const SizedBox(
+              height: 5,
             ),
           ],
         ),

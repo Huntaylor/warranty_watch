@@ -1,190 +1,185 @@
-import 'package:go_router/go_router.dart';
 import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/modules/cubit/current_warranties/current_warranties_cubit.dart';
-import 'package:warranty_keeper/modules/cubit/new_warranty/new_warranty_cubit.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_keeper/modules/cubit/warranties/warranties_cubit.dart';
+import 'package:warranty_keeper/modules/cubit/warranty/warranty_cubit.dart';
 import 'package:warranty_keeper/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
-import 'package:warranty_keeper/widgets/warranty_button.dart';
 import 'package:warranty_keeper/widgets/warranty_checkbox.dart';
 import 'package:warranty_keeper/widgets/warranty_image_widget.dart';
-import 'package:warranty_keeper/widgets/warranty_textfield.dart';
 
 class NewWarrantyView extends StatelessWidget {
-  static const routeName = '/newWarrantyView';
   const NewWarrantyView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final repo = context.watch<WarrantiesCubit>().dataRepository;
+
     final appLocalizations = context.appLocalizations;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        title: BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-          builder: (context, state) {
-            return Text(
-              (state.warrantyState == WarrantyState.editing)
-                  ? appLocalizations.editWarrantyTitle
-                  : appLocalizations.addWarrantyTitle,
-            );
-          },
+    return BlocProvider(
+      create: (context) => WarrantyCubit(repo),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          title: Text(
+            /*    (state.warrantyState == WarrantyState.editing) ? appLocalizations.editWarrantyTitle :  */ appLocalizations
+                .addWarrantyTitle,
+          ),
         ),
+        body: const _Content(),
       ),
-      body: const _Content(),
     );
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final newWarrantyCubit = context.read<NewWarrantyCubit>();
-    final currantWarrantyCubit = context.read<CurrentWarrantiesCubit>();
     final appLocalizations = context.appLocalizations;
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  children: [
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      builder: (context, state) {
-                        return WarrantyTextField.general(
+    return BlocBuilder<WarrantyCubit, WarrantyState>(
+      buildWhen: (_, state) {
+        return state.isReady;
+      },
+      builder: (providerContext, state) {
+        //TODO: REFACTOR
+        final popView = context.pop();
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        WarrantyTextField.general(
                           currentLength:
-                              (state.name != null) ? state.name!.length : 0,
+                              (state.asReady.warrantyInfo.name != null)
+                                  ? state.asReady.warrantyInfo.name!.length
+                                  : 0,
                           maxLength: 25,
                           maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                          initialValue: state.name ?? '',
+                          initialValue: state.asReady.warrantyInfo.name ?? '',
                           isRequired: true,
-                          onChanged: newWarrantyCubit.changeProductName,
+                          onChanged:
+                              context.read<WarrantyCubit>().changeProductName,
                           hintText: appLocalizations.productName,
-                        );
-                      },
-                    ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      builder: (context, state) {
-                        return WarrantyTextField.date(
+                        ),
+                        WarrantyTextField.date(
                           initialValue:
-                              newWarrantyCubit.state.purchaseDate != null
+                              state.asReady.warrantyInfo.purchaseDate != null
                                   ? _dateFormat(
-                                      newWarrantyCubit.state.purchaseDate!)
-                                  : _dateFormat(DateTime.now()),
-                          isRequired: true,
+                                      state.asReady.warrantyInfo.purchaseDate!)
+                                  : _dateFormat(
+                                      DateTime.now(),
+                                    ),
+                          isRequired: false,
                           isLifeTime: false,
                           endDateTime: DateTime.now(),
-                          initialDateTime: newWarrantyCubit.state.purchaseDate,
+                          initialDateTime:
+                              state.asReady.warrantyInfo.purchaseDate,
                           startDateTime: DateTime(2000),
-                          onChanged: newWarrantyCubit.changePurchaseDate,
+                          onChanged:
+                              context.read<WarrantyCubit>().changePurchaseDate,
                           hintText: appLocalizations.purchaseDate,
-                        );
-                      },
-                    ),
-                    WarrantyTextField.webSite(
-                      initialValue:
-                          newWarrantyCubit.state.warrantyWebsite ?? 'https://',
-                      isRequired: true,
-                      onChanged: newWarrantyCubit.changeWebsiteName,
-                      hintText: appLocalizations.companyWebsite,
-                    ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      builder: (context, state) {
-                        return WarrantyTextField.date(
+                        ),
+                        WarrantyTextField.webSite(
+                          isRequired: false,
                           initialValue:
-                              newWarrantyCubit.state.endOfWarranty != null
+                              state.asReady.warrantyInfo.warrantyWebsite ??
+                                  'https://',
+                          onChanged:
+                              context.read<WarrantyCubit>().changeWebsiteName,
+                          hintText: appLocalizations.companyWebsite,
+                        ),
+                        WarrantyTextField.date(
+                          initialValue:
+                              state.asReady.warrantyInfo.endOfWarranty != null
                                   ? _dateFormat(
-                                      newWarrantyCubit.state.endOfWarranty!)
+                                      state.asReady.warrantyInfo.endOfWarranty!)
                                   : '',
                           isRequired: true,
-                          isLifeTime: state.lifeTime,
+                          isLifeTime: state.asReady.warrantyInfo.lifeTime,
                           endDateTime: DateTime(2050),
-                          initialDateTime: newWarrantyCubit.state.endOfWarranty,
+                          initialDateTime:
+                              state.asReady.warrantyInfo.endOfWarranty,
                           startDateTime: DateTime.now(),
-                          onChanged: newWarrantyCubit.changeEndDate,
+                          onChanged:
+                              context.read<WarrantyCubit>().changeEndDate,
                           hintText: appLocalizations.expirationDate,
-                        );
-                      },
-                    ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      builder: (context, state) {
-                        return Column(
+                        ),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             WarrantyCheckBox(
-                              isChecked: state.lifeTime,
+                              isChecked: state.asReady.warrantyInfo.lifeTime,
                               text: appLocalizations.lifeTime,
-                              onTap: newWarrantyCubit.toggleLifeTime,
+                              onTap:
+                                  context.read<WarrantyCubit>().toggleLifeTime,
                             ),
                           ],
-                        );
-                      },
-                    ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      builder: (context, state) {
-                        return (state.lifeTime || state.endOfWarranty == null)
+                        ),
+                        (state.asReady.warrantyInfo.lifeTime ||
+                                state.asReady.warrantyInfo.endOfWarranty ==
+                                    null)
                             ? const SizedBox()
                             : Column(
                                 children: [
                                   Row(
                                     children: [
                                       Switch(
-                                        value: state.wantsReminders,
+                                        value: state.asReady.warrantyInfo
+                                            .wantsReminders,
                                         onChanged: (value) {
-                                          newWarrantyCubit
+                                          context
+                                              .read<WarrantyCubit>()
                                               .toggleWantsReminders(value);
                                         },
                                       ),
                                       const Text('Reminder before expiration'),
                                     ],
                                   ),
-                                  if (state.wantsReminders)
+                                  if (state.asReady.warrantyInfo.wantsReminders)
                                     WarrantyTextField.date(
-                                      initialValue: _dateFormat(
-                                          newWarrantyCubit.state.reminderDate!),
+                                      initialValue: _dateFormat(state
+                                          .asReady.warrantyInfo.reminderDate!),
                                       isRequired: true,
-                                      isLifeTime: state.lifeTime,
-                                      endDateTime:
-                                          newWarrantyCubit.state.endOfWarranty,
-                                      initialDateTime:
-                                          newWarrantyCubit.state.reminderDate,
+                                      isLifeTime:
+                                          state.asReady.warrantyInfo.lifeTime,
+                                      endDateTime: state
+                                          .asReady.warrantyInfo.endOfWarranty,
+                                      initialDateTime: state
+                                          .asReady.warrantyInfo.reminderDate,
                                       startDateTime: DateTime.now(),
-                                      onChanged: newWarrantyCubit.changeEndDate,
+                                      onChanged: context
+                                          .read<WarrantyCubit>()
+                                          .changeEndDate,
                                       hintText: 'Reminder Date',
                                     ),
                                 ],
-                              );
-                      },
-                    ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      builder: (context, state) {
-                        return WarrantyTextField.form(
-                          currentLength: (state.details != null)
-                              ? state.details!.length
-                              : 0,
+                              ),
+                        WarrantyTextField.form(
+                          currentLength:
+                              (state.asReady.warrantyInfo.details != null)
+                                  ? state.asReady.warrantyInfo.details!.length
+                                  : 0,
                           maxLength: 100,
                           maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                          initialValue: state.details ?? '',
-                          onChanged: newWarrantyCubit.changeAddtionalDetails,
+                          initialValue:
+                              state.asReady.warrantyInfo.details ?? '',
+                          onChanged: context
+                              .read<WarrantyCubit>()
+                              .changeAddtionalDetails,
                           hintText: appLocalizations.additionalDetails,
-                        );
-                      },
-                    ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      // buildWhen: (previous, current) {
-                      //   return previous.receiptImage != current.receiptImage ||
-                      //       previous.isLoading != current.isLoading;
-                      // },
-                      builder: (context, state) {
-                        return WarrantyImage(
-                          image: state.receiptImage,
+                        ),
+                        WarrantyImage(
+                          image: state.asReady.warrantyInfo.receiptImage,
                           onTap: () {
                             showModalBottomSheet(
                               isDismissible: false,
@@ -197,21 +192,20 @@ class _Content extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              context: context,
-                              builder: (context) {
+                              context: providerContext,
+                              builder: (_) {
                                 return ImageBottomSheet(
                                   onReceiptPhotoTap: () async {
-                                    // await newWarrantyCubit.loadingImage();
-                                    await newWarrantyCubit
+                                    await providerContext
+                                        .read<WarrantyCubit>()
                                         .changeReceiptPhotos();
-                                    Navigator.pop(context);
-                                    await newWarrantyCubit.loadingImage();
+                                    popView;
                                   },
                                   onReceiptCameraTap: () async {
-                                    await newWarrantyCubit
+                                    await providerContext
+                                        .read<WarrantyCubit>()
                                         .changeReceiptCamera();
-                                    Navigator.pop(context);
-                                    await newWarrantyCubit.loadingImage();
+                                    popView;
                                   },
                                 );
                               },
@@ -221,15 +215,9 @@ class _Content extends StatelessWidget {
                           icon: const Icon(
                             Icons.list_alt_outlined,
                           ),
-                        );
-                      },
-                    ),
-                    BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-                      // buildWhen: (previous, current) =>
-                      //     previous.image != current.image,
-                      builder: (context, state) {
-                        return WarrantyImage(
-                          image: state.image,
+                        ),
+                        WarrantyImage(
+                          image: state.asReady.warrantyInfo.image,
                           onTap: () {
                             showModalBottomSheet(
                               enableDrag: false,
@@ -242,68 +230,58 @@ class _Content extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              context: context,
-                              builder: (context) {
+                              context: providerContext,
+                              builder: (_) {
                                 return ImageBottomSheet(
                                   onReceiptPhotoTap: () async {
-                                    await newWarrantyCubit
+                                    await providerContext
+                                        .read<WarrantyCubit>()
                                         .changeProductPhotos();
-                                    Navigator.pop(context);
-                                    await newWarrantyCubit.loadingImage();
+                                    popView;
                                   },
                                   onReceiptCameraTap: () async {
-                                    await newWarrantyCubit
+                                    await providerContext
+                                        .read<WarrantyCubit>()
                                         .changeProductCamera();
-                                    Navigator.pop(context);
-                                    await newWarrantyCubit.loadingImage();
+                                    popView;
                                   },
                                 );
                               },
                             );
                           },
-                          text:
-                              '${appLocalizations.addPhoto} ${appLocalizations.required}',
+                          text: appLocalizations.addPhoto,
                           icon: const Icon(
                             Icons.camera_alt_outlined,
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            BlocBuilder<NewWarrantyCubit, WarrantyInfo>(
-              builder: (context, state) {
-                return Padding(
+                Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 15),
                   child: WarrantyElevatedButton.loading(
-                    isLoading: state.warrantyState == WarrantyState.loading,
-                    isEnabled: newWarrantyCubit.verifyWarranty(),
+                    isLoading:
+                        providerContext.watch<WarrantyCubit>().state.isLoading,
+                    isEnabled:
+                        providerContext.watch<WarrantyCubit>().verifyWarranty(),
                     onPressed: () async {
-                      if (newWarrantyCubit.verifyWarranty()) {
-                        try {
-                          await newWarrantyCubit
-                              .changeEditing(WarrantyState.loading);
-                          await currantWarrantyCubit.addOrEditWarranty(state);
-                          context.pop();
-                          await newWarrantyCubit
-                              .changeEditing(WarrantyState.submitted);
-                        } catch (e) {
-                          debugPrint('$e');
-                        }
+                      try {
+                        await context.read<WarrantyCubit>().submitWarranty();
+                        popView;
+                      } catch (e) {
+                        debugPrint('$e');
                       }
                     },
-                    text: (state.warrantyState == WarrantyState.editing)
-                        ? appLocalizations.editProductBtn
-                        : appLocalizations.addproductButton,
+                    text: /*  (state.warrantyState == WarrantyState.editing) ? appLocalizations.editProductBtn :  */
+                        appLocalizations.addproductButton,
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
