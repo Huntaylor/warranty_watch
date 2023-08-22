@@ -7,11 +7,11 @@ class TriangleLoadingIndicator extends StatefulWidget {
   const TriangleLoadingIndicator({super.key, this.size = 40.0});
 
   @override
-  _TriangleLoadingIndicatorState createState() =>
-      _TriangleLoadingIndicatorState();
+  TriangleLoadingIndicatorState createState() =>
+      TriangleLoadingIndicatorState();
 }
 
-class _TriangleLoadingIndicatorState extends State<TriangleLoadingIndicator>
+class TriangleLoadingIndicatorState extends State<TriangleLoadingIndicator>
     with TickerProviderStateMixin {
   late List<AnimationController> _controllers;
 

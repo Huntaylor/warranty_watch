@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'sign_up_cubit.dart';
 
 abstract class SignUpState extends Equatable {

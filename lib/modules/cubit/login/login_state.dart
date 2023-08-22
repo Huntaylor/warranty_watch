@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'login_cubit.dart';
 
 abstract class LoginState extends Equatable {

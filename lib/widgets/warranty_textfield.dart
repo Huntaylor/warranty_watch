@@ -289,7 +289,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
   @override
   Widget build(BuildContext context) {
     //Used for Date Picker
-    String _dateToString(DateTime date) {
+    String dateToString(DateTime date) {
       final DateFormat formatter = DateFormat('MM/dd/yyyy');
       return formatter.format(date);
     }
@@ -305,7 +305,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: (datePicked) {
                 if (datePicked != widget.initialDateTime) {
-                  controller.text = _dateToString(datePicked);
+                  controller.text = dateToString(datePicked);
                   widget.onChanged?.call(controller.text);
                 }
               },
@@ -330,12 +330,12 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         initialEntryMode: DatePickerEntryMode.calendar,
       );
       if (datePicked != null && datePicked != widget.initialDateTime) {
-        controller.text = _dateToString(datePicked);
+        controller.text = dateToString(datePicked);
         widget.onChanged?.call(controller.text);
       }
     }
 
-    void _selectDate() {
+    void selectDate() {
       switch (context.themeData.platform) {
         case TargetPlatform.iOS:
           buildCupertinoDatePicker();
@@ -364,7 +364,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             controller: controller,
             onChanged: widget.onChanged,
             onTap: () {
-              widget.isDate ? _selectDate() : widget.onTap;
+              widget.isDate ? selectDate() : widget.onTap;
             },
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(

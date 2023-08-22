@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'warranties_cubit.dart';
 
 class WarrantiesState extends Equatable {
@@ -36,14 +38,6 @@ class _Ready extends WarrantiesState {
   List<Object?> get props => _$props;
 }
 
-@autoequal
 class _Error extends WarrantiesState {
-  const _Error({
-    this.error,
-  });
-
-  final String? error;
-
-  @override
-  List<Object?> get props => _$props;
+  const _Error();
 }

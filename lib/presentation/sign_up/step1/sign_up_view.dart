@@ -22,6 +22,7 @@ class SignUpEmailView extends StatelessWidget {
     } else {
       errorText = null;
     }
+    final signUpRead = context.read<SignUpCubit>();
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -95,7 +96,7 @@ class SignUpEmailView extends StatelessWidget {
             onPressed: () async {
               await authCubit.checkEmail(state.asSignUp.email!);
               if (!authCubit.state.isError) {
-                context.read<SignUpCubit>().pushPersonalData();
+                signUpRead.pushPersonalData();
               }
             },
             text: 'Next',

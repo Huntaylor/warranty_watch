@@ -1,10 +1,10 @@
-# Warranty Tracker App
+# Warranty Watch App
 
 [//]: # (path/to/app_screenshot.png)
 
 ## Overview
 
-The Warranty Tracker App is a user-friendly mobile application designed to help users keep track of their product warranties efficiently. With this app, users can store important warranty information, set reminders for warranty expiration dates, and receive timely notifications to ensure they never miss a warranty claim deadline.
+The Warranty Watch App is a user-friendly mobile application designed to help users keep track of their product warranties efficiently. With this app, users can store important warranty information, set reminders for warranty expiration dates, and receive timely notifications to ensure they never miss a warranty claim deadline.
 
 ## Features
 
@@ -42,7 +42,7 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 - Can't access context.appLocalizations? Be sure to import 'package:warranty_keeper/app_library.dart';
 
-### Warranty Tracker
+### Warranty Watch
 
 ---
 

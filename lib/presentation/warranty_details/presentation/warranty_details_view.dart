@@ -24,20 +24,6 @@ class WarrantyDetailsView extends StatelessWidget {
                   visible: _isUrlValid(
                     detailsCubit.state.imageUrl,
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: const [
-                        BoxShadow(),
-                      ],
-                    ),
-                    height: MediaQuery.of(context).size.height * .4,
-                    width: double.infinity,
-                    child: Image.network(
-                      detailsCubit.state.imageUrl!,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
                   replacement: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Container(
@@ -60,6 +46,20 @@ class WarrantyDetailsView extends StatelessWidget {
                       ),
                       height: MediaQuery.of(context).size.height * .1,
                       width: double.infinity,
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: const [
+                        BoxShadow(),
+                      ],
+                    ),
+                    height: MediaQuery.of(context).size.height * .4,
+                    width: double.infinity,
+                    child: Image.network(
+                      detailsCubit.state.imageUrl!,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'auth_cubit.dart';
 
 enum LoginType { email, google, apple, initial }

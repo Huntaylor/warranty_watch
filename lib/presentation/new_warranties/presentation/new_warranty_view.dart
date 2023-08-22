@@ -46,6 +46,8 @@ class _Content extends StatelessWidget {
         return state.isReady;
       },
       builder: (providerContext, state) {
+        //TODO: REFACTOR
+        final popView = context.pop();
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
@@ -197,13 +199,13 @@ class _Content extends StatelessWidget {
                                     await providerContext
                                         .read<WarrantyCubit>()
                                         .changeReceiptPhotos();
-                                    context.pop();
+                                    popView;
                                   },
                                   onReceiptCameraTap: () async {
                                     await providerContext
                                         .read<WarrantyCubit>()
                                         .changeReceiptCamera();
-                                    context.pop();
+                                    popView;
                                   },
                                 );
                               },
@@ -235,13 +237,13 @@ class _Content extends StatelessWidget {
                                     await providerContext
                                         .read<WarrantyCubit>()
                                         .changeProductPhotos();
-                                    context.pop();
+                                    popView;
                                   },
                                   onReceiptCameraTap: () async {
                                     await providerContext
                                         .read<WarrantyCubit>()
                                         .changeProductCamera();
-                                    context.pop();
+                                    popView;
                                   },
                                 );
                               },
@@ -266,7 +268,7 @@ class _Content extends StatelessWidget {
                     onPressed: () async {
                       try {
                         await context.read<WarrantyCubit>().submitWarranty();
-                        context.pop();
+                        popView;
                       } catch (e) {
                         debugPrint('$e');
                       }

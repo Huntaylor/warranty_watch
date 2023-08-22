@@ -13,6 +13,8 @@ class TosSignUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     final signUpCubit = context.watch<SignUpCubit>();
     final authCubit = context.watch<AuthCubit>();
+    //TODO: REFACTOR
+    final scaffold = ScaffoldMessenger.of(context);
 
     const snackBarError = SnackBar(
       content: Text('We were unable to create your account at this time'),
@@ -57,9 +59,10 @@ class TosSignUpView extends StatelessWidget {
             );
 
             if (authCubit.state.isError) {
-              ScaffoldMessenger.of(context).showSnackBar(snackBarError);
+              //TODO: REFACTOR
+              scaffold.showSnackBar(snackBarError);
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              scaffold.showSnackBar(snackBar);
             }
           },
           text: 'Next',
