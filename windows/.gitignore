@@ -13,5 +13,8 @@ x86/
 # Visual Studio cache files
 # files ending in .cache can be ignored
 *.[Cc]ache
+*.cc
+*.h
+*.cmake
 # but keep track of directories ending in .cache
 !*.[Cc]ache/
