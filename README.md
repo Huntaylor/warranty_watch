@@ -38,12 +38,7 @@ To run the app locally on your development machine, follow these steps:
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
 
-## Contact
+## DEV FAQ
 
 - Can't access context.appLocalizations? Be sure to import 'package:warranty_keeper/app_library.dart';
 
-### Warranty Watch
-
----
-
-This app helps people keep tabs on their warranties that they purchased
