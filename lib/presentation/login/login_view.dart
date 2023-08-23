@@ -136,32 +136,26 @@ class _Content extends StatelessWidget {
                           );
                         },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          WarrantyElevatedButton.iconLoading(
-                            onPressed: () =>
-                                context.read<AuthCubit>().loginWithGoogle(),
-                            isLoading: authCubit.state.isLoading &&
-                                authCubit.state.asLoading.loginType ==
-                                    LoginType.google,
-                            isEnabled: !authCubit.state.isLoading,
-                            widget: const Icon(SignInOptions.google),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 3.0),
-                            child: WarrantyElevatedButton.iconLoading(
-                              onPressed: () {},
-                              isLoading: authCubit.state.isLoading &&
-                                  authCubit.state.asLoading.loginType ==
-                                      LoginType.apple,
-                              isEnabled: !authCubit.state.isLoading,
-                              widget: const Icon(SignInOptions.apple),
-                            ),
-                          ),
-                        ],
-                      )
+                      WarrantyElevatedButton.signInOption(
+                        accountOption: AccountOption.google,
+                        onPressed: () =>
+                            context.read<AuthCubit>().loginWithGoogle(),
+                        isLoading: authCubit.state.isLoading &&
+                            authCubit.state.asLoading.loginType ==
+                                LoginType.google,
+                        isEnabled: !authCubit.state.isLoading,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                        child: WarrantyElevatedButton.signInOption(
+                          accountOption: AccountOption.apple,
+                          onPressed: () {},
+                          isLoading: authCubit.state.isLoading &&
+                              authCubit.state.asLoading.loginType ==
+                                  LoginType.apple,
+                          isEnabled: !authCubit.state.isLoading,
+                        ),
+                      ),
                     ],
                   )
                 ],

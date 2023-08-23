@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_keeper/presentation/loading/widgets/triangle_loading_indicator.dart';
+import 'package:warranty_keeper/widgets/sign_in_options_icons.dart';
+
+enum AccountOption { apple, google, email, none }
 
 class WarrantyElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final bool isEnabled;
   final bool isLoading;
-  final bool hasIcon;
-  final Widget? widget;
+  final AccountOption accountOption;
 
   const WarrantyElevatedButton({
     Key? key,
@@ -15,8 +17,7 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.text,
     required this.isEnabled,
     required this.isLoading,
-    this.widget,
-  })  : hasIcon = false,
+  })  : accountOption = AccountOption.none,
         super(key: key);
 
   const WarrantyElevatedButton.general({
@@ -25,8 +26,7 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.text,
     required this.isEnabled,
   })  : isLoading = false,
-        hasIcon = false,
-        widget = null,
+        accountOption = AccountOption.none,
         super(key: key);
 
   const WarrantyElevatedButton.loading({
@@ -35,18 +35,16 @@ class WarrantyElevatedButton extends StatelessWidget {
     required this.text,
     required this.isLoading,
     required this.isEnabled,
-  })  : hasIcon = false,
-        widget = null,
+  })  : accountOption = AccountOption.none,
         super(key: key);
 
-  const WarrantyElevatedButton.iconLoading({
-    key,
-    required this.onPressed,
-    required this.isLoading,
-    required this.isEnabled,
-    required this.widget,
-  })  : hasIcon = true,
-        text = '',
+  const WarrantyElevatedButton.signInOption(
+      {key,
+      required this.onPressed,
+      required this.isLoading,
+      required this.isEnabled,
+      required this.accountOption})
+      : text = '',
         super(key: key);
 
   @override
@@ -74,16 +72,40 @@ class WarrantyElevatedButton extends StatelessWidget {
                     scale: 0.5,
                     child: const TriangleLoadingIndicator(),
                   )
-                : hasIcon
-                    ? widget
-                    : Center(
+                : accountOption == AccountOption.none
+                    ? Center(
                         child: Text(
                           text,
                         ),
-                      ),
+                      )
+                    : _getOption(accountOption),
           ),
         ),
       ),
     );
+  }
+
+  _getOption(AccountOption accountOption) {
+    defaultWidget(
+      IconData icon,
+      String name,
+    ) {
+      return Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(icon),
+          Text('Continue with $name'),
+          const SizedBox.shrink(),
+        ],
+      );
+    }
+
+    return switch (accountOption) {
+      AccountOption.apple => defaultWidget(SignInOptions.apple, 'Apple'),
+      AccountOption.google => defaultWidget(SignInOptions.google, 'Google'),
+      AccountOption.email => defaultWidget(Icons.email_outlined, 'Email'),
+      AccountOption.none => null,
+    };
   }
 }
