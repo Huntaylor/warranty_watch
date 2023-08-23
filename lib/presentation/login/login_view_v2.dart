@@ -34,11 +34,12 @@ class _Content extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 25),
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: getAvailableScreenHeight(context),
+        child: SizedBox(
+          height: getAvailableScreenHeight(context),
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
