@@ -33,102 +33,98 @@ class _Content extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 25),
-        child: SizedBox(
-          // height: getAvailableScreenHeight(context),
-          child: ListView(
-            physics: const ClampingScrollPhysics(),
-            children: [
-              Container(
-                constraints: const BoxConstraints(
-                  maxHeight: 130,
-                  minHeight: 20,
-                ),
+        child: ListView(
+          physics: const ClampingScrollPhysics(),
+          children: [
+            Container(
+              constraints: const BoxConstraints(
+                maxHeight: 130,
+                minHeight: 20,
               ),
-              const _Logo(),
-              if (authCubit.state.isError)
-                RichText(
-                  text: TextSpan(
-                    text: authCubit.state.asError.message,
-                    style: TextStyle(
-                      color: context.colorScheme.error,
-                    ),
+            ),
+            const _Logo(),
+            if (authCubit.state.isError)
+              RichText(
+                text: TextSpan(
+                  text: authCubit.state.asError.message,
+                  style: TextStyle(
+                    color: context.colorScheme.error,
                   ),
                 ),
-              // const _LoginFields(),
-              Container(
-                constraints: const BoxConstraints(
-                  maxHeight: 130,
-                  minHeight: 20,
-                ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                  'Choose One to Create Account',
-                  textAlign: TextAlign.center,
-                  style:
-                      context.textTheme.titleLarge!.apply(fontWeightDelta: 2),
-                ),
+            // const _LoginFields(),
+            Container(
+              constraints: const BoxConstraints(
+                maxHeight: 130,
+                minHeight: 20,
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                'Choose One to Create Account',
+                textAlign: TextAlign.center,
+                style: context.textTheme.titleLarge!.apply(fontWeightDelta: 2),
+              ),
+            ),
 
-              WarrantyElevatedButton.signInOption(
-                accountOption: AccountOption.google,
-                onPressed: () => context.read<AuthCubit>().loginWithGoogle(),
+            WarrantyElevatedButton.signInOption(
+              accountOption: AccountOption.google,
+              onPressed: () => context.read<AuthCubit>().loginWithGoogle(),
+              isLoading: authCubit.state.isLoading &&
+                  authCubit.state.asLoading.loginType == LoginType.google,
+              isEnabled: !authCubit.state.isLoading,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3.0),
+              child: WarrantyElevatedButton.signInOption(
+                accountOption: AccountOption.apple,
+                onPressed: () {},
                 isLoading: authCubit.state.isLoading &&
-                    authCubit.state.asLoading.loginType == LoginType.google,
+                    authCubit.state.asLoading.loginType == LoginType.apple,
                 isEnabled: !authCubit.state.isLoading,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: WarrantyElevatedButton.signInOption(
-                  accountOption: AccountOption.apple,
-                  onPressed: () {},
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3.0),
+              child: WarrantyElevatedButton.signInOption(
+                accountOption: AccountOption.email,
+                onPressed: () {},
+                isLoading: authCubit.state.isLoading &&
+                    authCubit.state.asLoading.loginType == LoginType.apple,
+                isEnabled: !authCubit.state.isLoading,
+              ),
+            ),
+            const Divider(
+              thickness: 2,
+              indent: 16,
+              endIndent: 16,
+              height: 32,
+            ),
+            BlocBuilder<LoginCubit, LoginState>(
+              builder: (context, state) {
+                return WarrantyElevatedButton(
                   isLoading: authCubit.state.isLoading &&
-                      authCubit.state.asLoading.loginType == LoginType.apple,
+                      authCubit.state.asLoading.loginType == LoginType.email,
+                  onPressed: () => context.read<AuthCubit>().login(
+                        email: state.asLoggingIn.email,
+                        password: state.asLoggingIn.password,
+                      ),
+                  text: 'Login',
                   isEnabled: !authCubit.state.isLoading,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: WarrantyElevatedButton.signInOption(
-                  accountOption: AccountOption.email,
-                  onPressed: () {},
-                  isLoading: authCubit.state.isLoading &&
-                      authCubit.state.asLoading.loginType == LoginType.apple,
-                  isEnabled: !authCubit.state.isLoading,
-                ),
-              ),
-              const Divider(
-                thickness: 2,
-                indent: 16,
-                endIndent: 16,
-                height: 32,
-              ),
-              BlocBuilder<LoginCubit, LoginState>(
-                builder: (context, state) {
-                  return WarrantyElevatedButton(
-                    isLoading: authCubit.state.isLoading &&
-                        authCubit.state.asLoading.loginType == LoginType.email,
-                    onPressed: () => context.read<AuthCubit>().login(
-                          email: state.asLoggingIn.email,
-                          password: state.asLoggingIn.password,
-                        ),
-                    text: 'Login',
-                    isEnabled: !authCubit.state.isLoading,
-                  );
-                },
-              ),
-              TextButton(
-                child: const Text('Sign up'),
-                onPressed: () {
-                  context.read<AuthCubit>().setInitial();
-                  context.push(
-                    Paths.login.register.path,
-                  );
-                },
-              ),
-            ],
-          ),
+                );
+              },
+            ),
+            TextButton(
+              child: const Text('Sign up'),
+              onPressed: () {
+                context.read<AuthCubit>().setInitial();
+                context.push(
+                  Paths.login.register.path,
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
