@@ -11,7 +11,7 @@ class LoginCubit extends Cubit<LoginState> {
     setInitial();
   }
 
-  setInitial() {
+ void setInitial() {
     emit(
       const _LoggingIn(
         email: '',
@@ -21,7 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  toggleObscurity() {
+ void toggleObscurity() {
     emit(
       state.asLoggingIn.copyWith(
         isObscured: !state.asLoggingIn.isObscured,
@@ -29,7 +29,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  changeEmail(String email) {
+void  changeEmail(String email) {
     emit(
       state.asLoggingIn.copyWith(
         email: email,
@@ -38,7 +38,7 @@ class LoginCubit extends Cubit<LoginState> {
     enabledLogin();
   }
 
-  changePassword(String password) {
+void changePassword(String password) {
     emit(
       state.asLoggingIn.copyWith(
         password: password,

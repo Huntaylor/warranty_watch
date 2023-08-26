@@ -1,0 +1,176 @@
+{
+    "mainTitle": "Warranty\n Watch",
+    "@mainTitle": {
+      "description": "Main title"
+    },
+    "currentWarrantyBtn": "Current Warranties",
+    "@currentWarrantyBtn": {
+      "description": "Text for Current warranties button on Home View"
+    },
+    "newWarrantyBtn": "New Warranty",
+    "@newWarrantyBtn": {
+      "description": "Text for new warranties button on Home View"
+    },
+    "addWarrantyTitle": "Add Warranty",
+    "@addWarrantyTitle": {
+      "description": "Title for Add Warranty View"
+    },
+
+    "editWarrantyTitle": "Edit Warranty",
+    "@editWarrantyTitle": {
+      "description": "Title for Edit Warranty View"
+    },
+    "productName": "Name of product",
+    "@productName": {
+      "description": "Text for add new warranty product"
+    },
+    "addproductButton": "Add product",
+    "@addproductButton": {
+      "description": "Text for add product button"
+    },
+    "editProductBtn": "Save",
+    "@editProductBtn": {
+      "description": "Text for edit product button"
+    },
+    "lifeTime": "Lifetime Warranty",
+    "@lifeTime": {
+      "description": "Text for Life time Warranty"
+    },
+    "purchaseDate": "Date of product Purchased",
+    "@purchaseDate": {
+      "description": "Text for Date of product Purchased"
+    },
+    "companyWebsite": "Company Warranty website",
+    "@companyWebsite": {
+      "description": "Website for company"
+    },
+    "additionalDetails": "Additional Details",
+    "@additionalDetails": {
+      "description": "Text for Additional details form"
+    },
+    "expirationDate": "Warranty End Date",
+    "@expirationDate": {
+      "description": "Text for last day of the Warranty"
+    },
+    "required": "(Required)",
+    "@required": {
+      "description": "Text for required textfields"
+    },
+    "addPhoto": "Tap to add a Photo",
+    "@addPhoto": {
+      "description": "Text for adding a photo"
+    },
+    "addReceipt": "Tap to add a receipt",
+    "@addReceipt": {
+      "description": "Text for adding a receipt"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+      "description": "Text for cancel"
+    },
+    "addItem": "Add Item",
+    "@addItem": {
+      "description": "Text for bottom sheet"
+    },
+    "camera": "Camera",
+    "@camera": {
+      "description": "Text for bottom sheet"
+    },
+    "photos": "Photos",
+    "@photos": {
+      "description": "Text for bottom sheet"
+    },
+    "noCurrentWarranties": "No Warranties to track at the moment",
+    "@noCurrentWarranties": {
+      "description": "Text for bottom sheet"
+    },
+    "purchasedOn": "Purchased on",
+    "@purchasedOn": {
+      "description": "Text for purchased on detail"
+    },
+    "expiresOn": "Warranty expires {timeLeft} on {date}",
+    "@expiresOn": {
+        "description": "text for expires on details",
+        "placeholders": {
+            "timeLeft": {},
+            "date": {}
+        }
+    },
+    "remindsOn": "You will receive a reminder {reminderTime} on {date}",
+    "@remindsOn": {
+        "description": "text for reminder details",
+        "placeholders": {
+            "reminderTime": {},
+            "date": {}
+        }
+    },
+    "noReminderSet": "Reminders not set",
+    "@noReminderSet": {
+      "description": "Text for no reminders set"
+    },
+    "details": "Details",
+    "@details": {
+      "description": "Text for details"
+    },
+    "productWebsite": "Product Website",
+    "@productWebsite": {
+      "description": "Text for product website details"
+    },
+    "receiptPhoto": "Receipt Photo",
+    "@receiptPhoto": {
+      "description": "Text for Receipt Photo details"
+    },
+    "hasLifetime": "Has Lifetime Warranty",
+    "@hasLifetime": {
+      "description": "Text for lifetime warranty details"
+    },
+    "edit": "Edit",
+    "@edit": {
+      "description": "Text for edit details"
+    },
+    "remove": "Remove",
+    "@remove": {
+      "description": "Text for remove details"
+    },
+    "detailsName": "Product: {productName}",
+    "@detailsName": {
+      "description": "text for product name details",
+      "placeholders": {
+        "productName": {}
+      }
+    },
+    "purchaseDateDetails": "Purchased on: {purchaseDate}",
+    "@purchaseDateDetails": {
+      "description": "text for purchase date details",
+      "placeholders": {
+        "purchaseDate": {}
+      }
+    },
+    "expirationDetailsDate": "Expires On: {expirationDate}",
+    "@expirationDetailsDate": {
+      "description": "text for expiration date details",
+      "placeholders": {
+        "expirationDate": {}
+      }
+    },
+    "expiringSoon": "Expiring Soon",
+    "@expiringSoon": {
+      "description": "Text for expiring widget title"
+    },
+    "dateFormat": "MM/DD/YYYY",
+    "@dateFormat": {
+      "description": "Text for expiring widget date format"
+    },
+    "noneExpiring": "No warranties close to expiration",
+    "@noneExpiring": {
+      "description": "Text for expiring widget empty"
+    },
+    "back": "Back",
+    "@back": {
+      "description": "Text for back button"
+    },
+    "expiringError": "There was an issue loading your expiring warranties. Please try again later.",
+    "@expiringError": {
+      "description": "Text for expiring warranties error"
+    }
+}

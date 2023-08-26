@@ -27,8 +27,8 @@ class _Loading extends SignUpState {
 
 @autoequal
 class _Error extends SignUpState {
-  final String errorMessage;
   const _Error(this.errorMessage) : super();
+  final String errorMessage;
 
   @override
   List<Object?> get props => _$props;
@@ -37,20 +37,6 @@ class _Error extends SignUpState {
 @CopyWith()
 @autoequal
 class _SignUpProcess extends SignUpState {
-  final SignUpStatus signUpStatus;
-  final bool isObscured;
-  final bool hasSixCharacters;
-  final bool hasSpecialCharacter;
-  final bool hasLowerUpperCase;
-  final bool hasNumber;
-  final bool isMatching;
-  final bool isConfirmObscured;
-  final String? email;
-  final String? password;
-  final String? confirmPassword;
-  final String? firstName;
-  final String? lastName;
-  final bool tosAccepted;
   const _SignUpProcess({
     required this.signUpStatus,
     required this.isObscured,
@@ -67,6 +53,20 @@ class _SignUpProcess extends SignUpState {
     this.firstName,
     this.lastName,
   }) : super();
+  final SignUpStatus signUpStatus;
+  final bool isObscured;
+  final bool hasSixCharacters;
+  final bool hasSpecialCharacter;
+  final bool hasLowerUpperCase;
+  final bool hasNumber;
+  final bool isMatching;
+  final bool isConfirmObscured;
+  final String? email;
+  final String? password;
+  final String? confirmPassword;
+  final String? firstName;
+  final String? lastName;
+  final bool tosAccepted;
 
   @override
   List<Object?> get props => _$props;

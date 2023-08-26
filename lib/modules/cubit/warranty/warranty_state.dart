@@ -28,8 +28,8 @@ class _Error extends WarrantyState {
 @autoequal
 @CopyWith()
 class _Ready extends WarrantyState {
-  final WarrantyInfo warrantyInfo;
   const _Ready({required this.warrantyInfo});
+  final WarrantyInfo warrantyInfo;
 
   @override
   List<Object?> get props => _$props;

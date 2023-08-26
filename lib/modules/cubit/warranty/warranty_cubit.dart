@@ -3,24 +3,23 @@ import 'dart:developer';
 import 'package:autoequal/autoequal.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/data/repositories/warranty_repository.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
+import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 part 'warranty_state.dart';
 part 'warranty_cubit.g.dart';
 
 class WarrantyCubit extends Cubit<WarrantyState> {
-  //TODO: RENAME TO WARRANTYCUBIT, IT WILL HANDLE CURRENT, SINGULAR, WARRANTIY TO UPDATE, CREATE, AND DELETE ONE
-  final DataRepository _dataRepository;
   WarrantyCubit(this._dataRepository)
       : super(
           const _Ready(
             warrantyInfo: WarrantyInfo(id: ''),
           ),
         );
+  final DataRepository _dataRepository;
 
-  toggleLifeTime() {
+ void toggleLifeTime() {
     emit(
       //   _Initial(warrantyInfo: state.asInitial.warrantyInfo.copyWith(
       //   lifeTime: !state.asInitial.warrantyInfo.lifeTime,
@@ -37,48 +36,58 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-  changePurchaseDate(String date) {
-    emit(state.asReady.copyWith(
-      warrantyInfo: state.asReady.warrantyInfo.copyWith(
-        purchaseDate: DateFormat.yMd().parse(date),
+ void changePurchaseDate(String date) {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          purchaseDate: DateFormat.yMd().parse(date),
+        ),
       ),
-    ));
+    );
   }
 
-  changeProductName(String productName) {
-    emit(state.asReady.copyWith(
-      warrantyInfo: state.asReady.warrantyInfo.copyWith(
-        name: productName,
+void  changeProductName(String productName) {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          name: productName,
+        ),
       ),
-    ));
+    );
   }
 
-  changeWebsiteName(String websiteName) {
-    emit(state.asReady.copyWith(
-      warrantyInfo: state.asReady.warrantyInfo.copyWith(
-        warrantyWebsite: websiteName,
+void  changeWebsiteName(String websiteName) {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          warrantyWebsite: websiteName,
+        ),
       ),
-    ));
+    );
   }
 
-  changeAddtionalDetails(String additionalDetails) {
-    emit(state.asReady.copyWith(
-      warrantyInfo: state.asReady.warrantyInfo.copyWith(
-        details: additionalDetails,
+ void changeAddtionalDetails(String additionalDetails) {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          details: additionalDetails,
+        ),
       ),
-    ));
+    );
   }
 
-  changeEndDate(String date) {
-    emit(state.asReady.copyWith(
-      warrantyInfo: state.asReady.warrantyInfo.copyWith(
-        endOfWarranty: DateFormat('MM/dd/yyyy').parse(date),
+ void changeEndDate(String date) {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          endOfWarranty: DateFormat('MM/dd/yyyy').parse(date),
+        ),
       ),
-    ));
+    );
     changeReminderDate(date);
   }
 
-  changeReminderDate(String date) {
+  void changeReminderDate(String date) {
     final warrantyInfo = state.asReady.warrantyInfo;
     final daysTill =
         warrantyInfo.endOfWarranty!.difference(DateTime.now()).inDays;
@@ -144,21 +153,25 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           ),
         );
       } else {
-        emit(state.asReady.copyWith(
-          warrantyInfo: state.asReady.warrantyInfo.copyWith(
-            reminderDate: DateFormat('MM/dd/yyyy').parse(date),
+        emit(
+          state.asReady.copyWith(
+            warrantyInfo: state.asReady.warrantyInfo.copyWith(
+              reminderDate: DateFormat('MM/dd/yyyy').parse(date),
+            ),
           ),
-        ));
+        );
       }
     }
   }
 
-  toggleWantsReminders(bool value) {
-    emit(state.asReady.copyWith(
-      warrantyInfo: state.asReady.warrantyInfo.copyWith(
-        wantsReminders: value,
+ void toggleWantsReminders({required bool value}) {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          wantsReminders: value,
+        ),
       ),
-    ));
+    );
   }
 
   Future<void> changeProductCamera() async {
@@ -169,11 +182,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       );
 
       if (imagePicker != null) {
-        emit(state.asReady.copyWith(
-          warrantyInfo: state.asReady.warrantyInfo.copyWith(
-            image: imagePicker,
+        emit(
+          state.asReady.copyWith(
+            warrantyInfo: state.asReady.warrantyInfo.copyWith(
+              image: imagePicker.path,
+            ),
           ),
-        ));
+        );
       }
     } catch (e) {
       rethrow;
@@ -187,11 +202,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         maxWidth: 600,
       );
       if (imagePicker != null) {
-        emit(state.asReady.copyWith(
-          warrantyInfo: state.asReady.warrantyInfo.copyWith(
-            image: imagePicker,
+        emit(
+          state.asReady.copyWith(
+            warrantyInfo: state.asReady.warrantyInfo.copyWith(
+              image: imagePicker.path,
+            ),
           ),
-        ));
+        );
       }
     } catch (e) {
       rethrow;
@@ -206,11 +223,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       );
 
       if (imagePicker != null) {
-        emit(state.asReady.copyWith(
-          warrantyInfo: state.asReady.warrantyInfo.copyWith(
-            receiptImage: imagePicker,
+        emit(
+          state.asReady.copyWith(
+            warrantyInfo: state.asReady.warrantyInfo.copyWith(
+              receiptImage: imagePicker.path,
+            ),
           ),
-        ));
+        );
       }
     } catch (e) {
       rethrow;
@@ -226,11 +245,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       );
 
       if (imagePicker != null) {
-        emit(state.asReady.copyWith(
-          warrantyInfo: state.asReady.warrantyInfo.copyWith(
-            receiptImage: imagePicker,
+        emit(
+          state.asReady.copyWith(
+            warrantyInfo: state.asReady.warrantyInfo.copyWith(
+              receiptImage: imagePicker.path,
+            ),
           ),
-        ));
+        );
       }
     } catch (e) {
       rethrow;
@@ -262,7 +283,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-  verifyWarranty() {
+  bool verifyWarranty() {
     if (state.isLoading) {
       return false;
     }
