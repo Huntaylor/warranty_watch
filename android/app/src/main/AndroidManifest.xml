@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.warranty_keeper.underDevelopment">
+    package="com.warranty_watch.underDevelopment">
     <queries>
         <!-- If your app opens https URLs -->
         <intent>
@@ -12,9 +12,9 @@
     </queries>
       
    <application
-        android:label="Warranty Tracker"
+        android:label="Warranty Watch"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/icon_squircle">
         <activity
             android:name=".MainActivity"
             android:exported="true"

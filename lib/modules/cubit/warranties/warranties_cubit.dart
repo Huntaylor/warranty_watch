@@ -2,16 +2,14 @@ import 'dart:developer';
 
 import 'package:autoequal/autoequal.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:warranty_keeper/data/data_sources.dart/firebase_data_source.dart';
-import 'package:warranty_keeper/data/models/user_data.dart';
-import 'package:warranty_keeper/data/repositories/auth_repository.dart';
-import 'package:warranty_keeper/data/repositories/warranty_repository.dart';
-import 'package:warranty_keeper/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:equatable/equatable.dart';
+import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
+import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
+import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 
-part 'warranties_state.dart';
 part 'warranties_cubit.g.dart';
+part 'warranties_state.dart';
 
 class WarrantiesCubit extends Cubit<WarrantiesState> {
   WarrantiesCubit({
@@ -32,7 +30,7 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
           ),
         );
       },
-      onError: (e) {
+      onError: (Object e) {
         log('There was a problem with the listener: $e', error: e);
         emit(
           const _Error(),
@@ -43,16 +41,16 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
   final DataRepository dataRepository;
   final AuthRepository authRepository;
 
-  getInitial() async {
-    final fbmApi = FirebaseAPI();
-    fbmApi.initNotifications;
-    final token = await fbmApi.getToken;
+  Future<void> getInitial() async {
+    // final fbmApi = FirebaseAPI();
+    // await fbmApi.initNotifications();
+    // final token = await fbmApi.getToken;
 
-    final updateUser = UserData.tokens(tokens: {token!});
-    authRepository.updatePersonalData(updateUser);
+    // final updateUser = UserData.tokens(tokens: {token!});
+    // await authRepository.updatePersonalData(updateUser);
   }
 
-  getExpiring(List<WarrantyInfo> list) {
+  List<WarrantyInfo> getExpiring(List<WarrantyInfo> list) {
     List<WarrantyInfo> expiringList;
     expiringList = List.from(list);
     if (expiringList.any((e) => e.lifeTime)) {
@@ -61,18 +59,20 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
 
     if (expiringList
         .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
-      expiringList.removeWhere((ee) =>
-          ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
-          ee.lifeTime);
-
-      expiringList.sort(
-        ((a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!)),
-      );
+      expiringList
+        ..removeWhere(
+          (ee) =>
+              ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
+              ee.lifeTime,
+        )
+        ..sort(
+          (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
+        );
     }
     return expiringList;
   }
 
-  void addOrEditWarranty({required WarrantyInfo warrantyInfo}) async {
+  Future<void> addOrEditWarranty({required WarrantyInfo warrantyInfo}) async {
     List<WarrantyInfo> expiringList;
 
     expiringList = List.from(state.asReady.warrantyInfo);
@@ -120,8 +120,7 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
 
   void removeWarranty(int index) {
     List<WarrantyInfo> removeList;
-    removeList = state.asReady.warrantyInfo;
-    removeList.removeAt(index);
+    removeList = state.asReady.warrantyInfo..removeAt(index);
     emit(
       state.asReady.copyWith(
         remove: !state.asReady.remove!,

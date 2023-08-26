@@ -1,4 +1,4 @@
-name: warranty_keeper
+name: warranty_watch
 description: A new Flutter project.
 
 publish_to: "none"
@@ -50,13 +50,14 @@ dependencies:
 
 dev_dependencies:
   autoequal_gen: ^0.5.1
+  bloc_test: ^9.1.2
   build_runner: ^2.1.7
   copy_with_extension_gen: ^5.0.2
-  json_serializable: ^6.7.1
-
   flutter_lints: ^2.0.2
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.7.1
+  very_good_analysis: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

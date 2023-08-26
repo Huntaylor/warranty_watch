@@ -40,7 +40,7 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 ## Contact
 
-- Can't access context.appLocalizations? Be sure to import 'package:warranty_keeper/app_library.dart';
+- Can't access context.l10n? Be sure to import 'package:warranty_watch/app/app_library.dart';
 
 ### Warranty Watch
 
