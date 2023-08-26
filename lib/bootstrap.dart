@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:warranty_watch/firebase_options.dart';
 
@@ -37,6 +38,12 @@ Future<void> bootstrap(Widget Function() builder) async {
   );
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
+  );
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
   );
 
   // Add cross-flavor configuration here

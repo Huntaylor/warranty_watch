@@ -1,8 +1,8 @@
 build: dart run build_runner build --delete-conflicting-outputs
 watch: dart run build_runner watch --delete-conflicting-outputs
 
-clean: fvm flutter clean && fvm flutter pub get
+clean: flutter clean && flutter pub get
 
-doc: fvm flutter doctor -v
+doc: flutter doctor -v
 
-full clean: fvm flutter clean && fvm flutter pub get && cd ios && pod deintegrate && pod install && cd ../
+full clean: flutter clean && flutter pub get && cd ios && pod deintegrate && pod install && cd ../

@@ -52,8 +52,8 @@
     "@expirationDate": {
       "description": "Text for last day of the Warranty"
     },
-    "required": "(Required)",
-    "@required": {
+    "requiredText": "(Required)",
+    "@requiredText": {
       "description": "Text for required textfields"
     },
     "addPhoto": "Tap to add a Photo",

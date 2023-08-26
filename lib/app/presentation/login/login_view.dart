@@ -1,6 +1,5 @@
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/login/widgets/get_screen_height.dart';
-import 'package:warranty_watch/app/widgets/sign_in_options_icons.dart';
 import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_watch/modules/cubit/login/login_cubit.dart';
 
@@ -128,7 +127,6 @@ class _Content extends StatelessWidget {
                       TextButton(
                         child: const Text('Sign up'),
                         onPressed: () {
-                          context.read<AuthCubit>().setInitial();
                           context.push(
                             Paths.login.register.path,
                           );
@@ -144,7 +142,7 @@ class _Content extends StatelessWidget {
                         isEnabled: !authCubit.state.isLoading,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
                         child: WarrantyElevatedButton.signInOption(
                           accountOption: AccountOption.apple,
                           onPressed: () {},

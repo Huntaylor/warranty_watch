@@ -339,8 +339,8 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
       }
     }
 
-    final requiredText = (widget.isRequired) ? context.l10n.required : '';
-    final labelText = '${widget.hintText} $requiredText}';
+    final requiredText = (widget.isRequired) ? context.l10n.requiredText : '';
+    final labelText = '${widget.hintText} $requiredText';
 
     //Widget
     return Padding(

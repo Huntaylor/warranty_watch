@@ -1,6 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
 import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
