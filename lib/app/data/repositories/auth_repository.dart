@@ -54,7 +54,9 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<WarrantyUser> login(String email, String password) async {
     try {
       final result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password,);
+        email: email,
+        password: password,
+      );
       final prefs = await SharedPreferences.getInstance();
       const key = 'uid';
       final val = result.user!.uid;

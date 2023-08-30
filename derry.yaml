@@ -6,3 +6,5 @@ clean: flutter clean && flutter pub get
 doc: flutter doctor -v
 
 full clean: flutter clean && flutter pub get && cd ios && pod deintegrate && pod install && cd ../
+
+init: flutterfire configure

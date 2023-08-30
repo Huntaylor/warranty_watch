@@ -7,11 +7,9 @@ part 'login_state.dart';
 part 'login_cubit.g.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(const _Initial()) {
-    setInitial();
-  }
+  LoginCubit() : super(const _Initial());
 
- void setInitial() {
+  void toggleLogin() {
     emit(
       const _LoggingIn(
         email: '',
@@ -21,7 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
- void toggleObscurity() {
+  void toggleObscurity() {
     emit(
       state.asLoggingIn.copyWith(
         isObscured: !state.asLoggingIn.isObscured,
@@ -29,7 +27,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-void  changeEmail(String email) {
+  void changeEmail(String email) {
     emit(
       state.asLoggingIn.copyWith(
         email: email,
@@ -38,7 +36,7 @@ void  changeEmail(String email) {
     enabledLogin();
   }
 
-void changePassword(String password) {
+  void changePassword(String password) {
     emit(
       state.asLoggingIn.copyWith(
         password: password,

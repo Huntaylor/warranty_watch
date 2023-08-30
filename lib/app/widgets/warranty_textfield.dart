@@ -344,7 +344,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
 
     //Widget
     return Padding(
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 5),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
