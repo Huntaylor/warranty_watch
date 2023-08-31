@@ -45,25 +45,32 @@ class _Content extends StatelessWidget {
     final signUpRead = context.read<SignUpCubit>();
     return WarrantyBaseView(
       children: [
-        const Text(
-          'What is your name?',
+        const Align(
+          child: Text(
+            'What is your name?',
+          ),
         ),
-        WarrantyTextField.general(
-          hintText: 'First name',
-          isRequired: true,
-          initialValue: state.asSignUp.firstName ?? '',
-          onChanged: context.read<SignUpCubit>().changeFirstName,
-        ),
-        WarrantyTextField.general(
-          hintText: 'Last name',
-          initialValue: state.asSignUp.lastName ?? '',
-          isRequired: true,
-          onChanged: context.read<SignUpCubit>().changeLastName,
+        Row(
+          children: [
+            Flexible(
+              child: WarrantyTextField.general(
+                hintText: 'First',
+                initialValue: state.asSignUp.firstName ?? '',
+                onChanged: context.read<SignUpCubit>().changeFirstName,
+              ),
+            ),
+            Flexible(
+              child: WarrantyTextField.general(
+                hintText: 'Last',
+                initialValue: state.asSignUp.lastName ?? '',
+                onChanged: context.read<SignUpCubit>().changeLastName,
+              ),
+            ),
+          ],
         ),
         WarrantyTextField.email(
           textFieldName: "What's your email?",
           errorText: errorText,
-          isRequired: true,
           initialValue: state.asSignUp.email ?? '',
           onChanged: context.read<SignUpCubit>().changeEmail,
         ),

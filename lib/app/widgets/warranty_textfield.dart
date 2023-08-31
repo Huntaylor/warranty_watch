@@ -98,7 +98,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
-    required this.isRequired,
+    this.isRequired = false,
     this.textFieldName,
     super.key,
     this.maxLength,
@@ -147,10 +147,10 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.number;
 
   const WarrantyTextField.email({
-    required this.isRequired,
     required this.initialValue,
     required this.onChanged,
     this.textFieldName,
+    this.isRequired = false,
     super.key,
     this.maxLength,
     this.errorText,
@@ -350,61 +350,55 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
       }
     }
 
-    final requiredText = (widget.isRequired) ? context.l10n.requiredText : '';
-    final labelText = '${widget.hintText} $requiredText';
-
     //Widget
-    return Padding(
+    return /* Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: /* Column(
-        children: [
-          Visibility(
-            visible: widget.textFieldName != null,
-            child: Text(widget.textFieldName ?? ''),
-          ), */
-          Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: TextFormField(
-            autocorrect: widget.hasAutocorrect,
-            obscureText: widget.isObscuredFunction,
-            maxLength: widget.maxLength,
-            maxLengthEnforcement: widget.maxLengthEnforcement,
-            keyboardType: widget.textInputType,
-            enabled: !widget.isLifeTime,
-            inputFormatters: widget.inputFormatter,
-            controller: controller,
-            onChanged: widget.onChanged,
-            onTap: () {
-              widget.isDate ? selectDate() : widget.onTap!();
-            },
-            maxLines: widget.maxLines ?? 1,
-            decoration: InputDecoration(
-              errorText: widget.errorText,
-              suffixIcon: widget.isTextObscured
-                  ? GestureDetector(
-                      onTap: widget.onObscuredTap,
-                      child: Icon(
-                        !widget.isObscuredFunction
-                            ? Icons.remove_red_eye
-                            : Icons.visibility_off,
-                      ),
-                    )
-                  : null,
-              counterText: '',
-              suffixText: (widget.maxLength != null)
-                  ? '${widget.currentLength}/${widget.maxLength}'
-                  : null,
-              floatingLabelAlignment: FloatingLabelAlignment.center,
-              // alignLabelWithHint: true,
-              labelText: labelText,
-              border: const OutlineInputBorder(),
+      child:  */
+        Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+        child: TextFormField(
+          autocorrect: widget.hasAutocorrect,
+          obscureText: widget.isObscuredFunction,
+          maxLength: widget.maxLength,
+          maxLengthEnforcement: widget.maxLengthEnforcement,
+          keyboardType: widget.textInputType,
+          enabled: !widget.isLifeTime,
+          inputFormatters: widget.inputFormatter,
+          controller: controller,
+          onChanged: widget.onChanged,
+          onTap: () {
+            widget.isDate ? selectDate() : widget.onTap!();
+          },
+          maxLines: widget.maxLines ?? 1,
+          decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            errorText: widget.errorText,
+            suffixIcon: widget.isTextObscured
+                ? GestureDetector(
+                    onTap: widget.onObscuredTap,
+                    child: Icon(
+                      !widget.isObscuredFunction
+                          ? Icons.remove_red_eye
+                          : Icons.visibility_off,
+                    ),
+                  )
+                : null,
+            suffixText: (widget.maxLength != null)
+                ? '${widget.currentLength}/${widget.maxLength}'
+                : null,
+            label: Center(
+              child: Text(widget.hintText),
+            ),
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8),
+              ),
             ),
           ),
         ),
       ),
-      /*   ],
-      ), */
+      /*       ), */
     );
   }
 }
