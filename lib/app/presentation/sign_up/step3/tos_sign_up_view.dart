@@ -34,11 +34,6 @@ class TosSignUpView extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(
-                child: Text(
-                  'I have and read and accepted the Terms and Conditions above',
-                ),
-              ),
               BlocBuilder<SignUpCubit, SignUpState>(
                 builder: (context, state) {
                   return Checkbox.adaptive(
@@ -52,6 +47,11 @@ class TosSignUpView extends StatelessWidget {
                     },
                   );
                 },
+              ),
+              const Expanded(
+                child: Text(
+                  'I have and read and accepted the Terms and Conditions above',
+                ),
               ),
             ],
           ),

@@ -2,7 +2,7 @@ import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/current_warranties/current_warranties_view.dart';
 import 'package:warranty_watch/app/presentation/forgot_password/forgot_password_view.dart';
 import 'package:warranty_watch/app/presentation/home/home_view.dart';
-import 'package:warranty_watch/app/presentation/login/login_view_v2.dart';
+import 'package:warranty_watch/app/presentation/login/login_view.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/new_warranty_view.dart';
 import 'package:warranty_watch/app/presentation/settings/settings_view.dart';
 import 'package:warranty_watch/app/presentation/sign_up/sign_up_initial_view.dart';
@@ -13,43 +13,43 @@ final goRoutes = GoRouter(
   initialLocation: Paths.login.goRoute,
   debugLogDiagnostics: true,
   routes: [
-    GoRoute(
+    goRouteSlide(
       path: Paths.home.goRoute,
-      builder: (_, __) => const HomeView(),
+      pageBuilder: (_, __) => const HomeView(),
       routes: [
-        GoRoute(
+        goRouteSlide(
           path: Paths.home.newWarranty.goRoute,
-          builder: (_, __) => const NewWarrantyView(),
+          pageBuilder: (_, __) => const NewWarrantyView(),
         ),
-        GoRoute(
+        goRouteSlide(
           path: Paths.home.warranties.goRoute,
-          builder: (_, __) => const CurrentWarrantiesView(),
+          pageBuilder: (_, __) => const CurrentWarrantiesView(),
           routes: [
-            GoRoute(
+            goRouteSlide(
               path: Paths.home.warranties.details.goRoute,
-              builder: (_, __) => const WarrantyDetailsView(),
+              pageBuilder: (_, __) => const WarrantyDetailsView(),
             ),
           ],
         ),
-        GoRoute(
+        goRouteSlide(
           path: Paths.home.settings.goRoute,
-          builder: (_, __) => const SettingsView(),
+          pageBuilder: (_, __) => const SettingsView(),
         ),
       ],
     ),
-    GoRoute(
+    goRouteSlide(
       routes: [
-        GoRoute(
+        goRouteSlide(
           path: Paths.login.forgotPassword.goRoute,
-          builder: (_, __) => const ForgotPasswordView(),
+          pageBuilder: (_, __) => const ForgotPasswordView(),
         ),
-        GoRoute(
+        goRouteSlide(
           path: Paths.login.register.goRoute,
-          builder: (_, __) => const SignUpInitialView(),
+          pageBuilder: (_, __) => const SignUpInitialView(),
         ),
       ],
       path: Paths.login.goRoute,
-      builder: (_, __) => const LoginViewV2(),
+      pageBuilder: (_, __) => const LoginViewV2(),
     ),
   ],
   redirect: (context, state) {
@@ -72,3 +72,34 @@ final goRoutes = GoRouter(
     return null;
   },
 );
+
+GoRoute goRouteSlide({
+  required String path,
+  required Widget Function(BuildContext, GoRouterState) pageBuilder,
+  List<RouteBase>? routes,
+}) {
+  return GoRoute(
+    routes: routes ?? [],
+    path: path,
+    pageBuilder: (context, state) => CustomTransitionPage<void>(
+      key: state.pageKey,
+      child: pageBuilder(context, state),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1, 0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        final tween = Tween(begin: begin, end: end).chain(
+          CurveTween(
+            curve: curve,
+          ),
+        );
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    ),
+  );
+}

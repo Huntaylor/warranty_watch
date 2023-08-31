@@ -1,8 +1,7 @@
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/presentation/login/widgets/get_screen_height.dart';
-import 'package:warranty_watch/app/presentation/sign_up/step1/sign_up_view.dart';
-import 'package:warranty_watch/app/presentation/sign_up/step2/personal_data_view.dart';
-import 'package:warranty_watch/app/presentation/sign_up/step3/tos_sign_up_view.dart';
+import 'package:warranty_watch/app/presentation/sign_up/widgets/password_requirement_widget.dart';
+import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
+import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_watch/modules/cubit/sign_up/sign_up_cubit.dart';
 
 class SignUpInitialView extends StatelessWidget {
@@ -14,31 +13,13 @@ class SignUpInitialView extends StatelessWidget {
       create: (context) => SignUpCubit(),
       child: BlocBuilder<SignUpCubit, SignUpState>(
         builder: (context, state) {
-          final signUpCubit = context.watch<SignUpCubit>();
-          final appBarTitle = switch (signUpCubit.state.asSignUp.signUpStatus) {
-            SignUpStatus.signUp => '1',
-            SignUpStatus.personalData => '2',
-            SignUpStatus.tos => '3',
-          };
-
           return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
-              leading: BackButton(
-                onPressed: () {
-                  if (state.asSignUp.signUpStatus == SignUpStatus.signUp) {
-                    context.pop();
-                  } else {
-                    signUpCubit.onSignUpBack();
-                  }
-                },
-              ),
               centerTitle: true,
-              title: Text('Step $appBarTitle of 3'),
+              title: Text('Create Account'),
             ),
-            body: _Content(
-              signUpCubit: signUpCubit,
-            ),
+            body: _Content(state: state),
           );
         },
       ),
@@ -47,33 +28,133 @@ class SignUpInitialView extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({
-    required this.signUpCubit,
-  });
-  final SignUpCubit signUpCubit;
+  const _Content({required this.state});
+  final SignUpState state;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      minimum: const EdgeInsets.symmetric(
-        horizontal: 25,
-      ),
-      child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: SizedBox(
-          height: getAvailableScreenHeight(context),
-          child: switch (signUpCubit.state.asSignUp.signUpStatus) {
-            SignUpStatus.signUp => SignUpEmailView(
-                signUpCubit: signUpCubit,
-              ),
-            SignUpStatus.personalData =>
-              PersonalDataView(state: signUpCubit.state),
-            SignUpStatus.tos => TosSignUpView(
-                signUpCubit: signUpCubit,
-              ),
-          },
+    final authCubit = context.watch<AuthCubit>();
+
+    String? errorText;
+
+    if (authCubit.state.isError) {
+      errorText = 'This email is already in use';
+    } else {
+      errorText = null;
+    }
+    final signUpRead = context.read<SignUpCubit>();
+    return WarrantyBaseView(
+      children: [
+        const Text(
+          'What is your name?',
         ),
-      ),
+        WarrantyTextField.general(
+          hintText: 'First name',
+          isRequired: true,
+          initialValue: state.asSignUp.firstName ?? '',
+          onChanged: context.read<SignUpCubit>().changeFirstName,
+        ),
+        WarrantyTextField.general(
+          hintText: 'Last name',
+          initialValue: state.asSignUp.lastName ?? '',
+          isRequired: true,
+          onChanged: context.read<SignUpCubit>().changeLastName,
+        ),
+        WarrantyTextField.email(
+          textFieldName: "What's your email?",
+          errorText: errorText,
+          isRequired: true,
+          initialValue: state.asSignUp.email ?? '',
+          onChanged: context.read<SignUpCubit>().changeEmail,
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 8),
+                child: Text('Your Password must contain:'),
+              ),
+              PasswordRequirementWidget(
+                isTrue: state.asSignUp.hasSixCharacters,
+                title: '6 characters or more',
+              ),
+              PasswordRequirementWidget(
+                isTrue: state.asSignUp.hasLowerUpperCase,
+                title: 'A lower and upper case letter',
+              ),
+              PasswordRequirementWidget(
+                isTrue: state.asSignUp.hasNumber,
+                title: 'A number',
+              ),
+              PasswordRequirementWidget(
+                isTrue: state.asSignUp.hasSpecialCharacter,
+                title: 'A special character',
+              ),
+              PasswordRequirementWidget(
+                isTrue: state.asSignUp.isMatching,
+                title: 'Passwords must match',
+              ),
+            ],
+          ),
+        ),
+        WarrantyTextField.obscured(
+          textFieldName: 'Create Password',
+          hintText: 'Password',
+          initialValue: state.asSignUp.password ?? '',
+          isObscuredFunction: state.asSignUp.isObscured,
+          isRequired: true,
+          onChanged: context.read<SignUpCubit>().changePassword,
+          onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
+        ),
+        WarrantyTextField.obscured(
+          textFieldName: 'Confirm Password',
+          hintText: 'Re-Enter Password',
+          initialValue: state.asSignUp.confirmPassword ?? '',
+          isObscuredFunction: state.asSignUp.isConfirmObscured,
+          isRequired: true,
+          onChanged: context.read<SignUpCubit>().changeConfirmPassword,
+          onObscuredTap: context.read<SignUpCubit>().toggleConfirmObscurity,
+        ),
+        Row(
+          children: [
+            BlocBuilder<SignUpCubit, SignUpState>(
+              builder: (context, state) {
+                return Checkbox.adaptive(
+                  value: state.asSignUp.tosAccepted,
+                  onChanged: (value) {
+                    if (value != null) {
+                      context.read<SignUpCubit>().toggleTosAccepted(
+                            value: !value,
+                          );
+                    }
+                  },
+                );
+              },
+            ),
+            const Expanded(
+              child: Text(
+                'I have and read and accepted the Terms and Conditions above',
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: WarrantyElevatedButton.loading(
+            onPressed: () async {
+              await authCubit.checkEmail(state.asSignUp.email!);
+              if (!authCubit.state.isError) {
+                signUpRead.pushPersonalData();
+              }
+            },
+            text: 'Next',
+            isLoading: authCubit.state.isLoading,
+            isEnabled: context.watch<SignUpCubit>().enabledEmailNext(),
+          ),
+        ),
+      ],
     );
   }
 }

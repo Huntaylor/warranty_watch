@@ -20,6 +20,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.isTextObscured,
     required this.isObscuredFunction,
     required this.onObscuredTap,
+    this.textFieldName,
     super.key,
     this.currentLength,
     this.errorText,
@@ -42,6 +43,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.startDateTime,
     required this.endDateTime,
     required this.isRequired,
+    this.textFieldName,
     super.key,
     this.onTap,
     this.maxLength,
@@ -65,6 +67,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.hintText,
     required this.onChanged,
     required this.isRequired,
+    this.textFieldName,
     super.key,
     this.initialDateTime,
     this.onTap,
@@ -92,10 +95,11 @@ class WarrantyTextField extends StatefulWidget {
         );
 
   const WarrantyTextField.general({
-    required this.isRequired,
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
+    required this.isRequired,
+    this.textFieldName,
     super.key,
     this.maxLength,
     this.errorText,
@@ -121,6 +125,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
+    this.textFieldName,
     super.key,
     this.maxLength,
     this.errorText,
@@ -145,6 +150,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.isRequired,
     required this.initialValue,
     required this.onChanged,
+    this.textFieldName,
     super.key,
     this.maxLength,
     this.errorText,
@@ -173,6 +179,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.onChanged,
     required this.isObscuredFunction,
     required this.onObscuredTap,
+    this.textFieldName,
     super.key,
     this.maxLength,
     this.errorText,
@@ -196,6 +203,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
+    this.textFieldName,
     super.key,
     this.onTap,
     this.errorText,
@@ -220,6 +228,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.hintText,
     required this.initialValue,
     required this.onChanged,
+    this.textFieldName,
     super.key,
     this.onTap,
     this.errorText,
@@ -240,6 +249,8 @@ class WarrantyTextField extends StatefulWidget {
         isTextObscured = false,
         isRequired = false,
         hasAutocorrect = true;
+
+  final String? textFieldName;
   final int? maxLength;
   final int? currentLength;
   final MaxLengthEnforcement? maxLengthEnforcement;
@@ -344,8 +355,14 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
 
     //Widget
     return Padding(
-      padding: const EdgeInsets.only(top: 5),
-      child: Center(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: /* Column(
+        children: [
+          Visibility(
+            visible: widget.textFieldName != null,
+            child: Text(widget.textFieldName ?? ''),
+          ), */
+          Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: TextFormField(
@@ -359,7 +376,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             controller: controller,
             onChanged: widget.onChanged,
             onTap: () {
-              widget.isDate ? selectDate() : widget.onTap;
+              widget.isDate ? selectDate() : widget.onTap!();
             },
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(
@@ -378,13 +395,16 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
               suffixText: (widget.maxLength != null)
                   ? '${widget.currentLength}/${widget.maxLength}'
                   : null,
-              alignLabelWithHint: true,
+              floatingLabelAlignment: FloatingLabelAlignment.center,
+              // alignLabelWithHint: true,
               labelText: labelText,
               border: const OutlineInputBorder(),
             ),
           ),
         ),
       ),
+      /*   ],
+      ), */
     );
   }
 }
