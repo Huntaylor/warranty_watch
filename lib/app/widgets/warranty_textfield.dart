@@ -56,7 +56,7 @@ class WarrantyTextField extends StatefulWidget {
         inputFormatter = [],
         textInputType = TextInputType.none,
         isDate = true,
-        maxLines = 1,
+        maxLines = null,
         isTextObscured = false,
         onObscuredTap = null,
         isObscuredFunction = false,
@@ -81,7 +81,7 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.none,
         isDate = true,
         inputFormatter = [],
-        maxLines = 1,
+        maxLines = null,
         isTextObscured = false,
         onObscuredTap = null,
         isObscuredFunction = false,
@@ -116,7 +116,7 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isObscuredFunction = false,
         isLifeTime = false,
-        maxLines = 1,
+        maxLines = null,
         hasAutocorrect = true,
         textInputType = TextInputType.text;
 
@@ -142,7 +142,7 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isObscuredFunction = false,
         isLifeTime = false,
-        maxLines = 1,
+        maxLines = null,
         hasAutocorrect = true,
         textInputType = TextInputType.number;
 
@@ -168,7 +168,7 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isObscuredFunction = false,
         isLifeTime = false,
-        maxLines = 1,
+        maxLines = null,
         hasAutocorrect = false,
         textInputType = TextInputType.emailAddress;
 
@@ -217,7 +217,7 @@ class WarrantyTextField extends StatefulWidget {
   })  : initialText = '',
         isDate = false,
         isLifeTime = false,
-        maxLines = 1,
+        maxLines = null,
         onObscuredTap = null,
         isTextObscured = false,
         isObscuredFunction = false,
@@ -370,10 +370,11 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
           onTap: () {
             widget.isDate ? selectDate() : widget.onTap!();
           },
-          maxLines: widget.maxLines ?? 1,
+          maxLines: widget.maxLines,
           decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
             errorText: widget.errorText,
+            // hintText: 'what',
             suffixIcon: widget.isTextObscured
                 ? GestureDetector(
                     onTap: widget.onObscuredTap,
@@ -387,9 +388,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             suffixText: (widget.maxLength != null)
                 ? '${widget.currentLength}/${widget.maxLength}'
                 : null,
-            label: Center(
-              child: Text(widget.hintText),
-            ),
+            labelText: widget.hintText,
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(8),

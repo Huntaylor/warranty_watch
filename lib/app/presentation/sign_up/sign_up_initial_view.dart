@@ -74,6 +74,15 @@ class _Content extends StatelessWidget {
           initialValue: state.asSignUp.email ?? '',
           onChanged: context.read<SignUpCubit>().changeEmail,
         ),
+        WarrantyTextField.obscured(
+          textFieldName: 'Create Password',
+          hintText: 'Password',
+          initialValue: state.asSignUp.password ?? '',
+          isObscuredFunction: state.asSignUp.isObscured,
+          isRequired: true,
+          onChanged: context.read<SignUpCubit>().changePassword,
+          onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
+        ),
         Align(
           alignment: Alignment.centerLeft,
           child: Column(
@@ -105,15 +114,6 @@ class _Content extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        WarrantyTextField.obscured(
-          textFieldName: 'Create Password',
-          hintText: 'Password',
-          initialValue: state.asSignUp.password ?? '',
-          isObscuredFunction: state.asSignUp.isObscured,
-          isRequired: true,
-          onChanged: context.read<SignUpCubit>().changePassword,
-          onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
         ),
         WarrantyTextField.obscured(
           textFieldName: 'Confirm Password',
