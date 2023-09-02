@@ -15,10 +15,13 @@
     "@addWarrantyTitle": {
       "description": "Title for Add Warranty View"
     },
-
     "editWarrantyTitle": "Edit Warranty",
     "@editWarrantyTitle": {
       "description": "Title for Edit Warranty View"
+    },
+    "createAccount": "Create Account",
+    "@createAccount": {
+      "description": "Text for Create Account"
     },
     "productName": "Name of product",
     "@productName": {

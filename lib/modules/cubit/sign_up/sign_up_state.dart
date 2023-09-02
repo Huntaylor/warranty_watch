@@ -38,7 +38,6 @@ class _Error extends SignUpState {
 @autoequal
 class _SignUpProcess extends SignUpState {
   const _SignUpProcess({
-    required this.signUpStatus,
     required this.isObscured,
     required this.hasSixCharacters,
     required this.hasSpecialCharacter,
@@ -53,7 +52,6 @@ class _SignUpProcess extends SignUpState {
     this.firstName,
     this.lastName,
   }) : super();
-  final SignUpStatus signUpStatus;
   final bool isObscured;
   final bool hasSixCharacters;
   final bool hasSpecialCharacter;

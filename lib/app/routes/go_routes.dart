@@ -5,7 +5,7 @@ import 'package:warranty_watch/app/presentation/home/home_view.dart';
 import 'package:warranty_watch/app/presentation/login/login_view.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/new_warranty_view.dart';
 import 'package:warranty_watch/app/presentation/settings/settings_view.dart';
-import 'package:warranty_watch/app/presentation/sign_up/sign_up_initial_view.dart';
+import 'package:warranty_watch/app/presentation/sign_up/sign_up_view.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/presentation/warranty_details_view.dart';
 import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
 
@@ -45,7 +45,7 @@ final goRoutes = GoRouter(
         ),
         goRouteSlide(
           path: Paths.login.register.goRoute,
-          pageBuilder: (_, __) => const SignUpInitialView(),
+          pageBuilder: (_, __) => const SignUpView(),
         ),
       ],
       path: Paths.login.goRoute,

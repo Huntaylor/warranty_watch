@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:warranty_watch/app/app_library.dart';
 
 class WarrantyBaseView extends StatelessWidget {
   const WarrantyBaseView({
@@ -10,6 +10,7 @@ class WarrantyBaseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.colorScheme.surface,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 25),
         child: ListView(

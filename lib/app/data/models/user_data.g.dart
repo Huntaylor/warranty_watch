@@ -9,8 +9,7 @@ part of 'user_data.dart';
 extension _$UserDataAutoequal on UserData {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props =>
-      [email, firstName, lastName, tokens, agreedToServices];
+  List<Object?> get _$props => [email, firstName, lastName, agreedToServices];
 }
 
 // **************************************************************************
@@ -26,8 +25,6 @@ abstract class _$UserDataCWProxy {
 
   UserData agreedToServices(bool agreedToServices);
 
-  UserData tokens(Set<String> tokens);
-
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `UserData(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -39,7 +36,6 @@ abstract class _$UserDataCWProxy {
     String? lastName,
     String? email,
     bool? agreedToServices,
-    Set<String>? tokens,
   });
 }
 
@@ -63,9 +59,6 @@ class _$UserDataCWProxyImpl implements _$UserDataCWProxy {
       this(agreedToServices: agreedToServices);
 
   @override
-  UserData tokens(Set<String> tokens) => this(tokens: tokens);
-
-  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `UserData(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -78,7 +71,6 @@ class _$UserDataCWProxyImpl implements _$UserDataCWProxy {
     Object? lastName = const $CopyWithPlaceholder(),
     Object? email = const $CopyWithPlaceholder(),
     Object? agreedToServices = const $CopyWithPlaceholder(),
-    Object? tokens = const $CopyWithPlaceholder(),
   }) {
     return UserData(
       firstName: firstName == const $CopyWithPlaceholder() || firstName == null
@@ -98,10 +90,6 @@ class _$UserDataCWProxyImpl implements _$UserDataCWProxy {
           ? _value.agreedToServices
           // ignore: cast_nullable_to_non_nullable
           : agreedToServices as bool,
-      tokens: tokens == const $CopyWithPlaceholder() || tokens == null
-          ? _value.tokens
-          // ignore: cast_nullable_to_non_nullable
-          : tokens as Set<String>,
     );
   }
 }
@@ -121,13 +109,11 @@ UserData _$UserDataFromJson(Map json) => UserData(
       lastName: json['lastName'] as String,
       email: json['email'] as String,
       agreedToServices: json['agreedToServices'] as bool,
-      tokens: (json['tokens'] as List<dynamic>).map((e) => e as String).toSet(),
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'email': instance.email,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
-      'tokens': instance.tokens.toList(),
       'agreedToServices': instance.agreedToServices,
     };

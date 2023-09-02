@@ -424,14 +424,12 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         inputFormatters: widget.inputFormatter,
         controller: isDouble ? secondController : controller,
         onChanged: isDouble ? widget.onSecondChanged : widget.onChanged,
-        onTap: () {
-          widget.isDate ? selectDate() : widget.onTap!();
-        },
+        onTap: widget.isDate ? selectDate : widget.onTap,
         maxLines: widget.maxLines,
         decoration: InputDecoration(
+          fillColor: context.colorScheme.surfaceVariant,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           errorText: widget.errorText,
-          // hintText: 'what',
           suffixIcon: widget.isTextObscured
               ? GestureDetector(
                   onTap: widget.onObscuredTap,
@@ -442,19 +440,23 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
                   ),
                 )
               : null,
-
           suffixText: (widget.maxLength != null)
               ? '${widget.currentLength}/${widget.maxLength}'
               : null,
-
-          label: Center(
-            child: Text(
-              isDouble
-                  ? widget.secondHintText ?? widget.hintText
-                  : widget.hintText,
+          label: Padding(
+            padding: widget.isTextObscured
+                ? const EdgeInsets.only(left: 48)
+                : EdgeInsets.zero,
+            child: Center(
+              child: Text(
+                isDouble
+                    ? widget.secondHintText ?? widget.hintText
+                    : widget.hintText,
+              ),
             ),
           ),
           border: const OutlineInputBorder(
+            borderSide: BorderSide.none,
             borderRadius: BorderRadius.all(
               Radius.circular(8),
             ),
@@ -466,7 +468,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           child: Text(widget.textFieldName),
         ),
         Visibility(
@@ -489,6 +491,9 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
               ),
             ],
           ),
+        ),
+        const SizedBox(
+          height: 15,
         ),
       ],
     );

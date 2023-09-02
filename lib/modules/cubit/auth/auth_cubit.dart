@@ -14,9 +14,9 @@ class AuthCubit extends Cubit<AuthState> {
   }
   final AuthRepository _authRepository;
 
-  // void setInitial() {
-  //   emit(const _Initial());
-  // }
+  void clearError() {
+    emit(const _Initial());
+  }
 
   Future<void> checkEmail(String email) async {
     try {

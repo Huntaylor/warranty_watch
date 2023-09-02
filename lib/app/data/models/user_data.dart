@@ -14,13 +14,12 @@ class UserData extends Equatable {
     required this.lastName,
     required this.email,
     required this.agreedToServices,
-    required this.tokens,
   });
 
   factory UserData.fromJson(Map<dynamic, dynamic> json) =>
       _$UserDataFromJson(json);
 
-  UserData.create({
+  const UserData.create({
     required String firstName,
     required String lastName,
     required String email,
@@ -30,20 +29,11 @@ class UserData extends Equatable {
           lastName: lastName,
           email: email,
           agreedToServices: agreedToServices,
-          tokens: <String>{},
         );
-  const UserData.tokens({required Set<String> tokens})
-      : this(
-          firstName: '',
-          lastName: '',
-          email: '',
-          agreedToServices: true,
-          tokens: tokens,
-        );
+
   final String email;
   final String firstName;
   final String lastName;
-  final Set<String> tokens;
   final bool agreedToServices;
 
   Map<String, dynamic> toJson() => _$UserDataToJson(this);

@@ -1,4 +1,6 @@
 import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/presentation/login/widgets/animated_box_widget.dart';
+import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_watch/modules/cubit/login/login_cubit.dart';
 
@@ -42,131 +44,112 @@ class _Content extends StatelessWidget {
       builder: (context, state) {
         const animation = Duration(milliseconds: 100);
 
-        return Scaffold(
-          body: SafeArea(
-            minimum: const EdgeInsets.symmetric(horizontal: 25),
-            child: ListView(
-              physics: const ClampingScrollPhysics(),
-              children: [
-                const AnimatedBox(
-                  animation: animation,
-                ),
-                const _Logo(),
-                const AnimatedBox(
-                  animation: animation,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Text(
-                    'Choose one to Create an Account',
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.titleLarge!.apply(
-                      fontWeightDelta: 2,
-                    ),
-                  ),
-                ),
-                WarrantyElevatedButton.signInOption(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  accountOption: AccountOption.apple,
-                  onPressed: () {},
-                  isLoading: authCubit.state.isLoading &&
-                      authCubit.state.asLoading.loginType == LoginType.apple,
-                  isEnabled: !authCubit.state.isLoading,
-                ),
-                WarrantyElevatedButton.signInOption(
-                  padding: state.isInitial
-                      ? const EdgeInsets.only(bottom: 15)
-                      : null,
-                  accountOption: AccountOption.google,
-                  onPressed: context.read<AuthCubit>().loginWithGoogle,
-                  isLoading: authCubit.state.isLoading &&
-                      authCubit.state.asLoading.loginType == LoginType.google,
-                  isEnabled: !authCubit.state.isLoading,
-                ),
-                AnimatedSize(
-                  duration: animation,
-                  child: Column(
-                    children: [
-                      Visibility(
-                        visible: state.isInitial,
-                        child: WarrantyElevatedButton.signInOption(
-                          accountOption: AccountOption.email,
-                          onPressed: () {
-                            context.push(
-                              Paths.login.register.path,
-                            );
-                          },
-                          isLoading: authCubit.state.isLoading &&
-                              authCubit.state.asLoading.loginType ==
-                                  LoginType.email,
-                          isEnabled: !authCubit.state.isLoading,
-                        ),
-                      ),
-                      const Divider(
-                        thickness: 2,
-                        indent: 16,
-                        endIndent: 16,
-                        height: 30,
-                      ),
-                      Visibility(
-                        visible: !state.isInitial,
-                        child: const _LoginFields(),
-                      ),
-                      WarrantyElevatedButton(
-                        isLoading: authCubit.state.isLoading &&
-                            authCubit.state.asLoading.loginType ==
-                                LoginType.email,
-                        onPressed: () {
-                          if (!state.isInitial) {
-                            context.read<AuthCubit>().login(
-                                  email: state.asLoggingIn.email,
-                                  password: state.asLoggingIn.password,
-                                );
-                          } else {
-                            context.read<LoginCubit>().toggleLogin();
-                          }
-                        },
-                        text: 'Login',
-                        isEnabled: !authCubit.state.isLoading,
-                      ),
-                      Visibility(
-                        visible: !state.isInitial,
-                        child: const _TextButtons(),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+        return WarrantyBaseView(
+          children: [
+            const AnimatedBox(
+              animation: animation,
             ),
-          ),
+            const _Logo(),
+            const AnimatedBox(
+              animation: animation,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                'Choose one to Create an Account',
+                textAlign: TextAlign.center,
+                style: context.textTheme.titleLarge!.apply(
+                  fontWeightDelta: 2,
+                ),
+              ),
+            ),
+            WarrantyElevatedButton.signInOption(
+              padding: const EdgeInsets.only(bottom: 15),
+              accountOption: AccountOption.apple,
+              onPressed: () {},
+              isLoading: authCubit.state.isLoading &&
+                  authCubit.state.asLoading.loginType == LoginType.apple,
+              isEnabled: !authCubit.state.isLoading,
+            ),
+            WarrantyElevatedButton.signInOption(
+              padding:
+                  state.isInitial ? const EdgeInsets.only(bottom: 15) : null,
+              accountOption: AccountOption.google,
+              onPressed: context.read<AuthCubit>().loginWithGoogle,
+              isLoading: authCubit.state.isLoading &&
+                  authCubit.state.asLoading.loginType == LoginType.google,
+              isEnabled: !authCubit.state.isLoading,
+            ),
+            _SignInFieldSwitch(animation: animation, authCubit: authCubit),
+          ],
         );
       },
     );
   }
 }
 
-class AnimatedBox extends StatelessWidget {
-  const AnimatedBox({
+class _SignInFieldSwitch extends StatelessWidget {
+  const _SignInFieldSwitch({
     required this.animation,
-    super.key,
+    required this.authCubit,
   });
 
   final Duration animation;
+  final AuthCubit authCubit;
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.watch<AuthCubit>();
     final state = context.watch<LoginCubit>().state;
     return AnimatedSize(
       duration: animation,
-      child: Visibility(
-        visible: state.isInitial,
-        replacement: const SizedBox(
-          height: 70,
-        ),
-        child: const SizedBox(
-          height: 130,
-          // height: state.isInitial ? 130 : 75,
-        ),
+      child: Column(
+        children: [
+          Visibility(
+            visible: state.isInitial,
+            child: WarrantyElevatedButton.signInOption(
+              accountOption: AccountOption.email,
+              onPressed: () {
+                context.push(
+                  Paths.login.register.path,
+                );
+              },
+              isLoading: authCubit.state.isLoading &&
+                  authCubit.state.asLoading.loginType == LoginType.email,
+              isEnabled: !authCubit.state.isLoading,
+            ),
+          ),
+          const Divider(
+            thickness: 2,
+            indent: 16,
+            endIndent: 16,
+            height: 30,
+          ),
+          Visibility(
+            visible: !state.isInitial,
+            child: const _LoginFields(),
+          ),
+          WarrantyElevatedButton(
+            isLoading: authCubit.state.isLoading &&
+                authCubit.state.asLoading.loginType == LoginType.email,
+            onPressed: () {
+              if (!state.isInitial) {
+                context.read<AuthCubit>().login(
+                      email: state.asLoggingIn.email,
+                      password: state.asLoggingIn.password,
+                    );
+              } else {
+                context.read<LoginCubit>().toggleLogin();
+              }
+            },
+            text: 'Login',
+            isEnabled: !authCubit.state.isLoading,
+          ),
+          Visibility(
+            visible: !state.isInitial,
+            child: const _TextButtons(),
+          ),
+        ],
       ),
     );
   }
@@ -183,6 +166,7 @@ class _TextButtons extends StatelessWidget {
         TextButton(
           child: const Text('Create Account'),
           onPressed: () {
+            context.read<AuthCubit>().clearError();
             context.push(
               Paths.login.register.path,
             );
@@ -191,6 +175,7 @@ class _TextButtons extends StatelessWidget {
         TextButton(
           child: const Text('Forgot Password?'),
           onPressed: () {
+            context.read<AuthCubit>().clearError();
             context.push(Paths.login.forgotPassword.path);
           },
         ),
@@ -209,7 +194,6 @@ class _LoginFields extends StatelessWidget {
       children: [
         WarrantyTextField.email(
           textFieldName: 'Account Email',
-          isRequired: false,
           initialValue: '',
           onChanged: context.read<LoginCubit>().changeEmail,
         ),
