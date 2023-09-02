@@ -175,5 +175,78 @@
     "expiringError": "There was an issue loading your expiring warranties. Please try again later.",
     "@expiringError": {
       "description": "Text for expiring warranties error"
+    },
+    "emailError": "This email is already in use",
+    "@emailError": {
+      "description": "Error text for create account email check"
+    },
+    "nameFieldTitle": "What is your name?",
+    "@nameFieldTitle": {
+      "description": "Title for Create Account Name Fields"
+    },
+    "first": "First",
+    "@first": {
+      "description": "Hint for Create Account Name Fields, First name"
+    },
+    "last": "Last",
+    "@last": {
+      "description": "Hint for Create Account Name Fields, Last name"
+    },
+    "emailFieldTitle": "What is your email?",
+    "@emailFieldTitle": {
+      "description": "Title for Create Account Email Field"
+    },
+    "passwordFieldTitle": "Create Password",
+    "@passwordFieldTitle": {
+      "description": "Title for Create Account Password Field"
+    },
+    "passwordHint": "Password",
+    "@passwordHint": {
+      "description": "Hint for Create Account Password Fields, Password"
+    },
+    "confirmPasswordHint": "Re-Enter Password",
+    "@confirmPasswordHint": {
+      "description": "Hint for Create Account Password Fields, Password"
+    },
+    "confirmPasswordFieldTitle": "Confirm Password",
+    "@confirmPasswordFieldTitle": {
+      "description": "Title for Create Account Password Fields, Confirm Password"
+    },
+    "passwordRule1": "6 characters or more",
+    "@passwordRule1": {
+      "description": "Password Creation Rule 1"
+    },
+    "passwordRule2": "A lower and upper case letter",
+    "@passwordRule2": {
+      "description": "Password Creation Rule 2"
+    },
+    "passwordRule3": "A number",
+    "@passwordRule3": {
+      "description": "Password Creation Rule 3"
+    },
+    "passwordRule4": "A special character",
+    "@passwordRule4": {
+      "description": "Password Creation Rule 4"
+    },
+    "passwordRule5": "Passwords must match",
+    "@passwordRule5": {
+      "description": "Password Creation Rule 5"
+    },
+    "passwordRuleTitle": "Your Password must contain:",
+    "@passwordRuleTitle": {
+      "description": "Title for Password Creation Rules"
+    },
+    "tosTitle": "By creating an account you agree to the terms and conditions of this app ",
+    "@tosTitle": {
+      "description": "Title for Terms and Conditions"
+    },
+    "tosTitleContinue": "available here",
+    "@tosTitleContinue": {
+      "description": "Continuation for Terms and Conditions, link button"
+    },
+    "tosAcceptanceText": "I accept the terms and conditions",
+    "@tosAcceptanceText": {
+      "description": "Text for Terms and Conditions checkbox"
     }
+
 }

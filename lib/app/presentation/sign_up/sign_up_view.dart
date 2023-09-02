@@ -30,12 +30,13 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final authCubit = context.watch<AuthCubit>();
 
     String? errorText;
 
     if (authCubit.state.isError) {
-      errorText = 'This email is already in use';
+      errorText = l10n.emailError;
     } else {
       errorText = null;
     }
@@ -47,22 +48,22 @@ class _Content extends StatelessWidget {
               height: 15,
             ),
             WarrantyTextField.doubleField(
-              textFieldName: 'What is your name?',
-              hintText: 'First',
-              secondHintText: 'Last',
+              textFieldName: l10n.nameFieldTitle,
+              hintText: l10n.first,
+              secondHintText: l10n.last,
               initialValue: state.asSignUp.firstName ?? '',
               onChanged: context.read<SignUpCubit>().changeFirstName,
               onSecondChanged: context.read<SignUpCubit>().changeLastName,
             ),
             WarrantyTextField.email(
-              textFieldName: "What's your email?",
+              textFieldName: l10n.emailFieldTitle,
               errorText: errorText,
               initialValue: state.asSignUp.email ?? '',
               onChanged: context.read<SignUpCubit>().changeEmail,
             ),
             WarrantyTextField.obscured(
-              textFieldName: 'Create Password',
-              hintText: 'Password',
+              textFieldName: l10n.passwordFieldTitle,
+              hintText: l10n.passwordHint,
               initialValue: state.asSignUp.password ?? '',
               isObscuredFunction: state.asSignUp.isObscured,
               isRequired: true,
@@ -74,29 +75,29 @@ class _Content extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Text('Your Password must contain:'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(l10n.passwordRuleTitle),
                   ),
                   PasswordRequirementWidget(
                     isTrue: state.asSignUp.hasSixCharacters,
-                    title: '6 characters or more',
+                    title: l10n.passwordRule1,
                   ),
                   PasswordRequirementWidget(
                     isTrue: state.asSignUp.hasLowerUpperCase,
-                    title: 'A lower and upper case letter',
+                    title: l10n.passwordRule2,
                   ),
                   PasswordRequirementWidget(
                     isTrue: state.asSignUp.hasNumber,
-                    title: 'A number',
+                    title: l10n.passwordRule3,
                   ),
                   PasswordRequirementWidget(
                     isTrue: state.asSignUp.hasSpecialCharacter,
-                    title: 'A special character',
+                    title: l10n.passwordRule4,
                   ),
                   PasswordRequirementWidget(
                     isTrue: state.asSignUp.isMatching,
-                    title: 'Passwords must match',
+                    title: l10n.passwordRule5,
                   ),
                 ],
               ),
@@ -105,16 +106,16 @@ class _Content extends StatelessWidget {
               height: 15,
             ),
             WarrantyTextField.obscured(
-              textFieldName: 'Confirm Password',
-              hintText: 'Re-Enter Password',
+              textFieldName: l10n.confirmPasswordFieldTitle,
+              hintText: l10n.confirmPasswordHint,
               initialValue: state.asSignUp.confirmPassword ?? '',
               isObscuredFunction: state.asSignUp.isConfirmObscured,
               isRequired: true,
               onChanged: context.read<SignUpCubit>().changeConfirmPassword,
               onObscuredTap: context.read<SignUpCubit>().toggleConfirmObscurity,
             ),
-            const Text(
-              'By creating an account you agree to the terms and conditions of this app available here',
+            Text(
+              l10n.tosTitle + l10n.tosTitleContinue,
               textAlign: TextAlign.center,
             ),
             Row(
@@ -129,9 +130,9 @@ class _Content extends StatelessWidget {
                     }
                   },
                 ),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'I accept the terms and conditions',
+                    l10n.tosAcceptanceText,
                   ),
                 ),
               ],
@@ -156,7 +157,7 @@ class _Content extends StatelessWidget {
                     userData,
                   );
                 },
-                text: 'Create Account',
+                text: l10n.createAccount.toUpperCase(),
                 isLoading: authCubit.state.isLoading,
                 isEnabled: context.watch<SignUpCubit>().enabledRegister(),
               ),
