@@ -247,6 +247,26 @@
     "tosAcceptanceText": "I accept the terms and conditions",
     "@tosAcceptanceText": {
       "description": "Text for Terms and Conditions checkbox"
+    },
+    "loginCreateTitle": "Choose one to Create an Account",
+    "@loginCreateTitle": {
+      "description": "Title for login Create Account options"
+    },
+    "loginButtonText": "Login",
+    "@loginButtonText": {
+      "description": "Title for login Create Account options"
+    },
+    "loginEmailFieldTitle": "Account Email",
+    "@loginEmailFieldTitle": {
+      "description": "Title for login Create Account options"
+    },
+    "loginPasswordFieldTitle": "Enter Password",
+    "@loginPasswordFieldTitle": {
+      "description": "Title for login Create Account options"
+    },
+    "forgotPasswordText": "Forgot Password?",
+    "@forgotPasswordText": {
+      "description": "Text for Forgot Password button"
     }
 
 }

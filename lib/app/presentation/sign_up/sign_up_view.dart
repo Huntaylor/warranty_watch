@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/models/user_data.dart';
 import 'package:warranty_watch/app/presentation/sign_up/widgets/password_requirement_widget.dart';
@@ -10,19 +11,9 @@ class SignUpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocProvider(
       create: (context) => SignUpCubit(),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            l10n.createAccount.toUpperCase(),
-          ),
-        ),
-        body: const _Content(),
-      ),
+      child: const _Content(),
     );
   }
 }
@@ -45,6 +36,17 @@ class _Content extends StatelessWidget {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return WarrantyBaseView(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              l10n.createAccount.toUpperCase(),
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.italic,
+                fontSize: 18,
+              ),
+            ),
+          ),
           children: [
             const SizedBox(
               height: 15,
