@@ -37,7 +37,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final l10n = context.l10n;
+    final l10n = context.l10n;
 
     final authCubit = context.watch<AuthCubit>();
     return BlocBuilder<LoginCubit, LoginState>(
@@ -56,7 +56,7 @@ class _Content extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Text(
-                'Choose one to Create an Account',
+                l10n.loginCreateTitle,
                 textAlign: TextAlign.center,
                 style: context.textTheme.titleLarge!.apply(
                   fontWeightDelta: 2,
@@ -99,6 +99,7 @@ class _SignInFieldSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final authCubit = context.watch<AuthCubit>();
     final state = context.watch<LoginCubit>().state;
     return AnimatedSize(
@@ -142,7 +143,7 @@ class _SignInFieldSwitch extends StatelessWidget {
                 context.read<LoginCubit>().toggleLogin();
               }
             },
-            text: 'Login',
+            text: l10n.loginButtonText.toUpperCase(),
             isEnabled: !authCubit.state.isLoading,
           ),
           Visibility(
@@ -160,11 +161,12 @@ class _TextButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-          child: const Text('Create Account'),
+          child: Text(l10n.createAccount),
           onPressed: () {
             context.read<AuthCubit>().clearError();
             context.push(
@@ -173,7 +175,7 @@ class _TextButtons extends StatelessWidget {
           },
         ),
         TextButton(
-          child: const Text('Forgot Password?'),
+          child: Text(l10n.forgotPasswordText),
           onPressed: () {
             context.read<AuthCubit>().clearError();
             context.push(Paths.login.forgotPassword.path);
@@ -190,17 +192,18 @@ class _LoginFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<LoginCubit>().state;
+    final l10n = context.l10n;
     return Column(
       children: [
         WarrantyTextField.email(
-          textFieldName: 'Account Email',
+          textFieldName: l10n.loginEmailFieldTitle,
           onChanged: context.read<LoginCubit>().changeEmail,
         ),
         WarrantyTextField.obscured(
-          textFieldName: 'Enter Password',
+          textFieldName: l10n.loginPasswordFieldTitle,
           onObscuredTap: context.read<LoginCubit>().toggleObscurity,
           isObscuredFunction: state.asLoggingIn.isObscured,
-          hintText: 'Password',
+          hintText: l10n.passwordHint,
           onChanged: context.read<LoginCubit>().changePassword,
         ),
       ],
