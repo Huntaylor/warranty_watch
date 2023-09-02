@@ -12,33 +12,14 @@ class PersonalDataView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
+        const Expanded(
           child: Column(
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 15),
                 child: Text(
                   "Let's add some information",
                 ),
-              ),
-              Row(
-                children: [
-                  const Text(
-                    'What is your name?',
-                  ),
-                  WarrantyTextField.general(
-                    hintText: 'First name',
-                    isRequired: true,
-                    initialValue: state.asSignUp.firstName ?? '',
-                    onChanged: context.read<SignUpCubit>().changeFirstName,
-                  ),
-                  WarrantyTextField.general(
-                    hintText: 'Last name',
-                    initialValue: state.asSignUp.lastName ?? '',
-                    isRequired: true,
-                    onChanged: context.read<SignUpCubit>().changeLastName,
-                  ),
-                ],
               ),
             ],
           ),

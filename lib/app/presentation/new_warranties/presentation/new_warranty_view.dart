@@ -57,6 +57,7 @@ class _Content extends StatelessWidget {
                     child: Column(
                       children: [
                         WarrantyTextField.general(
+                          textFieldName: 'Product Name',
                           currentLength:
                               (state.asReady.warrantyInfo.name != null)
                                   ? state.asReady.warrantyInfo.name!.length
@@ -70,6 +71,7 @@ class _Content extends StatelessWidget {
                           hintText: l10n.productName,
                         ),
                         WarrantyTextField.date(
+                          textFieldName: 'Date Purchased',
                           initialValue:
                               state.asReady.warrantyInfo.purchaseDate != null
                                   ? _dateFormat(
@@ -89,6 +91,7 @@ class _Content extends StatelessWidget {
                           hintText: l10n.purchaseDate,
                         ),
                         WarrantyTextField.webSite(
+                          textFieldName: 'Warranty Website',
                           isRequired: false,
                           initialValue:
                               state.asReady.warrantyInfo.warrantyWebsite ??
@@ -98,6 +101,7 @@ class _Content extends StatelessWidget {
                           hintText: l10n.companyWebsite,
                         ),
                         WarrantyTextField.date(
+                          textFieldName: 'Warranty Duration',
                           initialValue:
                               state.asReady.warrantyInfo.endOfWarranty != null
                                   ? _dateFormat(
@@ -145,6 +149,7 @@ class _Content extends StatelessWidget {
                               ),
                               if (state.asReady.warrantyInfo.wantsReminders)
                                 WarrantyTextField.date(
+                                  textFieldName: 'When should we remind you?',
                                   initialValue: _dateFormat(
                                     state.asReady.warrantyInfo.reminderDate!,
                                   ),
@@ -164,6 +169,7 @@ class _Content extends StatelessWidget {
                             ],
                           ),
                         WarrantyTextField.form(
+                          textFieldName: 'Product or Service Description',
                           currentLength:
                               (state.asReady.warrantyInfo.details != null)
                                   ? state.asReady.warrantyInfo.details!.length

@@ -20,7 +20,10 @@ class WarrantyTextField extends StatefulWidget {
     required this.isTextObscured,
     required this.isObscuredFunction,
     required this.onObscuredTap,
-    this.textFieldName,
+    required this.textFieldName,
+    this.secondHintText,
+    this.onSecondChanged,
+    this.isDouble,
     super.key,
     this.currentLength,
     this.errorText,
@@ -43,7 +46,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.startDateTime,
     required this.endDateTime,
     required this.isRequired,
-    this.textFieldName,
+    required this.textFieldName,
     super.key,
     this.onTap,
     this.maxLength,
@@ -59,6 +62,9 @@ class WarrantyTextField extends StatefulWidget {
         maxLines = null,
         isTextObscured = false,
         onObscuredTap = null,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
         isObscuredFunction = false,
         hasAutocorrect = false;
 
@@ -67,7 +73,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.hintText,
     required this.onChanged,
     required this.isRequired,
-    this.textFieldName,
+    required this.textFieldName,
     super.key,
     this.initialDateTime,
     this.onTap,
@@ -87,6 +93,9 @@ class WarrantyTextField extends StatefulWidget {
         isObscuredFunction = false,
         hasAutocorrect = false,
         isLifeTime = false,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
         startDateTime = DateTime(1920),
         endDateTime = DateTime.now().subtract(
           const Duration(
@@ -98,8 +107,8 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
+    required this.textFieldName,
     this.isRequired = false,
-    this.textFieldName,
     super.key,
     this.maxLength,
     this.errorText,
@@ -116,6 +125,38 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isObscuredFunction = false,
         isLifeTime = false,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
+        maxLines = null,
+        hasAutocorrect = true,
+        textInputType = TextInputType.text;
+
+  const WarrantyTextField.doubleField({
+    required this.initialValue,
+    required this.hintText,
+    required this.onChanged,
+    required this.onSecondChanged,
+    required this.textFieldName,
+    required this.secondHintText,
+    this.isRequired = false,
+    super.key,
+    this.maxLength,
+    this.errorText,
+    this.maxLengthEnforcement,
+    this.onTap,
+    this.inputFormatter,
+    this.initialDateTime,
+    this.startDateTime,
+    this.endDateTime,
+    this.currentLength,
+  })  : initialText = '',
+        isDate = false,
+        isTextObscured = false,
+        onObscuredTap = null,
+        isObscuredFunction = false,
+        isLifeTime = false,
+        isDouble = true,
         maxLines = null,
         hasAutocorrect = true,
         textInputType = TextInputType.text;
@@ -125,7 +166,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
-    this.textFieldName,
+    required this.textFieldName,
     super.key,
     this.maxLength,
     this.errorText,
@@ -142,6 +183,9 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isObscuredFunction = false,
         isLifeTime = false,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
         maxLines = null,
         hasAutocorrect = true,
         textInputType = TextInputType.number;
@@ -149,7 +193,7 @@ class WarrantyTextField extends StatefulWidget {
   const WarrantyTextField.email({
     required this.initialValue,
     required this.onChanged,
-    this.textFieldName,
+    required this.textFieldName,
     this.isRequired = false,
     super.key,
     this.maxLength,
@@ -168,6 +212,9 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isObscuredFunction = false,
         isLifeTime = false,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
         maxLines = null,
         hasAutocorrect = false,
         textInputType = TextInputType.emailAddress;
@@ -179,7 +226,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.onChanged,
     required this.isObscuredFunction,
     required this.onObscuredTap,
-    this.textFieldName,
+    required this.textFieldName,
     super.key,
     this.maxLength,
     this.errorText,
@@ -194,6 +241,9 @@ class WarrantyTextField extends StatefulWidget {
         isDate = false,
         isTextObscured = true,
         isLifeTime = false,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
         maxLines = 1,
         textInputType = TextInputType.text,
         hasAutocorrect = false;
@@ -203,7 +253,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialValue,
     required this.hintText,
     required this.onChanged,
-    this.textFieldName,
+    required this.textFieldName,
     super.key,
     this.onTap,
     this.errorText,
@@ -217,6 +267,9 @@ class WarrantyTextField extends StatefulWidget {
   })  : initialText = '',
         isDate = false,
         isLifeTime = false,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
         maxLines = null,
         onObscuredTap = null,
         isTextObscured = false,
@@ -228,7 +281,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.hintText,
     required this.initialValue,
     required this.onChanged,
-    this.textFieldName,
+    required this.textFieldName,
     super.key,
     this.onTap,
     this.errorText,
@@ -243,6 +296,9 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.text,
         isDate = false,
         isLifeTime = false,
+        isDouble = false,
+        onSecondChanged = null,
+        secondHintText = null,
         onObscuredTap = null,
         maxLines = 3,
         isObscuredFunction = false,
@@ -250,12 +306,14 @@ class WarrantyTextField extends StatefulWidget {
         isRequired = false,
         hasAutocorrect = true;
 
-  final String? textFieldName;
+  final String textFieldName;
   final int? maxLength;
   final int? currentLength;
   final MaxLengthEnforcement? maxLengthEnforcement;
   final TextInputType? textInputType;
   final String hintText;
+  final String? secondHintText;
+  final bool? isDouble;
   final String initialText;
   final String initialValue;
   final String? errorText;
@@ -272,6 +330,7 @@ class WarrantyTextField extends StatefulWidget {
   final DateTime? endDateTime;
   final List<TextInputFormatter>? inputFormatter;
   final void Function(String)? onChanged;
+  final void Function(String)? onSecondChanged;
   final VoidCallback? onObscuredTap;
 
   @override
@@ -280,10 +339,13 @@ class WarrantyTextField extends StatefulWidget {
 
 class _WarrantyTextFieldState extends State<WarrantyTextField> {
   late TextEditingController controller;
+  late TextEditingController secondController;
   @override
   void initState() {
     controller = TextEditingController();
     controller.text = widget.initialValue;
+    secondController = TextEditingController();
+    secondController.text = widget.initialValue;
     super.initState();
   }
 
@@ -316,7 +378,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
               minimumDate: widget.startDateTime,
               initialDateTime: widget.initialDateTime,
               minimumYear: 2000,
-              maximumYear: 2050,
+              maximumYear: 2150,
             ),
           );
         },
@@ -351,53 +413,84 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
     }
 
     //Widget
-    return /* Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child:  */
-        Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-        child: TextFormField(
-          autocorrect: widget.hasAutocorrect,
-          obscureText: widget.isObscuredFunction,
-          maxLength: widget.maxLength,
-          maxLengthEnforcement: widget.maxLengthEnforcement,
-          keyboardType: widget.textInputType,
-          enabled: !widget.isLifeTime,
-          inputFormatters: widget.inputFormatter,
-          controller: controller,
-          onChanged: widget.onChanged,
-          onTap: () {
-            widget.isDate ? selectDate() : widget.onTap!();
-          },
-          maxLines: widget.maxLines,
-          decoration: InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            errorText: widget.errorText,
-            // hintText: 'what',
-            suffixIcon: widget.isTextObscured
-                ? GestureDetector(
-                    onTap: widget.onObscuredTap,
-                    child: Icon(
-                      !widget.isObscuredFunction
-                          ? Icons.remove_red_eye
-                          : Icons.visibility_off,
-                    ),
-                  )
-                : null,
-            suffixText: (widget.maxLength != null)
-                ? '${widget.currentLength}/${widget.maxLength}'
-                : null,
-            labelText: widget.hintText,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
+    Widget textFormField({required bool isDouble}) {
+      return TextFormField(
+        autocorrect: widget.hasAutocorrect,
+        obscureText: widget.isObscuredFunction,
+        maxLength: widget.maxLength,
+        maxLengthEnforcement: widget.maxLengthEnforcement,
+        keyboardType: widget.textInputType,
+        enabled: !widget.isLifeTime,
+        inputFormatters: widget.inputFormatter,
+        controller: isDouble ? secondController : controller,
+        onChanged: isDouble ? widget.onSecondChanged : widget.onChanged,
+        onTap: () {
+          widget.isDate ? selectDate() : widget.onTap!();
+        },
+        maxLines: widget.maxLines,
+        decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          errorText: widget.errorText,
+          // hintText: 'what',
+          suffixIcon: widget.isTextObscured
+              ? GestureDetector(
+                  onTap: widget.onObscuredTap,
+                  child: Icon(
+                    !widget.isObscuredFunction
+                        ? Icons.remove_red_eye
+                        : Icons.visibility_off,
+                  ),
+                )
+              : null,
+
+          suffixText: (widget.maxLength != null)
+              ? '${widget.currentLength}/${widget.maxLength}'
+              : null,
+
+          label: Center(
+            child: Text(
+              isDouble
+                  ? widget.secondHintText ?? widget.hintText
+                  : widget.hintText,
+            ),
+          ),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
             ),
           ),
         ),
-      ),
-      /*       ), */
+      );
+    }
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(widget.textFieldName),
+        ),
+        Visibility(
+          visible: widget.isDouble ?? false,
+          replacement: textFormField(isDouble: false),
+          child: Row(
+            children: [
+              Flexible(
+                child: textFormField(
+                  isDouble: false,
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Flexible(
+                child: textFormField(
+                  isDouble: true,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
