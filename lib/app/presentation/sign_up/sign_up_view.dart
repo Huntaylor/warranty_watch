@@ -17,7 +17,9 @@ class SignUpView extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           centerTitle: true,
-          title: Text(l10n.createAccount.toUpperCase()),
+          title: Text(
+            l10n.createAccount.toUpperCase(),
+          ),
         ),
         body: const _Content(),
       ),
