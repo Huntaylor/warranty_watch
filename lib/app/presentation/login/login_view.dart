@@ -194,15 +194,12 @@ class _LoginFields extends StatelessWidget {
       children: [
         WarrantyTextField.email(
           textFieldName: 'Account Email',
-          initialValue: '',
           onChanged: context.read<LoginCubit>().changeEmail,
         ),
         WarrantyTextField.obscured(
           textFieldName: 'Enter Password',
           onObscuredTap: context.read<LoginCubit>().toggleObscurity,
           isObscuredFunction: state.asLoggingIn.isObscured,
-          isRequired: false,
-          initialValue: '',
           hintText: 'Password',
           onChanged: context.read<LoginCubit>().changePassword,
         ),

@@ -65,7 +65,6 @@ class _Content extends StatelessWidget {
                           maxLength: 25,
                           maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           initialValue: state.asReady.warrantyInfo.name ?? '',
-                          isRequired: true,
                           onChanged:
                               context.read<WarrantyCubit>().changeProductName,
                           hintText: l10n.productName,
@@ -80,7 +79,6 @@ class _Content extends StatelessWidget {
                                   : _dateFormat(
                                       DateTime.now(),
                                     ),
-                          isRequired: false,
                           isLifeTime: false,
                           endDateTime: DateTime.now(),
                           initialDateTime:
@@ -92,7 +90,6 @@ class _Content extends StatelessWidget {
                         ),
                         WarrantyTextField.webSite(
                           textFieldName: 'Warranty Website',
-                          isRequired: false,
                           initialValue:
                               state.asReady.warrantyInfo.warrantyWebsite ??
                                   'https://',
@@ -108,7 +105,6 @@ class _Content extends StatelessWidget {
                                       state.asReady.warrantyInfo.endOfWarranty!,
                                     )
                                   : '',
-                          isRequired: true,
                           isLifeTime: state.asReady.warrantyInfo.lifeTime,
                           endDateTime: DateTime(2050),
                           initialDateTime:
@@ -153,7 +149,6 @@ class _Content extends StatelessWidget {
                                   initialValue: _dateFormat(
                                     state.asReady.warrantyInfo.reminderDate!,
                                   ),
-                                  isRequired: true,
                                   isLifeTime:
                                       state.asReady.warrantyInfo.lifeTime,
                                   endDateTime:

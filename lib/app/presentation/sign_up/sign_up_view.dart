@@ -1,4 +1,3 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/models/user_data.dart';
 import 'package:warranty_watch/app/presentation/sign_up/widgets/password_requirement_widget.dart';
@@ -70,7 +69,6 @@ class _Content extends StatelessWidget {
               hintText: l10n.passwordHint,
               initialValue: state.asSignUp.password ?? '',
               isObscuredFunction: state.asSignUp.isObscured,
-              isRequired: true,
               onChanged: context.read<SignUpCubit>().changePassword,
               onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
             ),
@@ -114,7 +112,6 @@ class _Content extends StatelessWidget {
               hintText: l10n.confirmPasswordHint,
               initialValue: state.asSignUp.confirmPassword ?? '',
               isObscuredFunction: state.asSignUp.isConfirmObscured,
-              isRequired: true,
               onChanged: context.read<SignUpCubit>().changeConfirmPassword,
               onObscuredTap: context.read<SignUpCubit>().toggleConfirmObscurity,
             ),

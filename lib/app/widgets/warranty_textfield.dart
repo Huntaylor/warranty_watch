@@ -12,7 +12,6 @@ class WarrantyTextField extends StatefulWidget {
     required this.hintText,
     required this.initialText,
     required this.initialValue,
-    required this.isRequired,
     required this.isDate,
     required this.isLifeTime,
     required this.onChanged,
@@ -40,15 +39,14 @@ class WarrantyTextField extends StatefulWidget {
   // const factory WarrantyTextField.date() = LimitedWarrantyTextField;
 
   WarrantyTextField.date({
-    required this.initialValue,
     required this.isLifeTime,
     required this.hintText,
     required this.onChanged,
     required this.initialDateTime,
     required this.startDateTime,
     required this.endDateTime,
-    required this.isRequired,
     required this.textFieldName,
+    this.initialValue = '',
     super.key,
     this.onTap,
     this.autofillHints,
@@ -59,7 +57,7 @@ class WarrantyTextField extends StatefulWidget {
   })  : initialText = initialDateTime != null
             ? DateFormat('MM/dd/yyyy').format(initialDateTime)
             : '',
-        inputFormatter = [],
+        inputFormatter = const [],
         textInputType = TextInputType.none,
         isDate = true,
         maxLines = null,
@@ -73,11 +71,10 @@ class WarrantyTextField extends StatefulWidget {
         hasAutocorrect = false;
 
   const WarrantyTextField.general({
-    required this.initialValue,
     required this.hintText,
     required this.onChanged,
     required this.textFieldName,
-    this.isRequired = false,
+    this.initialValue = '',
     super.key,
     this.maxLength,
     this.errorText,
@@ -104,14 +101,13 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.text;
 
   const WarrantyTextField.doubleField({
-    required this.initialValue,
     required this.hintText,
     required this.onChanged,
     required this.onSecondChanged,
     required this.textFieldName,
     required this.secondHintText,
-    this.isRequired = false,
     super.key,
+    this.initialValue = '',
     this.maxLength,
     this.errorText,
     this.autofillHints,
@@ -135,8 +131,6 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.text;
 
   const WarrantyTextField.number({
-    required this.isRequired,
-    required this.initialValue,
     required this.hintText,
     required this.onChanged,
     required this.textFieldName,
@@ -145,6 +139,7 @@ class WarrantyTextField extends StatefulWidget {
     this.errorText,
     this.maxLengthEnforcement,
     this.autofillHints,
+    this.initialValue = '',
     this.onTap,
     this.initialDateTime,
     this.startDateTime,
@@ -165,13 +160,12 @@ class WarrantyTextField extends StatefulWidget {
         hasAutocorrect = true,
         textInputType = TextInputType.number;
 
-  WarrantyTextField.email({
-    required this.initialValue,
+  const WarrantyTextField.email({
     required this.onChanged,
     required this.textFieldName,
-    this.isRequired = false,
     super.key,
     this.maxLength,
+    this.initialValue = '',
     this.errorText,
     this.maxLengthEnforcement,
     this.onTap,
@@ -184,7 +178,7 @@ class WarrantyTextField extends StatefulWidget {
         hintText = 'Email',
         isDate = false,
         isTextObscured = false,
-        autofillHints = [AutofillHints.email],
+        autofillHints = const [AutofillHints.email],
         onObscuredTap = null,
         isObscuredFunction = false,
         textCapitalization = TextCapitalization.none,
@@ -197,17 +191,15 @@ class WarrantyTextField extends StatefulWidget {
         textInputType = TextInputType.emailAddress;
 
   const WarrantyTextField.obscured({
-    required this.isRequired,
-    required this.initialValue,
     required this.hintText,
     required this.onChanged,
     required this.isObscuredFunction,
     required this.onObscuredTap,
     required this.textFieldName,
     super.key,
+    this.initialValue = '',
     this.maxLength,
     this.errorText,
-    this.autofillHints,
     this.maxLengthEnforcement,
     this.inputFormatter,
     this.onTap,
@@ -220,6 +212,7 @@ class WarrantyTextField extends StatefulWidget {
         textCapitalization = TextCapitalization.none,
         isTextObscured = true,
         isLifeTime = false,
+        autofillHints = const [AutofillHints.password],
         isDouble = false,
         onSecondChanged = null,
         secondHintText = null,
@@ -228,17 +221,15 @@ class WarrantyTextField extends StatefulWidget {
         hasAutocorrect = false;
 
   const WarrantyTextField.webSite({
-    required this.isRequired,
-    required this.initialValue,
     required this.hintText,
     required this.onChanged,
     required this.textFieldName,
     super.key,
     this.onTap,
     this.errorText,
-    this.autofillHints,
     this.initialDateTime,
     this.inputFormatter,
+    this.initialValue = '',
     this.startDateTime,
     this.endDateTime,
     this.maxLength,
@@ -248,6 +239,7 @@ class WarrantyTextField extends StatefulWidget {
         isDate = false,
         isLifeTime = false,
         isDouble = false,
+        autofillHints = const [AutofillHints.url],
         textCapitalization = TextCapitalization.none,
         onSecondChanged = null,
         secondHintText = null,
@@ -260,7 +252,6 @@ class WarrantyTextField extends StatefulWidget {
 
   const WarrantyTextField.form({
     required this.hintText,
-    required this.initialValue,
     required this.onChanged,
     required this.textFieldName,
     super.key,
@@ -268,6 +259,7 @@ class WarrantyTextField extends StatefulWidget {
     this.errorText,
     this.inputFormatter,
     this.initialDateTime,
+    this.initialValue = '',
     this.startDateTime,
     this.endDateTime,
     this.maxLength,
@@ -286,8 +278,8 @@ class WarrantyTextField extends StatefulWidget {
         maxLines = 3,
         isObscuredFunction = false,
         isTextObscured = false,
-        isRequired = false,
         hasAutocorrect = true;
+
   final TextCapitalization? textCapitalization;
   final Iterable<String>? autofillHints;
   final String textFieldName;
@@ -301,7 +293,6 @@ class WarrantyTextField extends StatefulWidget {
   final String initialText;
   final String initialValue;
   final String? errorText;
-  final bool isRequired;
   final bool hasAutocorrect;
   final bool isTextObscured;
   final bool isObscuredFunction;
@@ -319,6 +310,11 @@ class WarrantyTextField extends StatefulWidget {
 
   @override
   State<WarrantyTextField> createState() => _WarrantyTextFieldState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<bool>('hasAutocorrect', hasAutocorrect));
+  }
 }
 
 class _WarrantyTextFieldState extends State<WarrantyTextField> {
@@ -361,7 +357,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
               maximumDate: widget.endDateTime,
               minimumDate: widget.startDateTime,
               initialDateTime: widget.initialDateTime,
-              minimumYear: 2000,
+              minimumYear: DateTime.now().year - 50,
               maximumYear: 2150,
             ),
           );
