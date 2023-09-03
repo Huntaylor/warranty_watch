@@ -1,6 +1,8 @@
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/login/widgets/animated_box_widget.dart';
+import 'package:warranty_watch/app/widgets/loading_overlay.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
+import 'package:warranty_watch/app/widgets/warranty_logo_widget.dart';
 import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
 import 'package:warranty_watch/modules/cubit/login/login_cubit.dart';
 
@@ -9,6 +11,7 @@ class LoginViewV2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthCubit>().state;
     return BlocProvider<LoginCubit>(
       create: (context) => LoginCubit(),
       child: BlocListener<AuthCubit, AuthState>(
@@ -26,7 +29,10 @@ class LoginViewV2 extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(snackBarError);
           }
         },
-        child: const _Content(),
+        child: LoadingOverlay(
+          isLoading: authState.isLoading,
+          child: const _Content(),
+        ),
       ),
     );
   }
@@ -49,7 +55,11 @@ class _Content extends StatelessWidget {
             const AnimatedBox(
               animation: animation,
             ),
-            const _Logo(),
+            // const _Logo(),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: WarrantyLogo(),
+            ),
             const AnimatedBox(
               animation: animation,
             ),
