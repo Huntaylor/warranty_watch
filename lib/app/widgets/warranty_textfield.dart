@@ -20,6 +20,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.isObscuredFunction,
     required this.onObscuredTap,
     required this.textFieldName,
+    this.textInputAction,
     this.autofillHints,
     this.textCapitalization,
     this.secondHintText,
@@ -46,6 +47,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.startDateTime,
     required this.endDateTime,
     required this.textFieldName,
+    this.textInputAction,
     this.initialValue = '',
     super.key,
     this.onTap,
@@ -86,6 +88,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     this.currentLength,
+    this.textInputAction,
   })  : initialText = '',
         isDate = false,
         isTextObscured = false,
@@ -118,6 +121,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     this.currentLength,
+    this.textInputAction,
   })  : initialText = '',
         isDate = false,
         isTextObscured = false,
@@ -146,6 +150,7 @@ class WarrantyTextField extends StatefulWidget {
     this.endDateTime,
     this.inputFormatter,
     this.currentLength,
+    this.textInputAction,
   })  : initialText = '',
         isDate = false,
         isTextObscured = false,
@@ -173,6 +178,7 @@ class WarrantyTextField extends StatefulWidget {
     this.initialDateTime,
     this.startDateTime,
     this.endDateTime,
+    this.textInputAction,
     this.currentLength,
   })  : initialText = '',
         hintText = 'Email',
@@ -207,6 +213,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     this.currentLength,
+    this.textInputAction,
   })  : initialText = '',
         isDate = false,
         textCapitalization = TextCapitalization.none,
@@ -235,6 +242,7 @@ class WarrantyTextField extends StatefulWidget {
     this.maxLength,
     this.maxLengthEnforcement,
     this.currentLength,
+    this.textInputAction,
   })  : initialText = '',
         isDate = false,
         isLifeTime = false,
@@ -265,6 +273,7 @@ class WarrantyTextField extends StatefulWidget {
     this.maxLength,
     this.maxLengthEnforcement,
     this.currentLength,
+    this.textInputAction,
   })  : initialText = '',
         textInputType = TextInputType.text,
         isDate = false,
@@ -300,6 +309,7 @@ class WarrantyTextField extends StatefulWidget {
   final VoidCallback? onTap;
   final bool isDate;
   final bool isLifeTime;
+  final TextInputAction? textInputAction;
   final DateTime? initialDateTime;
   final DateTime? startDateTime;
   final DateTime? endDateTime;
@@ -395,6 +405,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
     //Widget
     Widget textFormField({required bool isDouble}) {
       return TextFormField(
+        textInputAction: widget.textInputAction,
         autofillHints: widget.autofillHints,
         autocorrect: widget.hasAutocorrect,
         obscureText: widget.isObscuredFunction,

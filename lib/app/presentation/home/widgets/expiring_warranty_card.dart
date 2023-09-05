@@ -122,7 +122,7 @@ class IndividualWarranties extends StatelessWidget {
                                 state.asReady.expiring![index].name!,
                               ),
                               Text(
-                                _dateFormat(
+                                dateFormat(
                                   state.asReady.expiring![index].endOfWarranty!,
                                 ),
                               ),
@@ -142,6 +142,6 @@ class IndividualWarranties extends StatelessWidget {
   }
 }
 
-String _dateFormat(DateTime date) {
+String dateFormat(DateTime date) {
   return '${date.month}/${date.day}/${date.year}';
 }

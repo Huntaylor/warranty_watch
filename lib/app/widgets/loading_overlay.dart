@@ -13,11 +13,12 @@ class LoadingOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        child,
-        if (isLoading) const _OverLay(),
-      ],
+    return AnimatedSwitcher(
+      transitionBuilder: (child, animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      duration: const Duration(milliseconds: 300),
+      child: isLoading ? const _OverLay() : child,
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/login/widgets/animated_box_widget.dart';
-import 'package:warranty_watch/app/widgets/loading_overlay.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_logo_widget.dart';
 import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
@@ -11,7 +10,6 @@ class LoginViewV2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authState = context.watch<AuthCubit>().state;
     return BlocProvider<LoginCubit>(
       create: (context) => LoginCubit(),
       child: BlocListener<AuthCubit, AuthState>(
@@ -29,10 +27,7 @@ class LoginViewV2 extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(snackBarError);
           }
         },
-        child: LoadingOverlay(
-          isLoading: authState.isLoading,
-          child: const _Content(),
-        ),
+        child: const _Content(),
       ),
     );
   }
@@ -43,6 +38,8 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthCubit>().state;
+
     final l10n = context.l10n;
 
     final authCubit = context.watch<AuthCubit>();
@@ -51,6 +48,7 @@ class _Content extends StatelessWidget {
         const animation = Duration(milliseconds: 100);
 
         return WarrantyBaseView(
+          isLoading: authState.isLoading,
           children: [
             const AnimatedBox(
               animation: animation,
@@ -140,9 +138,8 @@ class _SignInFieldSwitch extends StatelessWidget {
             visible: !state.isInitial,
             child: const _LoginFields(),
           ),
-          WarrantyElevatedButton(
-            isLoading: authCubit.state.isLoading &&
-                authCubit.state.asLoading.loginType == LoginType.email,
+          WarrantyElevatedButton.loading(
+            isLoading: false,
             onPressed: () {
               if (!state.isInitial) {
                 context.read<AuthCubit>().login(
@@ -207,12 +204,16 @@ class _LoginFields extends StatelessWidget {
       children: [
         WarrantyTextField.email(
           textFieldName: l10n.loginEmailFieldTitle,
+          initialValue: state.asLoggingIn.email,
           onChanged: context.read<LoginCubit>().changeEmail,
+          textInputAction: TextInputAction.next,
         ),
         WarrantyTextField.obscured(
           textFieldName: l10n.loginPasswordFieldTitle,
           onObscuredTap: context.read<LoginCubit>().toggleObscurity,
           isObscuredFunction: state.asLoggingIn.isObscured,
+          initialValue: state.asLoggingIn.password,
+          textInputAction: TextInputAction.done,
           hintText: l10n.passwordHint,
           onChanged: context.read<LoginCubit>().changePassword,
         ),

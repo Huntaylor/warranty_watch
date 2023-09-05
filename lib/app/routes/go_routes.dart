@@ -13,7 +13,7 @@ final goRoutes = GoRouter(
   initialLocation: Paths.login.goRoute,
   debugLogDiagnostics: true,
   routes: [
-    goRouteSlide(
+    goRouteFade(
       path: Paths.home.goRoute,
       pageBuilder: (_, __) => const HomeView(),
       routes: [
@@ -97,6 +97,27 @@ GoRoute goRouteSlide({
 
         return SlideTransition(
           position: animation.drive(tween),
+          child: child,
+        );
+      },
+    ),
+  );
+}
+
+GoRoute goRouteFade({
+  required String path,
+  required Widget Function(BuildContext, GoRouterState) pageBuilder,
+  List<RouteBase>? routes,
+}) {
+  return GoRoute(
+    routes: routes ?? [],
+    path: path,
+    pageBuilder: (context, state) => CustomTransitionPage<void>(
+      key: state.pageKey,
+      child: pageBuilder(context, state),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
           child: child,
         );
       },
