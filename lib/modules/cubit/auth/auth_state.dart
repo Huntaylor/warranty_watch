@@ -22,8 +22,8 @@ abstract class AuthState extends Equatable {
 }
 
 class _Loading extends AuthState {
-  final LoginType? loginType;
   const _Loading({this.loginType});
+  final LoginType? loginType;
 }
 
 @autoequal
