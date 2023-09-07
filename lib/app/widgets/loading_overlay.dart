@@ -28,7 +28,7 @@ class _OverLay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    // final l10n = context.l10n;
     return Scaffold(
       backgroundColor: context.colorScheme.primary,
       body: Column(

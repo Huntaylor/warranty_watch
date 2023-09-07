@@ -23,10 +23,7 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
       (data) {
         emit(
           _Ready(
-            warrantyInfo: data ?? [],
-            expiring: getExpiring(
-              data ?? [],
-            ),
+            warranties: data ?? [],
           ),
         );
       },
@@ -50,60 +47,31 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
     // await authRepository.updatePersonalData(updateUser);
   }
 
-  List<WarrantyInfo> getExpiring(List<WarrantyInfo> list) {
-    List<WarrantyInfo> expiringList;
-    expiringList = List.from(list);
-    if (expiringList.any((e) => e.lifeTime)) {
-      expiringList.removeWhere((ee) => ee.lifeTime);
-    }
-
-    if (expiringList
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
-      expiringList
-        ..removeWhere(
-          (ee) =>
-              ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
-              ee.lifeTime,
-        )
-        ..sort(
-          (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
-        );
-    }
-    return expiringList;
-  }
-
   Future<void> addOrEditWarranty({required WarrantyInfo warrantyInfo}) async {
     List<WarrantyInfo> expiringList;
 
-    expiringList = List.from(state.asReady.warrantyInfo);
+    expiringList = List.from(state.asReady.warranties);
 
     if (expiringList.any((e) => e.id == warrantyInfo.id)) {
-      expiringList[state.asReady.warrantyInfo
+      expiringList[state.asReady.warranties
           .indexWhere((e) => e.id == warrantyInfo.id)] = warrantyInfo;
-      emit(
-        state.asReady.copyWith(
-          remove: false,
-          warrantyInfo: expiringList,
-        ),
-      );
     } else {
       expiringList.add(warrantyInfo);
     }
 
     List<WarrantyInfo> newList;
-    newList = List.from(state.asReady.warrantyInfo);
+    newList = List.from(state.asReady.warranties);
     // getWarranties();
 
     if (newList.any(
       (e) => e.id == warrantyInfo.id,
     )) {
-      newList[state.asReady.warrantyInfo.indexWhere(
+      newList[state.asReady.warranties.indexWhere(
         (e) => e.id == warrantyInfo.id,
       )] = warrantyInfo;
       emit(
         state.asReady.copyWith(
-          remove: false,
-          warrantyInfo: newList,
+          warranties: newList,
         ),
       );
     } else {
@@ -111,20 +79,19 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
 
       emit(
         state.asReady.copyWith(
-          remove: !state.asReady.remove!,
-          warrantyInfo: newList,
+          warranties: newList,
         ),
       );
     }
   }
 
   void removeWarranty(int index) {
+    // TODO (huntaylor): this function doesn't remove the item from the backend
     List<WarrantyInfo> removeList;
-    removeList = state.asReady.warrantyInfo..removeAt(index);
+    removeList = state.asReady.warranties..removeAt(index);
     emit(
       state.asReady.copyWith(
-        remove: !state.asReady.remove!,
-        warrantyInfo: removeList,
+        warranties: removeList,
       ),
     );
   }

@@ -37,7 +37,7 @@ class _Content extends StatelessWidget {
               return const TriangleLoadingIndicator();
             }
             final list =
-                context.watch<WarrantiesCubit>().state.asReady.warrantyInfo;
+                context.watch<WarrantiesCubit>().state.asReady.warranties;
             return (list.isEmpty)
                 ? Text(context.l10n.noCurrentWarranties)
                 : ListView.builder(

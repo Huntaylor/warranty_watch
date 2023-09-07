@@ -77,8 +77,7 @@ class IndividualWarranties extends StatelessWidget {
               l10n.expiringError,
             ),
           );
-        } else if (state.asReady.expiring == null ||
-            state.asReady.expiring!.isEmpty) {
+        } else if (state.asReady.expiring.isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(8),
             child: Text(
@@ -90,7 +89,7 @@ class IndividualWarranties extends StatelessWidget {
           child: ListView.builder(
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: state.asReady.expiring!.length,
+            itemCount: state.asReady.expiring.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(
@@ -99,7 +98,7 @@ class IndividualWarranties extends StatelessWidget {
                 ),
                 child: GestureDetector(
                   onTap: () => detailsCubit.selectedWarrantyInitial(
-                    state.asReady.expiring![index],
+                    state.asReady.expiring[index],
                   ),
                   child: Column(
                     children: [
@@ -119,11 +118,11 @@ class IndividualWarranties extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                state.asReady.expiring![index].name!,
+                                state.asReady.expiring[index].name!,
                               ),
                               Text(
                                 dateFormat(
-                                  state.asReady.expiring![index].endOfWarranty!,
+                                  state.asReady.expiring[index].endOfWarranty!,
                                 ),
                               ),
                             ],

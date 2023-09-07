@@ -25,14 +25,54 @@ class _Loading extends WarrantiesState {
 @CopyWith()
 class _Ready extends WarrantiesState {
   const _Ready({
-    required this.warrantyInfo,
-    this.expiring,
-    this.remove,
+    required this.warranties,
   });
 
-  final List<WarrantyInfo> warrantyInfo;
-  final List<WarrantyInfo>? expiring;
-  final bool? remove;
+  final List<WarrantyInfo> warranties;
+
+  List<WarrantyInfo> get expiring {
+    List<WarrantyInfo> expiringList;
+    expiringList = List.from(warranties);
+    if (expiringList.any((e) => e.lifeTime)) {
+      expiringList.removeWhere((ee) => ee.lifeTime);
+    }
+
+    if (expiringList
+        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
+      expiringList
+        ..removeWhere(
+          (ee) =>
+              ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
+              ee.lifeTime,
+        )
+        ..sort(
+          (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
+        );
+    }
+    return expiringList;
+  }
+
+  List<WarrantyInfo> get expired {
+    List<WarrantyInfo> expiredList;
+    expiredList = List.from(warranties);
+    if (expiredList.any((e) => e.lifeTime)) {
+      expiredList.removeWhere((ee) => ee.lifeTime);
+    }
+
+    if (expiredList
+        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
+      expiredList
+        ..removeWhere(
+          (ee) =>
+              ee.endOfWarranty!.difference(DateTime.now()).inDays >= 0 ||
+              ee.lifeTime,
+        )
+        ..sort(
+          (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
+        );
+    }
+    return expiredList;
+  }
 
   @override
   List<Object?> get props => _$props;

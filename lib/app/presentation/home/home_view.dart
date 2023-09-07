@@ -1,7 +1,9 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
+import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -48,22 +50,74 @@ class HomeView extends StatelessWidget {
           listTitle: 'About to Expire',
           onMenu: () {},
         ),
-        // ListView.builder(itemBuilder: (context, index) {
-        //   return WarrantyDisplayCard(warrantyInfo: warranties[i], onSelect: (){});
-        // },),
-        const SizedBox(
-          height: 5,
-        ),
-        //  Current Warranty
-        WarrantyElevatedButton.general(
-          isEnabled: true,
-          onPressed: () {
-            context.push(Paths.home.warranties.path);
+        BlocBuilder<WarrantiesCubit, WarrantiesState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const TriangleLoadingIndicator();
+            }
+            return Visibility(
+              visible: state.asReady.expiring.isNotEmpty,
+              replacement: Text(
+                'There are no warranties about to expire',
+                style: context.textTheme.titleMedium!
+                    .copyWith(color: context.colorScheme.primary),
+              ),
+              child: ListView.builder(
+                itemCount: state.asReady.expiring.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return WarrantyDisplayCard(
+                    warrantyInfo: state.asReady.expiring[index],
+                    onSelect: () {},
+                  );
+                },
+              ),
+            );
           },
-          text: context.l10n.currentWarrantyBtn,
         ),
+        WarrantiesTitle(
+          listTitle: 'Your Warranties',
+          onMenu: () {},
+        ),
+
+        BlocBuilder<WarrantiesCubit, WarrantiesState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const TriangleLoadingIndicator();
+            }
+            return Visibility(
+              visible: state.asReady.expiring.isNotEmpty,
+              replacement: Text(
+                'You currently have no warranties to watch',
+                style: context.textTheme.titleMedium!
+                    .copyWith(color: context.colorScheme.primary),
+              ),
+              child: ListView.builder(
+                itemCount: state.asReady.warranties.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return WarrantyDisplayCard(
+                    warrantyInfo: state.asReady.warranties[index],
+                    onSelect: () {},
+                  );
+                },
+              ),
+            );
+          },
+        ),
+        // //  Current Warranty
+        // WarrantyElevatedButton.general(
+        //   isEnabled: true,
+        //   onPressed: () {
+        //     context.push(Paths.home.warranties.path);
+        //   },
+        //   text: context.l10n.currentWarrantyBtn,
+        // ),
         const SizedBox(
           height: 5,
+        ),
+        const WarrantiesTitle(
+          listTitle: 'Already Expired',
         ),
       ],
     );
@@ -73,21 +127,35 @@ class HomeView extends StatelessWidget {
 class WarrantiesTitle extends StatelessWidget {
   const WarrantiesTitle({
     required this.listTitle,
-    required this.onMenu,
+    this.onMenu,
     super.key,
   });
   final String listTitle;
-  final VoidCallback onMenu;
+  final VoidCallback? onMenu;
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text('About to expire'),
-        SizedBox.shrink(),
-        Icon(Icons.menu),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            listTitle,
+            style: context.textTheme.titleLarge!.copyWith(
+              color: context.colorScheme.primary,
+            ),
+          ),
+          const SizedBox.shrink(),
+          Visibility(
+            visible: onMenu != null,
+            child: Icon(
+              Icons.menu,
+              color: context.colorScheme.primary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
