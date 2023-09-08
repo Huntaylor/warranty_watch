@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:marquee/marquee.dart';
+import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 class WarrantyDisplayCard extends StatelessWidget {
@@ -12,19 +14,66 @@ class WarrantyDisplayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const duration = Duration(seconds: 5);
     return GestureDetector(
       onTap: onSelect,
-      child: Card(
-        child: SizedBox(
-          height: 200,
-          child: Column(
-            children: [
-              Container(),
-              Text(warrantyInfo.name!),
-              Text(
-                dateFormat(warrantyInfo.endOfWarranty!),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 12,
+          top: 10,
+          bottom: 10,
+          left: 3,
+        ),
+        child: Material(
+          borderRadius: BorderRadius.circular(20),
+          elevation: 4,
+          child: SizedBox(
+            height: 200,
+            width: 150,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 10,
               ),
-            ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Container(
+                      width: 130,
+                      height: 130,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(13),
+                        color: context.colorScheme.tertiaryContainer,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Visibility(
+                      replacement: Text(
+                        warrantyInfo.name!,
+                        style: context.textTheme.labelLarge,
+                      ),
+                      visible: warrantyInfo.name!.length >= 18,
+                      child: Marquee(
+                        text: warrantyInfo.name!,
+                        style: context.textTheme.labelLarge,
+                        blankSpace: 25,
+                        pauseAfterRound: duration,
+                        startAfter: duration,
+                        showFadingOnlyWhenScrolling: false,
+                        fadingEdgeEndFraction: 0.5,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    timeLeft(warrantyInfo.endOfWarranty!),
+                    style: context.textTheme.labelSmall,
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -32,6 +81,9 @@ class WarrantyDisplayCard extends StatelessWidget {
   }
 }
 
-String dateFormat(DateTime date) {
-  return '${date.month}/${date.day}/${date.year}';
+String timeLeft(DateTime date) {
+  final timeLeft = Jiffy.parseFromDateTime(date).fromNow(
+    withPrefixAndSuffix: false,
+  );
+  return timeLeft;
 }

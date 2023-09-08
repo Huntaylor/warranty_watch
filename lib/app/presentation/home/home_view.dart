@@ -1,6 +1,5 @@
-import 'package:google_fonts/google_fonts.dart';
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
+import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
@@ -53,25 +52,11 @@ class HomeView extends StatelessWidget {
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const TriangleLoadingIndicator();
+              return const LinearProgressIndicator();
             }
-            return Visibility(
-              visible: state.asReady.expiring.isNotEmpty,
-              replacement: Text(
-                'There are no warranties about to expire',
-                style: context.textTheme.titleMedium!
-                    .copyWith(color: context.colorScheme.primary),
-              ),
-              child: ListView.builder(
-                itemCount: state.asReady.expiring.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return WarrantyDisplayCard(
-                    warrantyInfo: state.asReady.expiring[index],
-                    onSelect: () {},
-                  );
-                },
-              ),
+            return WarrantiesCardListBuilder(
+              title: 'There are no warranties about to expire',
+              warranties: state.asReady.expiring,
             );
           },
         ),
@@ -83,25 +68,11 @@ class HomeView extends StatelessWidget {
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const TriangleLoadingIndicator();
+              return const LinearProgressIndicator();
             }
-            return Visibility(
-              visible: state.asReady.expiring.isNotEmpty,
-              replacement: Text(
-                'You currently have no warranties to watch',
-                style: context.textTheme.titleMedium!
-                    .copyWith(color: context.colorScheme.primary),
-              ),
-              child: ListView.builder(
-                itemCount: state.asReady.warranties.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return WarrantyDisplayCard(
-                    warrantyInfo: state.asReady.warranties[index],
-                    onSelect: () {},
-                  );
-                },
-              ),
+            return WarrantiesCardListBuilder(
+              title: 'You currently have no warranties to watch',
+              warranties: state.asReady.warranties,
             );
           },
         ),
@@ -120,6 +91,42 @@ class HomeView extends StatelessWidget {
           listTitle: 'Already Expired',
         ),
       ],
+    );
+  }
+}
+
+class WarrantiesCardListBuilder extends StatelessWidget {
+  const WarrantiesCardListBuilder({
+    required this.title,
+    required this.warranties,
+    super.key,
+  });
+
+  final String title;
+  final List<WarrantyInfo> warranties;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: warranties.isNotEmpty,
+      replacement: Text(
+        title,
+        style: context.textTheme.titleMedium!
+            .copyWith(color: context.colorScheme.primary),
+      ),
+      child: Container(
+        height: 215,
+        child: ListView.builder(
+          itemCount: warranties.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return WarrantyDisplayCard(
+              warrantyInfo: warranties[index],
+              onSelect: () {},
+            );
+          },
+        ),
+      ),
     );
   }
 }

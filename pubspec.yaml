@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.18.0
   jiffy: ^6.2.1
   json_annotation: ^4.8.1
+  marquee: ^2.2.3
   path: ^1.8.3
   path_provider: ^2.0.15
   shared_preferences: ^2.1.2

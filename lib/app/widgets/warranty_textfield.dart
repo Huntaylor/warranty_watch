@@ -409,7 +409,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         autofillHints: widget.autofillHints,
         autocorrect: widget.hasAutocorrect,
         obscureText: widget.isObscuredFunction,
-        maxLength: widget.maxLength,
+        // maxLength: widget.maxLength,
         maxLengthEnforcement: widget.maxLengthEnforcement,
         keyboardType: widget.textInputType,
         enabled: !widget.isLifeTime,

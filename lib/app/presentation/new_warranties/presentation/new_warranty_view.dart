@@ -138,7 +138,7 @@ class _Content extends StatelessWidget {
                                         .asReady.warrantyInfo.wantsReminders,
                                     onChanged: (value) => context
                                         .read<WarrantyCubit>()
-                                        .toggleWantsReminders,
+                                        .toggleWantsReminders(value: value),
                                   ),
                                   const Text('Reminder before expiration'),
                                 ],
@@ -204,7 +204,7 @@ class _Content extends StatelessWidget {
                                     await providerContext
                                         .read<WarrantyCubit>()
                                         .changeReceiptCamera();
-                                    popView;
+                                    context.pop();
                                   },
                                 );
                               },
@@ -235,13 +235,13 @@ class _Content extends StatelessWidget {
                                     await providerContext
                                         .read<WarrantyCubit>()
                                         .changeProductPhotos();
-                                    popView;
+                                    context.pop();
                                   },
                                   onReceiptCameraTap: () async {
                                     await providerContext
                                         .read<WarrantyCubit>()
                                         .changeProductCamera();
-                                    popView;
+                                    context.pop();
                                   },
                                 );
                               },
@@ -266,7 +266,7 @@ class _Content extends StatelessWidget {
                     onPressed: () async {
                       try {
                         await context.read<WarrantyCubit>().submitWarranty();
-                        popView;
+                        context.pop();
                       } catch (e) {
                         debugPrint('$e');
                       }
