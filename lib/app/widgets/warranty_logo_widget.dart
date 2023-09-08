@@ -1,7 +1,8 @@
 import 'package:warranty_watch/app/app_library.dart';
 
 class WarrantyLogo extends StatelessWidget {
-  const WarrantyLogo({super.key});
+  const WarrantyLogo({this.hasBorder, super.key});
+  final bool? hasBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +10,8 @@ class WarrantyLogo extends StatelessWidget {
     return CustomPaint(
       size: const Size(250, 125), // Adjust width and height as needed
       painter: OvalPainter(
-        textColor: context.colorScheme.onPrimary,
+        hasBorder: hasBorder ?? false,
+        textColor: context.colorScheme.background,
         text: l10n.mainTitle.toUpperCase(),
         borderColor: context.colorScheme.onPrimary,
         background: context.colorScheme.primary,
@@ -24,12 +26,14 @@ class OvalPainter extends CustomPainter {
     required this.background,
     required this.textColor,
     required this.text,
+    required this.hasBorder,
     super.repaint,
   });
   final Color borderColor;
   final Color background;
   final Color textColor;
   final String text;
+  final bool hasBorder;
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -47,7 +51,9 @@ class OvalPainter extends CustomPainter {
       ..strokeWidth = 5.0; // Border width
 
     // Draw a border around the oval
-    canvas.drawOval(rect, borderPaint);
+    if (hasBorder) {
+      canvas.drawOval(rect, borderPaint);
+    }
 
     final textStyle = TextStyle(
       color: textColor,

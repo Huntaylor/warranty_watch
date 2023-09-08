@@ -67,6 +67,7 @@ class _Content extends StatelessWidget {
                 l10n.loginCreateTitle,
                 textAlign: TextAlign.center,
                 style: context.textTheme.titleLarge!.apply(
+                  color: context.colorScheme.onBackground,
                   fontWeightDelta: 2,
                 ),
               ),
