@@ -54,7 +54,7 @@ class HomeView extends StatelessWidget {
             if (state.isLoading) {
               return const LinearProgressIndicator();
             }
-            return WarrantiesCardListBuilder(
+            return _WarrantiesCardListBuilder(
               title: 'There are no warranties about to expire',
               warranties: state.asReady.expiring,
             );
@@ -70,7 +70,7 @@ class HomeView extends StatelessWidget {
             if (state.isLoading) {
               return const LinearProgressIndicator();
             }
-            return WarrantiesCardListBuilder(
+            return _WarrantiesCardListBuilder(
               title: 'You currently have no warranties to watch',
               warranties: state.asReady.warranties,
             );
@@ -95,11 +95,10 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class WarrantiesCardListBuilder extends StatelessWidget {
-  const WarrantiesCardListBuilder({
+class _WarrantiesCardListBuilder extends StatelessWidget {
+  const _WarrantiesCardListBuilder({
     required this.title,
     required this.warranties,
-    super.key,
   });
 
   final String title;
@@ -114,7 +113,7 @@ class WarrantiesCardListBuilder extends StatelessWidget {
         style: context.textTheme.titleMedium!
             .copyWith(color: context.colorScheme.primary),
       ),
-      child: Container(
+      child: SizedBox(
         height: 215,
         child: ListView.builder(
           itemCount: warranties.length,

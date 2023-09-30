@@ -8,3 +8,5 @@ doc: flutter doctor -v
 full clean: flutter clean && flutter pub get && cd ios && pod deintegrate && pod install && cd ../
 
 init: flutterfire configure
+
+pod clean: cd ios; pod deintegrate; rm -rf Podfile.lock; cd ..; flutter pub get; cd ios; pod install --repo-update

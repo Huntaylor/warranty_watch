@@ -6,6 +6,7 @@ import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
 import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
 import 'package:warranty_watch/app/routes/go_routes.dart';
 import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
+import 'package:warranty_watch/modules/cubit/settings/settings_cubit.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 import 'package:warranty_watch/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
@@ -30,6 +31,9 @@ class App extends StatelessWidget {
           create: (context) => AuthCubit(
             FirebaseAuthRepository(),
           ),
+        ),
+        BlocProvider<SettingsCubit>(
+          create: (context) => SettingsCubit(),
         ),
         BlocProvider<WarrantiesCubit>(
           create: (context) => WarrantiesCubit(

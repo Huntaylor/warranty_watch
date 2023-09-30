@@ -16,6 +16,7 @@ class WarrantyDetailsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.colorScheme.background,
       body: SafeArea(
+      
         child: ListView(
           children: [
             Stack(
