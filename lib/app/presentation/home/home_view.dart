@@ -2,6 +2,7 @@ import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_watch/app/widgets/basic_warranty_card.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
+import 'package:warranty_watch/app/widgets/warranty_dialog_box.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 
@@ -70,6 +71,15 @@ class HomeView extends StatelessWidget {
             return _WarrantiesCardListBuilder(
               title: 'There are no warranties about to expire',
               warranties: state.asReady.expiring,
+              onSelect: (warranty) async {
+                return showDialog(
+                  // barrierDismissible: false,
+                  context: context,
+                  builder: (context) => WarrantyDialogBox(
+                    warrantyInfo: warranty,
+                  ),
+                );
+              },
             );
           },
         ),
@@ -86,6 +96,15 @@ class HomeView extends StatelessWidget {
             return _WarrantiesCardListBuilder(
               title: 'You currently have no warranties to watch',
               warranties: state.asReady.currentWarranties,
+              onSelect: (warranty) async {
+                return showDialog(
+                  // barrierDismissible: false,
+                  context: context,
+                  builder: (context) => WarrantyDialogBox(
+                    warrantyInfo: warranty,
+                  ),
+                );
+              },
             );
           },
         ),
@@ -130,10 +149,12 @@ class _WarrantiesCardListBuilder extends StatelessWidget {
   const _WarrantiesCardListBuilder({
     required this.title,
     required this.warranties,
+    required this.onSelect,
   });
 
   final String title;
   final List<WarrantyInfo> warranties;
+  final Future<void> Function(WarrantyInfo warranty) onSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +175,7 @@ class _WarrantiesCardListBuilder extends StatelessWidget {
           itemBuilder: (context, index) {
             return WarrantyDisplayCard(
               warrantyInfo: warranties[index],
-              onSelect: () {},
+              onSelect: () => onSelect(warranties[index]),
             );
           },
         ),

@@ -62,8 +62,10 @@ class WarrantyDisplayCard extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13),
-                          color: context.colorScheme.tertiaryContainer,
                         ),
+                        child: _isUrlValid(warrantyInfo.imageUrl)
+                            ? Image.network(warrantyInfo.imageUrl!)
+                            : null,
                       ),
                     ),
                   ),
@@ -107,4 +109,9 @@ String timeLeft(DateTime date) {
     withPrefixAndSuffix: false,
   );
   return timeLeft;
+}
+
+bool _isUrlValid(String? url) {
+  if (url == null || url.isEmpty) return false;
+  return Uri.parse(url).isAbsolute;
 }

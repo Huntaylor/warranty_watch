@@ -5,6 +5,5 @@ abstract class IWarrantiesSource {
   Future<void> editWarranty(WarrantyInfo warrantyInfo);
   Future<void> deleteWarranty(WarrantyInfo warrantyInfo);
   Future<List<WarrantyInfo>> getAll();
-  Future<List<WarrantyInfo>> getAllExpired();
   Future<WarrantyInfo> getById(WarrantyInfo warrantyInfo);
 }

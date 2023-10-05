@@ -185,9 +185,4 @@ class DataRepository implements IWarrantiesSource {
       ),
     );
   }
-
-  @override
-  Future<List<WarrantyInfo>> getAllExpired() {
-    throw UnimplementedError();
-  }
 }
