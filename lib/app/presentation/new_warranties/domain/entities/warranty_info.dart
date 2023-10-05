@@ -9,7 +9,7 @@ part 'warranty_info.g.dart';
 @CopyWith()
 @autoequal
 class WarrantyInfo extends Equatable {
-  WarrantyInfo({
+  const WarrantyInfo({
     required this.id,
     this.name,
     this.purchaseDate,
@@ -23,14 +23,13 @@ class WarrantyInfo extends Equatable {
     this.receiptImageUrl,
     this.lifeTime = false,
     this.wantsReminders = false,
-  }) : createdOn = DateTime.now();
+  });
 
   factory WarrantyInfo.fromJson(Map<dynamic, dynamic> source) =>
       _$WarrantyInfoFromJson(source);
   final String id;
   final String? name;
   final DateTime? purchaseDate;
-  final DateTime? createdOn;
   final String? warrantyWebsite;
   final DateTime? endOfWarranty;
   final DateTime? reminderDate;

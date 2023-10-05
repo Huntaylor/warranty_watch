@@ -3,7 +3,7 @@ import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/w
 import 'package:warranty_watch/app/utils/unions/url_launch_helper.dart';
 
 class WarrantyDetailsCubit extends Cubit<WarrantyInfo> {
-  WarrantyDetailsCubit() : super(WarrantyInfo(id: ''));
+  WarrantyDetailsCubit() : super(const WarrantyInfo(id: ''));
 
   void selectedWarrantyInitial(WarrantyInfo selectedWarranty) {
     emit(selectedWarranty);

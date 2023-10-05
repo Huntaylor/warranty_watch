@@ -56,7 +56,7 @@ class _Content extends StatelessWidget {
             // const _Logo(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 40),
-              child: WarrantyLogo.general(),
+              child: WarrantyLogo(),
             ),
             const AnimatedBox(
               animation: animation,

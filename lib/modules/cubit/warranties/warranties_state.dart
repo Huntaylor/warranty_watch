@@ -30,34 +30,13 @@ class _Ready extends WarrantiesState {
 
   final List<WarrantyInfo> warranties;
 
-  List<WarrantyInfo> get currentWarranties {
-    List<WarrantyInfo> currentWarranties;
-    currentWarranties = List.from(warranties);
-
-    if (currentWarranties
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
-      currentWarranties
-        ..removeWhere(
-          (ee) => ee.endOfWarranty!.difference(DateTime.now()).inDays <= 0,
-        )
-        ..sort(
-          (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
-        );
-    }
-    return currentWarranties;
-  }
-
   List<WarrantyInfo> get expiring {
     List<WarrantyInfo> expiringList;
     expiringList = List.from(warranties);
     if (expiringList.any((e) => e.lifeTime)) {
       expiringList.removeWhere((ee) => ee.lifeTime);
-    } else if (expiringList
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
-      expiringList.removeWhere(
-        (ee) => ee.endOfWarranty!.difference(DateTime.now()).inDays <= 0,
-      );
     }
+
     if (expiringList
         .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
       expiringList

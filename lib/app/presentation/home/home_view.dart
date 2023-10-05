@@ -1,6 +1,5 @@
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:warranty_watch/app/widgets/basic_warranty_card.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
@@ -12,23 +11,11 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return WarrantyBaseView(
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(.3),
-              blurRadius: 25,
-              spreadRadius: 100,
-            ),
-          ],
-          shape: BoxShape.circle,
-        ),
-        child: FloatingActionButton(
-          onPressed: () {
-            context.push(Paths.home.newWarranty.path);
-          },
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push(Paths.home.newWarranty.path);
+        },
+        child: const Icon(Icons.add),
       ),
       appBar: AppBar(
         leading: const SizedBox(),
@@ -85,7 +72,7 @@ class HomeView extends StatelessWidget {
             }
             return _WarrantiesCardListBuilder(
               title: 'You currently have no warranties to watch',
-              warranties: state.asReady.currentWarranties,
+              warranties: state.asReady.warranties,
             );
           },
         ),
@@ -102,24 +89,6 @@ class HomeView extends StatelessWidget {
         ),
         const WarrantiesTitle(
           listTitle: 'Already Expired',
-        ),
-        BlocBuilder<WarrantiesCubit, WarrantiesState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const LinearProgressIndicator();
-            }
-            return ListView.builder(
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: state.asReady.expired.length,
-              itemBuilder: (context, index) {
-                return BasicWarrantyCard(
-                  title: state.asReady.expired[index].name!,
-                  expirationDate: state.asReady.expired[index].endOfWarranty!,
-                );
-              },
-            );
-          },
         ),
       ],
     );
@@ -147,8 +116,6 @@ class _WarrantiesCardListBuilder extends StatelessWidget {
       child: SizedBox(
         height: 215,
         child: ListView.builder(
-          clipBehavior: Clip.none,
-          physics: const ClampingScrollPhysics(),
           itemCount: warranties.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
@@ -175,7 +142,7 @@ class WarrantiesTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.symmetric(vertical: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

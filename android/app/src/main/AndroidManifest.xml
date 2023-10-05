@@ -14,7 +14,7 @@
    <application
         android:label="Warranty Watch"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/icon_squircle">
         <activity
             android:name=".MainActivity"
             android:exported="true"
