@@ -24,9 +24,26 @@ class WarrantyDisplayCard extends StatelessWidget {
           bottom: 10,
           left: 3,
         ),
-        child: Material(
-          borderRadius: BorderRadius.circular(20),
-          elevation: 4,
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: context.colorScheme.primary.withOpacity(.1),
+                offset: const Offset(
+                  0,
+                  3,
+                ),
+                blurRadius: 3,
+                spreadRadius: 1,
+              ),
+              const BoxShadow(
+                color: Colors.white,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(
+              20,
+            ),
+          ),
           child: SizedBox(
             height: 200,
             width: 150,
@@ -38,14 +55,15 @@ class WarrantyDisplayCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(13),
-                        color: context.colorScheme.tertiaryContainer,
+                  Expanded(
+                    flex: 6,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(13),
+                          color: context.colorScheme.tertiaryContainer,
+                        ),
                       ),
                     ),
                   ),
@@ -66,6 +84,9 @@ class WarrantyDisplayCard extends StatelessWidget {
                         fadingEdgeEndFraction: 0.5,
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   Text(
                     timeLeft(warrantyInfo.endOfWarranty!),

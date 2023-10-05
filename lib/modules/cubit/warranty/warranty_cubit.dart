@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:autoequal/autoequal.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,13 +11,13 @@ part 'warranty_cubit.g.dart';
 class WarrantyCubit extends Cubit<WarrantyState> {
   WarrantyCubit(this._dataRepository)
       : super(
-          const _Ready(
+          _Ready(
             warrantyInfo: WarrantyInfo(id: ''),
           ),
         );
   final DataRepository _dataRepository;
 
- void toggleLifeTime() {
+  void toggleLifeTime() {
     emit(
       //   _Initial(warrantyInfo: state.asInitial.warrantyInfo.copyWith(
       //   lifeTime: !state.asInitial.warrantyInfo.lifeTime,
@@ -36,7 +34,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
- void changePurchaseDate(String date) {
+  void changePurchaseDate(String date) {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -46,7 +44,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-void  changeProductName(String productName) {
+  void changeProductName(String productName) {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -56,7 +54,7 @@ void  changeProductName(String productName) {
     );
   }
 
-void  changeWebsiteName(String websiteName) {
+  void changeWebsiteName(String websiteName) {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -66,7 +64,7 @@ void  changeWebsiteName(String websiteName) {
     );
   }
 
- void changeAddtionalDetails(String additionalDetails) {
+  void changeAddtionalDetails(String additionalDetails) {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -76,7 +74,7 @@ void  changeWebsiteName(String websiteName) {
     );
   }
 
- void changeEndDate(String date) {
+  void changeEndDate(String date) {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -164,7 +162,7 @@ void  changeWebsiteName(String websiteName) {
     }
   }
 
- void toggleWantsReminders({required bool value}) {
+  void toggleWantsReminders({required bool value}) {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -266,13 +264,7 @@ void  changeWebsiteName(String websiteName) {
     emit(
       const _Loading(),
     );
-    try {
-      await _dataRepository.submitWarranty(warrantyDetils);
-    } catch (e) {
-      log(
-        e.toString(),
-      );
-    }
+    await _dataRepository.submitWarranty(warrantyDetils);
   }
 
   void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {

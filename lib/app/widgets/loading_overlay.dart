@@ -34,9 +34,7 @@ class _OverLay extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const WarrantyLogo(
-            hasBorder: true,
-          ),
+          const WarrantyLogo.border(),
           const SizedBox(
             height: 30,
           ),
