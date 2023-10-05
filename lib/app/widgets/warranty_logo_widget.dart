@@ -1,20 +1,46 @@
 import 'package:warranty_watch/app/app_library.dart';
 
 class WarrantyLogo extends StatelessWidget {
-  const WarrantyLogo({this.hasBorder, super.key});
+  const WarrantyLogo({
+    required this.isSmall,
+    required this.size,
+    this.hasBorder,
+    super.key,
+  });
+
+  const WarrantyLogo.general({super.key})
+      : hasBorder = false,
+        size = const Size(250, 125),
+        isSmall = false;
+
+  const WarrantyLogo.border({super.key})
+      : hasBorder = true,
+        size = const Size(250, 125),
+        isSmall = false;
+
+  const WarrantyLogo.small({super.key})
+      : hasBorder = false,
+        size = const Size(105, 50),
+        isSmall = true;
+
   final bool? hasBorder;
+  final bool isSmall;
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return CustomPaint(
-      size: const Size(250, 125), // Adjust width and height as needed
+      size: size, // Adjust width and height as needed
       painter: OvalPainter(
         hasBorder: hasBorder ?? false,
         textColor: context.colorScheme.background,
         text: l10n.mainTitle.toUpperCase(),
         borderColor: context.colorScheme.onPrimary,
-        background: context.colorScheme.primary,
+        background: isSmall
+            ? context.colorScheme.primary.withOpacity(.5)
+            : context.colorScheme.primary,
+        isSmall: isSmall, // Bool for changing font size
       ),
     );
   }
@@ -27,6 +53,7 @@ class OvalPainter extends CustomPainter {
     required this.textColor,
     required this.text,
     required this.hasBorder,
+    required this.isSmall,
     super.repaint,
   });
   final Color borderColor;
@@ -34,6 +61,8 @@ class OvalPainter extends CustomPainter {
   final Color textColor;
   final String text;
   final bool hasBorder;
+  final bool isSmall;
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -57,7 +86,7 @@ class OvalPainter extends CustomPainter {
 
     final textStyle = TextStyle(
       color: textColor,
-      fontSize: 37.588035583496094,
+      fontSize: isSmall ? 15 : 37.588035583496094,
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.italic,
       height: 0.8,
