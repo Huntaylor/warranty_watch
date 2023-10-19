@@ -1,7 +1,9 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:marquee/marquee.dart';
 import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
 
 class WarrantyDisplayCard extends StatelessWidget {
   const WarrantyDisplayCard({
@@ -60,11 +62,41 @@ class WarrantyDisplayCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Container(
+                        clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
+                          color: context.colorScheme.tertiaryContainer
+                              .withOpacity(.4),
                           borderRadius: BorderRadius.circular(13),
                         ),
                         child: _isUrlValid(warrantyInfo.imageUrl)
-                            ? Image.network(warrantyInfo.imageUrl!)
+                            ? Image.network(
+                                warrantyInfo.imageUrl!,
+                                fit: BoxFit.fitHeight,
+                                frameBuilder: (
+                                  context,
+                                  child,
+                                  frame,
+                                  wasSynchronouslyLoaded,
+                                ) {
+                                  if (wasSynchronouslyLoaded) {
+                                    return child;
+                                  }
+                                  return AnimatedOpacity(
+                                    opacity: frame == null ? 0 : 1,
+                                    duration: const Duration(seconds: 3),
+                                    curve: Curves.easeOut,
+                                    child: child,
+                                  );
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  return (loadingProgress == null)
+                                      ? child
+                                      : const SizedBox.expand(
+                                          child: TriangleLoadingIndicator(),
+                                        );
+                                },
+                              )
                             : null,
                       ),
                     ),
@@ -90,9 +122,8 @@ class WarrantyDisplayCard extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    timeLeft(warrantyInfo.endOfWarranty!),
-                    style: context.textTheme.labelSmall,
+                  WarrantyCountdown.onlyTime(
+                    warrantyDate: warrantyInfo.endOfWarranty!,
                   ),
                 ],
               ),

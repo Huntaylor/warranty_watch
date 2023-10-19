@@ -56,11 +56,6 @@ class SettingsView extends StatelessWidget {
                             onPressed: () {},
                           ),
                           _SettingsExpandable(
-                            titleText: 'Leave a Review',
-                            buttonText: 'Leave a Review',
-                            onPressed: () {},
-                          ),
-                          _SettingsExpandable(
                             titleText: 'Report an issue',
                             buttonText: 'Report an issue',
                             onPressed: () {},
