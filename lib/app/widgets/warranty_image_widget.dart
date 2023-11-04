@@ -2,7 +2,6 @@ import 'package:warranty_watch/app/app_library.dart';
 
 class WarrantyImage extends StatelessWidget {
   const WarrantyImage({
-    // this.fileList,
     required this.text,
     required this.onTap,
     required this.icon,
@@ -11,7 +10,6 @@ class WarrantyImage extends StatelessWidget {
   });
 
   final String? image;
-  // final List<WarrantyImages>? fileList;
   final String text;
   final VoidCallback onTap;
   final Widget icon;
@@ -19,115 +17,68 @@ class WarrantyImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15, left: 5, right: 5),
-      child: /*  fileList != null
-          ? ListView.builder(
-              itemBuilder: (context, index) {
-                return Stack(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * .2,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.shade500,
-                        ),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
-                        child: Image(
-                          image: FileImage(fileList![index].image),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: onTap,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Transform.translate(
-                          offset: const Offset(5, -5),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.change_circle,
-                              color: Colors.lightBlue,
-                              size: 36,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            )
-          : */
-          (image != null)
-              ? Stack(
-                  children: [
-                    Center(
-                      child: Container(
-                        // height: MediaQuery.of(context).size.height * .2,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Image(
-                          image: FileImage(File(image!)),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: onTap,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Transform.translate(
-                          offset: const Offset(5, -5),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.change_circle,
-                              color: Theme.of(context).primaryColorLight,
-                              size: 36,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : GestureDetector(
-                  onTap: onTap,
+      padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+      child: (image != null)
+          ? Stack(
+              children: [
+                Center(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).inputDecorationTheme.fillColor,
-                      border: Border.all(color: context.colorScheme.primary),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Text(
-                            text,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          icon,
-                        ],
+                    child: Image(
+                      image: FileImage(File(image!)),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: onTap,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Transform.translate(
+                      offset: const Offset(5, -5),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.change_circle,
+                          color: Theme.of(context).primaryColorLight,
+                          size: 36,
+                        ),
                       ),
                     ),
                   ),
                 ),
+              ],
+            )
+          : Container(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              decoration: BoxDecoration(
+                color: context.colorScheme.tertiaryContainer.withOpacity(.4),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color:
+                        context.colorScheme.tertiaryContainer.withOpacity(.9),
+                  ),
+                  child: IconButton(
+                    onPressed: onTap,
+                    icon: Icon(
+                      Icons.add,
+                      color: context.colorScheme.onTertiaryContainer,
+                    ),
+                  ),
+                ),
+              ),
+            ),
     );
   }
 }

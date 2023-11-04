@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
@@ -76,19 +77,15 @@ class WarrantyDialogBox extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
+            const Gap(
+              10,
             ),
             Text(
               warrantyInfo.name!,
               style: context.textTheme.titleLarge,
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              warrantyInfo.endOfWarranty!.toString(),
-              style: context.textTheme.labelSmall,
+            const Gap(
+              5,
             ),
             WarrantyCountdown.long(warrantyDate: warrantyInfo.endOfWarranty!),
           ],

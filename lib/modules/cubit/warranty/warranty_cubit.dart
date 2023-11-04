@@ -17,20 +17,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         );
   final DataRepository _dataRepository;
 
-  void toggleLifeTime() {
+  void toggleLifeTime({bool? value}) {
     emit(
-      //   _Initial(warrantyInfo: state.asInitial.warrantyInfo.copyWith(
-      //   lifeTime: !state.asInitial.warrantyInfo.lifeTime,
-      // ),),
-
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
-          lifeTime: !state.asReady.warrantyInfo.lifeTime,
+          lifeTime: value,
         ),
       ),
-      // state.asInitial.warrantyInfo = state.asInitial.warrantyInfo.copyWith(
-      //   lifeTime: !state.asInitial.warrantyInfo.lifeTime,
-      // ),
     );
   }
 

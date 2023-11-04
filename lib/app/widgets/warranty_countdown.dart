@@ -73,11 +73,11 @@ Color expiringColor({
   const red = Colors.red;
   const orange = Colors.orange;
   final normal = context.colorScheme.tertiaryContainer;
-  if (years >= 1 && months >= 2) {
+  if (years >= 1 && months >= 1) {
     return normal;
-  } else if (days < 30) {
+  } else if (days < 30 && years == 0) {
     return red;
-  } else if (months < 2) {
+  } else if (months < 2 && years == 0) {
     return orange;
   } else {
     return normal;

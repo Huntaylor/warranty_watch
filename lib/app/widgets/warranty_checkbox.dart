@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 
 class WarrantyCheckBox extends StatelessWidget {
@@ -9,25 +10,24 @@ class WarrantyCheckBox extends StatelessWidget {
   });
   final String text;
   final bool isChecked;
-  final VoidCallback onTap;
+  // ignore: avoid_positional_boolean_parameters
+  final void Function(bool?)? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 15, left: 3),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Row(
-          children: [
-            Icon(
-              isChecked ? Icons.check_box : Icons.check_box_outline_blank,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(text),
-          ],
-        ),
+      child: Row(
+        children: [
+          Checkbox.adaptive(
+            value: isChecked,
+            onChanged: onTap,
+          ),
+          const Gap(
+            10,
+          ),
+          Text(text),
+        ],
       ),
     );
   }

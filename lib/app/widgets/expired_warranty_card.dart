@@ -1,7 +1,7 @@
 import 'package:warranty_watch/app/app_library.dart';
 
-class BasicWarrantyCard extends StatelessWidget {
-  const BasicWarrantyCard({
+class ExpiredWarrantyCard extends StatelessWidget {
+  const ExpiredWarrantyCard({
     required this.title,
     required this.expirationDate,
     super.key,

@@ -18,7 +18,6 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
   }) : super(
           const _Loading(),
         ) {
-    getInitial();
     dataRepository.warrantiesDataStream.listen(
       (data) {
         emit(
@@ -37,15 +36,6 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
   }
   final DataRepository dataRepository;
   final AuthRepository authRepository;
-
-  Future<void> getInitial() async {
-    // final fbmApi = FirebaseAPI();
-    // await fbmApi.initNotifications();
-    // final token = await fbmApi.getToken;
-
-    // final updateUser = UserData.tokens(tokens: {token!});
-    // await authRepository.updatePersonalData(updateUser);
-  }
 
   Future<void> addOrEditWarranty({required WarrantyInfo warrantyInfo}) async {
     List<WarrantyInfo> expiringList;

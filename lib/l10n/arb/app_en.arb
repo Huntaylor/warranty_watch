@@ -71,7 +71,7 @@
     "@cancel": {
       "description": "Text for cancel"
     },
-    "addItem": "Add Item",
+    "addItem": "Add an image",
     "@addItem": {
       "description": "Text for bottom sheet"
     },

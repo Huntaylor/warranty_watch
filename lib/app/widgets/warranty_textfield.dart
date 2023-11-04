@@ -416,7 +416,8 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         inputFormatters: widget.inputFormatter,
         controller: isDouble ? secondController : controller,
         onChanged: isDouble ? widget.onSecondChanged : widget.onChanged,
-        onTap: widget.isDate ? selectDate : widget.onTap,
+        // onTap: widget.isDate ? selectDate : widget.onTap,
+        onTap: widget.onTap,
         maxLines: widget.maxLines,
         decoration: InputDecoration(
           fillColor: context.colorScheme.surfaceVariant,

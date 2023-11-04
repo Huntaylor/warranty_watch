@@ -1,6 +1,7 @@
+import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:warranty_watch/app/widgets/basic_warranty_card.dart';
+import 'package:warranty_watch/app/widgets/expired_warranty_card.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_dialog_box.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
@@ -132,7 +133,7 @@ class HomeView extends StatelessWidget {
               shrinkWrap: true,
               itemCount: state.asReady.expired.length,
               itemBuilder: (context, index) {
-                return BasicWarrantyCard(
+                return ExpiredWarrantyCard(
                   title: state.asReady.expired[index].name!,
                   expirationDate: state.asReady.expired[index].endOfWarranty!,
                 );
@@ -140,6 +141,9 @@ class HomeView extends StatelessWidget {
             );
           },
         ),
+
+        //Space for the Floating action button for users to look behind it
+        const Gap(75),
       ],
     );
   }
