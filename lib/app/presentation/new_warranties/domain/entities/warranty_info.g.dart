@@ -13,6 +13,7 @@ extension _$WarrantyInfoAutoequal on WarrantyInfo {
         id,
         name,
         purchaseDate,
+        createdOn,
         warrantyWebsite,
         endOfWarranty,
         reminderDate,

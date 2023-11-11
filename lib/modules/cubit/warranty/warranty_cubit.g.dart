@@ -9,7 +9,7 @@ part of 'warranty_cubit.dart';
 extension _$_ReadyAutoequal on _Ready {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [warrantyInfo];
+  List<Object?> get _$props => [warrantyInfo, selectedChip];
 }
 
 // **************************************************************************
@@ -19,6 +19,8 @@ extension _$_ReadyAutoequal on _Ready {
 abstract class _$_ReadyCWProxy {
   _Ready warrantyInfo(WarrantyInfo warrantyInfo);
 
+  _Ready selectedChip(int? selectedChip);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -27,6 +29,7 @@ abstract class _$_ReadyCWProxy {
   /// ````
   _Ready call({
     WarrantyInfo? warrantyInfo,
+    int? selectedChip,
   });
 }
 
@@ -41,6 +44,9 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
       this(warrantyInfo: warrantyInfo);
 
   @override
+  _Ready selectedChip(int? selectedChip) => this(selectedChip: selectedChip);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -50,6 +56,7 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   /// ````
   _Ready call({
     Object? warrantyInfo = const $CopyWithPlaceholder(),
+    Object? selectedChip = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warrantyInfo:
@@ -57,6 +64,10 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
               ? _value.warrantyInfo
               // ignore: cast_nullable_to_non_nullable
               : warrantyInfo as WarrantyInfo,
+      selectedChip: selectedChip == const $CopyWithPlaceholder()
+          ? _value.selectedChip
+          // ignore: cast_nullable_to_non_nullable
+          : selectedChip as int?,
     );
   }
 }

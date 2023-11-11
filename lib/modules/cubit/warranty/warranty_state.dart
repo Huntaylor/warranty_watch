@@ -28,8 +28,30 @@ class _Error extends WarrantyState {
 @autoequal
 @CopyWith()
 class _Ready extends WarrantyState {
-  const _Ready({required this.warrantyInfo});
+  const _Ready({
+    required this.warrantyInfo,
+    this.selectedChip,
+  });
   final WarrantyInfo warrantyInfo;
+  final int? selectedChip;
+
+  List<Map<String, String>> get dateChips {
+    const list = [
+      {
+        'duration': '30 Days',
+      },
+      {
+        'duration': '1 Year',
+      },
+      {
+        'duration': '5 Years',
+      },
+      {
+        'duration': 'Lifetime',
+      },
+    ];
+    return list;
+  }
 
   @override
   List<Object?> get props => _$props;

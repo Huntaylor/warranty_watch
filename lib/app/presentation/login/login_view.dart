@@ -223,35 +223,35 @@ class _LoginFields extends StatelessWidget {
   }
 }
 
-class _Logo extends StatelessWidget {
-  const _Logo();
+// class _Logo extends StatelessWidget {
+//   const _Logo();
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Align(
-      child: ClipOval(
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(8, 40, 8, 24),
-          constraints: const BoxConstraints(maxWidth: 300),
-          decoration: BoxDecoration(
-            color: context.colorScheme.primary,
-          ),
-          child: Text(
-            l10n.mainTitle.toUpperCase(),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: context.colorScheme.onPrimary,
-              fontWeight: FontWeight.w700,
-              fontStyle: FontStyle.italic,
-              fontSize: 37.588035583496094,
-              height: 0.8,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final l10n = context.l10n;
+//     return Align(
+//       child: ClipOval(
+//         child: Container(
+//           padding: const EdgeInsets.fromLTRB(8, 40, 8, 24),
+//           constraints: const BoxConstraints(maxWidth: 300),
+//           decoration: BoxDecoration(
+//             color: context.colorScheme.primary,
+//           ),
+//           child: Text(
+//             l10n.mainTitle.toUpperCase(),
+//             maxLines: 2,
+//             overflow: TextOverflow.ellipsis,
+//             style: TextStyle(
+//               color: context.colorScheme.onPrimary,
+//               fontWeight: FontWeight.w700,
+//               fontStyle: FontStyle.italic,
+//               fontSize: 37.588035583496094,
+//               height: 0.8,
+//             ),
+//             textAlign: TextAlign.center,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

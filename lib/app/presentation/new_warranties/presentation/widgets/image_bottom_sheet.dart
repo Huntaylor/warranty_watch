@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:gap/gap.dart';
 
 import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/widgets/number_widget.dart';
 
 class ImageBottomSheet extends StatelessWidget {
   const ImageBottomSheet({
@@ -29,7 +31,10 @@ class ImageBottomSheet extends StatelessWidget {
                   },
                   child: Text(context.l10n.cancel),
                 ),
-                Text(context.l10n.addItem),
+                Text(
+                  context.l10n.addItem,
+                  style: context.textTheme.headlineSmall,
+                ),
                 const Gap(
                   48,
                 ),
@@ -40,6 +45,9 @@ class ImageBottomSheet extends StatelessWidget {
             height: 24,
             thickness: 2,
           ),
+          const Gap(
+            24,
+          ),
           Flexible(
             child: /*  state.warrantyState == WarrantyState.loadingImage
                 ? const Align(
@@ -47,50 +55,43 @@ class ImageBottomSheet extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   )
                 :  */
-                Column(
+                Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () async {
+                TextButton.icon(
+                  onPressed: () async {
                     onPrimary();
                     context.pop();
                   },
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.photo_outlined,
-                        color: Colors.orange[400],
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(context.l10n.photos),
-                    ],
+                  icon: Icon(
+                    Icons.photo_outlined,
+                    color: Colors.orange[400],
+                  ),
+                  label: Text(
+                    context.l10n.photos,
+                    style: context.textTheme.titleMedium,
                   ),
                 ),
-                const Gap(
-                  16,
-                ),
-                GestureDetector(
-                  onTap: () {
+                TextButton.icon(
+                  onPressed: () {
                     onSecondary();
                     context.pop();
                   },
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.green[400],
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(context.l10n.camera),
-                    ],
+                  icon: Icon(
+                    Icons.camera_alt_outlined,
+                    color: Colors.green[400],
+                  ),
+                  label: Text(
+                    context.l10n.camera,
+                    style: context.textTheme.titleMedium,
                   ),
                 ),
               ],
             ),
+          ),
+          const Gap(
+            24,
           ),
         ],
       ),
@@ -124,44 +125,61 @@ class DateChip extends StatelessWidget {
 
 class DateBottomSheet extends StatelessWidget {
   const DateBottomSheet({
+    required this.stateValue,
+    required this.onPress,
+    required this.dateChips,
     super.key,
   });
 
+  final List<Map<String, String>> dateChips;
+  final int? stateValue;
+  final void Function(int index) onPress;
+
   @override
   Widget build(BuildContext context) {
-    final dateChips = [
-      {
-        String: '30 Days',
-        int: 30,
-      },
-      {
-        String: '1 Year',
-      },
-      {
-        String: '5 Years',
-      },
-      {
-        String: 'Lifetime',
-      },
-    ];
-
     return Padding(
       padding: const EdgeInsets.all(15),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          ListView.builder(
+          Center(
+            child: Text(
+              'Select an option',
+              style: context.textTheme.titleMedium,
+            ),
+          ),
+          const Divider(thickness: 2),
+          const Gap(8),
+          GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 5,
+            ),
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             itemCount: dateChips.length,
             itemBuilder: (context, index) {
+              final isSelected = stateValue == index || false;
+
               return DateChip(
-                name: dateChips[index][String]! as String,
-                isSelected: false,
+                name: dateChips[index]['duration']!,
+                isSelected: isSelected,
                 duration: DateTime.now(),
+                onSelected: (value) {
+                  onPress(index);
+                },
               );
             },
           ),
+          const Divider(thickness: 2),
+          const NumberWidget(),
+          const Gap(8),
+          const Divider(
+            thickness: 2,
+            endIndent: 50,
+            indent: 50,
+          ),
+          const Gap(8),
           WarrantyElevatedButton.general(
             isEnabled: true,
             onPressed: () {},

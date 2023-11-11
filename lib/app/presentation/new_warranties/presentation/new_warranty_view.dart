@@ -1,8 +1,8 @@
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/presentation/home/widgets/expiring_warranty_card.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
-import 'package:warranty_watch/app/widgets/warranty_checkbox.dart';
 import 'package:warranty_watch/app/widgets/warranty_image_widget.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 import 'package:warranty_watch/modules/cubit/warranty/warranty_cubit.dart';
@@ -150,42 +150,75 @@ class NewWarrantyView extends StatelessWidget {
                     providerContext.read<WarrantyCubit>().changePurchaseDate,
                 hintText: l10n.purchaseDate,
               ),
-              WarrantyTextField.date(
-                textFieldName: 'Warranty Duration',
-                initialValue: state.asReady.warrantyInfo.endOfWarranty != null
-                    ? _dateFormat(
-                        state.asReady.warrantyInfo.endOfWarranty!,
-                      )
-                    : '',
-                isLifeTime: state.asReady.warrantyInfo.lifeTime,
-                endDateTime: DateTime(2050),
-                initialDateTime: state.asReady.warrantyInfo.endOfWarranty,
-                startDateTime: DateTime.now(),
-                onChanged: providerContext.read<WarrantyCubit>().changeEndDate,
-                hintText: l10n.expirationDate,
-                onTap: () async {
-                  await showModalBottomSheet<Widget>(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(
-                          25,
+              const Center(
+                child: Text(
+                  'Warranty Duration',
+                ),
+              ),
+              const Gap(5),
+              BlocBuilder<WarrantyCubit, WarrantyState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () async {
+                      await showModalBottomSheet<Widget>(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(
+                              25,
+                            ),
+                          ),
+                        ),
+                        context: providerContext,
+                        builder: (_) {
+                          return DateBottomSheet(
+                            dateChips: state.asReady.dateChips,
+                            stateValue: state.asReady.selectedChip,
+                            onPress: (index) {
+                              providerContext
+                                  .read<WarrantyCubit>()
+                                  .changeEndDateChips(index: index);
+                              context.pop();
+                            },
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(
+                          10,
                         ),
                       ),
+                      height: 65,
+                      child: state.asReady.warrantyInfo.endOfWarranty != null
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: Visibility(
+                                replacement: const Text('Lifetime Warranty'),
+                                visible: state.asReady.selectedChip != 3,
+                                child: Text(
+                                  dateFormat(
+                                    state.asReady.warrantyInfo.endOfWarranty!,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const Center(
+                              child: Text('Select'),
+                            ),
                     ),
-                    context: providerContext,
-                    builder: (_) {
-                      return const DateBottomSheet();
-                    },
                   );
                 },
               ),
-              WarrantyCheckBox(
-                isChecked: state.asReady.warrantyInfo.lifeTime,
-                text: l10n.lifeTime,
-                onTap: (value) => providerContext
-                    .read<WarrantyCubit>()
-                    .toggleLifeTime(value: value),
-              ),
+              // WarrantyCheckBox(
+              //   isChecked: state.asReady.warrantyInfo.lifeTime,
+              //   text: l10n.lifeTime,
+              //   onTap: (value) => providerContext
+              //       .read<WarrantyCubit>()
+              //       .toggleLifeTime(value: value),
+              // ),
               if (state.asReady.warrantyInfo.lifeTime ||
                   state.asReady.warrantyInfo.endOfWarranty == null)
                 const SizedBox()

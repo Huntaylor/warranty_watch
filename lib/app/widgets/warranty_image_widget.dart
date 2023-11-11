@@ -40,13 +40,13 @@ class WarrantyImage extends StatelessWidget {
                     child: Transform.translate(
                       offset: const Offset(5, -5),
                       child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.black,
+                        decoration: BoxDecoration(
+                          color: context.colorScheme.primary,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          Icons.change_circle,
-                          color: Theme.of(context).primaryColorLight,
+                          Icons.change_circle_rounded,
+                          color: context.colorScheme.tertiaryContainer,
                           size: 36,
                         ),
                       ),

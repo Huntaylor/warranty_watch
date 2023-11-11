@@ -1,6 +1,7 @@
 import 'package:autoequal/autoequal.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
@@ -76,6 +77,47 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       ),
     );
     changeReminderDate(date);
+  }
+
+  void changeEndDateChips({required int index}) {
+    emit(
+      state.asReady.copyWith(
+        selectedChip: index,
+      ),
+    );
+
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          lifeTime: index == 3 || false,
+        ),
+      ),
+    );
+
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          endOfWarranty: addTimeSelected(index),
+        ),
+      ),
+    );
+
+    // changeReminderDate(date);
+  }
+
+  DateTime addTimeSelected(int index) {
+    final endDate = Jiffy.now();
+
+    switch (index) {
+      case 0:
+        return endDate.add(days: 30).dateTime;
+      case 1:
+        return endDate.add(years: 1).dateTime;
+      case 2:
+        return endDate.add(years: 5).dateTime;
+      default:
+        return endDate.dateTime;
+    }
   }
 
   void changeReminderDate(String date) {
