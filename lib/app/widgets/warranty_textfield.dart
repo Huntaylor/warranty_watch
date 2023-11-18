@@ -20,6 +20,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.isObscuredFunction,
     required this.onObscuredTap,
     required this.textFieldName,
+    this.onFinished,
     this.textInputAction,
     this.autofillHints,
     this.textCapitalization,
@@ -51,6 +52,7 @@ class WarrantyTextField extends StatefulWidget {
     this.initialValue = '',
     super.key,
     this.onTap,
+    this.onFinished,
     this.autofillHints,
     this.maxLength,
     this.maxLengthEnforcement,
@@ -87,6 +89,7 @@ class WarrantyTextField extends StatefulWidget {
     this.initialDateTime,
     this.startDateTime,
     this.endDateTime,
+    this.onFinished,
     this.currentLength,
     this.textInputAction,
   })  : initialText = '',
@@ -116,6 +119,7 @@ class WarrantyTextField extends StatefulWidget {
     this.autofillHints,
     this.maxLengthEnforcement,
     this.onTap,
+    this.onFinished,
     this.inputFormatter,
     this.initialDateTime,
     this.startDateTime,
@@ -149,6 +153,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     this.inputFormatter,
+    this.onFinished,
     this.currentLength,
     this.textInputAction,
   })  : initialText = '',
@@ -178,6 +183,7 @@ class WarrantyTextField extends StatefulWidget {
     this.initialDateTime,
     this.startDateTime,
     this.endDateTime,
+    this.onFinished,
     this.textInputAction,
     this.currentLength,
   })  : initialText = '',
@@ -213,6 +219,7 @@ class WarrantyTextField extends StatefulWidget {
     this.startDateTime,
     this.endDateTime,
     this.currentLength,
+    this.onFinished,
     this.textInputAction,
   })  : initialText = '',
         isDate = false,
@@ -242,6 +249,7 @@ class WarrantyTextField extends StatefulWidget {
     this.maxLength,
     this.maxLengthEnforcement,
     this.currentLength,
+    this.onFinished,
     this.textInputAction,
   })  : initialText = '',
         isDate = false,
@@ -270,6 +278,7 @@ class WarrantyTextField extends StatefulWidget {
     this.initialValue = '',
     this.startDateTime,
     this.endDateTime,
+    this.onFinished,
     this.maxLength,
     this.maxLengthEnforcement,
     this.currentLength,
@@ -316,6 +325,7 @@ class WarrantyTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatter;
   final void Function(String)? onChanged;
   final void Function(String)? onSecondChanged;
+  final void Function(String)? onFinished;
   final VoidCallback? onObscuredTap;
 
   @override
@@ -405,11 +415,14 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
     //Widget
     Widget textFormField({required bool isDouble}) {
       return TextFormField(
+        textAlign: TextAlign.center,
+        onFieldSubmitted: widget.onFinished,
         textInputAction: widget.textInputAction,
         autofillHints: widget.autofillHints,
         autocorrect: widget.hasAutocorrect,
         obscureText: widget.isObscuredFunction,
-        // maxLength: widget.maxLength,
+
+        maxLength: widget.maxLength,
         maxLengthEnforcement: widget.maxLengthEnforcement,
         keyboardType: widget.textInputType,
         enabled: !widget.isLifeTime,
@@ -433,9 +446,12 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
                   ),
                 )
               : null,
-          suffixText: (widget.maxLength != null)
-              ? '${widget.currentLength}/${widget.maxLength}'
-              : null,
+          // suffixText: (widget.maxLength != null)
+          //     ? '${widget.currentLength}/${widget.maxLength}'
+          //     : null,
+          prefix: widget.isTextObscured
+              ? const SizedBox(width: 48)
+              : const SizedBox.shrink(),
           label: Padding(
             padding: widget.isTextObscured
                 ? const EdgeInsets.only(left: 48)
@@ -485,9 +501,12 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
             ],
           ),
         ),
-        const SizedBox(
-          height: 15,
-        ),
+        if (widget.maxLength != null)
+          const SizedBox.shrink()
+        else
+          const SizedBox(
+            height: 15,
+          ),
       ],
     );
   }

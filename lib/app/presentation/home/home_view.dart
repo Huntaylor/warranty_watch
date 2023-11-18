@@ -164,10 +164,13 @@ class _WarrantiesCardListBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: warranties.isNotEmpty,
-      replacement: Text(
-        title,
-        style: context.textTheme.titleMedium!
-            .copyWith(color: context.colorScheme.primary),
+      replacement: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: Text(
+          title,
+          style: context.textTheme.titleMedium!
+              .copyWith(color: context.colorScheme.primary),
+        ),
       ),
       child: SizedBox(
         height: 215,

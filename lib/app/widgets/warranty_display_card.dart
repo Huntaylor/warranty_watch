@@ -135,13 +135,6 @@ class WarrantyDisplayCard extends StatelessWidget {
   }
 }
 
-String timeLeft(DateTime date) {
-  final timeLeft = Jiffy.parseFromDateTime(date).fromNow(
-    withPrefixAndSuffix: false,
-  );
-  return timeLeft;
-}
-
 bool _isUrlValid(String? url) {
   if (url == null || url.isEmpty) return false;
   return Uri.parse(url).isAbsolute;

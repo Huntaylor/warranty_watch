@@ -16,7 +16,7 @@ class NewWarrantyView extends StatelessWidget {
 
     final l10n = context.l10n;
     return BlocProvider(
-      create: (context) => WarrantyCubit(repo),
+      create: (_) => WarrantyCubit(repo),
       child: BlocBuilder<WarrantyCubit, WarrantyState>(
         buildWhen: (_, state) {
           return state.isReady;
@@ -24,6 +24,8 @@ class NewWarrantyView extends StatelessWidget {
         builder: (providerContext, state) {
           return WarrantyBaseView(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
+              // leading: IconButton(onPressed: onPressed, icon: icon),
               centerTitle: true,
               title: Text(
                 /*    (state.warrantyState == WarrantyState.editing)
@@ -212,13 +214,7 @@ class NewWarrantyView extends StatelessWidget {
                   );
                 },
               ),
-              // WarrantyCheckBox(
-              //   isChecked: state.asReady.warrantyInfo.lifeTime,
-              //   text: l10n.lifeTime,
-              //   onTap: (value) => providerContext
-              //       .read<WarrantyCubit>()
-              //       .toggleLifeTime(value: value),
-              // ),
+              const Gap(15),
               if (state.asReady.warrantyInfo.lifeTime ||
                   state.asReady.warrantyInfo.endOfWarranty == null)
                 const SizedBox()

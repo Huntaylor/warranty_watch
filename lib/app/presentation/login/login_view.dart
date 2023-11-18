@@ -216,42 +216,19 @@ class _LoginFields extends StatelessWidget {
           initialValue: state.asLoggingIn.password,
           textInputAction: TextInputAction.done,
           hintText: l10n.passwordHint,
+          onFinished: (_) {
+            if (!state.isInitial) {
+              context.read<AuthCubit>().login(
+                    email: state.asLoggingIn.email,
+                    password: state.asLoggingIn.password,
+                  );
+            } else {
+              context.read<LoginCubit>().toggleLogin();
+            }
+          },
           onChanged: context.read<LoginCubit>().changePassword,
         ),
       ],
     );
   }
 }
-
-// class _Logo extends StatelessWidget {
-//   const _Logo();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final l10n = context.l10n;
-//     return Align(
-//       child: ClipOval(
-//         child: Container(
-//           padding: const EdgeInsets.fromLTRB(8, 40, 8, 24),
-//           constraints: const BoxConstraints(maxWidth: 300),
-//           decoration: BoxDecoration(
-//             color: context.colorScheme.primary,
-//           ),
-//           child: Text(
-//             l10n.mainTitle.toUpperCase(),
-//             maxLines: 2,
-//             overflow: TextOverflow.ellipsis,
-//             style: TextStyle(
-//               color: context.colorScheme.onPrimary,
-//               fontWeight: FontWeight.w700,
-//               fontStyle: FontStyle.italic,
-//               fontSize: 37.588035583496094,
-//               height: 0.8,
-//             ),
-//             textAlign: TextAlign.center,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

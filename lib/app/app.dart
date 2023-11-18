@@ -25,11 +25,13 @@ class App extends StatelessWidget {
     // const usedScheme = FlexScheme.hippieBlue;
     // const usedScheme = FlexScheme.bahamaBlue;
 
+    final authRepo = FirebaseAuthRepository();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(
-            FirebaseAuthRepository(),
+            authRepo,
           ),
         ),
         BlocProvider<SettingsCubit>(
@@ -38,7 +40,7 @@ class App extends StatelessWidget {
         BlocProvider<WarrantiesCubit>(
           create: (context) => WarrantiesCubit(
             dataRepository: DataRepository(),
-            authRepository: FirebaseAuthRepository(),
+            authRepository: authRepo,
           ),
         ),
         BlocProvider<WarrantyDetailsCubit>(

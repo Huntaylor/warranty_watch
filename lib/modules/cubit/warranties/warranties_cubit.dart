@@ -1,5 +1,5 @@
-import 'dart:developer';
-
+import 'dart:async';
+import 'dart:math';
 import 'package:autoequal/autoequal.dart';
 import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -7,6 +7,8 @@ import 'package:equatable/equatable.dart';
 import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
 import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
+import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
 
 part 'warranties_cubit.g.dart';
 part 'warranties_state.dart';
@@ -24,12 +26,6 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
           _Ready(
             warranties: data ?? [],
           ),
-        );
-      },
-      onError: (Object e) {
-        log('There was a problem with the listener: $e', error: e);
-        emit(
-          const _Error(),
         );
       },
     );
@@ -51,7 +47,6 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
 
     List<WarrantyInfo> newList;
     newList = List.from(state.asReady.warranties);
-    // getWarranties();
 
     if (newList.any(
       (e) => e.id == warrantyInfo.id,

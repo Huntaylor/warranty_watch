@@ -160,7 +160,6 @@ class DateBottomSheet extends StatelessWidget {
             itemCount: dateChips.length,
             itemBuilder: (context, index) {
               final isSelected = stateValue == index || false;
-
               return DateChip(
                 name: dateChips[index]['duration']!,
                 isSelected: isSelected,

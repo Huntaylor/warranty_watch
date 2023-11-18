@@ -2,7 +2,7 @@
 
 part of 'warranties_cubit.dart';
 
-class WarrantiesState extends Equatable {
+abstract class WarrantiesState extends Equatable {
   const WarrantiesState();
 
   bool get isLoading => this is _Loading;
@@ -58,13 +58,22 @@ class _Ready extends WarrantiesState {
         (ee) => ee.endOfWarranty!.difference(DateTime.now()).inDays <= 0,
       );
     }
-    if (expiringList
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays < 30)) {
+
+    if (expiringList.any((e) {
+      final days = timeRemaining(e.endOfWarranty!).$2.$3;
+      final months = timeRemaining(e.endOfWarranty!).$2.$2;
+      final years = timeRemaining(e.endOfWarranty!).$2.$1;
+
+      return days < 30 || months < 1 || years < 1;
+    })) {
       expiringList
         ..removeWhere(
-          (ee) =>
-              ee.endOfWarranty!.difference(DateTime.now()).inDays > 30 ||
-              ee.lifeTime,
+          (ee) {
+            final days = timeRemaining(ee.endOfWarranty!).$2.$3;
+            final years = timeRemaining(ee.endOfWarranty!).$2.$1;
+            final months = timeRemaining(ee.endOfWarranty!).$2.$2;
+            return years > 0 || months > 0 || days > 30 || ee.lifeTime;
+          },
         )
         ..sort(
           (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
