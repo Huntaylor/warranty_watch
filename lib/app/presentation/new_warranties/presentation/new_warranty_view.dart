@@ -40,51 +40,11 @@ class NewWarrantyView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               WarrantyImage(
-                image: state.asReady.warrantyInfo.receiptImage,
-                onTap: () {
-                  showModalBottomSheet<Widget>(
-                    isDismissible: false,
-                    enableDrag: false,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(
-                          25,
-                        ),
-                      ),
-                    ),
-                    context: providerContext,
-                    builder: (_) {
-                      return ImageBottomSheet(
-                        onPrimary: () async {
-                          await providerContext
-                              .read<WarrantyCubit>()
-                              .changeReceiptPhotos();
-                        },
-                        onSecondary: () async {
-                          await providerContext
-                              .read<WarrantyCubit>()
-                              .changeReceiptCamera();
-                        },
-                      );
-                    },
-                  );
-                },
-                text: l10n.addReceipt,
-                icon: const Icon(
-                  Icons.list_alt_outlined,
-                ),
-              ),
-              const Gap(20),
-              const Text(
-                'Add Reciept Image',
-                textAlign: TextAlign.center,
-              ),
-              WarrantyImage(
                 image: state.asReady.warrantyInfo.image,
                 onTap: () {
                   showModalBottomSheet<Widget>(
-                    enableDrag: false,
                     isDismissible: false,
+                    enableDrag: false,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(
@@ -104,6 +64,46 @@ class NewWarrantyView extends StatelessWidget {
                           await providerContext
                               .read<WarrantyCubit>()
                               .changeProductCamera();
+                        },
+                      );
+                    },
+                  );
+                },
+                text: l10n.addReceipt,
+                icon: const Icon(
+                  Icons.list_alt_outlined,
+                ),
+              ),
+              const Gap(20),
+              const Text(
+                'Add Reciept Image',
+                textAlign: TextAlign.center,
+              ),
+              WarrantyImage(
+                image: state.asReady.warrantyInfo.receiptImage,
+                onTap: () {
+                  showModalBottomSheet<Widget>(
+                    enableDrag: false,
+                    isDismissible: false,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(
+                          25,
+                        ),
+                      ),
+                    ),
+                    context: providerContext,
+                    builder: (_) {
+                      return ImageBottomSheet(
+                        onPrimary: () async {
+                          await providerContext
+                              .read<WarrantyCubit>()
+                              .changeReceiptPhotos();
+                        },
+                        onSecondary: () async {
+                          await providerContext
+                              .read<WarrantyCubit>()
+                              .changeReceiptCamera();
                         },
                       );
                     },
@@ -159,6 +159,9 @@ class NewWarrantyView extends StatelessWidget {
               ),
               const Gap(5),
               BlocBuilder<WarrantyCubit, WarrantyState>(
+                buildWhen: (_, state) {
+                  return state.isReady;
+                },
                 builder: (context, state) {
                   return GestureDetector(
                     onTap: () async {
@@ -196,7 +199,6 @@ class NewWarrantyView extends StatelessWidget {
                       height: 65,
                       child: state.asReady.warrantyInfo.endOfWarranty != null
                           ? Align(
-                              alignment: Alignment.centerLeft,
                               child: Visibility(
                                 replacement: const Text('Lifetime Warranty'),
                                 visible: state.asReady.selectedChip != 3,
@@ -265,10 +267,12 @@ class NewWarrantyView extends StatelessWidget {
                   isEnabled:
                       providerContext.watch<WarrantyCubit>().verifyWarranty(),
                   onPressed: () async {
-                    providerContext.pop();
                     await providerContext
                         .read<WarrantyCubit>()
-                        .submitWarranty();
+                        .submitWarranty()
+                        .whenComplete(
+                          () => context.pop(),
+                        );
                   },
                   text: /*  (state.warrantyState == WarrantyState.editing)
                            ? l10n.editProductBtn :  */

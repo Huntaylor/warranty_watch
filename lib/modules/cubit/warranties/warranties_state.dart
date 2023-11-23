@@ -26,9 +26,11 @@ class _Loading extends WarrantiesState {
 class _Ready extends WarrantiesState {
   const _Ready({
     required this.warranties,
+    this.isProductImage = true,
   });
 
   final List<WarrantyInfo> warranties;
+  final bool isProductImage;
 
   List<WarrantyInfo> get currentWarranties {
     List<WarrantyInfo> currentWarranties;

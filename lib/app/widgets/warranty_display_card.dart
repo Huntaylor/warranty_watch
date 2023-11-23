@@ -1,8 +1,8 @@
-import 'package:jiffy/jiffy.dart';
 import 'package:marquee/marquee.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_watch/app/presentation/warranty_details/presentation/warranty_details_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
 
 class WarrantyDisplayCard extends StatelessWidget {
@@ -62,16 +62,17 @@ class WarrantyDisplayCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Container(
+                        width: double.infinity,
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           color: context.colorScheme.tertiaryContainer
                               .withOpacity(.4),
                           borderRadius: BorderRadius.circular(13),
                         ),
-                        child: _isUrlValid(warrantyInfo.imageUrl)
+                        child: isUrlValid(warrantyInfo.imageUrl)
                             ? Image.network(
                                 warrantyInfo.imageUrl!,
-                                fit: BoxFit.fitHeight,
+                                fit: BoxFit.contain,
                                 frameBuilder: (
                                   context,
                                   child,
@@ -133,9 +134,4 @@ class WarrantyDisplayCard extends StatelessWidget {
       ),
     );
   }
-}
-
-bool _isUrlValid(String? url) {
-  if (url == null || url.isEmpty) return false;
-  return Uri.parse(url).isAbsolute;
 }

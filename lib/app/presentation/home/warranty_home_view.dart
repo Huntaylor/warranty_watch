@@ -7,8 +7,8 @@ import 'package:warranty_watch/app/widgets/warranty_dialog_box.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class WarrantyHomeView extends StatelessWidget {
+  const WarrantyHomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +73,11 @@ class HomeView extends StatelessWidget {
               title: 'There are no warranties about to expire',
               warranties: state.asReady.expiring,
               onSelect: (warranty) async {
+                context.read<WarrantiesCubit>().swapImages(
+                      isProductImage: true,
+                    );
                 return showDialog(
-                  // barrierDismissible: false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (context) => WarrantyDialogBox(
                     warrantyInfo: warranty,
@@ -98,8 +101,11 @@ class HomeView extends StatelessWidget {
               title: 'You currently have no warranties to watch',
               warranties: state.asReady.currentWarranties,
               onSelect: (warranty) async {
+                context.read<WarrantiesCubit>().swapImages(
+                      isProductImage: true,
+                    );
                 return showDialog(
-                  // barrierDismissible: false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (context) => WarrantyDialogBox(
                     warrantyInfo: warranty,
@@ -109,14 +115,6 @@ class HomeView extends StatelessWidget {
             );
           },
         ),
-        // //  Current Warranty
-        // WarrantyElevatedButton.general(
-        //   isEnabled: true,
-        //   onPressed: () {
-        //     context.push(Paths.home.warranties.path);
-        //   },
-        //   text: context.l10n.currentWarrantyBtn,
-        // ),
         const SizedBox(
           height: 5,
         ),
@@ -134,6 +132,18 @@ class HomeView extends StatelessWidget {
               itemCount: state.asReady.expired.length,
               itemBuilder: (context, index) {
                 return ExpiredWarrantyCard(
+                  onSelect: () async {
+                    context.read<WarrantiesCubit>().swapImages(
+                          isProductImage: true,
+                        );
+                    return showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => WarrantyDialogBox(
+                        warrantyInfo: state.asReady.expired[index],
+                      ),
+                    );
+                  },
                   title: state.asReady.expired[index].name!,
                   expirationDate: state.asReady.expired[index].endOfWarranty!,
                 );

@@ -16,13 +16,12 @@ class WarrantyDetailsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.colorScheme.background,
       body: SafeArea(
-      
         child: ListView(
           children: [
             Stack(
               children: [
                 Visibility(
-                  visible: _isUrlValid(
+                  visible: isUrlValid(
                     detailsCubit.state.imageUrl,
                   ),
                   replacement: Padding(
@@ -170,7 +169,7 @@ class _Content extends StatelessWidget {
               ),
             ),
           ),
-          if (_isUrlValid(detailsCubit.state.receiptImageUrl))
+          if (isUrlValid(detailsCubit.state.receiptImageUrl))
             IndividualDetailWidget.general(
               detailContent: DetailsImageCard(
                 url: detailsCubit.state.receiptImageUrl!,
@@ -230,7 +229,7 @@ String _expired(DateTime expirationDate) {
 bool _isExpired(DateTime expirationDate) =>
     _countDown(expirationDate).endsWith('ago');
 
-bool _isUrlValid(String? url) {
+bool isUrlValid(String? url) {
   if (url == null) return false;
   return Uri.parse(url).isAbsolute;
 }

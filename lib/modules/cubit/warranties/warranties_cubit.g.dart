@@ -9,7 +9,7 @@ part of 'warranties_cubit.dart';
 extension _$_ReadyAutoequal on _Ready {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [warranties];
+  List<Object?> get _$props => [warranties, isProductImage];
 }
 
 // **************************************************************************
@@ -19,6 +19,8 @@ extension _$_ReadyAutoequal on _Ready {
 abstract class _$_ReadyCWProxy {
   _Ready warranties(List<WarrantyInfo> warranties);
 
+  _Ready isProductImage(bool isProductImage);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -27,6 +29,7 @@ abstract class _$_ReadyCWProxy {
   /// ````
   _Ready call({
     List<WarrantyInfo>? warranties,
+    bool? isProductImage,
   });
 }
 
@@ -41,6 +44,10 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
       this(warranties: warranties);
 
   @override
+  _Ready isProductImage(bool isProductImage) =>
+      this(isProductImage: isProductImage);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -50,6 +57,7 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   /// ````
   _Ready call({
     Object? warranties = const $CopyWithPlaceholder(),
+    Object? isProductImage = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warranties:
@@ -57,6 +65,11 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
               ? _value.warranties
               // ignore: cast_nullable_to_non_nullable
               : warranties as List<WarrantyInfo>,
+      isProductImage: isProductImage == const $CopyWithPlaceholder() ||
+              isProductImage == null
+          ? _value.isProductImage
+          // ignore: cast_nullable_to_non_nullable
+          : isProductImage as bool,
     );
   }
 }

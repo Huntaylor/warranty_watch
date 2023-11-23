@@ -1,7 +1,10 @@
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
+import 'package:warranty_watch/app/presentation/warranty_details/presentation/warranty_details_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
+import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 
 class WarrantyDialogBox extends StatelessWidget {
   const WarrantyDialogBox({
@@ -12,85 +15,117 @@ class WarrantyDialogBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 10,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 320,
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(13),
-                      color:
-                          context.colorScheme.tertiaryContainer.withOpacity(.4),
-                    ),
-                  ),
-                  DialogButton(
-                    alignemnt: Alignment.topLeft,
-                    onPress: () {},
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 13,
-                    ),
-                    child: Text(
-                      'Edit',
-                      style: context.textTheme.bodySmall!
-                          .copyWith(color: context.colorScheme.onPrimary),
-                    ),
-                  ),
-                  DialogButton(
-                    alignemnt: Alignment.topRight,
-                    padding: const EdgeInsets.all(3),
-                    onPress: context.pop,
-                    child: Icon(
-                      Icons.close,
-                      color: context.colorScheme.onPrimary,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
+    return BlocBuilder<WarrantiesCubit, WarrantiesState>(
+      buildWhen: (_, state) {
+        return state.isReady;
+      },
+      builder: (context, state) {
+        return Dialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 10,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 320,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Container(
+                        clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13),
-                          color: Colors.grey.withOpacity(0.3),
+                          color: context.colorScheme.tertiaryContainer
+                              .withOpacity(.4),
                         ),
-                        width: 50,
-                        height: 50,
+                        child: _WarrantyImageHandler(
+                          isProductImage: state.asReady.isProductImage,
+                          warrantyInfo: warrantyInfo,
+                        ),
                       ),
-                    ),
+                      DialogButton(
+                        alignemnt: Alignment.topLeft,
+                        onPress: () {},
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 13,
+                        ),
+                        child: Text(
+                          'Edit',
+                          style: context.textTheme.bodySmall!
+                              .copyWith(color: context.colorScheme.onPrimary),
+                        ),
+                      ),
+                      DialogButton(
+                        alignemnt: Alignment.topRight,
+                        padding: const EdgeInsets.all(3),
+                        onPress: () {
+                          context.pop();
+                          // context.read<WarrantiesCubit>().swapImages(
+                          //       isProductImage: true,
+                          //     );
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: context.colorScheme.onPrimary,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13),
+                              color: Colors.grey.withOpacity(0.3),
+                            ),
+                            width: 50,
+                            height: 50,
+                            child: IconButton(
+                              onPressed: () {
+                                context.read<WarrantiesCubit>().swapImages(
+                                      isProductImage:
+                                          !state.asReady.isProductImage,
+                                    );
+                              },
+                              icon: const Icon(
+                                Icons.swap_horiz,
+                              ),
+                              color: context.colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const Gap(
+                  10,
+                ),
+                Text(
+                  warrantyInfo.name!,
+                  style: context.textTheme.titleLarge,
+                ),
+                const Gap(
+                  5,
+                ),
+                WarrantyCountdown.long(
+                  warrantyDate: warrantyInfo.endOfWarranty!,
+                ),
+              ],
             ),
-            const Gap(
-              10,
-            ),
-            Text(
-              warrantyInfo.name!,
-              style: context.textTheme.titleLarge,
-            ),
-            const Gap(
-              5,
-            ),
-            WarrantyCountdown.long(warrantyDate: warrantyInfo.endOfWarranty!),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -129,6 +164,80 @@ class DialogButton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _WarrantyImageHandler extends StatelessWidget {
+  const _WarrantyImageHandler({
+    required this.warrantyInfo,
+    required this.isProductImage,
+  });
+
+  final bool isProductImage;
+  final WarrantyInfo warrantyInfo;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool localIsProductImage;
+    final bool hasImages;
+    final validImage = isUrlValid(warrantyInfo.imageUrl);
+    final validReceiptImage = isUrlValid(warrantyInfo.receiptImageUrl);
+
+    final bothAvailable = validImage && validReceiptImage;
+
+    if (bothAvailable) {
+      localIsProductImage = isProductImage;
+      hasImages = true;
+    } else if (validImage) {
+      localIsProductImage = true;
+      hasImages = true;
+    } else if (validReceiptImage) {
+      localIsProductImage = false;
+      hasImages = true;
+    } else {
+      hasImages = false;
+      localIsProductImage = false;
+    }
+
+    return Container(
+      child: hasImages
+          ? Visibility(
+              visible: localIsProductImage,
+              replacement: imageMethod(warrantyInfo.receiptImageUrl!),
+              child: imageMethod(warrantyInfo.imageUrl!),
+            )
+          : null,
+    );
+  }
+
+  Image imageMethod(String src) {
+    return Image.network(
+      fit: BoxFit.contain,
+      src,
+      frameBuilder: (
+        context,
+        child,
+        frame,
+        wasSynchronouslyLoaded,
+      ) {
+        if (wasSynchronouslyLoaded) {
+          return child;
+        }
+        return AnimatedOpacity(
+          opacity: frame == null ? 0 : 1,
+          duration: const Duration(seconds: 3),
+          curve: Curves.easeOut,
+          child: child,
+        );
+      },
+      loadingBuilder: (context, child, loadingProgress) {
+        return (loadingProgress == null)
+            ? child
+            : const SizedBox.expand(
+                child: TriangleLoadingIndicator(),
+              );
+      },
     );
   }
 }
