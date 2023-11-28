@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:warranty_watch/app/app_library.dart';
 
 class UrlLaunchHelper {
   UrlLaunchHelper._();
@@ -14,11 +15,7 @@ class UrlLaunchHelper {
       }
       return false;
     } catch (e, stacktrace) {
-      debugPrint('''
-      ---- UrlLaunchHelper : tryLaunch ----
-      $e
-      $stacktrace
-      ''');
+      log(e.toString(), stackTrace: stacktrace);
       return false;
     }
   }

@@ -78,7 +78,7 @@ class CurrentWidgetCard extends StatelessWidget {
                     if (warrantyInfo.purchaseDate != null)
                       Text(
                         l10n.purchaseDateDetails(
-                          _dateFormat(warrantyInfo.purchaseDate!),
+                          dateFormat(warrantyInfo.purchaseDate!),
                         ),
                       ),
                     if (warrantyInfo.lifeTime)
@@ -86,10 +86,10 @@ class CurrentWidgetCard extends StatelessWidget {
                     else
                       Text(
                         l10n.expirationDetailsDate(
-                          _dateFormat(warrantyInfo.endOfWarranty!),
+                          dateFormat(warrantyInfo.endOfWarranty!),
                         ),
                         style: TextStyle(
-                          color: _dateDiff(warrantyInfo.endOfWarranty!)
+                          color: dateDiff(warrantyInfo.endOfWarranty!)
                               ? Colors.red
                               : null,
                         ),
@@ -121,16 +121,4 @@ class CurrentWidgetCard extends StatelessWidget {
       ),
     );
   }
-}
-
-bool _dateDiff(DateTime date) {
-  if (date.difference(DateTime.now()).inDays < 7) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-String _dateFormat(DateTime date) {
-  return '${date.month}/${date.day}/${date.year}';
 }

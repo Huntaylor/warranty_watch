@@ -4,5 +4,4 @@ extension BuildContextUtils on BuildContext {
   ThemeData get themeData => Theme.of(this);
   TextTheme get textTheme => themeData.textTheme;
   ColorScheme get colorScheme => themeData.colorScheme;
-  NavigatorState get navigator => Navigator.of(this);
 }

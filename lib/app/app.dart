@@ -74,7 +74,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-extension ThemeX on BuildContext {
-  ThemeData get theme => Theme.of(this);
-}

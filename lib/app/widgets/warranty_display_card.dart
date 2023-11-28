@@ -2,7 +2,6 @@ import 'package:marquee/marquee.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:warranty_watch/app/presentation/warranty_details/presentation/warranty_details_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
 
 class WarrantyDisplayCard extends StatelessWidget {

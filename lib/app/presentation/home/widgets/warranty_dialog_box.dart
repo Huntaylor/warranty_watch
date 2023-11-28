@@ -2,7 +2,6 @@ import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:warranty_watch/app/presentation/warranty_details/presentation/warranty_details_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 
@@ -48,6 +47,20 @@ class WarrantyDialogBox extends StatelessWidget {
                               .withOpacity(.4),
                         ),
                         child: _WarrantyImageHandler(
+                          onLongPress: () {},
+
+                          /* async {
+                            final response = await Dio().get<List<int>>(
+                              warrantyInfo.imageUrl!,
+                              options:
+                                  Options(responseType: ResponseType.bytes),
+                            );
+                            await ImageGallerySaver.saveImage(
+                              Uint8List.fromList(response.data ?? []),
+                              quality: 60,
+                              name: warrantyInfo.name,
+                            );
+                          }, */
                           isProductImage: state.asReady.isProductImage,
                           warrantyInfo: warrantyInfo,
                         ),
@@ -121,6 +134,12 @@ class WarrantyDialogBox extends StatelessWidget {
                 WarrantyCountdown.long(
                   warrantyDate: warrantyInfo.endOfWarranty!,
                 ),
+                const Gap(5),
+                if (warrantyInfo.details != null &&
+                    warrantyInfo.details!.isNotEmpty)
+                  Text('Details: ${warrantyInfo.details!}')
+                else
+                  const SizedBox.shrink(),
               ],
             ),
           ),
@@ -172,10 +191,12 @@ class _WarrantyImageHandler extends StatelessWidget {
   const _WarrantyImageHandler({
     required this.warrantyInfo,
     required this.isProductImage,
+    required this.onLongPress,
   });
 
   final bool isProductImage;
   final WarrantyInfo warrantyInfo;
+  final void Function() onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -200,14 +221,17 @@ class _WarrantyImageHandler extends StatelessWidget {
       localIsProductImage = false;
     }
 
-    return Container(
-      child: hasImages
-          ? Visibility(
-              visible: localIsProductImage,
-              replacement: imageMethod(warrantyInfo.receiptImageUrl!),
-              child: imageMethod(warrantyInfo.imageUrl!),
-            )
-          : null,
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: Container(
+        child: hasImages
+            ? Visibility(
+                visible: localIsProductImage,
+                replacement: imageMethod(warrantyInfo.receiptImageUrl!),
+                child: imageMethod(warrantyInfo.imageUrl!),
+              )
+            : null,
+      ),
     );
   }
 

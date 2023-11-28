@@ -1,9 +1,9 @@
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/presentation/home/widgets/warranty_dialog_box.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_watch/app/widgets/expired_warranty_card.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
-import 'package:warranty_watch/app/widgets/warranty_dialog_box.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 
@@ -77,7 +77,6 @@ class WarrantyHomeView extends StatelessWidget {
                       isProductImage: true,
                     );
                 return showDialog(
-                  barrierDismissible: false,
                   context: context,
                   builder: (context) => WarrantyDialogBox(
                     warrantyInfo: warranty,
@@ -89,7 +88,14 @@ class WarrantyHomeView extends StatelessWidget {
         ),
         WarrantiesTitle(
           listTitle: 'Your Warranties',
-          onMenu: () {},
+          onMenu: () {
+            context
+                .read<WarrantiesCubit>()
+                .onViewWarranties(viewOption: WarrantiesViewOption.current);
+            context.push(
+              Paths.home.warranties.path,
+            );
+          },
         ),
 
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
@@ -105,7 +111,6 @@ class WarrantyHomeView extends StatelessWidget {
                       isProductImage: true,
                     );
                 return showDialog(
-                  barrierDismissible: false,
                   context: context,
                   builder: (context) => WarrantyDialogBox(
                     warrantyInfo: warranty,
@@ -137,7 +142,6 @@ class WarrantyHomeView extends StatelessWidget {
                           isProductImage: true,
                         );
                     return showDialog(
-                      barrierDismissible: false,
                       context: context,
                       builder: (context) => WarrantyDialogBox(
                         warrantyInfo: state.asReady.expired[index],
@@ -226,8 +230,9 @@ class WarrantiesTitle extends StatelessWidget {
           const SizedBox.shrink(),
           Visibility(
             visible: onMenu != null,
-            child: Icon(
-              Icons.menu,
+            child: IconButton(
+              onPressed: onMenu,
+              icon: const Icon(Icons.menu),
               color: context.colorScheme.primary,
             ),
           ),

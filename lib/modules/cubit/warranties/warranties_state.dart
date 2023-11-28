@@ -21,13 +21,18 @@ class _Loading extends WarrantiesState {
   const _Loading();
 }
 
+enum WarrantiesViewOption { current, expiring, expired }
+
 @autoequal
 @CopyWith()
 class _Ready extends WarrantiesState {
   const _Ready({
     required this.warranties,
     this.isProductImage = true,
+    this.warrantiesViewOption,
   });
+
+  final WarrantiesViewOption? warrantiesViewOption;
 
   final List<WarrantyInfo> warranties;
   final bool isProductImage;

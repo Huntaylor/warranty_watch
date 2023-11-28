@@ -1,4 +1,3 @@
-import 'package:jiffy/jiffy.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/widgets/details_image_card.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/widgets/individual_detail.dart';
@@ -126,10 +125,10 @@ class _Content extends StatelessWidget {
             child: (detailsCubit.state.wantsReminders)
                 ? Text(
                     l10n.remindsOn(
-                      _countDown(
+                      countDown(
                         detailsCubit.state.reminderDate!,
                       ),
-                      _dateFormat(
+                      dateFormat(
                         detailsCubit.state.reminderDate!,
                       ),
                     ),
@@ -145,7 +144,7 @@ class _Content extends StatelessWidget {
               child: IndividualDetailWidget.general(
                 detailType: l10n.purchasedOn,
                 detailContent: Text(
-                  _dateFormat(detailsCubit.state.purchaseDate!),
+                  dateFormat(detailsCubit.state.purchaseDate!),
                 ),
               ),
             ),
@@ -186,62 +185,31 @@ class _Content extends StatelessWidget {
     AppLocalizations l10n,
     BuildContext context,
   ) {
+    final endDate = detailsCubit.state.endOfWarranty!;
     return Align(
       child: Padding(
         padding: const EdgeInsets.only(top: 16),
         child: Text(
-          (_isExpired(detailsCubit.state.endOfWarranty!))
-              ? 'Warranty expired ${_expired(
-                  detailsCubit.state.endOfWarranty!,
+          (isExpired(endDate))
+              ? 'Warranty expired ${expired(
+                  endDate,
                 )}'
               : l10n.expiresOn(
-                  _countDown(
-                    detailsCubit.state.endOfWarranty!,
+                  countDown(
+                    endDate,
                   ),
-                  _dateFormat(
-                    detailsCubit.state.endOfWarranty!,
+                  dateFormat(
+                    endDate,
                   ),
                 ),
           style: TextStyle(
-            color: _dateDiff(detailsCubit.state.endOfWarranty!)
-                ? context.themeData.colorScheme.error
-                : null,
+            color: expiringColor(
+              normalColor: context.colorScheme.tertiaryContainer,
+              date: endDate,
+            ),
           ),
         ),
       ),
     );
-  }
-}
-
-String _countDown(DateTime expirationDate) {
-  final expireTime = Jiffy.parseFromDateTime(expirationDate).fromNow();
-
-  return expireTime;
-}
-
-String _expired(DateTime expirationDate) {
-  final jiffyExpirationDate = Jiffy.parseFromDateTime(expirationDate);
-  final expireTime = Jiffy.now().from(jiffyExpirationDate);
-
-  return expireTime;
-}
-
-bool _isExpired(DateTime expirationDate) =>
-    _countDown(expirationDate).endsWith('ago');
-
-bool isUrlValid(String? url) {
-  if (url == null) return false;
-  return Uri.parse(url).isAbsolute;
-}
-
-String _dateFormat(DateTime date) {
-  return '${date.month}/${date.day}/${date.year}';
-}
-
-bool _dateDiff(DateTime date) {
-  if (date.difference(DateTime.now()).inDays < 7) {
-    return true;
-  } else {
-    return false;
   }
 }

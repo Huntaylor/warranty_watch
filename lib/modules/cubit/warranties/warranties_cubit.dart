@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
 import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
+import 'package:warranty_watch/app/utils/data/data_utils.dart';
 
 part 'warranties_cubit.g.dart';
 part 'warranties_state.dart';
@@ -66,6 +66,10 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
         ),
       );
     }
+  }
+
+  void onViewWarranties({required WarrantiesViewOption viewOption}) {
+    emit(state.asReady.copyWith(warrantiesViewOption: viewOption));
   }
 
   void swapImages({required bool isProductImage}) {

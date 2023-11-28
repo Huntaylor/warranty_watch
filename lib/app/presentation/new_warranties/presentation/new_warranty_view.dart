@@ -1,6 +1,5 @@
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/presentation/home/widgets/expiring_warranty_card.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_image_widget.dart';
@@ -138,10 +137,10 @@ class NewWarrantyView extends StatelessWidget {
               WarrantyTextField.date(
                 textFieldName: 'Date Purchased',
                 initialValue: state.asReady.warrantyInfo.purchaseDate != null
-                    ? _dateFormat(
+                    ? dateFormat(
                         state.asReady.warrantyInfo.purchaseDate!,
                       )
-                    : _dateFormat(
+                    : dateFormat(
                         DateTime.now(),
                       ),
                 isLifeTime: false,
@@ -235,7 +234,7 @@ class NewWarrantyView extends StatelessWidget {
               if (state.asReady.warrantyInfo.wantsReminders)
                 WarrantyTextField.date(
                   textFieldName: 'When should we remind you?',
-                  initialValue: _dateFormat(
+                  initialValue: dateFormat(
                     state.asReady.warrantyInfo.reminderDate!,
                   ),
                   isLifeTime: state.asReady.warrantyInfo.lifeTime,
@@ -285,8 +284,4 @@ class NewWarrantyView extends StatelessWidget {
       ),
     );
   }
-}
-
-String _dateFormat(DateTime date) {
-  return '${date.month}/${date.day}/${date.year}';
 }
