@@ -68,12 +68,20 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
     }
   }
 
-  void onViewWarranties({required WarrantiesViewOption viewOption}) {
-    emit(state.asReady.copyWith(warrantiesViewOption: viewOption));
+  void onViewWarranties({required WarrantiesSelected viewOption}) {
+    emit(
+      state.asReady.copyWith(
+        warrantiesViewOption: viewOption,
+      ),
+    );
   }
 
   void swapImages({required bool isProductImage}) {
-    emit(state.asReady.copyWith(isProductImage: isProductImage));
+    emit(
+      state.asReady.copyWith(
+        isProductImage: isProductImage,
+      ),
+    );
   }
 
   void removeWarranty(int index) {

@@ -1,10 +1,10 @@
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/presentation/home/widgets/warranty_dialog_box.dart';
+import 'package:warranty_watch/app/presentation/home/widgets/warranties_title.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:warranty_watch/app/widgets/expired_warranty_card.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
+import 'package:warranty_watch/app/widgets/warranty_list_card.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
 
 class WarrantyHomeView extends StatelessWidget {
@@ -60,9 +60,9 @@ class WarrantyHomeView extends StatelessWidget {
         ),
       ),
       children: [
-        WarrantiesTitle(
+        const WarrantiesTitle(
           listTitle: 'About to Expire',
-          onMenu: () {},
+          warrantiesSelected: WarrantiesSelected.expiring,
         ),
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {
@@ -72,30 +72,12 @@ class WarrantyHomeView extends StatelessWidget {
             return _WarrantiesCardListBuilder(
               title: 'There are no warranties about to expire',
               warranties: state.asReady.expiring,
-              onSelect: (warranty) async {
-                context.read<WarrantiesCubit>().swapImages(
-                      isProductImage: true,
-                    );
-                return showDialog(
-                  context: context,
-                  builder: (context) => WarrantyDialogBox(
-                    warrantyInfo: warranty,
-                  ),
-                );
-              },
             );
           },
         ),
-        WarrantiesTitle(
+        const WarrantiesTitle(
           listTitle: 'Your Warranties',
-          onMenu: () {
-            context
-                .read<WarrantiesCubit>()
-                .onViewWarranties(viewOption: WarrantiesViewOption.current);
-            context.push(
-              Paths.home.warranties.path,
-            );
-          },
+          warrantiesSelected: WarrantiesSelected.current,
         ),
 
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
@@ -106,17 +88,6 @@ class WarrantyHomeView extends StatelessWidget {
             return _WarrantiesCardListBuilder(
               title: 'You currently have no warranties to watch',
               warranties: state.asReady.currentWarranties,
-              onSelect: (warranty) async {
-                context.read<WarrantiesCubit>().swapImages(
-                      isProductImage: true,
-                    );
-                return showDialog(
-                  context: context,
-                  builder: (context) => WarrantyDialogBox(
-                    warrantyInfo: warranty,
-                  ),
-                );
-              },
             );
           },
         ),
@@ -125,6 +96,7 @@ class WarrantyHomeView extends StatelessWidget {
         ),
         const WarrantiesTitle(
           listTitle: 'Already Expired',
+          warrantiesSelected: WarrantiesSelected.expired,
         ),
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {
@@ -136,20 +108,8 @@ class WarrantyHomeView extends StatelessWidget {
               shrinkWrap: true,
               itemCount: state.asReady.expired.length,
               itemBuilder: (context, index) {
-                return ExpiredWarrantyCard(
-                  onSelect: () async {
-                    context.read<WarrantiesCubit>().swapImages(
-                          isProductImage: true,
-                        );
-                    return showDialog(
-                      context: context,
-                      builder: (context) => WarrantyDialogBox(
-                        warrantyInfo: state.asReady.expired[index],
-                      ),
-                    );
-                  },
-                  title: state.asReady.expired[index].name!,
-                  expirationDate: state.asReady.expired[index].endOfWarranty!,
+                return WarrantyListCard(
+                  warrantyInfo: state.asReady.expired[index],
                 );
               },
             );
@@ -167,12 +127,10 @@ class _WarrantiesCardListBuilder extends StatelessWidget {
   const _WarrantiesCardListBuilder({
     required this.title,
     required this.warranties,
-    required this.onSelect,
   });
 
   final String title;
   final List<WarrantyInfo> warranties;
-  final Future<void> Function(WarrantyInfo warranty) onSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -196,47 +154,13 @@ class _WarrantiesCardListBuilder extends StatelessWidget {
           itemBuilder: (context, index) {
             return WarrantyDisplayCard(
               warrantyInfo: warranties[index],
-              onSelect: () => onSelect(warranties[index]),
+              onSelect: () => onWarrantyTap(
+                warrantyInfo: warranties[index],
+                context: context,
+              ),
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class WarrantiesTitle extends StatelessWidget {
-  const WarrantiesTitle({
-    required this.listTitle,
-    this.onMenu,
-    super.key,
-  });
-  final String listTitle;
-  final VoidCallback? onMenu;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            listTitle,
-            style: context.textTheme.titleLarge!.copyWith(
-              color: context.colorScheme.primary,
-            ),
-          ),
-          const SizedBox.shrink(),
-          Visibility(
-            visible: onMenu != null,
-            child: IconButton(
-              onPressed: onMenu,
-              icon: const Icon(Icons.menu),
-              color: context.colorScheme.primary,
-            ),
-          ),
-        ],
       ),
     );
   }

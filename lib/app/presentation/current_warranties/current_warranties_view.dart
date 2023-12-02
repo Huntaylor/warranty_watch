@@ -1,8 +1,7 @@
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/presentation/current_warranties/widgets/current_widget_card.dart';
 import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
+import 'package:warranty_watch/app/widgets/warranty_list_card.dart';
 import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
-import 'package:warranty_watch/modules/cubit/warranty_details/warranty_details_cubit.dart';
 
 class CurrentWarrantiesView extends StatelessWidget {
   const CurrentWarrantiesView({super.key});
@@ -37,30 +36,13 @@ class _Content extends StatelessWidget {
               return const TriangleLoadingIndicator();
             }
             final list =
-                context.watch<WarrantiesCubit>().state.asReady.warranties;
+                context.watch<WarrantiesCubit>().state.asReady.sortedWarranties;
             return (list.isEmpty)
                 ? Text(context.l10n.noCurrentWarranties)
                 : ListView.builder(
                     itemCount: list.length,
                     itemBuilder: (context, index) {
-                      return CurrentWidgetCard(
-                        onSelect: () {
-                          context
-                              .read<WarrantyDetailsCubit>()
-                              .selectedWarrantyInitial(
-                                list[index],
-                              );
-                          context.push(Paths.home.warranties.details.path);
-                        },
-                        onEdit: () {
-                          // context
-                          //     .read<WarrantyCubit>()
-                          //     .editWarrantyInitial(list[index]);
-                          // context.pushNamed(Paths.home.newWarranty.path);
-                        },
-                        onRemove: () => context
-                            .read<WarrantiesCubit>()
-                            .removeWarranty(index),
+                      return WarrantyListCard(
                         warrantyInfo: list[index],
                       );
                     },

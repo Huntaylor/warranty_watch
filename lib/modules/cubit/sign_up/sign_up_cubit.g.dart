@@ -28,7 +28,7 @@ extension _$_SignUpProcessAutoequal on _SignUpProcess {
         confirmPassword,
         firstName,
         lastName,
-        tosAccepted
+        tosAccepted,
       ];
 }
 

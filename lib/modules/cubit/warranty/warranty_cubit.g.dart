@@ -9,7 +9,10 @@ part of 'warranty_cubit.dart';
 extension _$_ReadyAutoequal on _Ready {
   @Deprecated(r'Use _$props instead')
   List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [warrantyInfo, selectedChip];
+  List<Object?> get _$props => [
+        warrantyInfo,
+        selectedChip,
+      ];
 }
 
 // **************************************************************************

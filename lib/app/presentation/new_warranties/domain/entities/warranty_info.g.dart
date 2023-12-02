@@ -23,7 +23,7 @@ extension _$WarrantyInfoAutoequal on WarrantyInfo {
         receiptImage,
         receiptImageUrl,
         lifeTime,
-        wantsReminders
+        wantsReminders,
       ];
 }
 

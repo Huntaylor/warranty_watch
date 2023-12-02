@@ -107,7 +107,7 @@ class WarrantyDisplayCard extends StatelessWidget {
                         warrantyInfo.name!,
                         style: context.textTheme.labelLarge,
                       ),
-                      visible: warrantyInfo.name!.length >= 18,
+                      visible: warrantyInfo.name!.length >= 15,
                       child: Marquee(
                         text: warrantyInfo.name!,
                         style: context.textTheme.labelLarge,
