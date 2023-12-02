@@ -23,9 +23,9 @@ extension _$_ReadyAutoequal on _Ready {
 abstract class _$_ReadyCWProxy {
   _Ready warranties(List<WarrantyInfo> warranties);
 
-  _Ready isProductImage(bool isProductImage);
+  _Ready warrantiesViewOption(WarrantiesViewOption warrantiesViewOption);
 
-  _Ready warrantiesViewOption(WarrantiesSelected? warrantiesViewOption);
+  _Ready isProductImage(bool isProductImage);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -35,8 +35,8 @@ abstract class _$_ReadyCWProxy {
   /// ````
   _Ready call({
     List<WarrantyInfo>? warranties,
+    WarrantiesViewOption? warrantiesViewOption,
     bool? isProductImage,
-    WarrantiesSelected? warrantiesViewOption,
   });
 }
 
@@ -51,12 +51,12 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
       this(warranties: warranties);
 
   @override
-  _Ready isProductImage(bool isProductImage) =>
-      this(isProductImage: isProductImage);
+  _Ready warrantiesViewOption(WarrantiesViewOption warrantiesViewOption) =>
+      this(warrantiesViewOption: warrantiesViewOption);
 
   @override
-  _Ready warrantiesViewOption(WarrantiesSelected? warrantiesViewOption) =>
-      this(warrantiesViewOption: warrantiesViewOption);
+  _Ready isProductImage(bool isProductImage) =>
+      this(isProductImage: isProductImage);
 
   @override
 
@@ -68,8 +68,8 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   /// ````
   _Ready call({
     Object? warranties = const $CopyWithPlaceholder(),
-    Object? isProductImage = const $CopyWithPlaceholder(),
     Object? warrantiesViewOption = const $CopyWithPlaceholder(),
+    Object? isProductImage = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warranties:
@@ -77,15 +77,17 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
               ? _value.warranties
               // ignore: cast_nullable_to_non_nullable
               : warranties as List<WarrantyInfo>,
+      warrantiesViewOption:
+          warrantiesViewOption == const $CopyWithPlaceholder() ||
+                  warrantiesViewOption == null
+              ? _value.warrantiesViewOption
+              // ignore: cast_nullable_to_non_nullable
+              : warrantiesViewOption as WarrantiesViewOption,
       isProductImage: isProductImage == const $CopyWithPlaceholder() ||
               isProductImage == null
           ? _value.isProductImage
           // ignore: cast_nullable_to_non_nullable
           : isProductImage as bool,
-      warrantiesViewOption: warrantiesViewOption == const $CopyWithPlaceholder()
-          ? _value.warrantiesViewOption
-          // ignore: cast_nullable_to_non_nullable
-          : warrantiesViewOption as WarrantiesSelected?,
     );
   }
 }

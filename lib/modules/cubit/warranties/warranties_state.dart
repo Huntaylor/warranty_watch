@@ -21,18 +21,18 @@ class _Loading extends WarrantiesState {
   const _Loading();
 }
 
-enum WarrantiesSelected { expired, expiring, current }
+enum WarrantiesViewOption { expired, expiring, current }
 
 @autoequal
 @CopyWith()
 class _Ready extends WarrantiesState {
   const _Ready({
     required this.warranties,
+    this.warrantiesViewOption = WarrantiesViewOption.current,
     this.isProductImage = true,
-    this.warrantiesViewOption,
   });
 
-  final WarrantiesSelected? warrantiesViewOption;
+  final WarrantiesViewOption warrantiesViewOption;
 
   final List<WarrantyInfo> warranties;
   final bool isProductImage;
@@ -44,7 +44,7 @@ class _Ready extends WarrantiesState {
     if (currentWarranties
         .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
       currentWarranties.sort(
-        (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
+        (a, b) => b.endOfWarranty!.compareTo(a.endOfWarranty!),
       );
     }
     return currentWarranties;

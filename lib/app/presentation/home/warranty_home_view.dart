@@ -62,7 +62,7 @@ class WarrantyHomeView extends StatelessWidget {
       children: [
         const WarrantiesTitle(
           listTitle: 'About to Expire',
-          warrantiesSelected: WarrantiesSelected.expiring,
+          warrantiesSelected: WarrantiesViewOption.expiring,
         ),
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {
@@ -77,7 +77,7 @@ class WarrantyHomeView extends StatelessWidget {
         ),
         const WarrantiesTitle(
           listTitle: 'Your Warranties',
-          warrantiesSelected: WarrantiesSelected.current,
+          warrantiesSelected: WarrantiesViewOption.current,
         ),
 
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
@@ -96,7 +96,7 @@ class WarrantyHomeView extends StatelessWidget {
         ),
         const WarrantiesTitle(
           listTitle: 'Already Expired',
-          warrantiesSelected: WarrantiesSelected.expired,
+          warrantiesSelected: WarrantiesViewOption.expired,
         ),
         BlocBuilder<WarrantiesCubit, WarrantiesState>(
           builder: (context, state) {

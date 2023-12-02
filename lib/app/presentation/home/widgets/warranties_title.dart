@@ -8,7 +8,7 @@ class WarrantiesTitle extends StatelessWidget {
     super.key,
   });
   final String listTitle;
-  final WarrantiesSelected warrantiesSelected;
+  final WarrantiesViewOption warrantiesSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class WarrantiesTitle extends StatelessWidget {
           ),
           const SizedBox.shrink(),
           Visibility(
-            visible: warrantiesSelected != WarrantiesSelected.expired,
+            visible: warrantiesSelected != WarrantiesViewOption.expired,
             child: IconButton(
               onPressed: () {
                 context
