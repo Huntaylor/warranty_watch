@@ -21,7 +21,6 @@ abstract class AuthRepository {
   Future<void> signInWithGoogle();
   Future<void> signinWithApple();
   Future<bool> isFirstRun();
-  Future<bool> isEmailAlreadyInUse(String email);
   Future<void> updatePersonalData(UserData userData);
 }
 
@@ -66,16 +65,6 @@ class FirebaseAuthRepository implements AuthRepository {
       return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
       rethrow;
-    }
-  }
-
-  @override
-  Future<bool> isEmailAlreadyInUse(String email) async {
-    try {
-      final signInMethods = await _auth.fetchSignInMethodsForEmail(email);
-      return signInMethods.isNotEmpty;
-    } catch (e) {
-      return false; // Return false if an error occurs
     }
   }
 

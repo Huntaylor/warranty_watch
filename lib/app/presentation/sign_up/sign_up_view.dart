@@ -146,7 +146,6 @@ class _Content extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8),
               child: WarrantyElevatedButton.loading(
                 onPressed: () async {
-                  await authCubit.checkEmail(state.asSignUp.email!);
                   if (authCubit.state.isError) {
                     return;
                   }
