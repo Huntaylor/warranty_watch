@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:autoequal/autoequal.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +20,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         );
   final DataRepository _dataRepository;
 
-  void toggleLifeTime({bool? value}) {
+  Future<void> toggleLifeTime({bool? value}) async {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -28,7 +30,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-  void changePurchaseDate(String date) {
+  Future<void> changePurchaseDate(String date) async {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -38,7 +40,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-  void changeProductName(String productName) {
+  Future<void> changeProductName(String productName) async {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -48,7 +50,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-  void changeWebsiteName(String websiteName) {
+  Future<void> changeWebsiteName(String websiteName) async {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -58,7 +60,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-  void changeAddtionalDetails(String additionalDetails) {
+  Future<void> changeAddtionalDetails(String additionalDetails) async {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -66,17 +68,6 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
-  }
-
-  void changeEndDate(String date) {
-    emit(
-      state.asReady.copyWith(
-        warrantyInfo: state.asReady.warrantyInfo.copyWith(
-          endOfWarranty: DateFormat('MM/dd/yyyy').parse(date),
-        ),
-      ),
-    );
-    changeReminderDate(date);
   }
 
   void changeEndDateChips({required int index}) {
@@ -101,8 +92,6 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
-
-    // changeReminderDate(date);
   }
 
   DateTime addTimeSelected(int index) {
@@ -120,19 +109,28 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     }
   }
 
-  void changeReminderDate(String date) {
+  Future<void> changeReminderDate(String date) async {
     final warrantyInfo = state.asReady.warrantyInfo;
-    final daysTill =
-        warrantyInfo.endOfWarranty!.difference(DateTime.now()).inDays;
+    final endOfWarranty = state.asReady.warrantyInfo.endOfWarranty;
+    final endOfWarrantyYear = state.asReady.warrantyInfo.endOfWarranty!.year;
+    final endOfWarrantyDay = state.asReady.warrantyInfo.endOfWarranty!.day;
+    final endOfWarrantyMonth = state.asReady.warrantyInfo.endOfWarranty!.month;
+
+    const twoDayReminder = 2;
+    const weekReminder = 7;
+    const twoWeeksReminder = 14;
+    const monthReminder = 30;
+
+    final daysTill = endOfWarranty!.difference(DateTime.now()).inDays;
     if (warrantyInfo.reminderDate == null) {
       if (daysTill < 7 && daysTill > 1) {
         return emit(
           state.asReady.copyWith(
             warrantyInfo: state.asReady.warrantyInfo.copyWith(
               reminderDate: DateTime(
-                warrantyInfo.endOfWarranty!.year,
-                warrantyInfo.endOfWarranty!.month,
-                warrantyInfo.endOfWarranty!.day - 2,
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - twoDayReminder,
               ),
             ),
           ),
@@ -142,9 +140,9 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           state.asReady.copyWith(
             warrantyInfo: state.asReady.warrantyInfo.copyWith(
               reminderDate: DateTime(
-                warrantyInfo.endOfWarranty!.year,
-                warrantyInfo.endOfWarranty!.month,
-                warrantyInfo.endOfWarranty!.day - 7,
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - weekReminder,
               ),
             ),
           ),
@@ -154,9 +152,9 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           state.asReady.copyWith(
             warrantyInfo: state.asReady.warrantyInfo.copyWith(
               reminderDate: DateTime(
-                warrantyInfo.endOfWarranty!.year,
-                warrantyInfo.endOfWarranty!.month,
-                warrantyInfo.endOfWarranty!.day - 14,
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - twoWeeksReminder,
               ),
             ),
           ),
@@ -166,9 +164,9 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           state.asReady.copyWith(
             warrantyInfo: state.asReady.warrantyInfo.copyWith(
               reminderDate: DateTime(
-                warrantyInfo.endOfWarranty!.year,
-                warrantyInfo.endOfWarranty!.month,
-                warrantyInfo.endOfWarranty!.day - 30,
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - monthReminder,
               ),
             ),
           ),
@@ -178,9 +176,9 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           state.asReady.copyWith(
             warrantyInfo: state.asReady.warrantyInfo.copyWith(
               reminderDate: DateTime(
-                warrantyInfo.endOfWarranty!.year,
-                warrantyInfo.endOfWarranty!.month,
-                warrantyInfo.endOfWarranty!.day - 30,
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - monthReminder,
               ),
             ),
           ),
@@ -205,6 +203,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    changeReminderDate('');
   }
 
   Future<void> changeProductCamera() async {
@@ -299,6 +298,15 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     emit(
       const _Loading(),
     );
+    await _dataRepository.submitWarranty(warrantyDetils);
+  }
+
+  Future<void> saveDetails() async {
+    if (!state.isReady) {
+      return;
+    }
+    final warrantyDetils = state.asReady.warrantyInfo;
+
     await _dataRepository.submitWarranty(warrantyDetils);
   }
 

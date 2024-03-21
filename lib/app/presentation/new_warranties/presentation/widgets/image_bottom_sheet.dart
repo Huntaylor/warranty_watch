@@ -103,12 +103,10 @@ class DateChip extends StatelessWidget {
   const DateChip({
     required this.name,
     required this.isSelected,
-    required this.duration,
     this.onSelected,
     super.key,
   });
   final String name;
-  final DateTime duration;
   final bool isSelected;
   // ignore: avoid_positional_boolean_parameters
   final void Function(bool)? onSelected;
@@ -163,7 +161,6 @@ class DateBottomSheet extends StatelessWidget {
               return DateChip(
                 name: dateChips[index]['duration']!,
                 isSelected: isSelected,
-                duration: DateTime.now(),
                 onSelected: (value) {
                   onPress(index);
                 },

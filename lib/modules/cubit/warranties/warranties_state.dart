@@ -39,14 +39,16 @@ class _Ready extends WarrantiesState {
 
   List<WarrantyInfo> get sortedWarranties {
     List<WarrantyInfo> currentWarranties;
+
     currentWarranties = List.from(warranties);
 
-    if (currentWarranties
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
+    if (currentWarranties.any(
+      (e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0,
+    )) {
       currentWarranties.sort(
         (a, b) => b.endOfWarranty!.compareTo(a.endOfWarranty!),
       );
-    }
+    } else if (currentWarranties.any((element) => element.lifeTime)) {}
     return currentWarranties;
   }
 
@@ -54,8 +56,9 @@ class _Ready extends WarrantiesState {
     List<WarrantyInfo> currentWarranties;
     currentWarranties = List.from(warranties);
 
-    if (currentWarranties
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
+    if (currentWarranties.any((e) =>
+        e.endOfWarranty != null &&
+        e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
       currentWarranties
         ..removeWhere(
           (ee) => ee.endOfWarranty!.difference(DateTime.now()).inDays <= 0,
@@ -110,12 +113,10 @@ class _Ready extends WarrantiesState {
     }
 
     if (expiredList
-        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
+        .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays >= 0)) {
       expiredList
         ..removeWhere(
-          (ee) =>
-              ee.endOfWarranty!.difference(DateTime.now()).inDays >= 0 ||
-              ee.lifeTime,
+          (ee) => ee.endOfWarranty!.difference(DateTime.now()).inDays >= 0,
         )
         ..sort(
           (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),

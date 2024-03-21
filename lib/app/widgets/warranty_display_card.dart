@@ -122,9 +122,16 @@ class WarrantyDisplayCard extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  WarrantyCountdown.onlyTime(
-                    warrantyDate: warrantyInfo.endOfWarranty!,
-                  ),
+                  if (warrantyInfo.endOfWarranty != null)
+                    WarrantyCountdown.onlyTime(
+                      warrantyDate: warrantyInfo.endOfWarranty!,
+                    )
+                  else
+                    Text(
+                      'LifeTime Warranty',
+                      style: context.textTheme.bodySmall!
+                          .copyWith(color: context.colorScheme.primary),
+                    ),
                 ],
               ),
             ),
