@@ -6,9 +6,7 @@ part of 'login_cubit.dart';
 // AutoequalGenerator
 // **************************************************************************
 
-extension _$_LoggingInAutoequal on _LoggingIn {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
+extension _$LoggingInAutoequal on _LoggingIn {
   List<Object?> get _$props => [
         email,
         password,

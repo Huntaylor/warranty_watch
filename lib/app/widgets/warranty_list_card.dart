@@ -12,6 +12,7 @@ class WarrantyListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLifetime = warrantyInfo.lifetime;
     final endDate = warrantyInfo.endOfWarranty;
     const duration = Duration(seconds: 5);
     return Padding(
@@ -71,7 +72,14 @@ class WarrantyListCard extends StatelessWidget {
                   ),
                 ),
               ),
-              if (isExpired(endDate!))
+              if (isLifetime)
+                Text(
+                  'Lifetime Warranty',
+                  style: context.textTheme.bodyLarge!.copyWith(
+                    color: context.colorScheme.primary.withOpacity(.5),
+                  ),
+                )
+              else if (isExpired(endDate!))
                 Text(
                   'Expired: ${endDate.month}/${endDate.day}/${endDate.year}',
                   style: context.textTheme.bodyLarge!.copyWith(

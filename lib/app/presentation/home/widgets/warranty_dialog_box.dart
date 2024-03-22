@@ -137,7 +137,7 @@ class WarrantyDialogBox extends StatelessWidget {
                   )
                 else
                   Text(
-                    'LifeTime Warranty',
+                    'Lifetime Warranty',
                     style: context.textTheme.bodySmall!
                         .copyWith(color: context.colorScheme.primary),
                   ),

@@ -23,7 +23,7 @@ class WarrantyBaseView extends StatelessWidget {
       body: LoadingOverlay(
         isLoading: isLoading ?? false,
         child: SafeArea(
-          minimum: const EdgeInsets.symmetric(horizontal: 25),
+          minimum: const EdgeInsets.symmetric(horizontal: 8),
           child: ListView(
             physics: const ClampingScrollPhysics(),
             children: children,

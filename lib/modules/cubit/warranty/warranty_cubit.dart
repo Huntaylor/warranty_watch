@@ -20,11 +20,11 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         );
   final DataRepository _dataRepository;
 
-  Future<void> toggleLifeTime({bool? value}) async {
+  Future<void> toggleLifetime({bool? value}) async {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
-          lifeTime: value,
+          lifetime: value,
         ),
       ),
     );
@@ -80,7 +80,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
-          lifeTime: index == 3 || false,
+          lifetime: index == 3 || false,
         ),
       ),
     );

@@ -21,7 +21,7 @@ class WarrantyInfo extends Equatable {
     this.imageUrl,
     this.receiptImage,
     this.receiptImageUrl,
-    this.lifeTime = false,
+    this.lifetime = false,
     this.wantsReminders = false,
   }) : createdOn = DateTime.now();
 
@@ -39,7 +39,7 @@ class WarrantyInfo extends Equatable {
   final String? imageUrl;
   final String? receiptImage;
   final String? receiptImageUrl;
-  final bool lifeTime;
+  final bool lifetime;
   final bool wantsReminders;
 
   @override
@@ -48,7 +48,7 @@ class WarrantyInfo extends Equatable {
   bool canSave() {
     if (name == null) return false;
     if (name!.isEmpty) return false;
-    if (endOfWarranty == null && lifeTime != true) return false;
+    if (endOfWarranty == null && lifetime != true) return false;
     return true;
   }
 

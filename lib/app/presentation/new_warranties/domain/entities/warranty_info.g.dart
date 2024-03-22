@@ -7,8 +7,6 @@ part of 'warranty_info.dart';
 // **************************************************************************
 
 extension _$WarrantyInfoAutoequal on WarrantyInfo {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
   List<Object?> get _$props => [
         id,
         name,
@@ -22,7 +20,7 @@ extension _$WarrantyInfoAutoequal on WarrantyInfo {
         imageUrl,
         receiptImage,
         receiptImageUrl,
-        lifeTime,
+        lifetime,
         wantsReminders,
       ];
 }
@@ -54,7 +52,7 @@ abstract class _$WarrantyInfoCWProxy {
 
   WarrantyInfo receiptImageUrl(String? receiptImageUrl);
 
-  WarrantyInfo lifeTime(bool lifeTime);
+  WarrantyInfo lifetime(bool lifetime);
 
   WarrantyInfo wantsReminders(bool wantsReminders);
 
@@ -76,7 +74,7 @@ abstract class _$WarrantyInfoCWProxy {
     String? imageUrl,
     String? receiptImage,
     String? receiptImageUrl,
-    bool? lifeTime,
+    bool? lifetime,
     bool? wantsReminders,
   });
 }
@@ -127,7 +125,7 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
       this(receiptImageUrl: receiptImageUrl);
 
   @override
-  WarrantyInfo lifeTime(bool lifeTime) => this(lifeTime: lifeTime);
+  WarrantyInfo lifetime(bool lifetime) => this(lifetime: lifetime);
 
   @override
   WarrantyInfo wantsReminders(bool wantsReminders) =>
@@ -153,7 +151,7 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
     Object? imageUrl = const $CopyWithPlaceholder(),
     Object? receiptImage = const $CopyWithPlaceholder(),
     Object? receiptImageUrl = const $CopyWithPlaceholder(),
-    Object? lifeTime = const $CopyWithPlaceholder(),
+    Object? lifetime = const $CopyWithPlaceholder(),
     Object? wantsReminders = const $CopyWithPlaceholder(),
   }) {
     return WarrantyInfo(
@@ -201,10 +199,10 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
           ? _value.receiptImageUrl
           // ignore: cast_nullable_to_non_nullable
           : receiptImageUrl as String?,
-      lifeTime: lifeTime == const $CopyWithPlaceholder() || lifeTime == null
-          ? _value.lifeTime
+      lifetime: lifetime == const $CopyWithPlaceholder() || lifetime == null
+          ? _value.lifetime
           // ignore: cast_nullable_to_non_nullable
-          : lifeTime as bool,
+          : lifetime as bool,
       wantsReminders: wantsReminders == const $CopyWithPlaceholder() ||
               wantsReminders == null
           ? _value.wantsReminders
@@ -242,7 +240,7 @@ WarrantyInfo _$WarrantyInfoFromJson(Map json) => WarrantyInfo(
       imageUrl: json['imageUrl'] as String?,
       receiptImage: json['receiptImage'] as String?,
       receiptImageUrl: json['receiptImageUrl'] as String?,
-      lifeTime: json['lifeTime'] as bool? ?? false,
+      lifetime: json['lifetime'] as bool? ?? false,
       wantsReminders: json['wantsReminders'] as bool? ?? false,
     );
 
@@ -267,7 +265,7 @@ Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
   writeNotNull('imageUrl', instance.imageUrl);
   writeNotNull('receiptImage', instance.receiptImage);
   writeNotNull('receiptImageUrl', instance.receiptImageUrl);
-  val['lifeTime'] = instance.lifeTime;
+  val['lifetime'] = instance.lifetime;
   val['wantsReminders'] = instance.wantsReminders;
   return val;
 }

@@ -109,10 +109,10 @@ class _Content extends StatelessWidget {
       physics: const ClampingScrollPhysics(),
       child: Column(
         children: [
-          if (detailsCubit.state.lifeTime)
+          if (detailsCubit.state.lifetime)
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: Text(l10n.lifeTime),
+              child: Text(l10n.lifetime),
             )
           else
             warrantyText(

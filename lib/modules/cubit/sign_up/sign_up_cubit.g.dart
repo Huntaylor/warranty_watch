@@ -6,15 +6,11 @@ part of 'sign_up_cubit.dart';
 // AutoequalGenerator
 // **************************************************************************
 
-extension _$_ErrorAutoequal on _Error {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
+extension _$ErrorAutoequal on _Error {
   List<Object?> get _$props => [errorMessage];
 }
 
-extension _$_SignUpProcessAutoequal on _SignUpProcess {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
+extension _$SignUpProcessAutoequal on _SignUpProcess {
   List<Object?> get _$props => [
         isObscured,
         hasSixCharacters,

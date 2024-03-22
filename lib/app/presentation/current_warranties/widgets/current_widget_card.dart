@@ -81,7 +81,7 @@ class CurrentWidgetCard extends StatelessWidget {
                           dateFormat(warrantyInfo.purchaseDate!),
                         ),
                       ),
-                    if (warrantyInfo.lifeTime)
+                    if (warrantyInfo.lifetime)
                       Text(l10n.hasLifetime)
                     else
                       Text(

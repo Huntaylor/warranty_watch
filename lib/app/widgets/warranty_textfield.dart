@@ -13,7 +13,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.initialText,
     required this.initialValue,
     required this.isDate,
-    required this.isLifeTime,
+    required this.isLifetime,
     required this.onChanged,
     required this.hasAutocorrect,
     required this.isTextObscured,
@@ -41,7 +41,7 @@ class WarrantyTextField extends StatefulWidget {
   // const factory WarrantyTextField.date() = LimitedWarrantyTextField;
 
   WarrantyTextField.date({
-    required this.isLifeTime,
+    required this.isLifetime,
     required this.hintText,
     required this.onChanged,
     required this.initialDateTime,
@@ -97,7 +97,7 @@ class WarrantyTextField extends StatefulWidget {
         isTextObscured = false,
         onObscuredTap = null,
         isObscuredFunction = false,
-        isLifeTime = false,
+        isLifetime = false,
         isDouble = false,
         textCapitalization = TextCapitalization.sentences,
         onSecondChanged = null,
@@ -132,7 +132,7 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         textCapitalization = TextCapitalization.words,
         isObscuredFunction = false,
-        isLifeTime = false,
+        isLifetime = false,
         isDouble = true,
         maxLines = null,
         hasAutocorrect = true,
@@ -161,7 +161,7 @@ class WarrantyTextField extends StatefulWidget {
         isTextObscured = false,
         onObscuredTap = null,
         isObscuredFunction = false,
-        isLifeTime = false,
+        isLifetime = false,
         textCapitalization = TextCapitalization.none,
         isDouble = false,
         onSecondChanged = null,
@@ -194,7 +194,7 @@ class WarrantyTextField extends StatefulWidget {
         onObscuredTap = null,
         isObscuredFunction = false,
         textCapitalization = TextCapitalization.none,
-        isLifeTime = false,
+        isLifetime = false,
         isDouble = false,
         onSecondChanged = null,
         secondHintText = null,
@@ -225,7 +225,7 @@ class WarrantyTextField extends StatefulWidget {
         isDate = false,
         textCapitalization = TextCapitalization.none,
         isTextObscured = true,
-        isLifeTime = false,
+        isLifetime = false,
         autofillHints = const [AutofillHints.password],
         isDouble = false,
         onSecondChanged = null,
@@ -253,7 +253,7 @@ class WarrantyTextField extends StatefulWidget {
     this.textInputAction,
   })  : initialText = '',
         isDate = false,
-        isLifeTime = false,
+        isLifetime = false,
         isDouble = false,
         autofillHints = const [AutofillHints.url],
         textCapitalization = TextCapitalization.none,
@@ -286,7 +286,7 @@ class WarrantyTextField extends StatefulWidget {
   })  : initialText = '',
         textInputType = TextInputType.text,
         isDate = false,
-        isLifeTime = false,
+        isLifetime = false,
         autofillHints = null,
         isDouble = false,
         onSecondChanged = null,
@@ -317,7 +317,7 @@ class WarrantyTextField extends StatefulWidget {
   final int? maxLines;
   final VoidCallback? onTap;
   final bool isDate;
-  final bool isLifeTime;
+  final bool isLifetime;
   final TextInputAction? textInputAction;
   final DateTime? initialDateTime;
   final DateTime? startDateTime;
@@ -425,7 +425,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         maxLength: widget.maxLength,
         maxLengthEnforcement: widget.maxLengthEnforcement,
         keyboardType: widget.textInputType,
-        enabled: !widget.isLifeTime,
+        enabled: !widget.isLifetime,
         inputFormatters: widget.inputFormatter,
         controller: isDouble ? secondController : controller,
         onChanged: isDouble ? widget.onSecondChanged : widget.onChanged,
@@ -446,9 +446,6 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
                   ),
                 )
               : null,
-          // suffixText: (widget.maxLength != null)
-          //     ? '${widget.currentLength}/${widget.maxLength}'
-          //     : null,
           prefix: widget.isTextObscured
               ? const SizedBox(width: 48)
               : const SizedBox.shrink(),

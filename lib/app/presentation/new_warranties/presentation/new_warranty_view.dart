@@ -165,7 +165,7 @@ class NewWarrantyView extends StatelessWidget {
                       : dateFormat(
                           DateTime.now(),
                         ),
-                  isLifeTime: false,
+                  isLifetime: false,
                   endDateTime: DateTime.now(),
                   initialDateTime: state.asReady.warrantyInfo.purchaseDate,
                   startDateTime: DateTime(2000),
@@ -242,7 +242,7 @@ class NewWarrantyView extends StatelessWidget {
                   },
                 ),
                 const Gap(15),
-                if (state.asReady.warrantyInfo.lifeTime ||
+                if (state.asReady.warrantyInfo.lifetime ||
                     state.asReady.warrantyInfo.endOfWarranty == null)
                   const SizedBox()
                 else
@@ -257,28 +257,44 @@ class NewWarrantyView extends StatelessWidget {
                       const Text('Reminder before expiration'),
                     ],
                   ),
-                if (state.asReady.warrantyInfo.wantsReminders)
-                  WarrantyTextField.date(
-                    textFieldName: 'When should we remind you?',
-                    initialValue: dateFormat(
-                      state.asReady.warrantyInfo.reminderDate!,
-                    ),
-                    isLifeTime: state.asReady.warrantyInfo.lifeTime,
-                    endDateTime: state.asReady.warrantyInfo.endOfWarranty,
-                    initialDateTime: state.asReady.warrantyInfo.reminderDate,
-                    startDateTime: DateTime.now(),
-                    onChanged: providerContext
-                        .read<WarrantyCubit>()
-                        .changeReminderDate,
-                    hintText: 'Reminder Date',
-                  ),
+                AnimatedSwitcher(
+                  transitionBuilder: (child, animation) {
+                    late final offsetAnimation = Tween<Offset>(
+                      begin: const Offset(1.5, 0),
+                      end: Offset.zero,
+                    ).animate(animation);
+                    return SizeTransition(
+                      sizeFactor: animation,
+                      child: SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      ),
+                    );
+                  },
+                  duration: const Duration(milliseconds: 150),
+                  child: (state.asReady.warrantyInfo.wantsReminders)
+                      ? WarrantyTextField.date(
+                          textFieldName: 'When should we remind you?',
+                          initialValue: dateFormat(
+                            state.asReady.warrantyInfo.reminderDate!,
+                          ),
+                          isLifetime: state.asReady.warrantyInfo.lifetime,
+                          endDateTime: state.asReady.warrantyInfo.endOfWarranty,
+                          initialDateTime:
+                              state.asReady.warrantyInfo.reminderDate,
+                          startDateTime: DateTime.now(),
+                          onChanged: providerContext
+                              .read<WarrantyCubit>()
+                              .changeReminderDate,
+                          hintText: 'Reminder Date',
+                        )
+                      : const SizedBox(),
+                ),
                 WarrantyTextField.form(
                   textFieldName: 'Product or Service Description',
                   currentLength: (state.asReady.warrantyInfo.details != null)
                       ? state.asReady.warrantyInfo.details!.length
                       : 0,
-                  maxLength: 100,
-                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   initialValue: state.asReady.warrantyInfo.details ?? '',
                   onChanged: providerContext
                       .read<WarrantyCubit>()
