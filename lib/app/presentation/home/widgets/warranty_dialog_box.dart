@@ -131,6 +131,8 @@ class WarrantyDialogBox extends StatelessWidget {
                 const Gap(
                   5,
                 ),
+                Text('Purchased: ${warrantyInfo.purchaseDate!}'),
+                const Gap(5),
                 if (warrantyInfo.endOfWarranty != null)
                   WarrantyCountdown.long(
                     warrantyDate: warrantyInfo.endOfWarranty!,
@@ -144,7 +146,19 @@ class WarrantyDialogBox extends StatelessWidget {
                 const Gap(5),
                 if (warrantyInfo.details != null &&
                     warrantyInfo.details!.isNotEmpty)
-                  Text('Details: ${warrantyInfo.details!}')
+                  Text.rich(
+                    TextSpan(
+                      text: 'Description: ',
+                      style: context.textTheme.bodySmall!
+                          .copyWith(fontWeight: FontWeight.bold),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: warrantyInfo.details,
+                          style: context.textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                  )
                 else
                   const SizedBox.shrink(),
               ],
