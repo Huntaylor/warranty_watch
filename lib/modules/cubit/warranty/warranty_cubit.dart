@@ -14,7 +14,7 @@ part 'warranty_cubit.g.dart';
 class WarrantyCubit extends Cubit<WarrantyState> {
   WarrantyCubit(this._dataRepository)
       : super(
-          _Ready(
+          const _Ready(
             warrantyInfo: WarrantyInfo(id: ''),
           ),
         );
@@ -84,14 +84,24 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
-
-    emit(
-      state.asReady.copyWith(
-        warrantyInfo: state.asReady.warrantyInfo.copyWith(
-          endOfWarranty: addTimeSelected(index),
+    if (index != 3) {
+      emit(
+        state.asReady.copyWith(
+          warrantyInfo: state.asReady.warrantyInfo.copyWith(
+            endOfWarranty: addTimeSelected(index),
+          ),
         ),
-      ),
-    );
+      );
+    }
+    if (index == 3 && state.asReady.warrantyInfo.endOfWarranty != null) {
+      emit(
+        state.asReady.copyWith(
+          warrantyInfo: state.asReady.warrantyInfo.copyWith(
+            endOfWarranty: null,
+          ),
+        ),
+      );
+    }
   }
 
   DateTime addTimeSelected(int index) {

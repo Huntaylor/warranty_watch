@@ -20,6 +20,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.isObscuredFunction,
     required this.onObscuredTap,
     required this.textFieldName,
+    this.helperText,
     this.onFinished,
     this.textInputAction,
     this.autofillHints,
@@ -64,6 +65,7 @@ class WarrantyTextField extends StatefulWidget {
         inputFormatter = const [],
         textInputType = TextInputType.none,
         isDate = true,
+        helperText = null,
         maxLines = null,
         isTextObscured = false,
         onObscuredTap = null,
@@ -96,6 +98,7 @@ class WarrantyTextField extends StatefulWidget {
         isDate = false,
         isTextObscured = false,
         onObscuredTap = null,
+        helperText = null,
         isObscuredFunction = false,
         isLifetime = false,
         isDouble = false,
@@ -130,6 +133,7 @@ class WarrantyTextField extends StatefulWidget {
         isDate = false,
         isTextObscured = false,
         onObscuredTap = null,
+        helperText = null,
         textCapitalization = TextCapitalization.words,
         isObscuredFunction = false,
         isLifetime = false,
@@ -158,6 +162,7 @@ class WarrantyTextField extends StatefulWidget {
     this.textInputAction,
   })  : initialText = '',
         isDate = false,
+        helperText = null,
         isTextObscured = false,
         onObscuredTap = null,
         isObscuredFunction = false,
@@ -198,6 +203,7 @@ class WarrantyTextField extends StatefulWidget {
         isDouble = false,
         onSecondChanged = null,
         secondHintText = null,
+        helperText = null,
         maxLines = null,
         hasAutocorrect = false,
         textInputType = TextInputType.emailAddress;
@@ -231,6 +237,7 @@ class WarrantyTextField extends StatefulWidget {
         onSecondChanged = null,
         secondHintText = null,
         maxLines = 1,
+        helperText = null,
         textInputType = TextInputType.text,
         hasAutocorrect = false;
 
@@ -239,6 +246,7 @@ class WarrantyTextField extends StatefulWidget {
     required this.onChanged,
     required this.textFieldName,
     super.key,
+    this.helperText,
     this.onTap,
     this.errorText,
     this.initialDateTime,
@@ -296,37 +304,39 @@ class WarrantyTextField extends StatefulWidget {
         maxLines = 3,
         isObscuredFunction = false,
         isTextObscured = false,
+        helperText = null,
         hasAutocorrect = true;
 
-  final TextCapitalization? textCapitalization;
-  final Iterable<String>? autofillHints;
-  final String textFieldName;
-  final int? maxLength;
-  final int? currentLength;
-  final MaxLengthEnforcement? maxLengthEnforcement;
-  final TextInputType? textInputType;
-  final String hintText;
-  final String? secondHintText;
-  final bool? isDouble;
-  final String initialText;
-  final String initialValue;
-  final String? errorText;
-  final bool hasAutocorrect;
-  final bool isTextObscured;
-  final bool isObscuredFunction;
-  final int? maxLines;
-  final VoidCallback? onTap;
-  final bool isDate;
-  final bool isLifetime;
-  final TextInputAction? textInputAction;
-  final DateTime? initialDateTime;
-  final DateTime? startDateTime;
-  final DateTime? endDateTime;
-  final List<TextInputFormatter>? inputFormatter;
   final void Function(String)? onChanged;
   final void Function(String)? onSecondChanged;
   final void Function(String)? onFinished;
+  final List<TextInputFormatter>? inputFormatter;
+  final MaxLengthEnforcement? maxLengthEnforcement;
+  final TextCapitalization? textCapitalization;
+  final Iterable<String>? autofillHints;
+  final TextInputAction? textInputAction;
+  final TextInputType? textInputType;
   final VoidCallback? onObscuredTap;
+  final VoidCallback? onTap;
+  final DateTime? initialDateTime;
+  final DateTime? startDateTime;
+  final DateTime? endDateTime;
+  final String textFieldName;
+  final String hintText;
+  final String? secondHintText;
+  final String? helperText;
+  final String initialText;
+  final String initialValue;
+  final String? errorText;
+  final bool? isDouble;
+  final bool hasAutocorrect;
+  final bool isTextObscured;
+  final bool isObscuredFunction;
+  final bool isDate;
+  final bool isLifetime;
+  final int? maxLength;
+  final int? currentLength;
+  final int? maxLines;
 
   @override
   State<WarrantyTextField> createState() => _WarrantyTextFieldState();
@@ -433,6 +443,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         onTap: widget.onTap,
         maxLines: widget.maxLines,
         decoration: InputDecoration(
+          helperText: widget.helperText,
           fillColor: context.colorScheme.surfaceVariant,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           errorText: widget.errorText,

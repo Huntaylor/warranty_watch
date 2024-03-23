@@ -47,15 +47,10 @@ class _Ready extends WarrantiesState {
     lifetimeWarrantiesList = List.from(lifetimeWarranties);
 
     sortedWarranties = List.from(warranties)
-      ..removeWhere((element) => element.lifetime);
-
-    if (sortedWarranties.any(
-      (e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0,
-    )) {
-      sortedWarranties.sort(
-        (a, b) => b.endOfWarranty!.compareTo(a.endOfWarranty!),
+      ..removeWhere((element) => element.lifetime)
+      ..sort(
+        (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
       );
-    }
     return sortedWarranties..addAll(lifetimeWarrantiesList);
   }
 
@@ -84,7 +79,8 @@ class _Ready extends WarrantiesState {
     expiringList = List.from(warranties);
     if (expiringList.any((e) => e.lifetime)) {
       expiringList.removeWhere((ee) => ee.lifetime);
-    } else if (expiringList
+    }
+    if (expiringList
         .any((e) => e.endOfWarranty!.difference(DateTime.now()).inDays <= 0)) {
       expiringList.removeWhere(
         (ee) => ee.endOfWarranty!.difference(DateTime.now()).inDays <= 0,

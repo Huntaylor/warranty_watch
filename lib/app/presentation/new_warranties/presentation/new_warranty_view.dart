@@ -51,7 +51,12 @@ class NewWarrantyView extends StatelessWidget {
                 title: Text(
                   /*    (state.warrantyState == WarrantyState.editing)
                          ? l10n.editWarrantyTitle :  */
-                  l10n.addWarrantyTitle,
+                  l10n.addWarrantyTitle.toUpperCase(),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               children: [
@@ -137,7 +142,7 @@ class NewWarrantyView extends StatelessWidget {
                 ),
                 const Gap(20),
                 WarrantyTextField.general(
-                  textFieldName: 'Product Name',
+                  textFieldName: 'Product Name*',
                   currentLength: (state.asReady.warrantyInfo.name != null)
                       ? state.asReady.warrantyInfo.name!.length
                       : 0,
@@ -146,15 +151,18 @@ class NewWarrantyView extends StatelessWidget {
                   initialValue: state.asReady.warrantyInfo.name ?? '',
                   onChanged:
                       providerContext.read<WarrantyCubit>().changeProductName,
-                  hintText: l10n.productName,
+                  hintText: l10n.typeHere,
                 ),
                 WarrantyTextField.webSite(
                   textFieldName: 'Warranty Website',
                   initialValue:
-                      state.asReady.warrantyInfo.warrantyWebsite ?? 'https://',
+                      state.asReady.warrantyInfo.warrantyWebsite ?? '',
                   onChanged:
                       providerContext.read<WarrantyCubit>().changeWebsiteName,
-                  hintText: l10n.companyWebsite,
+                  hintText: l10n.typeHere,
+                  helperText: state.asReady.warrantyInfo.warrantyWebsite != null
+                      ? 'https://${state.asReady.warrantyInfo.warrantyWebsite}'
+                      : null,
                 ),
                 WarrantyTextField.date(
                   textFieldName: 'Date Purchased',
@@ -175,7 +183,7 @@ class NewWarrantyView extends StatelessWidget {
                 ),
                 const Center(
                   child: Text(
-                    'Warranty Duration',
+                    'Warranty Duration*',
                   ),
                 ),
                 const Gap(5),
@@ -220,22 +228,25 @@ class NewWarrantyView extends StatelessWidget {
                         height: 65,
                         child: state.asReady.warrantyInfo.endOfWarranty != null
                             ? Align(
-                                child: Visibility(
-                                  replacement: Text(
+                                child: Text(
+                                  dateFormat(
+                                    state.asReady.warrantyInfo.endOfWarranty ??
+                                        DateTime.now(),
+                                  ),
+                                  style: context.textTheme.titleMedium,
+                                ),
+                              )
+                            : Visibility(
+                                visible: state.asReady.selectedChip != 3,
+                                replacement: Align(
+                                  child: Text(
                                     'Lifetime Warranty',
                                     style: context.textTheme.titleMedium,
                                   ),
-                                  visible: state.asReady.selectedChip != 3,
-                                  child: Text(
-                                    dateFormat(
-                                      state.asReady.warrantyInfo.endOfWarranty!,
-                                    ),
-                                    style: context.textTheme.titleMedium,
-                                  ),
                                 ),
-                              )
-                            : const Center(
-                                child: Text('Select'),
+                                child: const Center(
+                                  child: Text('Select'),
+                                ),
                               ),
                       ),
                     );
@@ -299,7 +310,11 @@ class NewWarrantyView extends StatelessWidget {
                   onChanged: providerContext
                       .read<WarrantyCubit>()
                       .changeAddtionalDetails,
-                  hintText: l10n.additionalDetails,
+                  hintText: l10n.typeHere,
+                ),
+                const Gap(4),
+                const Text(
+                  '* Required fields',
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 15),

@@ -56,6 +56,8 @@ abstract class _$WarrantyInfoCWProxy {
 
   WarrantyInfo wantsReminders(bool wantsReminders);
 
+  WarrantyInfo createdOn(DateTime? createdOn);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `WarrantyInfo(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -76,6 +78,7 @@ abstract class _$WarrantyInfoCWProxy {
     String? receiptImageUrl,
     bool? lifetime,
     bool? wantsReminders,
+    DateTime? createdOn,
   });
 }
 
@@ -132,6 +135,9 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
       this(wantsReminders: wantsReminders);
 
   @override
+  WarrantyInfo createdOn(DateTime? createdOn) => this(createdOn: createdOn);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `WarrantyInfo(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -153,6 +159,7 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
     Object? receiptImageUrl = const $CopyWithPlaceholder(),
     Object? lifetime = const $CopyWithPlaceholder(),
     Object? wantsReminders = const $CopyWithPlaceholder(),
+    Object? createdOn = const $CopyWithPlaceholder(),
   }) {
     return WarrantyInfo(
       id: id == const $CopyWithPlaceholder() || id == null
@@ -208,6 +215,10 @@ class _$WarrantyInfoCWProxyImpl implements _$WarrantyInfoCWProxy {
           ? _value.wantsReminders
           // ignore: cast_nullable_to_non_nullable
           : wantsReminders as bool,
+      createdOn: createdOn == const $CopyWithPlaceholder()
+          ? _value.createdOn
+          // ignore: cast_nullable_to_non_nullable
+          : createdOn as DateTime?,
     );
   }
 }
@@ -242,6 +253,9 @@ WarrantyInfo _$WarrantyInfoFromJson(Map json) => WarrantyInfo(
       receiptImageUrl: json['receiptImageUrl'] as String?,
       lifetime: json['lifetime'] as bool? ?? false,
       wantsReminders: json['wantsReminders'] as bool? ?? false,
+      createdOn: json['createdOn'] == null
+          ? null
+          : DateTime.parse(json['createdOn'] as String),
     );
 
 Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
@@ -257,6 +271,7 @@ Map<String, dynamic> _$WarrantyInfoToJson(WarrantyInfo instance) {
 
   writeNotNull('name', instance.name);
   writeNotNull('purchaseDate', instance.purchaseDate?.toIso8601String());
+  writeNotNull('createdOn', instance.createdOn?.toIso8601String());
   writeNotNull('warrantyWebsite', instance.warrantyWebsite);
   writeNotNull('endOfWarranty', instance.endOfWarranty?.toIso8601String());
   writeNotNull('reminderDate', instance.reminderDate?.toIso8601String());

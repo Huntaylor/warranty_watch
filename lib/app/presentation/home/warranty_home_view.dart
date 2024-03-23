@@ -75,7 +75,7 @@ class WarrantyHomeView extends StatelessWidget {
                 return const LinearProgressIndicator();
               }
               return _WarrantiesCardListBuilder(
-                title: 'There are no warranties about to expire',
+                title: 'No warranties expiring',
                 warranties: state.asReady.expiring,
               );
             },
@@ -91,8 +91,8 @@ class WarrantyHomeView extends StatelessWidget {
                 return const LinearProgressIndicator();
               }
               return _WarrantiesCardListBuilder(
-                title: 'You currently have no warranties to watch',
-                warranties: state.asReady.currentWarranties,
+                title: 'No warranties found',
+                warranties: state.asReady.sortedWarranties,
               );
             },
           ),

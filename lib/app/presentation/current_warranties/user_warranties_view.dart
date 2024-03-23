@@ -10,22 +10,34 @@ class UserWarrantiesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WarrantyBaseView(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Your Warranties',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontStyle: FontStyle.italic,
-              fontSize: 18,
+    return BlocBuilder<WarrantiesCubit, WarrantiesState>(
+      builder: (context, state) {
+        String title;
+        switch (state.asReady.warrantiesViewOption) {
+          case WarrantiesViewOption.current:
+            title = 'Your Warranties';
+          case WarrantiesViewOption.expired:
+            title = 'Your Expired Warranties';
+          case WarrantiesViewOption.expiring:
+            title = 'Your Expiring Warranties';
+        }
+        return WarrantyBaseView(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              title.toUpperCase(),
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.italic,
+                fontSize: 18,
+              ),
             ),
           ),
-        ),
-      ),
-      children: const [
-        _Content(),
-      ],
+          children: const [
+            _Content(),
+          ],
+        );
+      },
     );
   }
 }

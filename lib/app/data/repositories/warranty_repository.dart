@@ -103,7 +103,8 @@ class DataRepository implements IWarrantiesSource {
   }
 
   @override
-  Future<void> submitWarranty(WarrantyInfo warrantyInfo) async {
+  Future<void> submitWarranty(WarrantyInfo newWarrantyInfo) async {
+    final warrantyInfo = newWarrantyInfo.copyWith(createdOn: DateTime.now());
     final String downloadImageUrl;
     final String downloadReceiptUrl;
     final warrantyUuid = const Uuid().v1();

@@ -43,9 +43,9 @@
   "@purchaseDate": {
     "description": "Text for Date of product Purchased"
   },
-  "companyWebsite": "Company Warranty website",
-  "@companyWebsite": {
-    "description": "Website for company"
+  "typeHere": "Type here...",
+  "@typeHere": {
+    "description": "Hint Text for text fields"
   },
   "additionalDetails": "Additional Details",
   "@additionalDetails": {
