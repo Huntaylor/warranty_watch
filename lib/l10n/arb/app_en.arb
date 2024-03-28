@@ -83,7 +83,7 @@
   "@photos": {
     "description": "Text for bottom sheet"
   },
-  "noCurrentWarranties": "No Warranties to track at the moment",
+  "noCurrentWarranties": "No Warranties",
   "@noCurrentWarranties": {
     "description": "Text for bottom sheet"
   },

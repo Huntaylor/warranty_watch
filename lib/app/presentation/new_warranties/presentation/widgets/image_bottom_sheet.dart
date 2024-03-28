@@ -2,7 +2,6 @@
 import 'package:gap/gap.dart';
 
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/widgets/number_widget.dart';
 
 class ImageBottomSheet extends StatelessWidget {
   const ImageBottomSheet({
@@ -168,19 +167,23 @@ class DateBottomSheet extends StatelessWidget {
             },
           ),
           const Divider(thickness: 2),
-          const NumberWidget(),
-          const Gap(8),
-          const Divider(
-            thickness: 2,
-            endIndent: 50,
-            indent: 50,
+          // const NumberWidget(),
+          DatePickerDialog(
+            firstDate: DateTime(1950),
+            lastDate: DateTime(2050),
           ),
           const Gap(8),
-          WarrantyElevatedButton.general(
-            isEnabled: true,
-            onPressed: () {},
-            text: 'Custom Date',
-          ),
+          // const Divider(
+          //   thickness: 2,
+          //   endIndent: 50,
+          //   indent: 50,
+          // ),
+          // const Gap(8),
+          // WarrantyElevatedButton.general(
+          //   isEnabled: true,
+          //   onPressed: () {},
+          //   text: 'Custom Date',
+          // ),
         ],
       ),
     );

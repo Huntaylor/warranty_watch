@@ -131,8 +131,10 @@ class WarrantyDialogBox extends StatelessWidget {
                 const Gap(
                   5,
                 ),
-                Text('Purchased: ${warrantyInfo.purchaseDate!}'),
-                const Gap(5),
+                if (warrantyInfo.purchaseDate != null) ...[
+                  Text('Purchased: ${warrantyInfo.purchaseDate!}'),
+                  const Gap(5),
+                ],
                 if (warrantyInfo.endOfWarranty != null)
                   WarrantyCountdown.long(
                     warrantyDate: warrantyInfo.endOfWarranty!,

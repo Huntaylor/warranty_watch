@@ -164,23 +164,22 @@ class NewWarrantyView extends StatelessWidget {
                       ? 'https://${state.asReady.warrantyInfo.warrantyWebsite}'
                       : null,
                 ),
-                WarrantyTextField.date(
-                  textFieldName: 'Date Purchased',
-                  initialValue: state.asReady.warrantyInfo.purchaseDate != null
-                      ? dateFormat(
-                          state.asReady.warrantyInfo.purchaseDate!,
-                        )
-                      : dateFormat(
-                          DateTime.now(),
-                        ),
-                  isLifetime: false,
-                  endDateTime: DateTime.now(),
-                  initialDateTime: state.asReady.warrantyInfo.purchaseDate,
-                  startDateTime: DateTime(2000),
-                  onChanged:
-                      providerContext.read<WarrantyCubit>().changePurchaseDate,
-                  hintText: l10n.purchaseDate,
+                const Center(
+                  child: Text(
+                    'Date Purchased',
+                  ),
                 ),
+                const Gap(5),
+                GestureDetector(
+                  onTap: () async {},
+                  child: DateCard(
+                    date: state.asReady.warrantyInfo.purchaseDate,
+                    child: const Center(
+                      child: Text('Select'),
+                    ),
+                  ),
+                ),
+                const Gap(15),
                 const Center(
                   child: Text(
                     'Warranty Duration*',
@@ -217,37 +216,20 @@ class NewWarrantyView extends StatelessWidget {
                           },
                         );
                       },
-                      child: Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(
-                            10,
+                      child: DateCard(
+                        date: state.asReady.warrantyInfo.endOfWarranty,
+                        child: Visibility(
+                          visible: state.asReady.selectedChip != 3,
+                          replacement: Align(
+                            child: Text(
+                              'Lifetime Warranty',
+                              style: context.textTheme.titleMedium,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text('Select'),
                           ),
                         ),
-                        height: 65,
-                        child: state.asReady.warrantyInfo.endOfWarranty != null
-                            ? Align(
-                                child: Text(
-                                  dateFormat(
-                                    state.asReady.warrantyInfo.endOfWarranty ??
-                                        DateTime.now(),
-                                  ),
-                                  style: context.textTheme.titleMedium,
-                                ),
-                              )
-                            : Visibility(
-                                visible: state.asReady.selectedChip != 3,
-                                replacement: Align(
-                                  child: Text(
-                                    'Lifetime Warranty',
-                                    style: context.textTheme.titleMedium,
-                                  ),
-                                ),
-                                child: const Center(
-                                  child: Text('Select'),
-                                ),
-                              ),
                       ),
                     );
                   },
@@ -341,6 +323,41 @@ class NewWarrantyView extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class DateCard extends StatelessWidget {
+  const DateCard({
+    required this.child,
+    required this.date,
+    super.key,
+  });
+
+  final Widget? child;
+  final DateTime? date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(
+          10,
+        ),
+      ),
+      height: 65,
+      child: date != null
+          ? Align(
+              child: Text(
+                dateFormat(
+                  date ?? DateTime.now(),
+                ),
+                style: context.textTheme.titleMedium,
+              ),
+            )
+          : child,
     );
   }
 }

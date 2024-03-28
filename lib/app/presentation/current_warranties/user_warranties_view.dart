@@ -50,7 +50,11 @@ class _Content extends StatelessWidget {
     return BlocBuilder<WarrantiesCubit, WarrantiesState>(
       builder: (context, state) {
         if (state.isError) {
-          return const Text('Unable to find warranties');
+          return Text(
+            'Unable to find warranties',
+            style: context.textTheme.titleMedium!
+                .copyWith(color: context.colorScheme.error),
+          );
         } else if (state.isLoading) {
           return const TriangleLoadingIndicator();
         }
@@ -66,7 +70,13 @@ class _Content extends StatelessWidget {
         }
 
         return (warranties.isEmpty)
-            ? Text(context.l10n.noCurrentWarranties)
+            ? Center(
+                child: Text(
+                  context.l10n.noCurrentWarranties,
+                  style: context.textTheme.titleMedium!
+                      .copyWith(color: context.colorScheme.primary),
+                ),
+              )
             : ListView.builder(
                 shrinkWrap: true,
                 itemCount: warranties.length,
