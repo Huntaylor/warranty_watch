@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
 import 'package:warranty_watch/app/app_library.dart';
@@ -122,18 +123,66 @@ class DateChip extends StatelessWidget {
 
 class DateBottomSheet extends StatelessWidget {
   const DateBottomSheet({
-    required this.stateValue,
-    required this.onPress,
-    required this.dateChips,
+    required this.endDateTime,
+    required this.startDateTime,
+    required this.initialDateTime,
+    required this.onDateTimeChanged,
     super.key,
   });
-
-  final List<Map<String, String>> dateChips;
-  final int? stateValue;
-  final void Function(int index) onPress;
+  final DateTime? initialDateTime;
+  final DateTime? startDateTime;
+  final DateTime? endDateTime;
+  final void Function(DateTime) onDateTimeChanged;
 
   @override
   Widget build(BuildContext context) {
+    void buildCupertinoDatePicker() {
+      showModalBottomSheet<Widget>(
+        context: context,
+        builder: (BuildContext builder) {
+          return Container(
+            height: MediaQuery.of(context).copyWith().size.height / 3,
+            color: Colors.white,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: onDateTimeChanged,
+              maximumDate: endDateTime,
+              minimumDate: startDateTime,
+              initialDateTime: initialDateTime,
+              minimumYear: DateTime.now().year - 50,
+              maximumYear: 2150,
+            ),
+          );
+        },
+      );
+    }
+
+    Future<void> buildMaterialDatePicker() async {
+      final datePicked = await showDatePicker(
+        keyboardType: TextInputType.text,
+        context: context,
+        initialDate: initialDateTime ?? DateTime.now(),
+        firstDate: startDateTime ?? DateTime(2000),
+        lastDate: endDateTime ?? DateTime(2050),
+      );
+      if (datePicked != null && datePicked != DateTime.now()) {
+        onDateTimeChanged(datePicked);
+      }
+    }
+
+    void selectDate() {
+      switch (context.themeData.platform) {
+        case TargetPlatform.macOS:
+        case TargetPlatform.iOS:
+          buildCupertinoDatePicker();
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          buildMaterialDatePicker();
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.all(15),
       child: ListView(
@@ -147,43 +196,8 @@ class DateBottomSheet extends StatelessWidget {
           ),
           const Divider(thickness: 2),
           const Gap(8),
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 5,
-            ),
-            physics: const ClampingScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: dateChips.length,
-            itemBuilder: (context, index) {
-              final isSelected = stateValue == index || false;
-              return DateChip(
-                name: dateChips[index]['duration']!,
-                isSelected: isSelected,
-                onSelected: (value) {
-                  onPress(index);
-                },
-              );
-            },
-          ),
           const Divider(thickness: 2),
-          // const NumberWidget(),
-          DatePickerDialog(
-            firstDate: DateTime(1950),
-            lastDate: DateTime(2050),
-          ),
           const Gap(8),
-          // const Divider(
-          //   thickness: 2,
-          //   endIndent: 50,
-          //   indent: 50,
-          // ),
-          // const Gap(8),
-          // WarrantyElevatedButton.general(
-          //   isEnabled: true,
-          //   onPressed: () {},
-          //   text: 'Custom Date',
-          // ),
         ],
       ),
     );

@@ -97,6 +97,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       emit(
         state.asReady.copyWith(
           warrantyInfo: state.asReady.warrantyInfo.copyWith(
+            // ignore: avoid_redundant_argument_values
             endOfWarranty: null,
           ),
         ),

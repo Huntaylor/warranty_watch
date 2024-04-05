@@ -22,6 +22,8 @@ class NewWarrantyView extends StatelessWidget {
           return state.isReady;
         },
         builder: (providerContext, state) {
+          final dateChips = state.asReady.dateChips;
+          final stateValue = state.asReady.selectedChip;
           return BackButtonListener(
             onBackButtonPressed: () async {
               return true;
@@ -193,27 +195,9 @@ class NewWarrantyView extends StatelessWidget {
                   builder: (context, state) {
                     return GestureDetector(
                       onTap: () async {
-                        await showModalBottomSheet<Widget>(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(
-                                25,
-                              ),
-                            ),
-                          ),
-                          context: providerContext,
-                          builder: (_) {
-                            return DateBottomSheet(
-                              dateChips: state.asReady.dateChips,
-                              stateValue: state.asReady.selectedChip,
-                              onPress: (index) {
-                                providerContext
-                                    .read<WarrantyCubit>()
-                                    .changeEndDateChips(index: index);
-                                context.pop();
-                              },
-                            );
-                          },
+                        DatePickerDialog(
+                          firstDate: DateTime(1950),
+                          lastDate: DateTime(2050),
                         );
                       },
                       child: DateCard(
@@ -231,6 +215,27 @@ class NewWarrantyView extends StatelessWidget {
                           ),
                         ),
                       ),
+                    );
+                  },
+                ),
+                GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 5,
+                  ),
+                  physics: const ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: dateChips.length,
+                  itemBuilder: (context, index) {
+                    final isSelected = stateValue == index || false;
+                    return DateChip(
+                      name: dateChips[index]['duration']!,
+                      isSelected: isSelected,
+                      onSelected: (value) {
+                        providerContext
+                            .read<WarrantyCubit>()
+                            .changeEndDateChips(index: index);
+                      },
                     );
                   },
                 ),
