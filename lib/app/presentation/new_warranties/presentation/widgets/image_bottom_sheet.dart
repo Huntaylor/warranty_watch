@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/presentation/new_warranties/presentation/new_warranty_view.dart';
 
 class ImageBottomSheet extends StatelessWidget {
   const ImageBottomSheet({
@@ -123,12 +125,17 @@ class DateChip extends StatelessWidget {
 
 class DateBottomSheet extends StatelessWidget {
   const DateBottomSheet({
+    required this.endOfWarranty,
     required this.endDateTime,
     required this.startDateTime,
     required this.initialDateTime,
     required this.onDateTimeChanged,
+    required this.selectedChip,
     super.key,
   });
+
+  final int? selectedChip;
+  final DateTime? endOfWarranty;
   final DateTime? initialDateTime;
   final DateTime? startDateTime;
   final DateTime? endDateTime;
@@ -183,22 +190,22 @@ class DateBottomSheet extends StatelessWidget {
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
-        children: [
-          Center(
+    return GestureDetector(
+      onTap: selectDate,
+      child: DateCard(
+        date: endOfWarranty,
+        child: Visibility(
+          visible: selectedChip != 3,
+          replacement: Align(
             child: Text(
-              'Select an option',
+              'Lifetime Warranty',
               style: context.textTheme.titleMedium,
             ),
           ),
-          const Divider(thickness: 2),
-          const Gap(8),
-          const Divider(thickness: 2),
-          const Gap(8),
-        ],
+          child: const Center(
+            child: Text('Select'),
+          ),
+        ),
       ),
     );
   }

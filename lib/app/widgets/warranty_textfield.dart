@@ -364,63 +364,6 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
   @override
   Widget build(BuildContext context) {
     //Used for Date Picker
-    String dateToString(DateTime date) {
-      final formatter = DateFormat('MM/dd/yyyy');
-      return formatter.format(date);
-    }
-
-    void buildCupertinoDatePicker() {
-      showModalBottomSheet<Widget>(
-        context: context,
-        builder: (BuildContext builder) {
-          return Container(
-            height: MediaQuery.of(context).copyWith().size.height / 3,
-            color: Colors.white,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: (datePicked) {
-                if (datePicked != widget.initialDateTime) {
-                  controller.text = dateToString(datePicked);
-                  widget.onChanged?.call(controller.text);
-                }
-              },
-              maximumDate: widget.endDateTime,
-              minimumDate: widget.startDateTime,
-              initialDateTime: widget.initialDateTime,
-              minimumYear: DateTime.now().year - 50,
-              maximumYear: 2150,
-            ),
-          );
-        },
-      );
-    }
-
-    Future<void> buildMaterialDatePicker() async {
-      final datePicked = await showDatePicker(
-        keyboardType: TextInputType.text,
-        context: context,
-        initialDate: widget.initialDateTime ?? DateTime.now(),
-        firstDate: widget.startDateTime ?? DateTime(2000),
-        lastDate: widget.endDateTime ?? DateTime(2050),
-      );
-      if (datePicked != null && datePicked != widget.initialDateTime) {
-        controller.text = dateToString(datePicked);
-        widget.onChanged?.call(controller.text);
-      }
-    }
-
-    void selectDate() {
-      switch (context.themeData.platform) {
-        case TargetPlatform.macOS:
-        case TargetPlatform.iOS:
-          buildCupertinoDatePicker();
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          buildMaterialDatePicker();
-      }
-    }
 
     //Widget
     Widget textFormField({required bool isDouble}) {

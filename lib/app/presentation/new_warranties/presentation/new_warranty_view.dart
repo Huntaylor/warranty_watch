@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
@@ -193,35 +194,20 @@ class NewWarrantyView extends StatelessWidget {
                     return state.isReady;
                   },
                   builder: (context, state) {
-                    return GestureDetector(
-                      onTap: () async {
-                        DatePickerDialog(
-                          firstDate: DateTime(1950),
-                          lastDate: DateTime(2050),
-                        );
-                      },
-                      child: DateCard(
-                        date: state.asReady.warrantyInfo.endOfWarranty,
-                        child: Visibility(
-                          visible: state.asReady.selectedChip != 3,
-                          replacement: Align(
-                            child: Text(
-                              'Lifetime Warranty',
-                              style: context.textTheme.titleMedium,
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text('Select'),
-                          ),
-                        ),
-                      ),
+                    return DateBottomSheet(
+                      selectedChip: state.asReady.selectedChip,
+                      endOfWarranty: state.asReady.warrantyInfo.endOfWarranty,
+                      endDateTime: DateTime(2050),
+                      initialDateTime: DateTime.now(),
+                      onDateTimeChanged: (value) {},
+                      startDateTime: DateTime(1950),
                     );
                   },
                 ),
                 GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 5,
+                    crossAxisCount: 4,
+                    childAspectRatio: 2,
                   ),
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
