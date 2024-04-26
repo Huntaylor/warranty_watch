@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
@@ -23,8 +22,11 @@ class NewWarrantyView extends StatelessWidget {
           return state.isReady;
         },
         builder: (providerContext, state) {
-          final dateChips = state.asReady.dateChips;
-          final stateValue = state.asReady.selectedChip;
+          final warrantyDurationChips = state.asReady.warrantyDurationChips;
+          final reminderChips = state.asReady.reminderChips;
+          final warrantyDateChip = state.asReady.selectedWarrantyDateChip;
+          final reminderDateChip = state.asReady.selectedReminderDateChip;
+
           return BackButtonListener(
             onBackButtonPressed: () async {
               return true;
@@ -63,6 +65,15 @@ class NewWarrantyView extends StatelessWidget {
                 ),
               ),
               children: [
+                Visibility(
+                  visible: state.asReady.hasError ?? false,
+                  child: Text(
+                    'There was an issue getting your image. Please try again or use a different image.',
+                    style: context.textTheme.bodyMedium!.copyWith(
+                      color: context.colorScheme.error,
+                    ),
+                  ),
+                ),
                 const Gap(20),
                 const Text(
                   'Add Product Image',
@@ -87,12 +98,12 @@ class NewWarrantyView extends StatelessWidget {
                           onPrimary: () async {
                             await providerContext
                                 .read<WarrantyCubit>()
-                                .changeProductPhotos();
+                                .changeFile(fileTarget: FileTarget.product);
                           },
                           onSecondary: () async {
                             await providerContext
                                 .read<WarrantyCubit>()
-                                .changeProductCamera();
+                                .changeImage(fileTarget: FileTarget.product);
                           },
                         );
                       },
@@ -127,12 +138,12 @@ class NewWarrantyView extends StatelessWidget {
                           onPrimary: () async {
                             await providerContext
                                 .read<WarrantyCubit>()
-                                .changeReceiptPhotos();
+                                .changeFile(fileTarget: FileTarget.receipt);
                           },
                           onSecondary: () async {
                             await providerContext
                                 .read<WarrantyCubit>()
-                                .changeReceiptCamera();
+                                .changeImage(fileTarget: FileTarget.receipt);
                           },
                         );
                       },
@@ -173,14 +184,19 @@ class NewWarrantyView extends StatelessWidget {
                   ),
                 ),
                 const Gap(5),
-                GestureDetector(
-                  onTap: () async {},
-                  child: DateCard(
-                    date: state.asReady.warrantyInfo.purchaseDate,
-                    child: const Center(
-                      child: Text('Select'),
-                    ),
-                  ),
+                BlocBuilder<WarrantyCubit, WarrantyState>(
+                  buildWhen: (_, state) {
+                    return state.isReady;
+                  },
+                  builder: (context, state) {
+                    return DateBottomSheet(
+                      fieldType: DateFieldType.purchaseDate,
+                      displayDate: state.asReady.warrantyInfo.purchaseDate,
+                      onDateTimeChanged: providerContext
+                          .read<WarrantyCubit>()
+                          .changePurchaseDate,
+                    );
+                  },
                 ),
                 const Gap(15),
                 const Center(
@@ -195,12 +211,12 @@ class NewWarrantyView extends StatelessWidget {
                   },
                   builder: (context, state) {
                     return DateBottomSheet(
-                      selectedChip: state.asReady.selectedChip,
-                      endOfWarranty: state.asReady.warrantyInfo.endOfWarranty,
-                      endDateTime: DateTime(2050),
-                      initialDateTime: DateTime.now(),
-                      onDateTimeChanged: (value) {},
-                      startDateTime: DateTime(1950),
+                      fieldType: DateFieldType.endOfWarranty,
+                      selectedChip: state.asReady.selectedWarrantyDateChip,
+                      displayDate: state.asReady.warrantyInfo.endOfWarranty,
+                      onDateTimeChanged: providerContext
+                          .read<WarrantyCubit>()
+                          .changeEndOfWarrantyDate,
                     );
                   },
                 ),
@@ -211,11 +227,11 @@ class NewWarrantyView extends StatelessWidget {
                   ),
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: dateChips.length,
+                  itemCount: warrantyDurationChips.length,
                   itemBuilder: (context, index) {
-                    final isSelected = stateValue == index || false;
+                    final isSelected = warrantyDateChip == index || false;
                     return DateChip(
-                      name: dateChips[index]['duration']!,
+                      name: warrantyDurationChips[index]['duration']!,
                       isSelected: isSelected,
                       onSelected: (value) {
                         providerContext
@@ -226,53 +242,9 @@ class NewWarrantyView extends StatelessWidget {
                   },
                 ),
                 const Gap(15),
-                if (state.asReady.warrantyInfo.lifetime ||
-                    state.asReady.warrantyInfo.endOfWarranty == null)
-                  const SizedBox()
-                else
-                  Row(
-                    children: [
-                      Switch(
-                        value: state.asReady.warrantyInfo.wantsReminders,
-                        onChanged: (value) => providerContext
-                            .read<WarrantyCubit>()
-                            .toggleWantsReminders(value: value),
-                      ),
-                      const Text('Reminder before expiration'),
-                    ],
-                  ),
-                AnimatedSwitcher(
-                  transitionBuilder: (child, animation) {
-                    late final offsetAnimation = Tween<Offset>(
-                      begin: const Offset(1.5, 0),
-                      end: Offset.zero,
-                    ).animate(animation);
-                    return SizeTransition(
-                      sizeFactor: animation,
-                      child: SlideTransition(
-                        position: offsetAnimation,
-                        child: child,
-                      ),
-                    );
-                  },
-                  duration: const Duration(milliseconds: 150),
-                  child: (state.asReady.warrantyInfo.wantsReminders)
-                      ? WarrantyTextField.date(
-                          textFieldName: 'When should we remind you?',
-                          initialValue: dateFormat(
-                            state.asReady.warrantyInfo.reminderDate!,
-                          ),
-                          isLifetime: state.asReady.warrantyInfo.lifetime,
-                          endDateTime: state.asReady.warrantyInfo.endOfWarranty,
-                          initialDateTime:
-                              state.asReady.warrantyInfo.reminderDate,
-                          startDateTime: DateTime.now(),
-                          onChanged: providerContext
-                              .read<WarrantyCubit>()
-                              .changeReminderDate,
-                          hintText: 'Reminder Date',
-                        )
-                      : const SizedBox(),
+                _ReminderWidget(
+                  chipIndex: reminderDateChip,
+                  reminderChips: reminderChips,
                 ),
                 WarrantyTextField.form(
                   textFieldName: 'Product or Service Description',
@@ -286,8 +258,10 @@ class NewWarrantyView extends StatelessWidget {
                   hintText: l10n.typeHere,
                 ),
                 const Gap(4),
-                const Text(
+                Text(
                   '* Required fields',
+                  style: context.textTheme.bodySmall!
+                      .copyWith(color: context.colorScheme.error),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 15),
@@ -314,6 +288,86 @@ class NewWarrantyView extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _ReminderWidget extends StatelessWidget {
+  const _ReminderWidget({
+    required this.chipIndex,
+    required this.reminderChips,
+  });
+
+  final List<Map<String, String>> reminderChips;
+  final int? chipIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<WarrantyCubit, WarrantyState>(
+      buildWhen: (_, state) {
+        return state.isReady;
+      },
+      builder: (context, state) {
+        return AnimatedSwitcher(
+          transitionBuilder: (child, animation) {
+            late final offsetAnimation = Tween<Offset>(
+              begin: const Offset(1.5, 0),
+              end: Offset.zero,
+            ).animate(animation);
+            return SizeTransition(
+              sizeFactor: animation,
+              child: SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              ),
+            );
+          },
+          duration: const Duration(milliseconds: 150),
+          child: (!state.asReady.warrantyInfo.lifetime &&
+                  state.asReady.warrantyInfo.endOfWarranty != null)
+              ? Column(
+                  children: [
+                    const Center(
+                      child: Text(
+                        'When should we remind you?',
+                      ),
+                    ),
+                    const Gap(5),
+                    DateBottomSheet(
+                      fieldType: DateFieldType.reminderDate,
+                      selectedChip: state.asReady.selectedReminderDateChip,
+                      displayDate: state.asReady.warrantyInfo.reminderDate,
+                      onDateTimeChanged:
+                          context.read<WarrantyCubit>().changeReminderDate,
+                    ),
+                    GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        childAspectRatio: 2,
+                      ),
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: reminderChips.length,
+                      itemBuilder: (context, index) {
+                        final isSelected = chipIndex == index || false;
+                        return DateChip(
+                          name: reminderChips[index]['duration']!,
+                          isSelected: isSelected,
+                          onSelected: (value) {
+                            context
+                                .read<WarrantyCubit>()
+                                .changeReminderChips(index: index);
+                          },
+                        );
+                      },
+                    ),
+                    const Gap(15),
+                  ],
+                )
+              : const SizedBox(),
+        );
+      },
     );
   }
 }

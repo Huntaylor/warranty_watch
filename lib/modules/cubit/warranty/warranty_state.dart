@@ -30,12 +30,16 @@ class _Error extends WarrantyState {
 class _Ready extends WarrantyState {
   const _Ready({
     required this.warrantyInfo,
-    this.selectedChip,
+    this.selectedReminderDateChip,
+    this.selectedWarrantyDateChip,
+    this.hasError,
   });
   final WarrantyInfo warrantyInfo;
-  final int? selectedChip;
+  final int? selectedWarrantyDateChip;
+  final int? selectedReminderDateChip;
+  final bool? hasError;
 
-  List<Map<String, String>> get dateChips {
+  List<Map<String, String>> get warrantyDurationChips {
     const list = [
       {
         'duration': '30 Days',
@@ -48,6 +52,24 @@ class _Ready extends WarrantyState {
       },
       {
         'duration': 'Lifetime',
+      },
+    ];
+    return list;
+  }
+
+  List<Map<String, String>> get reminderChips {
+    const list = [
+      {
+        'duration': '1 Day',
+      },
+      {
+        'duration': '1 Week',
+      },
+      {
+        'duration': '2 Weeks',
+      },
+      {
+        'duration': '30 Days',
       },
     ];
     return list;

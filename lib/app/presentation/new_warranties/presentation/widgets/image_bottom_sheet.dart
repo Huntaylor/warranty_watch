@@ -1,10 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/new_warranty_view.dart';
+
+enum DateFieldType {
+  endOfWarranty,
+  purchaseDate,
+  reminderDate,
+}
 
 class ImageBottomSheet extends StatelessWidget {
   const ImageBottomSheet({
@@ -125,24 +130,27 @@ class DateChip extends StatelessWidget {
 
 class DateBottomSheet extends StatelessWidget {
   const DateBottomSheet({
-    required this.endOfWarranty,
-    required this.endDateTime,
-    required this.startDateTime,
-    required this.initialDateTime,
+    required this.fieldType,
+    required this.displayDate,
     required this.onDateTimeChanged,
-    required this.selectedChip,
+    this.initialDateTime,
+    this.selectedChip,
     super.key,
   });
 
   final int? selectedChip;
-  final DateTime? endOfWarranty;
+  final DateFieldType fieldType;
+  final DateTime? displayDate;
   final DateTime? initialDateTime;
-  final DateTime? startDateTime;
-  final DateTime? endDateTime;
   final void Function(DateTime) onDateTimeChanged;
 
   @override
   Widget build(BuildContext context) {
+    final lastYear = DateTime.now().year + 100;
+    final lastDate = DateTime(lastYear);
+
+    final firstYear = DateTime.now().year - 100;
+    final firstDate = DateTime(firstYear);
     void buildCupertinoDatePicker() {
       showModalBottomSheet<Widget>(
         context: context,
@@ -153,11 +161,11 @@ class DateBottomSheet extends StatelessWidget {
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: onDateTimeChanged,
-              maximumDate: endDateTime,
-              minimumDate: startDateTime,
-              initialDateTime: initialDateTime,
-              minimumYear: DateTime.now().year - 50,
-              maximumYear: 2150,
+              maximumDate: lastDate,
+              minimumDate: firstDate,
+              initialDateTime: initialDateTime ?? DateTime.now(),
+              minimumYear: firstYear,
+              maximumYear: lastYear,
             ),
           );
         },
@@ -168,9 +176,9 @@ class DateBottomSheet extends StatelessWidget {
       final datePicked = await showDatePicker(
         keyboardType: TextInputType.text,
         context: context,
-        initialDate: initialDateTime ?? DateTime.now(),
-        firstDate: startDateTime ?? DateTime(2000),
-        lastDate: endDateTime ?? DateTime(2050),
+        initialDate: DateTime.now(),
+        firstDate: firstDate,
+        lastDate: lastDate,
       );
       if (datePicked != null && datePicked != DateTime.now()) {
         onDateTimeChanged(datePicked);
@@ -190,22 +198,34 @@ class DateBottomSheet extends StatelessWidget {
       }
     }
 
+    Widget selectText() {
+      return const Center(
+        child: Text('Select'),
+      );
+    }
+
+    Widget lifetimeField() {
+      return Visibility(
+        visible: selectedChip != 3,
+        replacement: Align(
+          child: Text(
+            'Lifetime Warranty',
+            style: context.textTheme.titleMedium,
+          ),
+        ),
+        child: selectText(),
+      );
+    }
+
     return GestureDetector(
       onTap: selectDate,
       child: DateCard(
-        date: endOfWarranty,
-        child: Visibility(
-          visible: selectedChip != 3,
-          replacement: Align(
-            child: Text(
-              'Lifetime Warranty',
-              style: context.textTheme.titleMedium,
-            ),
-          ),
-          child: const Center(
-            child: Text('Select'),
-          ),
-        ),
+        date: displayDate,
+        child: switch (fieldType) {
+          DateFieldType.endOfWarranty => lifetimeField(),
+          DateFieldType.purchaseDate => selectText(),
+          DateFieldType.reminderDate => selectText(),
+        },
       ),
     );
   }

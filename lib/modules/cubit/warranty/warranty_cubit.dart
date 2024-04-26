@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'dart:async';
 
 import 'package:autoequal/autoequal.dart';
@@ -10,6 +12,11 @@ import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/w
 
 part 'warranty_state.dart';
 part 'warranty_cubit.g.dart';
+
+enum FileTarget {
+  receipt,
+  product,
+}
 
 class WarrantyCubit extends Cubit<WarrantyState> {
   WarrantyCubit(this._dataRepository)
@@ -25,16 +32,6 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
           lifetime: value,
-        ),
-      ),
-    );
-  }
-
-  Future<void> changePurchaseDate(String date) async {
-    emit(
-      state.asReady.copyWith(
-        warrantyInfo: state.asReady.warrantyInfo.copyWith(
-          purchaseDate: DateFormat.yMd().parse(date),
         ),
       ),
     );
@@ -70,13 +67,34 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
+  Future<void> changeEndOfWarrantyDate(DateTime date) async {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          endOfWarranty: date,
+          lifetime: false,
+        ),
+        selectedWarrantyDateChip: null,
+      ),
+    );
+  }
+
+  Future<void> changePurchaseDate(DateTime date) async {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          purchaseDate: date,
+        ),
+      ),
+    );
+  }
+
   void changeEndDateChips({required int index}) {
     emit(
       state.asReady.copyWith(
-        selectedChip: index,
+        selectedWarrantyDateChip: index,
       ),
     );
-
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -97,16 +115,98 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       emit(
         state.asReady.copyWith(
           warrantyInfo: state.asReady.warrantyInfo.copyWith(
-            // ignore: avoid_redundant_argument_values
             endOfWarranty: null,
+            reminderDate: null,
           ),
+        ),
+      );
+      emit(
+        state.asReady.copyWith(
+          selectedReminderDateChip: null,
         ),
       );
     }
   }
 
+  void changeReminderChips({required int index}) {
+    final warrantyInfo = state.asReady.warrantyInfo;
+    final endOfWarranty = warrantyInfo.endOfWarranty;
+    final endOfWarrantyYear = endOfWarranty!.year;
+    final endOfWarrantyDay = endOfWarranty.day;
+    final endOfWarrantyMonth = endOfWarranty.month;
+
+    const twoDayReminder = 1;
+    const weekReminder = 7;
+    const twoWeeksReminder = 14;
+    const monthReminder = 30;
+
+    emit(
+      state.asReady.copyWith(
+        selectedReminderDateChip: index,
+      ),
+    );
+
+    switch (index) {
+      case 0:
+        emit(
+          state.asReady.copyWith(
+            warrantyInfo: warrantyInfo.copyWith(
+              reminderDate: DateTime(
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - twoDayReminder,
+              ),
+            ),
+          ),
+        );
+      case 1:
+        return emit(
+          state.asReady.copyWith(
+            warrantyInfo: warrantyInfo.copyWith(
+              reminderDate: DateTime(
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - weekReminder,
+              ),
+            ),
+          ),
+        );
+      case 2:
+        return emit(
+          state.asReady.copyWith(
+            warrantyInfo: warrantyInfo.copyWith(
+              reminderDate: DateTime(
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - twoWeeksReminder,
+              ),
+            ),
+          ),
+        );
+      case 3:
+        return emit(
+          state.asReady.copyWith(
+            warrantyInfo: warrantyInfo.copyWith(
+              reminderDate: DateTime(
+                endOfWarrantyYear,
+                endOfWarrantyMonth,
+                endOfWarrantyDay - monthReminder,
+              ),
+            ),
+          ),
+        );
+    }
+  }
+
   DateTime addTimeSelected(int index) {
-    final endDate = Jiffy.now();
+    final now = DateTime.now();
+    final endDate = Jiffy.parseFromDateTime(
+      DateTime(
+        now.year,
+        now.month,
+        now.day,
+      ),
+    );
 
     switch (index) {
       case 0:
@@ -120,90 +220,33 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     }
   }
 
-  Future<void> changeReminderDate(String date) async {
+  Future<void> changeReminderDate(DateTime date) async {
     final warrantyInfo = state.asReady.warrantyInfo;
-    final endOfWarranty = state.asReady.warrantyInfo.endOfWarranty;
-    final endOfWarrantyYear = state.asReady.warrantyInfo.endOfWarranty!.year;
-    final endOfWarrantyDay = state.asReady.warrantyInfo.endOfWarranty!.day;
-    final endOfWarrantyMonth = state.asReady.warrantyInfo.endOfWarranty!.month;
+    emit(
+      state.asReady.copyWith(
+        selectedReminderDateChip: null,
+      ),
+    );
 
-    const twoDayReminder = 2;
-    const weekReminder = 7;
-    const twoWeeksReminder = 14;
-    const monthReminder = 30;
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: warrantyInfo.copyWith(
+          reminderDate: date,
+        ),
+      ),
+    );
+  }
 
-    final daysTill = endOfWarranty!.difference(DateTime.now()).inDays;
-    if (warrantyInfo.reminderDate == null) {
-      if (daysTill < 7 && daysTill > 1) {
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - twoDayReminder,
-              ),
-            ),
-          ),
-        );
-      } else if (daysTill < 14 && daysTill > 7) {
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - weekReminder,
-              ),
-            ),
-          ),
-        );
-      } else if (daysTill < 30 && daysTill > 14) {
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - twoWeeksReminder,
-              ),
-            ),
-          ),
-        );
-      } else if (daysTill < 90 && daysTill > 30) {
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - monthReminder,
-              ),
-            ),
-          ),
-        );
-      } else if (daysTill > 90) {
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - monthReminder,
-              ),
-            ),
-          ),
-        );
-      } else {
-        emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              reminderDate: DateFormat('MM/dd/yyyy').parse(date),
-            ),
-          ),
-        );
-      }
-    }
+  Future<void> clearReminderDate() async {
+    final warrantyInfo = state.asReady.warrantyInfo;
+
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: warrantyInfo.copyWith(
+          reminderDate: null,
+        ),
+      ),
+    );
   }
 
   void toggleWantsReminders({required bool value}) {
@@ -214,90 +257,72 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
-    changeReminderDate('');
+    if (!value) {
+      emit(
+        state.asReady.copyWith(
+          warrantyInfo: state.asReady.warrantyInfo.copyWith(
+            reminderDate: null,
+          ),
+        ),
+      );
+    }
   }
 
-  Future<void> changeProductCamera() async {
+  Future<void> changeImage({required FileTarget fileTarget}) async {
     try {
-      final imagePicker = await ImagePicker().pickImage(
+      final picker = await ImagePicker().pickImage(
         source: ImageSource.camera,
         maxWidth: 600,
       );
 
-      if (imagePicker != null) {
+      if (picker != null) {
         emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              image: imagePicker.path,
-            ),
-          ),
+          switch (fileTarget) {
+            FileTarget.receipt => state.asReady.copyWith(
+                warrantyInfo: state.asReady.warrantyInfo.copyWith(
+                  receiptImage: picker.path,
+                ),
+              ),
+            FileTarget.product => state.asReady.copyWith(
+                warrantyInfo: state.asReady.warrantyInfo.copyWith(
+                  image: picker.path,
+                ),
+              ),
+          },
         );
       }
+      emit(state.asReady.copyWith(hasError: false));
     } catch (e) {
-      rethrow;
+      emit(state.asReady.copyWith(hasError: true));
     }
   }
 
-  Future<void> changeProductPhotos() async {
+  Future<void> changeFile({required FileTarget fileTarget}) async {
     try {
-      final imagePicker = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 600,
-      );
-      if (imagePicker != null) {
-        emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              image: imagePicker.path,
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> changeReceiptCamera() async {
-    try {
-      final imagePicker = await ImagePicker().pickImage(
-        source: ImageSource.camera,
-        maxWidth: 600,
-      );
-
-      if (imagePicker != null) {
-        emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              receiptImage: imagePicker.path,
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> changeReceiptPhotos() async {
-    try {
-      final picker = ImagePicker();
-      final imagePicker = await picker.pickImage(
+      final picker = await ImagePicker().pickImage(
         source: ImageSource.gallery,
         maxWidth: 600,
       );
 
-      if (imagePicker != null) {
+      if (picker != null) {
         emit(
-          state.asReady.copyWith(
-            warrantyInfo: state.asReady.warrantyInfo.copyWith(
-              receiptImage: imagePicker.path,
-            ),
-          ),
+          switch (fileTarget) {
+            FileTarget.receipt => state.asReady.copyWith(
+                warrantyInfo: state.asReady.warrantyInfo.copyWith(
+                  receiptImage: picker.path,
+                ),
+              ),
+            FileTarget.product => state.asReady.copyWith(
+                warrantyInfo: state.asReady.warrantyInfo.copyWith(
+                  image: picker.path,
+                ),
+              ),
+          },
         );
       }
+      emit(state.asReady.copyWith(hasError: false));
     } catch (e) {
-      rethrow;
+      emit(state.asReady.copyWith(hasError: true));
     }
   }
 

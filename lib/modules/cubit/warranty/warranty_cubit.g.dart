@@ -9,7 +9,9 @@ part of 'warranty_cubit.dart';
 extension _$ReadyAutoequal on _Ready {
   List<Object?> get _$props => [
         warrantyInfo,
-        selectedChip,
+        selectedWarrantyDateChip,
+        selectedReminderDateChip,
+        hasError,
       ];
 }
 
@@ -20,7 +22,11 @@ extension _$ReadyAutoequal on _Ready {
 abstract class _$_ReadyCWProxy {
   _Ready warrantyInfo(WarrantyInfo warrantyInfo);
 
-  _Ready selectedChip(int? selectedChip);
+  _Ready selectedReminderDateChip(int? selectedReminderDateChip);
+
+  _Ready selectedWarrantyDateChip(int? selectedWarrantyDateChip);
+
+  _Ready hasError(bool? hasError);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -30,7 +36,9 @@ abstract class _$_ReadyCWProxy {
   /// ````
   _Ready call({
     WarrantyInfo? warrantyInfo,
-    int? selectedChip,
+    int? selectedReminderDateChip,
+    int? selectedWarrantyDateChip,
+    bool? hasError,
   });
 }
 
@@ -45,7 +53,15 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
       this(warrantyInfo: warrantyInfo);
 
   @override
-  _Ready selectedChip(int? selectedChip) => this(selectedChip: selectedChip);
+  _Ready selectedReminderDateChip(int? selectedReminderDateChip) =>
+      this(selectedReminderDateChip: selectedReminderDateChip);
+
+  @override
+  _Ready selectedWarrantyDateChip(int? selectedWarrantyDateChip) =>
+      this(selectedWarrantyDateChip: selectedWarrantyDateChip);
+
+  @override
+  _Ready hasError(bool? hasError) => this(hasError: hasError);
 
   @override
 
@@ -57,7 +73,9 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   /// ````
   _Ready call({
     Object? warrantyInfo = const $CopyWithPlaceholder(),
-    Object? selectedChip = const $CopyWithPlaceholder(),
+    Object? selectedReminderDateChip = const $CopyWithPlaceholder(),
+    Object? selectedWarrantyDateChip = const $CopyWithPlaceholder(),
+    Object? hasError = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warrantyInfo:
@@ -65,10 +83,20 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
               ? _value.warrantyInfo
               // ignore: cast_nullable_to_non_nullable
               : warrantyInfo as WarrantyInfo,
-      selectedChip: selectedChip == const $CopyWithPlaceholder()
-          ? _value.selectedChip
+      selectedReminderDateChip:
+          selectedReminderDateChip == const $CopyWithPlaceholder()
+              ? _value.selectedReminderDateChip
+              // ignore: cast_nullable_to_non_nullable
+              : selectedReminderDateChip as int?,
+      selectedWarrantyDateChip:
+          selectedWarrantyDateChip == const $CopyWithPlaceholder()
+              ? _value.selectedWarrantyDateChip
+              // ignore: cast_nullable_to_non_nullable
+              : selectedWarrantyDateChip as int?,
+      hasError: hasError == const $CopyWithPlaceholder()
+          ? _value.hasError
           // ignore: cast_nullable_to_non_nullable
-          : selectedChip as int?,
+          : hasError as bool?,
     );
   }
 }
