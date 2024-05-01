@@ -160,7 +160,7 @@ class NewWarrantyView extends StatelessWidget {
                   currentLength: (state.asReady.warrantyInfo.name != null)
                       ? state.asReady.warrantyInfo.name!.length
                       : 0,
-                  maxLength: 25,
+                  maxLength: 50,
                   maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   initialValue: state.asReady.warrantyInfo.name ?? '',
                   onChanged:
@@ -211,6 +211,7 @@ class NewWarrantyView extends StatelessWidget {
                   },
                   builder: (context, state) {
                     return DateBottomSheet(
+                      firstInitialDate: state.asReady.warrantyInfo.purchaseDate,
                       fieldType: DateFieldType.endOfWarranty,
                       selectedChip: state.asReady.selectedWarrantyDateChip,
                       displayDate: state.asReady.warrantyInfo.endOfWarranty,
@@ -334,6 +335,9 @@ class _ReminderWidget extends StatelessWidget {
                     ),
                     const Gap(5),
                     DateBottomSheet(
+                      firstInitialDate: DateTime.now().add(
+                        const Duration(days: 1),
+                      ),
                       fieldType: DateFieldType.reminderDate,
                       selectedChip: state.asReady.selectedReminderDateChip,
                       displayDate: state.asReady.warrantyInfo.reminderDate,

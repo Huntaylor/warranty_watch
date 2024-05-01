@@ -49,6 +49,17 @@ bool isUrlValid(String? url) {
 
   final days = difference.inDays % 30;
 
+  if (now.isAfter(expiration)) {
+    return (
+      '0y 00m 00d',
+      (
+        0,
+        0,
+        0,
+      ),
+    );
+  }
+
   return (
     '${years}y ${months}m ${days}d',
     (

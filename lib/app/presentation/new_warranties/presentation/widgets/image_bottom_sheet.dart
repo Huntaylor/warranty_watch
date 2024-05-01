@@ -134,6 +134,7 @@ class DateBottomSheet extends StatelessWidget {
     required this.displayDate,
     required this.onDateTimeChanged,
     this.initialDateTime,
+    this.firstInitialDate,
     this.selectedChip,
     super.key,
   });
@@ -141,6 +142,7 @@ class DateBottomSheet extends StatelessWidget {
   final int? selectedChip;
   final DateFieldType fieldType;
   final DateTime? displayDate;
+  final DateTime? firstInitialDate;
   final DateTime? initialDateTime;
   final void Function(DateTime) onDateTimeChanged;
 
@@ -162,7 +164,7 @@ class DateBottomSheet extends StatelessWidget {
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: onDateTimeChanged,
               maximumDate: lastDate,
-              minimumDate: firstDate,
+              minimumDate: firstInitialDate ?? firstDate,
               initialDateTime: initialDateTime ?? DateTime.now(),
               minimumYear: firstYear,
               maximumYear: lastYear,
@@ -176,8 +178,8 @@ class DateBottomSheet extends StatelessWidget {
       final datePicked = await showDatePicker(
         keyboardType: TextInputType.text,
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: firstDate,
+        initialDate: firstInitialDate ?? DateTime.now(),
+        firstDate: firstInitialDate ?? firstDate,
         lastDate: lastDate,
       );
       if (datePicked != null && datePicked != DateTime.now()) {
