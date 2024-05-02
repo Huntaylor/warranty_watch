@@ -27,12 +27,15 @@ class WarrantyListCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           decoration: BoxDecoration(
+            border: Border.all(
+              color: context.colorScheme.primary.withOpacity(.3),
+            ),
             boxShadow: [
               BoxShadow(
                 color: context.colorScheme.primary.withOpacity(.1),
                 offset: const Offset(
                   0,
-                  3,
+                  4,
                 ),
                 blurRadius: 3,
                 spreadRadius: 1,

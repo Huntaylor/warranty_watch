@@ -27,15 +27,18 @@ class WarrantyDisplayCard extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
+            border: Border.all(
+              color: context.colorScheme.primary.withOpacity(.3),
+            ),
             boxShadow: [
               BoxShadow(
-                color: context.colorScheme.primary.withOpacity(.2),
+                color: context.colorScheme.primary.withOpacity(.1),
                 offset: const Offset(
                   0,
-                  3,
+                  4,
                 ),
-                blurRadius: 10,
-                spreadRadius: 5,
+                blurRadius: 3,
+                spreadRadius: 1,
               ),
               const BoxShadow(
                 color: Colors.white,
