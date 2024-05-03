@@ -13,6 +13,11 @@ import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/w
 part 'warranty_state.dart';
 part 'warranty_cubit.g.dart';
 
+enum WarrantyType {
+  newWarr,
+  existingWarr,
+}
+
 enum FileTarget {
   receipt,
   product,
@@ -303,9 +308,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           },
         );
       }
-      emit(state.asReady.copyWith(hasError: false));
+      emit(
+        state.asReady.copyWith(hasError: false),
+      );
     } catch (e) {
-      emit(state.asReady.copyWith(hasError: true));
+      emit(
+        state.asReady.copyWith(hasError: true),
+      );
     }
     _verifyWarranty();
   }
@@ -333,9 +342,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           },
         );
       }
-      emit(state.asReady.copyWith(hasError: false));
+      emit(
+        state.asReady.copyWith(hasError: false),
+      );
     } catch (e) {
-      emit(state.asReady.copyWith(hasError: true));
+      emit(
+        state.asReady.copyWith(hasError: true),
+      );
     }
     _verifyWarranty();
   }

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
@@ -61,10 +60,10 @@ class DataRepository implements IWarrantiesSource {
     final String downloadReceiptUrl;
 
     final referenceProduct = storage.ref('$warrantyFilePath/products').child(
-          '${warrantyInfo.name}',
+          warrantyInfo.id,
         );
     final referenceReceipts = storage.ref('$warrantyFilePath/receipts').child(
-          '${warrantyInfo.name}',
+          warrantyInfo.id,
         );
 
     if (warrantyInfo.image != null) {
@@ -109,13 +108,21 @@ class DataRepository implements IWarrantiesSource {
     final warrantyUuid = const Uuid().v1();
     final currentUser = _auth.currentUser!.uid;
     final warrantyFilePath = 'users/$currentUser';
-    // try {
-    final referenceProduct =
-        storage.ref('$warrantyFilePath/products').child('${warrantyInfo.name}');
-    final referenceReceipts =
-        storage.ref('$warrantyFilePath/receipts').child('${warrantyInfo.name}');
+    final isExisting = newWarrantyInfo.id.isNotEmpty;
+
+    final referenceProduct = storage
+        .ref('$warrantyFilePath/products')
+        .child(isExisting ? newWarrantyInfo.id : warrantyUuid);
+    final referenceReceipts = storage
+        .ref('$warrantyFilePath/receipts')
+        .child(isExisting ? newWarrantyInfo.id : warrantyUuid);
 
     if (warrantyInfo.image != null) {
+      if (isExisting) {
+        //Need a check on this, I want to update it really. There could be different cases that are problems here
+        await referenceProduct.delete();
+      }
+
       final imageTask = referenceProduct.putFile(File(warrantyInfo.image!));
 
       final snapshot = await imageTask;
@@ -124,6 +131,10 @@ class DataRepository implements IWarrantiesSource {
       downloadImageUrl = '';
     }
     if (warrantyInfo.receiptImage != null) {
+      if (isExisting) {
+        await referenceReceipts.delete();
+      }
+
       final receiptTask =
           referenceReceipts.putFile(File(warrantyInfo.receiptImage!));
 
@@ -133,36 +144,35 @@ class DataRepository implements IWarrantiesSource {
       downloadReceiptUrl = '';
     }
 
-    final newWarranty = warrantyInfo.copyWith(
-      imageUrl: downloadImageUrl,
-      receiptImageUrl: downloadReceiptUrl,
-      id: warrantyUuid,
-    );
-
     final getWarranties =
         await firebase.collection('users/$currentUser/warranties').get();
 
-    if (getWarranties.docs.any((element) => element.id == newWarranty.id)) {
-      // throw (e) {
-      //   log(
-      //     'Unable to submit new Warranty, already exists',
-      //     error: 'Warranty exists',
-      //   );
-      // };
-    }
+    if (getWarranties.docs.any((element) => element.id == newWarrantyInfo.id)) {
+      //If this is an existing warranty
+      final existingWarranty = warrantyInfo.copyWith(
+        imageUrl: downloadImageUrl,
+        receiptImageUrl: downloadReceiptUrl,
+      );
 
-    await firebase
-        .collection('users/$currentUser/warranties')
-        .doc(newWarranty.id)
-        .set(newWarranty.toJson());
-    // } catch (e) {
-    //   log(
-    //     "Submitting the warranty didn't work - $e",
-    //   );
-    //   // throw (_) {
-    //   //   e.toString();
-    //   // };
-    // }
+      await firebase
+          .collection('users/$currentUser/warranties')
+          .doc(existingWarranty.id)
+          .update(existingWarranty.toJson());
+    } else {
+      //If this is a new warranty
+      final newWarranty = warrantyInfo.copyWith(
+        imageUrl: downloadImageUrl,
+        receiptImageUrl: downloadReceiptUrl,
+        id: warrantyUuid,
+      );
+
+      await firebase
+          .collection('users/$currentUser/warranties')
+          .doc(newWarranty.id)
+          .set(
+            newWarranty.toJson(),
+          );
+    }
   }
 
   @override
