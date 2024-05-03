@@ -19,13 +19,14 @@ enum FileTarget {
 }
 
 class WarrantyCubit extends Cubit<WarrantyState> {
-  WarrantyCubit(this._dataRepository)
+  WarrantyCubit(this._dataRepository, {this.warrantyInfo})
       : super(
-          const _Ready(
-            warrantyInfo: WarrantyInfo(id: ''),
+          _Ready(
+            warrantyInfo: warrantyInfo ?? const WarrantyInfo(id: ''),
           ),
         );
   final DataRepository _dataRepository;
+  final WarrantyInfo? warrantyInfo;
 
   Future<void> toggleLifetime({bool? value}) async {
     emit(
@@ -35,6 +36,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    _verifyWarranty();
   }
 
   Future<void> changeProductName(String productName) async {
@@ -45,6 +47,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    _verifyWarranty();
   }
 
   Future<void> changeWebsiteName(String websiteName) async {
@@ -55,6 +58,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    _verifyWarranty();
   }
 
   Future<void> changeAddtionalDetails(String additionalDetails) async {
@@ -65,6 +69,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    _verifyWarranty();
   }
 
   Future<void> changeEndOfWarrantyDate(DateTime date) async {
@@ -77,6 +82,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         selectedWarrantyDateChip: null,
       ),
     );
+    _verifyWarranty();
   }
 
   Future<void> changePurchaseDate(DateTime date) async {
@@ -87,6 +93,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    _verifyWarranty();
   }
 
   void changeEndDateChips({required int index}) {
@@ -126,6 +133,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       );
     }
+    _verifyWarranty();
   }
 
   void changeReminderChips({required int index}) {
@@ -196,6 +204,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           ),
         );
     }
+    _verifyWarranty();
   }
 
   DateTime addTimeSelected(int index) {
@@ -235,6 +244,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    _verifyWarranty();
   }
 
   Future<void> clearReminderDate() async {
@@ -247,6 +257,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       ),
     );
+    _verifyWarranty();
   }
 
   void toggleWantsReminders({required bool value}) {
@@ -266,6 +277,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         ),
       );
     }
+    _verifyWarranty();
   }
 
   Future<void> changeImage({required FileTarget fileTarget}) async {
@@ -295,6 +307,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     } catch (e) {
       emit(state.asReady.copyWith(hasError: true));
     }
+    _verifyWarranty();
   }
 
   Future<void> changeFile({required FileTarget fileTarget}) async {
@@ -324,6 +337,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     } catch (e) {
       emit(state.asReady.copyWith(hasError: true));
     }
+    _verifyWarranty();
   }
 
   Future<void> submitWarranty() async {
@@ -332,18 +346,35 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     }
     final warrantyDetils = state.asReady.warrantyInfo;
     emit(
-      const _Loading(),
+      state.asReady.copyWith(
+        isLoading: true,
+        hasError: false,
+      ),
     );
-    await _dataRepository.submitWarranty(warrantyDetils);
+    final data = _dataRepository.submitWarranty(warrantyDetils);
+
+    await data.then(
+      (value) => emit(
+        const _Success(),
+      ),
+      onError: (e) {
+        emit(
+          state.asReady.copyWith(
+            firebaseError: true,
+            isLoading: false,
+          ),
+        );
+      },
+    );
   }
 
-  Future<void> saveDetails() async {
-    if (!state.isReady) {
-      return;
-    }
-    final warrantyDetils = state.asReady.warrantyInfo;
-
-    await _dataRepository.submitWarranty(warrantyDetils);
+  void closeError() {
+    emit(
+      state.asReady.copyWith(
+        firebaseError: false,
+        hasError: false,
+      ),
+    );
   }
 
   void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
@@ -354,14 +385,18 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
   }
 
-  bool verifyWarranty() {
-    if (state.isLoading) {
-      return false;
+  void _verifyWarranty() {
+    if (state.asReady.isLoading ?? false) {
+      emit(
+        state.asReady.copyWith(
+          canSubmit: false,
+        ),
+      );
     }
-    if (state.asReady.warrantyInfo.canSave()) {
-      return true;
-    } else {
-      return false;
-    }
+    emit(
+      state.asReady.copyWith(
+        canSubmit: state.asReady.warrantyInfo.canSubmit(),
+      ),
+    );
   }
 }

@@ -46,7 +46,7 @@ class WarrantyInfo extends Equatable {
   @override
   List<Object?> get props => _$props;
 
-  bool canSave() {
+  bool canSubmit() {
     if (name == null) return false;
     if (name!.isEmpty) return false;
     if (endOfWarranty == null && lifetime != true) return false;

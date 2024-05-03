@@ -6,23 +6,23 @@ abstract class WarrantyState extends Equatable {
   const WarrantyState();
 
   bool get isError => this is _Error;
-  bool get isLoading => this is _Loading;
+  bool get isSuccessful => this is _Success;
   bool get isReady => this is _Ready;
 
-  _Ready get asReady => this as _Ready;
   _Error get asError => this as _Error;
-  _Loading get asLoading => this as _Loading;
+  _Success get asSuccess => this as _Success;
+  _Ready get asReady => this as _Ready;
 
   @override
   List<Object?> get props => [];
 }
 
-class _Loading extends WarrantyState {
-  const _Loading();
-}
-
 class _Error extends WarrantyState {
   const _Error();
+}
+
+class _Success extends WarrantyState {
+  const _Success();
 }
 
 @autoequal
@@ -33,11 +33,17 @@ class _Ready extends WarrantyState {
     this.selectedReminderDateChip,
     this.selectedWarrantyDateChip,
     this.hasError,
+    this.firebaseError,
+    this.isLoading,
+    this.canSubmit,
   });
   final WarrantyInfo warrantyInfo;
   final int? selectedWarrantyDateChip;
   final int? selectedReminderDateChip;
   final bool? hasError;
+  final bool? firebaseError;
+  final bool? isLoading;
+  final bool? canSubmit;
 
   List<Map<String, String>> get warrantyDurationChips {
     const list = [

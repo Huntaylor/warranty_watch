@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
@@ -110,62 +109,60 @@ class DataRepository implements IWarrantiesSource {
     final warrantyUuid = const Uuid().v1();
     final currentUser = _auth.currentUser!.uid;
     final warrantyFilePath = 'users/$currentUser';
-    try {
-      final referenceProduct = storage
-          .ref('$warrantyFilePath/products')
-          .child('${warrantyInfo.name}');
-      final referenceReceipts = storage
-          .ref('$warrantyFilePath/receipts')
-          .child('${warrantyInfo.name}');
+    // try {
+    final referenceProduct =
+        storage.ref('$warrantyFilePath/products').child('${warrantyInfo.name}');
+    final referenceReceipts =
+        storage.ref('$warrantyFilePath/receipts').child('${warrantyInfo.name}');
 
-      if (warrantyInfo.image != null) {
-        final imageTask = referenceProduct.putFile(File(warrantyInfo.image!));
+    if (warrantyInfo.image != null) {
+      final imageTask = referenceProduct.putFile(File(warrantyInfo.image!));
 
-        final snapshot = await imageTask;
-        downloadImageUrl = await snapshot.ref.getDownloadURL();
-      } else {
-        downloadImageUrl = '';
-      }
-      if (warrantyInfo.receiptImage != null) {
-        final receiptTask =
-            referenceReceipts.putFile(File(warrantyInfo.receiptImage!));
+      final snapshot = await imageTask;
+      downloadImageUrl = await snapshot.ref.getDownloadURL();
+    } else {
+      downloadImageUrl = '';
+    }
+    if (warrantyInfo.receiptImage != null) {
+      final receiptTask =
+          referenceReceipts.putFile(File(warrantyInfo.receiptImage!));
 
-        final snapshot = await receiptTask;
-        downloadReceiptUrl = await snapshot.ref.getDownloadURL();
-      } else {
-        downloadReceiptUrl = '';
-      }
+      final snapshot = await receiptTask;
+      downloadReceiptUrl = await snapshot.ref.getDownloadURL();
+    } else {
+      downloadReceiptUrl = '';
+    }
 
-      final newWarranty = warrantyInfo.copyWith(
-        imageUrl: downloadImageUrl,
-        receiptImageUrl: downloadReceiptUrl,
-        id: warrantyUuid,
-      );
+    final newWarranty = warrantyInfo.copyWith(
+      imageUrl: downloadImageUrl,
+      receiptImageUrl: downloadReceiptUrl,
+      id: warrantyUuid,
+    );
 
-      final getWarranties =
-          await firebase.collection('users/$currentUser/warranties').get();
+    final getWarranties =
+        await firebase.collection('users/$currentUser/warranties').get();
 
-      if (getWarranties.docs.any((element) => element.id == newWarranty.id)) {
-        // throw (e) {
-        //   log(
-        //     'Unable to submit new Warranty, already exists',
-        //     error: 'Warranty exists',
-        //   );
-        // };
-      }
-
-      await firebase
-          .collection('users/$currentUser/warranties')
-          .doc(newWarranty.id)
-          .set(newWarranty.toJson());
-    } catch (e) {
-      log(
-        "Submitting the warranty didn't work - $e",
-      );
-      // throw (_) {
-      //   e.toString();
+    if (getWarranties.docs.any((element) => element.id == newWarranty.id)) {
+      // throw (e) {
+      //   log(
+      //     'Unable to submit new Warranty, already exists',
+      //     error: 'Warranty exists',
+      //   );
       // };
     }
+
+    await firebase
+        .collection('users/$currentUser/warranties')
+        .doc(newWarranty.id)
+        .set(newWarranty.toJson());
+    // } catch (e) {
+    //   log(
+    //     "Submitting the warranty didn't work - $e",
+    //   );
+    //   // throw (_) {
+    //   //   e.toString();
+    //   // };
+    // }
   }
 
   @override

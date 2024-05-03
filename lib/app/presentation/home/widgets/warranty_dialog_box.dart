@@ -67,7 +67,12 @@ class WarrantyDialogBox extends StatelessWidget {
                       ),
                       DialogButton(
                         alignemnt: Alignment.topLeft,
-                        onPress: () {},
+                        onPress: () {
+                          context.push(
+                            Paths.home.newWarranty.path,
+                            extra: warrantyInfo,
+                          );
+                        },
                         padding: const EdgeInsets.symmetric(
                           vertical: 5,
                           horizontal: 13,
@@ -83,9 +88,6 @@ class WarrantyDialogBox extends StatelessWidget {
                         padding: const EdgeInsets.all(3),
                         onPress: () {
                           context.pop();
-                          // context.read<WarrantiesCubit>().swapImages(
-                          //       isProductImage: true,
-                          //     );
                         },
                         child: Icon(
                           Icons.close,

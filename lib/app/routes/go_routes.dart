@@ -3,6 +3,7 @@ import 'package:warranty_watch/app/presentation/current_warranties/user_warranti
 import 'package:warranty_watch/app/presentation/forgot_password/forgot_password_view.dart';
 import 'package:warranty_watch/app/presentation/home/warranty_home_view.dart';
 import 'package:warranty_watch/app/presentation/login/login_view.dart';
+import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/new_warranty_view.dart';
 import 'package:warranty_watch/app/presentation/settings/settings_view.dart';
 import 'package:warranty_watch/app/presentation/sign_up/sign_up_view.dart';
@@ -19,7 +20,9 @@ final goRoutes = GoRouter(
       routes: [
         goRouteSlide(
           path: Paths.home.newWarranty.goRoute,
-          pageBuilder: (_, __) => const NewWarrantyView(),
+          pageBuilder: (_, state) => NewWarrantyView(
+            warrantyInfo: state.extra as WarrantyInfo?,
+          ),
         ),
         goRouteSlide(
           path: Paths.home.warranties.goRoute,
