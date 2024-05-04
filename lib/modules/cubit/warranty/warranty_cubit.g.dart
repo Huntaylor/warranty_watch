@@ -6,10 +6,16 @@ part of 'warranty_cubit.dart';
 // AutoequalGenerator
 // **************************************************************************
 
-extension _$_ReadyAutoequal on _Ready {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [warrantyInfo];
+extension _$ReadyAutoequal on _Ready {
+  List<Object?> get _$props => [
+        warrantyInfo,
+        selectedWarrantyDateChip,
+        selectedReminderDateChip,
+        hasError,
+        firebaseError,
+        isLoading,
+        canSubmit,
+      ];
 }
 
 // **************************************************************************
@@ -19,6 +25,18 @@ extension _$_ReadyAutoequal on _Ready {
 abstract class _$_ReadyCWProxy {
   _Ready warrantyInfo(WarrantyInfo warrantyInfo);
 
+  _Ready selectedReminderDateChip(int? selectedReminderDateChip);
+
+  _Ready selectedWarrantyDateChip(int? selectedWarrantyDateChip);
+
+  _Ready hasError(bool? hasError);
+
+  _Ready firebaseError(bool? firebaseError);
+
+  _Ready isLoading(bool? isLoading);
+
+  _Ready canSubmit(bool? canSubmit);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -27,6 +45,12 @@ abstract class _$_ReadyCWProxy {
   /// ````
   _Ready call({
     WarrantyInfo? warrantyInfo,
+    int? selectedReminderDateChip,
+    int? selectedWarrantyDateChip,
+    bool? hasError,
+    bool? firebaseError,
+    bool? isLoading,
+    bool? canSubmit,
   });
 }
 
@@ -41,6 +65,27 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
       this(warrantyInfo: warrantyInfo);
 
   @override
+  _Ready selectedReminderDateChip(int? selectedReminderDateChip) =>
+      this(selectedReminderDateChip: selectedReminderDateChip);
+
+  @override
+  _Ready selectedWarrantyDateChip(int? selectedWarrantyDateChip) =>
+      this(selectedWarrantyDateChip: selectedWarrantyDateChip);
+
+  @override
+  _Ready hasError(bool? hasError) => this(hasError: hasError);
+
+  @override
+  _Ready firebaseError(bool? firebaseError) =>
+      this(firebaseError: firebaseError);
+
+  @override
+  _Ready isLoading(bool? isLoading) => this(isLoading: isLoading);
+
+  @override
+  _Ready canSubmit(bool? canSubmit) => this(canSubmit: canSubmit);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -50,6 +95,12 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   /// ````
   _Ready call({
     Object? warrantyInfo = const $CopyWithPlaceholder(),
+    Object? selectedReminderDateChip = const $CopyWithPlaceholder(),
+    Object? selectedWarrantyDateChip = const $CopyWithPlaceholder(),
+    Object? hasError = const $CopyWithPlaceholder(),
+    Object? firebaseError = const $CopyWithPlaceholder(),
+    Object? isLoading = const $CopyWithPlaceholder(),
+    Object? canSubmit = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warrantyInfo:
@@ -57,6 +108,32 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
               ? _value.warrantyInfo
               // ignore: cast_nullable_to_non_nullable
               : warrantyInfo as WarrantyInfo,
+      selectedReminderDateChip:
+          selectedReminderDateChip == const $CopyWithPlaceholder()
+              ? _value.selectedReminderDateChip
+              // ignore: cast_nullable_to_non_nullable
+              : selectedReminderDateChip as int?,
+      selectedWarrantyDateChip:
+          selectedWarrantyDateChip == const $CopyWithPlaceholder()
+              ? _value.selectedWarrantyDateChip
+              // ignore: cast_nullable_to_non_nullable
+              : selectedWarrantyDateChip as int?,
+      hasError: hasError == const $CopyWithPlaceholder()
+          ? _value.hasError
+          // ignore: cast_nullable_to_non_nullable
+          : hasError as bool?,
+      firebaseError: firebaseError == const $CopyWithPlaceholder()
+          ? _value.firebaseError
+          // ignore: cast_nullable_to_non_nullable
+          : firebaseError as bool?,
+      isLoading: isLoading == const $CopyWithPlaceholder()
+          ? _value.isLoading
+          // ignore: cast_nullable_to_non_nullable
+          : isLoading as bool?,
+      canSubmit: canSubmit == const $CopyWithPlaceholder()
+          ? _value.canSubmit
+          // ignore: cast_nullable_to_non_nullable
+          : canSubmit as bool?,
     );
   }
 }

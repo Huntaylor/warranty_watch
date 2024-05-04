@@ -1,48 +1,46 @@
 import 'package:autoequal/autoequal.dart';
-import 'package:warranty_keeper/app_library.dart';
-import 'package:warranty_keeper/data/models/user.dart';
-import 'package:warranty_keeper/data/models/user_data.dart';
-import 'package:warranty_keeper/data/repositories/auth_repository.dart';
+import 'package:warranty_watch/app/app_library.dart';
+import 'package:warranty_watch/app/data/models/user.dart';
+import 'package:warranty_watch/app/data/models/user_data.dart';
+import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
 
 part 'auth_state.dart';
 part 'auth_cubit.g.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final AuthRepository _authRepository;
   AuthCubit(this._authRepository)
       : super(const _Loading(loginType: LoginType.initial)) {
     isLoggedIn();
   }
+  final AuthRepository _authRepository;
 
-  setInitial() {
+  void clearError() {
     emit(const _Initial());
   }
 
-  Future checkEmail(String email) async {
-    try {
-      emit(const _Loading());
+  // Future<void> checkEmail(String email) async {
+  //   try {
+  //     emit(const _Loading());
 
-      final isUsed = await _authRepository.isEmailAlreadyInUse(email);
+  //     if (isUsed) {
+  //       emit(
+  //         const _Error(
+  //           'This email already has an account. Please sign in instead.',
+  //         ),
+  //       );
+  //     } else {
+  //       emit(const _NotAuthenticated());
+  //     }
+  //   } catch (e) {
+  //     emit(
+  //       _Error(
+  //         e.toString(),
+  //       ),
+  //     );
+  //   }
+  // }
 
-      if (isUsed) {
-        emit(
-          const _Error(
-            'This email already has an account. Please sign in instead.',
-          ),
-        );
-      } else {
-        emit(const _NotAuthenticated());
-      }
-    } catch (e) {
-      emit(
-        _Error(
-          e.toString(),
-        ),
-      );
-    }
-  }
-
-  Future login({
+  Future<void> login({
     required String email,
     required String password,
   }) async {
@@ -54,7 +52,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       await _authRepository.login(email, password);
-      WarrantyUser currentUser = _authRepository.currentUser();
+      final currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
         emit(
           _Authenticated(currentUser),
@@ -73,7 +71,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future loginWithGoogle() async {
+  Future<void> loginWithGoogle() async {
     try {
       emit(
         const _Loading(
@@ -81,7 +79,7 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
       await _authRepository.signInWithGoogle();
-      WarrantyUser currentUser = _authRepository.currentUser();
+      final currentUser = _authRepository.currentUser();
       if (currentUser.uid != null) {
         emit(_Authenticated(currentUser));
       } else {
@@ -92,7 +90,11 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future register(String email, String password, UserData userData) async {
+  Future<void> register(
+    String email,
+    String password,
+    UserData userData,
+  ) async {
     try {
       emit(
         const _Loading(),
@@ -102,7 +104,7 @@ class AuthCubit extends Cubit<AuthState> {
         password,
         userData,
       );
-      WarrantyUser currentUser = _authRepository.currentUser();
+      final currentUser = _authRepository.currentUser();
       emit(
         _Authenticated(currentUser),
       );
@@ -115,7 +117,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future logout() async {
+  Future<void> logout() async {
     try {
       emit(
         const _Loading(),
@@ -133,7 +135,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future submitPasswordReset(String email) async {
+  Future<void> submitPasswordReset(String email) async {
     try {
       emit(const _Loading());
       await _authRepository.passwordResetSubmit(email);
@@ -152,7 +154,7 @@ class AuthCubit extends Cubit<AuthState> {
         const _Loading(),
       );
       if (_authRepository.currentUser().uid != null) {
-        WarrantyUser currentUser = _authRepository.currentUser();
+        final currentUser = _authRepository.currentUser();
         emit(
           _Authenticated(currentUser),
         );
@@ -170,14 +172,14 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future updatePersonalData(UserData userData) async {
+  Future<void> updatePersonalData(UserData userData) async {
     try {
       emit(
         const _Loading(),
       );
       await _authRepository.updatePersonalData(userData);
 
-      WarrantyUser currentUser = _authRepository.currentUser();
+      final currentUser = _authRepository.currentUser();
       emit(
         _Authenticated(currentUser),
       );

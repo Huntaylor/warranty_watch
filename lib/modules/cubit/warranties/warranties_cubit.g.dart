@@ -6,10 +6,12 @@ part of 'warranties_cubit.dart';
 // AutoequalGenerator
 // **************************************************************************
 
-extension _$_ReadyAutoequal on _Ready {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
-  List<Object?> get _$props => [warrantyInfo, expiring, remove];
+extension _$ReadyAutoequal on _Ready {
+  List<Object?> get _$props => [
+        warrantiesViewOption,
+        warranties,
+        isProductImage,
+      ];
 }
 
 // **************************************************************************
@@ -17,11 +19,11 @@ extension _$_ReadyAutoequal on _Ready {
 // **************************************************************************
 
 abstract class _$_ReadyCWProxy {
-  _Ready warrantyInfo(List<WarrantyInfo> warrantyInfo);
+  _Ready warranties(List<WarrantyInfo> warranties);
 
-  _Ready expiring(List<WarrantyInfo>? expiring);
+  _Ready warrantiesViewOption(WarrantiesViewOption warrantiesViewOption);
 
-  _Ready remove(bool? remove);
+  _Ready isProductImage(bool isProductImage);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -30,9 +32,9 @@ abstract class _$_ReadyCWProxy {
   /// _Ready(...).copyWith(id: 12, name: "My name")
   /// ````
   _Ready call({
-    List<WarrantyInfo>? warrantyInfo,
-    List<WarrantyInfo>? expiring,
-    bool? remove,
+    List<WarrantyInfo>? warranties,
+    WarrantiesViewOption? warrantiesViewOption,
+    bool? isProductImage,
   });
 }
 
@@ -43,14 +45,16 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   final _Ready _value;
 
   @override
-  _Ready warrantyInfo(List<WarrantyInfo> warrantyInfo) =>
-      this(warrantyInfo: warrantyInfo);
+  _Ready warranties(List<WarrantyInfo> warranties) =>
+      this(warranties: warranties);
 
   @override
-  _Ready expiring(List<WarrantyInfo>? expiring) => this(expiring: expiring);
+  _Ready warrantiesViewOption(WarrantiesViewOption warrantiesViewOption) =>
+      this(warrantiesViewOption: warrantiesViewOption);
 
   @override
-  _Ready remove(bool? remove) => this(remove: remove);
+  _Ready isProductImage(bool isProductImage) =>
+      this(isProductImage: isProductImage);
 
   @override
 
@@ -61,24 +65,27 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   /// _Ready(...).copyWith(id: 12, name: "My name")
   /// ````
   _Ready call({
-    Object? warrantyInfo = const $CopyWithPlaceholder(),
-    Object? expiring = const $CopyWithPlaceholder(),
-    Object? remove = const $CopyWithPlaceholder(),
+    Object? warranties = const $CopyWithPlaceholder(),
+    Object? warrantiesViewOption = const $CopyWithPlaceholder(),
+    Object? isProductImage = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
-      warrantyInfo:
-          warrantyInfo == const $CopyWithPlaceholder() || warrantyInfo == null
-              ? _value.warrantyInfo
+      warranties:
+          warranties == const $CopyWithPlaceholder() || warranties == null
+              ? _value.warranties
               // ignore: cast_nullable_to_non_nullable
-              : warrantyInfo as List<WarrantyInfo>,
-      expiring: expiring == const $CopyWithPlaceholder()
-          ? _value.expiring
+              : warranties as List<WarrantyInfo>,
+      warrantiesViewOption:
+          warrantiesViewOption == const $CopyWithPlaceholder() ||
+                  warrantiesViewOption == null
+              ? _value.warrantiesViewOption
+              // ignore: cast_nullable_to_non_nullable
+              : warrantiesViewOption as WarrantiesViewOption,
+      isProductImage: isProductImage == const $CopyWithPlaceholder() ||
+              isProductImage == null
+          ? _value.isProductImage
           // ignore: cast_nullable_to_non_nullable
-          : expiring as List<WarrantyInfo>?,
-      remove: remove == const $CopyWithPlaceholder()
-          ? _value.remove
-          // ignore: cast_nullable_to_non_nullable
-          : remove as bool?,
+          : isProductImage as bool,
     );
   }
 }

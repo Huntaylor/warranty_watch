@@ -6,17 +6,12 @@ part of 'sign_up_cubit.dart';
 // AutoequalGenerator
 // **************************************************************************
 
-extension _$_ErrorAutoequal on _Error {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
+extension _$ErrorAutoequal on _Error {
   List<Object?> get _$props => [errorMessage];
 }
 
-extension _$_SignUpProcessAutoequal on _SignUpProcess {
-  @Deprecated(r'Use _$props instead')
-  List<Object?> get _autoequalProps => _$props;
+extension _$SignUpProcessAutoequal on _SignUpProcess {
   List<Object?> get _$props => [
-        signUpStatus,
         isObscured,
         hasSixCharacters,
         hasSpecialCharacter,
@@ -29,7 +24,7 @@ extension _$_SignUpProcessAutoequal on _SignUpProcess {
         confirmPassword,
         firstName,
         lastName,
-        tosAccepted
+        tosAccepted,
       ];
 }
 
@@ -38,8 +33,6 @@ extension _$_SignUpProcessAutoequal on _SignUpProcess {
 // **************************************************************************
 
 abstract class _$_SignUpProcessCWProxy {
-  _SignUpProcess signUpStatus(SignUpStatus signUpStatus);
-
   _SignUpProcess isObscured(bool isObscured);
 
   _SignUpProcess hasSixCharacters(bool hasSixCharacters);
@@ -73,7 +66,6 @@ abstract class _$_SignUpProcessCWProxy {
   /// _SignUpProcess(...).copyWith(id: 12, name: "My name")
   /// ````
   _SignUpProcess call({
-    SignUpStatus? signUpStatus,
     bool? isObscured,
     bool? hasSixCharacters,
     bool? hasSpecialCharacter,
@@ -95,10 +87,6 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   const _$_SignUpProcessCWProxyImpl(this._value);
 
   final _SignUpProcess _value;
-
-  @override
-  _SignUpProcess signUpStatus(SignUpStatus signUpStatus) =>
-      this(signUpStatus: signUpStatus);
 
   @override
   _SignUpProcess isObscured(bool isObscured) => this(isObscured: isObscured);
@@ -154,7 +142,6 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
   /// _SignUpProcess(...).copyWith(id: 12, name: "My name")
   /// ````
   _SignUpProcess call({
-    Object? signUpStatus = const $CopyWithPlaceholder(),
     Object? isObscured = const $CopyWithPlaceholder(),
     Object? hasSixCharacters = const $CopyWithPlaceholder(),
     Object? hasSpecialCharacter = const $CopyWithPlaceholder(),
@@ -170,11 +157,6 @@ class _$_SignUpProcessCWProxyImpl implements _$_SignUpProcessCWProxy {
     Object? lastName = const $CopyWithPlaceholder(),
   }) {
     return _SignUpProcess(
-      signUpStatus:
-          signUpStatus == const $CopyWithPlaceholder() || signUpStatus == null
-              ? _value.signUpStatus
-              // ignore: cast_nullable_to_non_nullable
-              : signUpStatus as SignUpStatus,
       isObscured:
           isObscured == const $CopyWithPlaceholder() || isObscured == null
               ? _value.isObscured

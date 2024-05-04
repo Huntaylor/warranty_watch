@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "warranty_keeper",
+            "name": "warranty_watch",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "warranty_keeper (profile mode)",
+            "name": "warranty_watch (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"

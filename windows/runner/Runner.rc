@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.warranty_keeper" "\0"
-            VALUE "FileDescription", "warranty_keeper" "\0"
+            VALUE "CompanyName", "com.warranty_watch" "\0"
+            VALUE "FileDescription", "warranty_watch" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "warranty_keeper" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.warranty_keeper. All rights reserved." "\0"
-            VALUE "OriginalFilename", "warranty_keeper.exe" "\0"
-            VALUE "ProductName", "warranty_keeper" "\0"
+            VALUE "InternalName", "warranty_watch" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.warranty_watch. All rights reserved." "\0"
+            VALUE "OriginalFilename", "warranty_watch.exe" "\0"
+            VALUE "ProductName", "warranty_watch" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
