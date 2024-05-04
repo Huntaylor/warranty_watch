@@ -116,21 +116,27 @@ class _Ready extends WarrantiesState {
   }
 
   List<WarrantyInfo> get expired {
+    final now = DateTime.now();
     List<WarrantyInfo> expiredList;
     expiredList = List.from(warranties);
     if (expiredList.any((e) => e.lifetime)) {
       expiredList.removeWhere((ee) => ee.lifetime);
     }
 
-    if (expiredList.any((e) => e.endOfWarranty!.isBefore(DateTime.now()))) {
+    if (expiredList.any(
+      (warranty) => warranty.endOfWarranty!.isAfter(now),
+    )) {
       expiredList
         ..removeWhere(
-          (ee) => ee.endOfWarranty!.isAfter(DateTime.now()),
+          (ee) {
+            return now.isBefore(ee.endOfWarranty!);
+          },
         )
         ..sort(
           (a, b) => a.endOfWarranty!.compareTo(b.endOfWarranty!),
         );
     }
+
     return expiredList;
   }
 

@@ -15,6 +15,10 @@ class NewWarrantyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isEditting = false;
+    if (warrantyInfo != null) {
+      isEditting = true;
+    }
     final repo = context.watch<WarrantiesCubit>().dataRepository;
 
     final l10n = context.l10n;
@@ -92,9 +96,9 @@ class NewWarrantyView extends StatelessWidget {
                   ),
                   centerTitle: true,
                   title: Text(
-                    /*    (state.warrantyState == WarrantyState.editing)
-                               ? l10n.editWarrantyTitle :  */
-                    l10n.addWarrantyTitle.toUpperCase(),
+                    isEditting
+                        ? l10n.editWarrantyTitle
+                        : l10n.addWarrantyTitle.toUpperCase(),
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontStyle: FontStyle.italic,
@@ -312,9 +316,9 @@ class NewWarrantyView extends StatelessWidget {
                                 .read<WarrantyCubit>()
                                 .submitWarranty();
                           },
-                          text: /*(state.warrantyState == WarrantyState.editing)
-                                                     ? l10n.editProductBtn :  */
-                              l10n.addproductButton,
+                          text: isEditting
+                              ? l10n.editProductBtn
+                              : l10n.addproductButton,
                         ),
                       );
                     },

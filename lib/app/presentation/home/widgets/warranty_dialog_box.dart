@@ -48,19 +48,6 @@ class WarrantyDialogBox extends StatelessWidget {
                         ),
                         child: _WarrantyImageHandler(
                           onLongPress: () {},
-
-                          /* async {
-                            final response = await Dio().get<List<int>>(
-                              warrantyInfo.imageUrl!,
-                              options:
-                                  Options(responseType: ResponseType.bytes),
-                            );
-                            await ImageGallerySaver.saveImage(
-                              Uint8List.fromList(response.data ?? []),
-                              quality: 60,
-                              name: warrantyInfo.name,
-                            );
-                          }, */
                           isProductImage: state.asReady.isProductImage,
                           warrantyInfo: warrantyInfo,
                         ),
@@ -68,10 +55,12 @@ class WarrantyDialogBox extends StatelessWidget {
                       DialogButton(
                         alignemnt: Alignment.topLeft,
                         onPress: () {
-                          context.push(
-                            Paths.home.newWarranty.path,
-                            extra: warrantyInfo,
-                          );
+                          context
+                            ..pop()
+                            ..push(
+                              Paths.home.newWarranty.path,
+                              extra: warrantyInfo,
+                            );
                         },
                         padding: const EdgeInsets.symmetric(
                           vertical: 5,

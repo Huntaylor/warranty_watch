@@ -118,8 +118,7 @@ class DataRepository implements IWarrantiesSource {
         .child(isExisting ? newWarrantyInfo.id : warrantyUuid);
 
     if (warrantyInfo.image != null) {
-      if (isExisting) {
-        //Need a check on this, I want to update it really. There could be different cases that are problems here
+      if (warrantyInfo.imageUrl != null && warrantyInfo.imageUrl!.isNotEmpty) {
         await referenceProduct.delete();
       }
 
@@ -131,7 +130,8 @@ class DataRepository implements IWarrantiesSource {
       downloadImageUrl = '';
     }
     if (warrantyInfo.receiptImage != null) {
-      if (isExisting) {
+      if (warrantyInfo.receiptImageUrl != null &&
+          warrantyInfo.receiptImageUrl!.isNotEmpty) {
         await referenceReceipts.delete();
       }
 
