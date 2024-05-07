@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:autoequal/autoequal.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
@@ -77,7 +78,28 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     _verifyWarranty();
   }
 
+  Future<void> checkNotifications() async {
+    await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
+  }
+
+  Future<void> createNotification() async {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 10,
+        channelKey: 'basic_channel',
+        actionType: ActionType.Default,
+        title: 'Hello World!',
+        body: 'This is my first notification!',
+      ),
+    );
+  }
+
   Future<void> changeEndOfWarrantyDate(DateTime date) async {
+    await checkNotifications();
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -101,7 +123,8 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     _verifyWarranty();
   }
 
-  void changeEndDateChips({required int index}) {
+  Future<void> changeEndDateChips({required int index}) async {
+    await checkNotifications();
     emit(
       state.asReady.copyWith(
         selectedWarrantyDateChip: index,
@@ -141,7 +164,8 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     _verifyWarranty();
   }
 
-  void changeReminderChips({required int index}) {
+  Future<void> changeReminderChips({required int index}) async {
+    await createNotification();
     final warrantyInfo = state.asReady.warrantyInfo;
     final endOfWarranty = warrantyInfo.endOfWarranty;
     final endOfWarrantyYear = endOfWarranty!.year;
@@ -235,6 +259,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
   }
 
   Future<void> changeReminderDate(DateTime date) async {
+    await createNotification();
     final warrantyInfo = state.asReady.warrantyInfo;
     emit(
       state.asReady.copyWith(

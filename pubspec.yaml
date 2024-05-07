@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   autoequal: ^0.9.1
+  awesome_notifications: ^0.8.2
   bloc: ^8.1.4
   camera: ^0.10.5+2
   cloud_firestore: ^4.15.9
@@ -46,6 +47,7 @@ dependencies:
   jiffy: ^6.2.1
   json_annotation: ^4.8.1
   marquee: ^2.2.3
+  onesignal_flutter: ^5.1.6
   path: ^1.8.3
   path_provider: ^2.0.15
   permission_handler: ^11.0.1

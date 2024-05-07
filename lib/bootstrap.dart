@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/firebase_options.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -46,7 +46,38 @@ Future<void> bootstrap(Widget Function() builder) async {
     ],
   );
 
-  // Add cross-flavor configuration here
+  //Remove this method to stop OneSignal Debugging
+  await OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+
+  OneSignal.initialize('99f12ad3-ba05-4d54-b9dc-79f1770db39e');
+
+  await OneSignal.Notifications.requestPermission(true);
+
+  await AwesomeNotifications().initialize(
+    // set the icon to null if you want to use the default app icon
+    null,
+    [
+      NotificationChannel(
+        channelGroupKey: 'basic_channel_group',
+        channelKey: 'basic_channel',
+        channelName: 'Basic notifications',
+        channelDescription: 'Notification channel for basic tests',
+        defaultColor: const Color(0xFF9D50DD),
+        ledColor: Colors.white,
+      ),
+    ],
+    // Channel groups are only visual and are not required
+    channelGroups: [
+      NotificationChannelGroup(
+        channelGroupKey: 'basic_channel_group',
+        channelGroupName: 'Basic group',
+      ),
+    ],
+    debug: true,
+  );
+
+  //One signal
+  // 99f12ad3-ba05-4d54-b9dc-79f1770db39e
 
   runApp(builder());
 }
