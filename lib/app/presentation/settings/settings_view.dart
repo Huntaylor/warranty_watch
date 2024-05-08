@@ -12,6 +12,7 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsCubit, SettingsState>(
+      buildWhen: (_, state) => state.isSetSettings,
       builder: (context, state) {
         return BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {

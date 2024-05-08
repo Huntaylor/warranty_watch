@@ -98,21 +98,18 @@ class WarrantyCubit extends Cubit<WarrantyState> {
             .fromNow();
 
     await AwesomeNotifications().createNotification(
-      schedule: NotificationCalendar.fromDate(
-        date: DateTime.now().add(
+      schedule: NotificationAndroidCrontab.fromDate(
+        allowWhileIdle: true,
+        date: state.asReady.warrantyInfo.reminderDate!.add(
           const Duration(
-            seconds: 5,
+            hours: 8,
           ),
         ),
       ),
-
-      // schedule: NotificationAndroidCrontab.fromDate(
-      //   date: state.asReady.warrantyInfo.reminderDate!,
-      // ),
       content: NotificationContent(
         notificationLayout: NotificationLayout.BigText,
         id: state.asReady.warrantyInfo.name.hashCode,
-        channelKey: 'basic_channel',
+        channelKey: 'reminder_channel',
         category: NotificationCategory.Reminder,
         actionType: ActionType.Default,
         title: 'Warranty Reminder!',
@@ -122,15 +119,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     );
     await AwesomeNotifications().createNotification(
       schedule: NotificationCalendar.fromDate(
-          date: state.asReady.warrantyInfo.endOfWarranty!),
-
-      // schedule: NotificationAndroidCrontab.fromDate(
-      //   date: state.asReady.warrantyInfo.reminderDate!,
-      // ),
+        allowWhileIdle: true,
+        date: state.asReady.warrantyInfo.endOfWarranty!,
+      ),
       content: NotificationContent(
         notificationLayout: NotificationLayout.BigText,
         id: state.asReady.warrantyInfo.name.hashCode,
-        channelKey: 'basic_channel',
+        channelKey: 'expired_channel',
         category: NotificationCategory.Reminder,
         actionType: ActionType.Default,
         title: 'Warranty Expired!',
