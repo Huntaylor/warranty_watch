@@ -23,7 +23,6 @@ class WarrantyApp extends StatefulWidget {
 class _WarrantyAppState extends State<WarrantyApp> {
   @override
   void initState() {
-    // Only after at least the action method is set, the notification events are delivered
     AwesomeNotifications().setListeners(
       onActionReceivedMethod: NotificationController.onActionReceivedMethod,
       onNotificationCreatedMethod:
@@ -39,13 +38,7 @@ class _WarrantyAppState extends State<WarrantyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // const usedScheme = FlexScheme.deepBlue;
-    // const usedScheme = FlexScheme.flutterDash;
     const usedScheme = FlexScheme.blue;
-    // const usedScheme = FlexScheme.aquaBlue;
-    // const usedScheme = FlexScheme.brandBlue;
-    // const usedScheme = FlexScheme.hippieBlue;
-    // const usedScheme = FlexScheme.bahamaBlue;
 
     final authRepo = FirebaseAuthRepository();
 
@@ -122,19 +115,21 @@ class NotificationController {
     // Your code goes here
   }
 
-  /// Use this method to detect when the user taps on a notification or action button
+  /// Use this method to detect when the user
+  ///  taps on a notification or action button
   @pragma('vm:entry-point')
   static Future<void> onActionReceivedMethod(
     ReceivedAction receivedAction,
   ) async {
     // Your code goes here
 
-    // Navigate into pages, avoiding to open the notification details page over another details page already opened
-    await goRoutes.configuration.navigatorKey.currentState
-        ?.pushNamedAndRemoveUntil(
-      Paths.home.path,
-      (route) => (route.settings.name != Paths.home.path) || route.isFirst,
-      arguments: receivedAction,
-    );
+    // Navigate into pages, avoiding to open the notification
+    // details page over another details page already opened
+    // await goRoutes.configuration.navigatorKey.currentState
+    //     ?.pushNamedAndRemoveUntil(
+    //   Paths.home.path,
+    //   (route) => (route.settings.name != Paths.home.path) || route.isFirst,
+    //   arguments: receivedAction,
+    // );
   }
 }

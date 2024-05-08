@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'dart:async';
-
 import 'package:autoequal/autoequal.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -80,26 +79,67 @@ class WarrantyCubit extends Cubit<WarrantyState> {
 
   Future<void> checkNotifications() async {
     await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      emit(
+        state.asReady.copyWith(
+          warrantyInfo: state.asReady.warrantyInfo.copyWith(
+            wantsReminders: isAllowed,
+          ),
+        ),
+      );
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
   }
 
-  Future<void> createNotification() async {
+  Future<void> createNotifications() async {
+    final estimatedTime =
+        Jiffy.parseFromDateTime(state.asReady.warrantyInfo.endOfWarranty!)
+            .fromNow();
+
     await AwesomeNotifications().createNotification(
+      schedule: NotificationCalendar.fromDate(
+        date: DateTime.now().add(
+          const Duration(
+            seconds: 5,
+          ),
+        ),
+      ),
+
+      // schedule: NotificationAndroidCrontab.fromDate(
+      //   date: state.asReady.warrantyInfo.reminderDate!,
+      // ),
       content: NotificationContent(
-        id: 10,
+        notificationLayout: NotificationLayout.BigText,
+        id: state.asReady.warrantyInfo.name.hashCode,
         channelKey: 'basic_channel',
+        category: NotificationCategory.Reminder,
         actionType: ActionType.Default,
-        title: 'Hello World!',
-        body: 'This is my first notification!',
+        title: 'Warranty Reminder!',
+        body:
+            'Your warranty, ${state.asReady.warrantyInfo.name}, expires $estimatedTime!',
+      ),
+    );
+    await AwesomeNotifications().createNotification(
+      schedule: NotificationCalendar.fromDate(
+          date: state.asReady.warrantyInfo.endOfWarranty!),
+
+      // schedule: NotificationAndroidCrontab.fromDate(
+      //   date: state.asReady.warrantyInfo.reminderDate!,
+      // ),
+      content: NotificationContent(
+        notificationLayout: NotificationLayout.BigText,
+        id: state.asReady.warrantyInfo.name.hashCode,
+        channelKey: 'basic_channel',
+        category: NotificationCategory.Reminder,
+        actionType: ActionType.Default,
+        title: 'Warranty Expired!',
+        body: 'Your warranty, ${state.asReady.warrantyInfo.name}, has expired!',
       ),
     );
   }
 
   Future<void> changeEndOfWarrantyDate(DateTime date) async {
-    await checkNotifications();
     emit(
       state.asReady.copyWith(
         warrantyInfo: state.asReady.warrantyInfo.copyWith(
@@ -124,7 +164,9 @@ class WarrantyCubit extends Cubit<WarrantyState> {
   }
 
   Future<void> changeEndDateChips({required int index}) async {
-    await checkNotifications();
+    if (state.asReady.warrantyInfo.wantsReminders) {
+      await checkNotifications();
+    }
     emit(
       state.asReady.copyWith(
         selectedWarrantyDateChip: index,
@@ -165,7 +207,8 @@ class WarrantyCubit extends Cubit<WarrantyState> {
   }
 
   Future<void> changeReminderChips({required int index}) async {
-    await createNotification();
+    await checkNotifications();
+
     final warrantyInfo = state.asReady.warrantyInfo;
     final endOfWarranty = warrantyInfo.endOfWarranty;
     final endOfWarrantyYear = endOfWarranty!.year;
@@ -177,6 +220,8 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     const twoWeeksReminder = 14;
     const monthReminder = 30;
 
+    var selectedDate = DateTime.now();
+
     emit(
       state.asReady.copyWith(
         selectedReminderDateChip: index,
@@ -185,54 +230,37 @@ class WarrantyCubit extends Cubit<WarrantyState> {
 
     switch (index) {
       case 0:
-        emit(
-          state.asReady.copyWith(
-            warrantyInfo: warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - twoDayReminder,
-              ),
-            ),
-          ),
+        selectedDate = DateTime(
+          endOfWarrantyYear,
+          endOfWarrantyMonth,
+          endOfWarrantyDay - twoDayReminder,
         );
+
       case 1:
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - weekReminder,
-              ),
-            ),
-          ),
+        selectedDate = DateTime(
+          endOfWarrantyYear,
+          endOfWarrantyMonth,
+          endOfWarrantyDay - weekReminder,
         );
+
       case 2:
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - twoWeeksReminder,
-              ),
-            ),
-          ),
+        selectedDate = DateTime(
+          endOfWarrantyYear,
+          endOfWarrantyMonth,
+          endOfWarrantyDay - twoWeeksReminder,
         );
+
       case 3:
-        return emit(
-          state.asReady.copyWith(
-            warrantyInfo: warrantyInfo.copyWith(
-              reminderDate: DateTime(
-                endOfWarrantyYear,
-                endOfWarrantyMonth,
-                endOfWarrantyDay - monthReminder,
-              ),
-            ),
-          ),
+        selectedDate = DateTime(
+          endOfWarrantyYear,
+          endOfWarrantyMonth,
+          endOfWarrantyDay - monthReminder,
         );
     }
+    await changeReminderDate(
+      selectedDate,
+      withChips: true,
+    );
     _verifyWarranty();
   }
 
@@ -258,32 +286,25 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     }
   }
 
-  Future<void> changeReminderDate(DateTime date) async {
-    await createNotification();
+  Future<void> changeReminderDate(
+    DateTime date, {
+    required bool withChips,
+  }) async {
+    await checkNotifications();
+
     final warrantyInfo = state.asReady.warrantyInfo;
-    emit(
-      state.asReady.copyWith(
-        selectedReminderDateChip: null,
-      ),
-    );
+    if (!withChips) {
+      emit(
+        state.asReady.copyWith(
+          selectedReminderDateChip: null,
+        ),
+      );
+    }
 
     emit(
       state.asReady.copyWith(
         warrantyInfo: warrantyInfo.copyWith(
           reminderDate: date,
-        ),
-      ),
-    );
-    _verifyWarranty();
-  }
-
-  Future<void> clearReminderDate() async {
-    final warrantyInfo = state.asReady.warrantyInfo;
-
-    emit(
-      state.asReady.copyWith(
-        warrantyInfo: warrantyInfo.copyWith(
-          reminderDate: null,
         ),
       ),
     );
@@ -392,36 +413,35 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     final data = _dataRepository.submitWarranty(warrantyDetils);
 
     await data.then(
-      (value) => emit(
-        const _Success(),
-      ),
-      onError: (e) {
+      (value) async {
+        if (warrantyDetils.wantsReminders) {
+          await createNotifications();
+        }
         emit(
-          state.asReady.copyWith(
-            firebaseError: true,
-            isLoading: false,
-          ),
+          const _Success(),
         );
       },
-    );
-  }
-
-  void closeError() {
-    emit(
-      state.asReady.copyWith(
-        firebaseError: false,
-        hasError: false,
+      onError: (e) => emit(
+        state.asReady.copyWith(
+          firebaseError: true,
+          isLoading: false,
+        ),
       ),
     );
   }
 
-  void editWarrantyInitial(WarrantyInfo editWarrantyInfo) {
-    emit(
-      state.asReady.copyWith(
-        warrantyInfo: editWarrantyInfo,
-      ),
-    );
-  }
+  void closeError() => emit(
+        state.asReady.copyWith(
+          firebaseError: false,
+          hasError: false,
+        ),
+      );
+
+  void editWarrantyInitial(WarrantyInfo editWarrantyInfo) => emit(
+        state.asReady.copyWith(
+          warrantyInfo: editWarrantyInfo,
+        ),
+      );
 
   void _verifyWarranty() {
     if (state.asReady.isLoading ?? false) {
@@ -437,4 +457,57 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       ),
     );
   }
+
+  void clearEndOfWarrantyDate() {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          endOfWarranty: null,
+          lifetime: false,
+        ),
+        selectedWarrantyDateChip: null,
+      ),
+    );
+
+    _verifyWarranty();
+  }
+
+  void clearReminderDate() {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          reminderDate: null,
+        ),
+        selectedReminderDateChip: null,
+      ),
+    );
+    _verifyWarranty();
+  }
+
+  void clearPurchaseDate() {
+    emit(
+      state.asReady.copyWith(
+        warrantyInfo: state.asReady.warrantyInfo.copyWith(
+          purchaseDate: null,
+        ),
+      ),
+    );
+    _verifyWarranty();
+  }
+
+  void removeRecieptImage() => emit(
+        state.asReady.copyWith(
+          warrantyInfo: state.asReady.warrantyInfo.copyWith(
+            receiptImage: null,
+          ),
+        ),
+      );
+
+  void removeProductImage() => emit(
+        state.asReady.copyWith(
+          warrantyInfo: state.asReady.warrantyInfo.copyWith(
+            image: null,
+          ),
+        ),
+      );
 }

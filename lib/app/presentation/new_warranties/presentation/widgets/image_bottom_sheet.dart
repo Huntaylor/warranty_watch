@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/app/presentation/new_warranties/presentation/new_warranty_view.dart';
 
 enum DateFieldType {
   endOfWarranty,
@@ -13,11 +12,16 @@ enum DateFieldType {
 
 class ImageBottomSheet extends StatelessWidget {
   const ImageBottomSheet({
+    required this.onRemove,
     required this.onPrimary,
     required this.onSecondary,
+    required this.hasImage,
     super.key,
   });
-  final void Function() onPrimary;
+
+  final bool hasImage;
+  final Future<void> Function() onPrimary;
+  final void Function() onRemove;
   final Future<void> Function() onSecondary;
 
   @override
@@ -32,18 +36,24 @@ class ImageBottomSheet extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  child: Text(context.l10n.cancel),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: TextButton(
+                    onPressed: context.pop,
+                    child: Text(context.l10n.cancel),
+                  ),
                 ),
                 Text(
-                  context.l10n.addItem,
-                  style: context.textTheme.headlineSmall,
+                  context.l10n.addItem.toUpperCase(),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 18,
+                  ),
                 ),
-                const Gap(
-                  48,
+                const Flexible(
+                  fit: FlexFit.tight,
+                  child: SizedBox(),
                 ),
               ],
             ),
@@ -56,18 +66,12 @@ class ImageBottomSheet extends StatelessWidget {
             24,
           ),
           Flexible(
-            child: /*  state.warrantyState == WarrantyState.loadingImage
-                ? const Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
-                  )
-                :  */
-                Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextButton.icon(
-                  onPressed: () async {
+                  onPressed: () {
                     onPrimary();
                     context.pop();
                   },
@@ -97,9 +101,24 @@ class ImageBottomSheet extends StatelessWidget {
               ],
             ),
           ),
-          const Gap(
-            24,
-          ),
+          if (hasImage)
+            Center(
+              child: TextButton.icon(
+                label: const Text('Remove Image'),
+                onPressed: () {
+                  onRemove();
+                  context.pop();
+                },
+                icon: Icon(
+                  Icons.highlight_remove_rounded,
+                  color: context.colorScheme.error,
+                ),
+              ),
+            )
+          else
+            const Gap(
+              24,
+            ),
         ],
       ),
     );
@@ -133,8 +152,10 @@ class DateBottomSheet extends StatelessWidget {
     required this.fieldType,
     required this.displayDate,
     required this.onDateTimeChanged,
+    required this.onClearDate,
     this.initialDateTime,
     this.firstInitialDate,
+    this.lastDate,
     this.selectedChip,
     super.key,
   });
@@ -144,12 +165,14 @@ class DateBottomSheet extends StatelessWidget {
   final DateTime? displayDate;
   final DateTime? firstInitialDate;
   final DateTime? initialDateTime;
+  final DateTime? lastDate;
   final void Function(DateTime) onDateTimeChanged;
+  final void Function() onClearDate;
 
   @override
   Widget build(BuildContext context) {
     final lastYear = DateTime.now().year + 100;
-    final lastDate = DateTime(lastYear);
+    final lastDateDefault = DateTime(lastYear);
 
     final firstYear = DateTime.now().year - 100;
     final firstDate = DateTime(firstYear);
@@ -163,7 +186,7 @@ class DateBottomSheet extends StatelessWidget {
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: onDateTimeChanged,
-              maximumDate: lastDate,
+              maximumDate: lastDate ?? lastDateDefault,
               minimumDate: firstInitialDate ?? firstDate,
               initialDateTime: initialDateTime ?? DateTime.now(),
               minimumYear: firstYear,
@@ -180,7 +203,7 @@ class DateBottomSheet extends StatelessWidget {
         context: context,
         initialDate: firstInitialDate ?? DateTime.now(),
         firstDate: firstInitialDate ?? firstDate,
-        lastDate: lastDate,
+        lastDate: lastDate ?? lastDateDefault,
       );
       if (datePicked != null && datePicked != DateTime.now()) {
         onDateTimeChanged(datePicked);
@@ -222,6 +245,7 @@ class DateBottomSheet extends StatelessWidget {
     return GestureDetector(
       onTap: selectDate,
       child: DateCard(
+        onPressed: onClearDate,
         date: displayDate,
         child: switch (fieldType) {
           DateFieldType.endOfWarranty => lifetimeField(),
@@ -229,6 +253,65 @@ class DateBottomSheet extends StatelessWidget {
           DateFieldType.reminderDate => selectText(),
         },
       ),
+    );
+  }
+}
+
+class DateCard extends StatelessWidget {
+  const DateCard({
+    required this.child,
+    required this.date,
+    required this.onPressed,
+    super.key,
+  });
+
+  final Widget? child;
+  final DateTime? date;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(
+          10,
+        ),
+      ),
+      height: 65,
+      child: date != null
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Flexible(
+                  fit: FlexFit.tight,
+                  child: SizedBox(),
+                ),
+                Align(
+                  child: Text(
+                    dateFormat(
+                      date ?? DateTime.now(),
+                    ),
+                    style: context.textTheme.titleMedium,
+                  ),
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: onPressed,
+                      icon: Icon(
+                        Icons.remove_circle_outline_outlined,
+                        color: context.colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : child,
     );
   }
 }

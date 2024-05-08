@@ -1,6 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:gap/gap.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/presentation/widgets/image_bottom_sheet.dart';
@@ -62,9 +60,7 @@ class NewWarrantyView extends StatelessWidget {
           }
         },
         child: BlocBuilder<WarrantyCubit, WarrantyState>(
-          buildWhen: (_, state) {
-            return state.isReady;
-          },
+          buildWhen: (_, state) => state.isReady,
           builder: (providerContext, state) {
             final warrantyDurationChips = state.asReady.warrantyDurationChips;
             final reminderChips = state.asReady.reminderChips;
@@ -72,26 +68,18 @@ class NewWarrantyView extends StatelessWidget {
             final reminderDateChip = state.asReady.selectedReminderDateChip;
 
             return BackButtonListener(
-              onBackButtonPressed: () async {
-                return true;
-              },
+              onBackButtonPressed: () async => true,
               child: WarrantyBaseView(
                 appBar: AppBar(
                   leading: IconButton(
-                    onPressed: () async {
-                      await showAdaptiveDialog<bool>(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) => SaveBox(
-                          continueEdits: () {
-                            context.pop();
-                          },
-                          discard: () {
-                            context.push(Paths.home.path);
-                          },
-                        ),
-                      );
-                    },
+                    onPressed: () async => showAdaptiveDialog<bool>(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) => SaveBox(
+                        continueEdits: context.pop,
+                        discard: () => context.push(Paths.home.path),
+                      ),
+                    ),
                     icon: const Icon(
                       Icons.arrow_back,
                     ),
@@ -116,34 +104,32 @@ class NewWarrantyView extends StatelessWidget {
                   ),
                   WarrantyImage(
                     image: state.asReady.warrantyInfo.image,
-                    onTap: () {
-                      showModalBottomSheet<Widget>(
-                        isDismissible: false,
-                        enableDrag: false,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(
-                              25,
-                            ),
+                    onTap: () => showModalBottomSheet<Widget>(
+                      isDismissible: false,
+                      enableDrag: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(
+                            25,
                           ),
                         ),
-                        context: providerContext,
-                        builder: (_) {
-                          return ImageBottomSheet(
-                            onPrimary: () async {
-                              await providerContext
-                                  .read<WarrantyCubit>()
-                                  .changeFile(fileTarget: FileTarget.product);
-                            },
-                            onSecondary: () async {
-                              await providerContext
-                                  .read<WarrantyCubit>()
-                                  .changeImage(fileTarget: FileTarget.product);
-                            },
-                          );
-                        },
-                      );
-                    },
+                      ),
+                      context: providerContext,
+                      builder: (_) {
+                        return ImageBottomSheet(
+                          hasImage: state.asReady.warrantyInfo.image != null,
+                          onRemove: providerContext
+                              .read<WarrantyCubit>()
+                              .removeProductImage,
+                          onPrimary: () async => providerContext
+                              .read<WarrantyCubit>()
+                              .changeFile(fileTarget: FileTarget.product),
+                          onSecondary: () async => providerContext
+                              .read<WarrantyCubit>()
+                              .changeImage(fileTarget: FileTarget.product),
+                        );
+                      },
+                    ),
                     text: l10n.addReceipt,
                     icon: const Icon(
                       Icons.list_alt_outlined,
@@ -156,34 +142,31 @@ class NewWarrantyView extends StatelessWidget {
                   ),
                   WarrantyImage(
                     image: state.asReady.warrantyInfo.receiptImage,
-                    onTap: () {
-                      showModalBottomSheet<Widget>(
-                        enableDrag: false,
-                        isDismissible: false,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(
-                              25,
-                            ),
+                    onTap: () => showModalBottomSheet<Widget>(
+                      enableDrag: false,
+                      isDismissible: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(
+                            25,
                           ),
                         ),
-                        context: providerContext,
-                        builder: (_) {
-                          return ImageBottomSheet(
-                            onPrimary: () async {
-                              await providerContext
-                                  .read<WarrantyCubit>()
-                                  .changeFile(fileTarget: FileTarget.receipt);
-                            },
-                            onSecondary: () async {
-                              await providerContext
-                                  .read<WarrantyCubit>()
-                                  .changeImage(fileTarget: FileTarget.receipt);
-                            },
-                          );
-                        },
-                      );
-                    },
+                      ),
+                      context: providerContext,
+                      builder: (_) => ImageBottomSheet(
+                        hasImage:
+                            state.asReady.warrantyInfo.receiptImage != null,
+                        onRemove: () => providerContext
+                            .read<WarrantyCubit>()
+                            .removeRecieptImage(),
+                        onPrimary: () async => providerContext
+                            .read<WarrantyCubit>()
+                            .changeFile(fileTarget: FileTarget.receipt),
+                        onSecondary: () async => providerContext
+                            .read<WarrantyCubit>()
+                            .changeImage(fileTarget: FileTarget.receipt),
+                      ),
+                    ),
                     text: l10n.addPhoto,
                     icon: const Icon(
                       Icons.camera_alt_outlined,
@@ -221,18 +204,18 @@ class NewWarrantyView extends StatelessWidget {
                   ),
                   const Gap(5),
                   BlocBuilder<WarrantyCubit, WarrantyState>(
-                    buildWhen: (_, state) {
-                      return state.isReady;
-                    },
-                    builder: (context, state) {
-                      return DateBottomSheet(
-                        fieldType: DateFieldType.purchaseDate,
-                        displayDate: state.asReady.warrantyInfo.purchaseDate,
-                        onDateTimeChanged: providerContext
-                            .read<WarrantyCubit>()
-                            .changePurchaseDate,
-                      );
-                    },
+                    buildWhen: (_, state) => state.isReady,
+                    builder: (context, state) => DateBottomSheet(
+                      lastDate: DateTime.now(),
+                      onClearDate: providerContext
+                          .read<WarrantyCubit>()
+                          .clearPurchaseDate,
+                      fieldType: DateFieldType.purchaseDate,
+                      displayDate: state.asReady.warrantyInfo.purchaseDate,
+                      onDateTimeChanged: providerContext
+                          .read<WarrantyCubit>()
+                          .changePurchaseDate,
+                    ),
                   ),
                   const Gap(15),
                   const Center(
@@ -242,21 +225,19 @@ class NewWarrantyView extends StatelessWidget {
                   ),
                   const Gap(5),
                   BlocBuilder<WarrantyCubit, WarrantyState>(
-                    buildWhen: (_, state) {
-                      return state.isReady;
-                    },
-                    builder: (context, state) {
-                      return DateBottomSheet(
-                        firstInitialDate:
-                            state.asReady.warrantyInfo.purchaseDate,
-                        fieldType: DateFieldType.endOfWarranty,
-                        selectedChip: state.asReady.selectedWarrantyDateChip,
-                        displayDate: state.asReady.warrantyInfo.endOfWarranty,
-                        onDateTimeChanged: providerContext
-                            .read<WarrantyCubit>()
-                            .changeEndOfWarrantyDate,
-                      );
-                    },
+                    buildWhen: (_, state) => state.isReady,
+                    builder: (context, state) => DateBottomSheet(
+                      onClearDate: providerContext
+                          .read<WarrantyCubit>()
+                          .clearEndOfWarrantyDate,
+                      firstInitialDate: state.asReady.warrantyInfo.purchaseDate,
+                      fieldType: DateFieldType.endOfWarranty,
+                      selectedChip: state.asReady.selectedWarrantyDateChip,
+                      displayDate: state.asReady.warrantyInfo.endOfWarranty,
+                      onDateTimeChanged: providerContext
+                          .read<WarrantyCubit>()
+                          .changeEndOfWarrantyDate,
+                    ),
                   ),
                   GridView.builder(
                     gridDelegate:
@@ -272,11 +253,9 @@ class NewWarrantyView extends StatelessWidget {
                       return DateChip(
                         name: warrantyDurationChips[index]['duration']!,
                         isSelected: isSelected,
-                        onSelected: (value) {
-                          providerContext
-                              .read<WarrantyCubit>()
-                              .changeEndDateChips(index: index);
-                        },
+                        onSelected: (value) => providerContext
+                            .read<WarrantyCubit>()
+                            .changeEndDateChips(index: index),
                       );
                     },
                   ),
@@ -303,9 +282,7 @@ class NewWarrantyView extends StatelessWidget {
                         .copyWith(color: context.colorScheme.error),
                   ),
                   BlocBuilder<WarrantyCubit, WarrantyState>(
-                    buildWhen: (_, state) {
-                      return state.isReady;
-                    },
+                    buildWhen: (_, state) => state.isReady,
                     builder: (context, state) {
                       final isEnabled = state.asReady.canSubmit ?? false;
                       return Padding(
@@ -313,11 +290,9 @@ class NewWarrantyView extends StatelessWidget {
                         child: WarrantyElevatedButton.loading(
                           isLoading: state.asReady.isLoading ?? false,
                           isEnabled: isEnabled,
-                          onPressed: () async {
-                            await providerContext
-                                .read<WarrantyCubit>()
-                                .submitWarranty();
-                          },
+                          onPressed: () async => providerContext
+                              .read<WarrantyCubit>()
+                              .submitWarranty(),
                           text: isEditting
                               ? l10n.editProductBtn
                               : l10n.addproductButton,
@@ -345,13 +320,10 @@ class _ReminderWidget extends StatelessWidget {
   final int? chipIndex;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<WarrantyCubit, WarrantyState>(
-      buildWhen: (_, state) {
-        return state.isReady;
-      },
-      builder: (context, state) {
-        return AnimatedSwitcher(
+  Widget build(BuildContext context) =>
+      BlocBuilder<WarrantyCubit, WarrantyState>(
+        buildWhen: (_, state) => state.isReady,
+        builder: (context, state) => AnimatedSwitcher(
           transitionBuilder: (child, animation) {
             late final offsetAnimation = Tween<Offset>(
               begin: const Offset(1.5, 0),
@@ -377,14 +349,19 @@ class _ReminderWidget extends StatelessWidget {
                     ),
                     const Gap(5),
                     DateBottomSheet(
+                      onClearDate:
+                          context.read<WarrantyCubit>().clearReminderDate,
                       firstInitialDate: DateTime.now().add(
                         const Duration(days: 1),
                       ),
                       fieldType: DateFieldType.reminderDate,
                       selectedChip: state.asReady.selectedReminderDateChip,
                       displayDate: state.asReady.warrantyInfo.reminderDate,
-                      onDateTimeChanged:
-                          context.read<WarrantyCubit>().changeReminderDate,
+                      onDateTimeChanged: (date) =>
+                          context.read<WarrantyCubit>().changeReminderDate(
+                                date,
+                                withChips: false,
+                              ),
                     ),
                     GridView.builder(
                       gridDelegate:
@@ -400,11 +377,9 @@ class _ReminderWidget extends StatelessWidget {
                         return DateChip(
                           name: reminderChips[index]['duration']!,
                           isSelected: isSelected,
-                          onSelected: (value) {
-                            context
-                                .read<WarrantyCubit>()
-                                .changeReminderChips(index: index);
-                          },
+                          onSelected: (value) => context
+                              .read<WarrantyCubit>()
+                              .changeReminderChips(index: index),
                         );
                       },
                     ),
@@ -412,43 +387,6 @@ class _ReminderWidget extends StatelessWidget {
                   ],
                 )
               : const SizedBox(),
-        );
-      },
-    );
-  }
-}
-
-class DateCard extends StatelessWidget {
-  const DateCard({
-    required this.child,
-    required this.date,
-    super.key,
-  });
-
-  final Widget? child;
-  final DateTime? date;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(
-          10,
         ),
-      ),
-      height: 65,
-      child: date != null
-          ? Align(
-              child: Text(
-                dateFormat(
-                  date ?? DateTime.now(),
-                ),
-                style: context.textTheme.titleMedium,
-              ),
-            )
-          : child,
-    );
-  }
+      );
 }
