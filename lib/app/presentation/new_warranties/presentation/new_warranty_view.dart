@@ -31,14 +31,17 @@ class NewWarrantyView extends StatelessWidget {
           }
           if (state.isReady) {
             if (!state.asReady.isNotificationEnabled &&
-                state.asReady.warrantyInfo.reminderDate != null) {
+                state.asReady.warrantyInfo.reminderDate != null &&
+                !state.asReady.askedNotification) {
+              context.read<WarrantyCubit>().askedNotifications();
               showAdaptiveDialog<NotificationBox>(
                 context: context,
                 builder: (_) {
                   return NotificationBox(
                     enableNotifications: () {
-                      context.pop();
-                      context.read<WarrantyCubit>().toggleNotifications();
+                      context
+                        ..pop()
+                        ..read<WarrantyCubit>().toggleNotifications();
                     },
                     cancel: () => context.pop(),
                   );

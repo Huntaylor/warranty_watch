@@ -16,6 +16,7 @@ extension _$ReadyAutoequal on _Ready {
         isLoading,
         canSubmit,
         isNotificationEnabled,
+        askedNotification,
       ];
 }
 
@@ -40,6 +41,8 @@ abstract class _$_ReadyCWProxy {
 
   _Ready isNotificationEnabled(bool isNotificationEnabled);
 
+  _Ready askedNotification(bool askedNotification);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -55,6 +58,7 @@ abstract class _$_ReadyCWProxy {
     bool? isLoading,
     bool? canSubmit,
     bool? isNotificationEnabled,
+    bool? askedNotification,
   });
 }
 
@@ -94,6 +98,10 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
       this(isNotificationEnabled: isNotificationEnabled);
 
   @override
+  _Ready askedNotification(bool askedNotification) =>
+      this(askedNotification: askedNotification);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -110,6 +118,7 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? canSubmit = const $CopyWithPlaceholder(),
     Object? isNotificationEnabled = const $CopyWithPlaceholder(),
+    Object? askedNotification = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warrantyInfo:
@@ -149,6 +158,11 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
               ? _value.isNotificationEnabled
               // ignore: cast_nullable_to_non_nullable
               : isNotificationEnabled as bool,
+      askedNotification: askedNotification == const $CopyWithPlaceholder() ||
+              askedNotification == null
+          ? _value.askedNotification
+          // ignore: cast_nullable_to_non_nullable
+          : askedNotification as bool,
     );
   }
 }

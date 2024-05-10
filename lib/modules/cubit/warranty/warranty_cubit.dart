@@ -97,6 +97,14 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     });
   }
 
+  void askedNotifications() {
+    emit(
+      state.asReady.copyWith(
+        askedNotification: true,
+      ),
+    );
+  }
+
   Future<void> toggleNotifications() async {
     await AppSettingsPlatform.instance
         .openAppSettings(type: AppSettingsType.notification);
@@ -212,8 +220,6 @@ class WarrantyCubit extends Cubit<WarrantyState> {
   }
 
   Future<void> changeReminderChips({required int index}) async {
-    await checkNotifications();
-
     final warrantyInfo = state.asReady.warrantyInfo;
     final endOfWarranty = warrantyInfo.endOfWarranty;
     final endOfWarrantyYear = endOfWarranty!.year;

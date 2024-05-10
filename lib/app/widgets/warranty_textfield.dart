@@ -190,7 +190,7 @@ class WarrantyTextField extends StatefulWidget {
     this.textInputAction,
     this.currentLength,
   })  : initialText = '',
-        hintText = 'Email',
+        hintText = 'example@email.com',
         isDate = false,
         isTextObscured = false,
         autofillHints = const [AutofillHints.email],

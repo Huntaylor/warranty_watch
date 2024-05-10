@@ -37,6 +37,7 @@ class _Ready extends WarrantyState {
     this.isLoading,
     this.canSubmit,
     this.isNotificationEnabled = false,
+    this.askedNotification = false,
   });
   final WarrantyInfo warrantyInfo;
   final int? selectedWarrantyDateChip;
@@ -46,6 +47,7 @@ class _Ready extends WarrantyState {
   final bool? isLoading;
   final bool? canSubmit;
   final bool isNotificationEnabled;
+  final bool askedNotification;
 
   List<Map<String, String>> get warrantyDurationChips {
     const list = [
