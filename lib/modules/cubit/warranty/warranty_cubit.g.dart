@@ -15,6 +15,7 @@ extension _$ReadyAutoequal on _Ready {
         firebaseError,
         isLoading,
         canSubmit,
+        isNotificationEnabled,
       ];
 }
 
@@ -37,6 +38,8 @@ abstract class _$_ReadyCWProxy {
 
   _Ready canSubmit(bool? canSubmit);
 
+  _Ready isNotificationEnabled(bool isNotificationEnabled);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -51,6 +54,7 @@ abstract class _$_ReadyCWProxy {
     bool? firebaseError,
     bool? isLoading,
     bool? canSubmit,
+    bool? isNotificationEnabled,
   });
 }
 
@@ -86,6 +90,10 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
   _Ready canSubmit(bool? canSubmit) => this(canSubmit: canSubmit);
 
   @override
+  _Ready isNotificationEnabled(bool isNotificationEnabled) =>
+      this(isNotificationEnabled: isNotificationEnabled);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_Ready(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -101,6 +109,7 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
     Object? firebaseError = const $CopyWithPlaceholder(),
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? canSubmit = const $CopyWithPlaceholder(),
+    Object? isNotificationEnabled = const $CopyWithPlaceholder(),
   }) {
     return _Ready(
       warrantyInfo:
@@ -134,6 +143,12 @@ class _$_ReadyCWProxyImpl implements _$_ReadyCWProxy {
           ? _value.canSubmit
           // ignore: cast_nullable_to_non_nullable
           : canSubmit as bool?,
+      isNotificationEnabled:
+          isNotificationEnabled == const $CopyWithPlaceholder() ||
+                  isNotificationEnabled == null
+              ? _value.isNotificationEnabled
+              // ignore: cast_nullable_to_non_nullable
+              : isNotificationEnabled as bool,
     );
   }
 }

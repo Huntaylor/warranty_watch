@@ -1,3 +1,5 @@
+import 'package:app_settings/app_settings.dart';
+import 'package:app_settings/app_settings_platform_interface.dart';
 import 'package:autoequal/autoequal.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -10,20 +12,25 @@ class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit()
       : super(
           const _SetSettings(
-            isNotifications: false,
+            isNotificationAllowed: false,
             isSomething: false,
           ),
         ) {
+    AppLifecycleListener(
+      onResume: checkNotifications,
+    );
+
     getNotifications();
   }
 
   Future<void> getNotifications() async {
-    final isNotifcationsAllowed =
+    final isNotifcationAllowed =
         await AwesomeNotifications().isNotificationAllowed();
 
     emit(
       _SetSettings(
-        isNotifications: isNotifcationsAllowed,
+        isNotificationEnabled: isNotifcationAllowed,
+        isNotificationAllowed: isNotifcationAllowed,
         isSomething: false,
       ),
     );
@@ -33,26 +40,19 @@ class SettingsCubit extends Cubit<SettingsState> {
     await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       emit(
         state.asSet.copyWith(
-          isNotifications: isAllowed,
+          isNotificationEnabled: isAllowed,
+          isNotificationAllowed: isAllowed,
         ),
       );
-      if (!isAllowed) {
-        AwesomeNotifications().requestPermissionToSendNotifications().then(
-              (value) => emit(
-                state.asSet.copyWith(
-                  isNotifications: value,
-                ),
-              ),
-            );
-      }
     });
   }
 
   Future<void> toggleNotifications({required bool value}) async {
-    await checkNotifications();
+    await AppSettingsPlatform.instance
+        .openAppSettings(type: AppSettingsType.notification);
     emit(
       state.asSet.copyWith(
-        isNotifications: value,
+        isNotificationAllowed: value,
       ),
     );
   }

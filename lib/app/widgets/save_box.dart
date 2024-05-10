@@ -37,3 +37,41 @@ class SaveBox extends StatelessWidget {
     );
   }
 }
+
+class NotificationBox extends StatelessWidget {
+  const NotificationBox({
+    required this.cancel,
+    required this.enableNotifications,
+    super.key,
+  });
+
+  final void Function() cancel;
+  final void Function() enableNotifications;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
+      icon: Icon(
+        Icons.notifications,
+        color: context.colorScheme.primary,
+      ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
+      title: const Text('Change notification preferences in Settings'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: cancel,
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: enableNotifications,
+          child: const Text('Open Settings'),
+        ),
+      ],
+    );
+  }
+}

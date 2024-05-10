@@ -17,11 +17,13 @@ abstract class SettingsState extends Equatable {
 @CopyWith()
 class _SetSettings extends SettingsState {
   const _SetSettings({
-    required this.isNotifications,
+    required this.isNotificationAllowed,
     required this.isSomething,
+    this.isNotificationEnabled = false,
   });
 
-  final bool isNotifications;
+  final bool isNotificationAllowed;
+  final bool isNotificationEnabled;
   final bool isSomething;
 
   @override

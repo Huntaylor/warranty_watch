@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
@@ -34,7 +35,9 @@ class UserWarrantiesView extends StatelessWidget {
             ),
           ),
           children: const [
+            Gap(16),
             _Content(),
+            Gap(16),
           ],
         );
       },
@@ -78,6 +81,7 @@ class _Content extends StatelessWidget {
                 ),
               )
             : ListView.builder(
+                physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: warranties.length,
                 itemBuilder: (context, index) {

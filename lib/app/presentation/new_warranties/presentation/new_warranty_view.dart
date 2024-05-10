@@ -30,8 +30,25 @@ class NewWarrantyView extends StatelessWidget {
             context.pop();
           }
           if (state.isReady) {
+            if (!state.asReady.isNotificationEnabled &&
+                state.asReady.warrantyInfo.reminderDate != null) {
+              showAdaptiveDialog<NotificationBox>(
+                context: context,
+                builder: (_) {
+                  return NotificationBox(
+                    enableNotifications: () {
+                      context.pop();
+                      context.read<WarrantyCubit>().toggleNotifications();
+                    },
+                    cancel: () => context.pop(),
+                  );
+                },
+              );
+            }
+
             final readyState = state.asReady;
             final firebaseError = readyState.firebaseError;
+
             if (firebaseError ?? false) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'dart:async';
+import 'package:app_settings/app_settings.dart';
+import 'package:app_settings/app_settings_platform_interface.dart';
 import 'package:autoequal/autoequal.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
@@ -29,7 +31,13 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           _Ready(
             warrantyInfo: warrantyInfo ?? const WarrantyInfo(id: ''),
           ),
-        );
+        ) {
+    AppLifecycleListener(
+      onResume: checkSystemSettings,
+    );
+    checkSystemSettings();
+  }
+
   final DataRepository _dataRepository;
   final WarrantyInfo? warrantyInfo;
 
@@ -86,10 +94,12 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           ),
         ),
       );
-      if (!isAllowed) {
-        AwesomeNotifications().requestPermissionToSendNotifications();
-      }
     });
+  }
+
+  Future<void> toggleNotifications() async {
+    await AppSettingsPlatform.instance
+        .openAppSettings(type: AppSettingsType.notification);
   }
 
   Future<void> createNotifications() async {
@@ -112,7 +122,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         channelKey: 'reminder_channel',
         category: NotificationCategory.Reminder,
         actionType: ActionType.Default,
-        title: 'Warranty Reminder!',
+        title: 'Warranty Reminder',
         body:
             'Your warranty, ${state.asReady.warrantyInfo.name}, expires $estimatedTime!',
       ),
@@ -128,7 +138,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         channelKey: 'expired_channel',
         category: NotificationCategory.Reminder,
         actionType: ActionType.Default,
-        title: 'Warranty Expired!',
+        title: 'Warranty Expired',
         body: 'Your warranty, ${state.asReady.warrantyInfo.name}, has expired!',
       ),
     );
@@ -505,4 +515,11 @@ class WarrantyCubit extends Cubit<WarrantyState> {
           ),
         ),
       );
+
+  Future<void> checkSystemSettings() async {
+    final isEnabled = await AwesomeNotifications().isNotificationAllowed();
+    emit(
+      state.asReady.copyWith(isNotificationEnabled: isEnabled),
+    );
+  }
 }

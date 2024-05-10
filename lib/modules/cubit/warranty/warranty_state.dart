@@ -36,6 +36,7 @@ class _Ready extends WarrantyState {
     this.firebaseError,
     this.isLoading,
     this.canSubmit,
+    this.isNotificationEnabled = false,
   });
   final WarrantyInfo warrantyInfo;
   final int? selectedWarrantyDateChip;
@@ -44,6 +45,7 @@ class _Ready extends WarrantyState {
   final bool? firebaseError;
   final bool? isLoading;
   final bool? canSubmit;
+  final bool isNotificationEnabled;
 
   List<Map<String, String>> get warrantyDurationChips {
     const list = [

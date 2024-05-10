@@ -8,7 +8,8 @@ part of 'settings_cubit.dart';
 
 extension _$SetSettingsAutoequal on _SetSettings {
   List<Object?> get _$props => [
-        isNotifications,
+        isNotificationAllowed,
+        isNotificationEnabled,
         isSomething,
       ];
 }
@@ -18,9 +19,11 @@ extension _$SetSettingsAutoequal on _SetSettings {
 // **************************************************************************
 
 abstract class _$_SetSettingsCWProxy {
-  _SetSettings isNotifications(bool isNotifications);
+  _SetSettings isNotificationAllowed(bool isNotificationAllowed);
 
   _SetSettings isSomething(bool isSomething);
+
+  _SetSettings isNotificationEnabled(bool isNotificationEnabled);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `_SetSettings(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -29,8 +32,9 @@ abstract class _$_SetSettingsCWProxy {
   /// _SetSettings(...).copyWith(id: 12, name: "My name")
   /// ````
   _SetSettings call({
-    bool? isNotifications,
+    bool? isNotificationAllowed,
     bool? isSomething,
+    bool? isNotificationEnabled,
   });
 }
 
@@ -41,11 +45,15 @@ class _$_SetSettingsCWProxyImpl implements _$_SetSettingsCWProxy {
   final _SetSettings _value;
 
   @override
-  _SetSettings isNotifications(bool isNotifications) =>
-      this(isNotifications: isNotifications);
+  _SetSettings isNotificationAllowed(bool isNotificationAllowed) =>
+      this(isNotificationAllowed: isNotificationAllowed);
 
   @override
   _SetSettings isSomething(bool isSomething) => this(isSomething: isSomething);
+
+  @override
+  _SetSettings isNotificationEnabled(bool isNotificationEnabled) =>
+      this(isNotificationEnabled: isNotificationEnabled);
 
   @override
 
@@ -56,20 +64,28 @@ class _$_SetSettingsCWProxyImpl implements _$_SetSettingsCWProxy {
   /// _SetSettings(...).copyWith(id: 12, name: "My name")
   /// ````
   _SetSettings call({
-    Object? isNotifications = const $CopyWithPlaceholder(),
+    Object? isNotificationAllowed = const $CopyWithPlaceholder(),
     Object? isSomething = const $CopyWithPlaceholder(),
+    Object? isNotificationEnabled = const $CopyWithPlaceholder(),
   }) {
     return _SetSettings(
-      isNotifications: isNotifications == const $CopyWithPlaceholder() ||
-              isNotifications == null
-          ? _value.isNotifications
-          // ignore: cast_nullable_to_non_nullable
-          : isNotifications as bool,
+      isNotificationAllowed:
+          isNotificationAllowed == const $CopyWithPlaceholder() ||
+                  isNotificationAllowed == null
+              ? _value.isNotificationAllowed
+              // ignore: cast_nullable_to_non_nullable
+              : isNotificationAllowed as bool,
       isSomething:
           isSomething == const $CopyWithPlaceholder() || isSomething == null
               ? _value.isSomething
               // ignore: cast_nullable_to_non_nullable
               : isSomething as bool,
+      isNotificationEnabled:
+          isNotificationEnabled == const $CopyWithPlaceholder() ||
+                  isNotificationEnabled == null
+              ? _value.isNotificationEnabled
+              // ignore: cast_nullable_to_non_nullable
+              : isNotificationEnabled as bool,
     );
   }
 }
