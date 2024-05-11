@@ -1,7 +1,7 @@
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/widgets/details_image_card.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/widgets/individual_detail.dart';
-import 'package:warranty_watch/modules/cubit/warranty_details/warranty_details_cubit.dart';
+import 'package:warranty_watch/cubit/warranty_details/warranty_details_cubit.dart';
 
 class WarrantyDetailsView extends StatelessWidget {
   const WarrantyDetailsView({

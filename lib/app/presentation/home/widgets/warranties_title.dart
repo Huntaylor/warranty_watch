@@ -1,5 +1,5 @@
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
+import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
 
 class WarrantiesTitle extends StatelessWidget {
   const WarrantiesTitle({

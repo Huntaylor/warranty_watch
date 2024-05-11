@@ -4,8 +4,8 @@ import 'package:expandable/expandable.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/widgets/save_box.dart';
 import 'package:warranty_watch/app/widgets/warranty_logo_widget.dart';
-import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
-import 'package:warranty_watch/modules/cubit/settings/settings_cubit.dart';
+import 'package:warranty_watch/cubit/auth/auth_cubit.dart';
+import 'package:warranty_watch/cubit/settings/settings_cubit.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});

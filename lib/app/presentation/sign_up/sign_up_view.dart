@@ -2,8 +2,8 @@ import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/models/user_data.dart';
 import 'package:warranty_watch/app/presentation/sign_up/widgets/password_requirement_widget.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
-import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
-import 'package:warranty_watch/modules/cubit/sign_up/sign_up_cubit.dart';
+import 'package:warranty_watch/cubit/auth/auth_cubit.dart';
+import 'package:warranty_watch/cubit/sign_up/sign_up_cubit.dart';
 
 class SignUpView extends StatelessWidget {
   const SignUpView({super.key});

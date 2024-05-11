@@ -2,8 +2,8 @@ import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/login/widgets/animated_box_widget.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_logo_widget.dart';
-import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
-import 'package:warranty_watch/modules/cubit/login/login_cubit.dart';
+import 'package:warranty_watch/cubit/auth/auth_cubit.dart';
+import 'package:warranty_watch/cubit/login/login_cubit.dart';
 
 class LoginViewV2 extends StatelessWidget {
   const LoginViewV2({super.key});

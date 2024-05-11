@@ -5,8 +5,8 @@ import 'package:warranty_watch/app/presentation/new_warranties/presentation/widg
 import 'package:warranty_watch/app/widgets/save_box.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_image_widget.dart';
-import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
-import 'package:warranty_watch/modules/cubit/warranty/warranty_cubit.dart';
+import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
+import 'package:warranty_watch/cubit/warranty/warranty_cubit.dart';
 
 class NewWarrantyView extends StatelessWidget {
   const NewWarrantyView({super.key, this.warrantyInfo});

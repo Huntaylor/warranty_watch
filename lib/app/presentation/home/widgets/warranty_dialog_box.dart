@@ -3,7 +3,7 @@ import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/loading/widgets/triangle_loading_indicator.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 import 'package:warranty_watch/app/widgets/warranty_countdown.dart';
-import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
+import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
 
 class WarrantyDialogBox extends StatelessWidget {
   const WarrantyDialogBox({

@@ -1,5 +1,5 @@
 import 'package:warranty_watch/app/app_library.dart';
-import 'package:warranty_watch/modules/cubit/login/login_cubit.dart';
+import 'package:warranty_watch/cubit/login/login_cubit.dart';
 
 class AnimatedBox extends StatelessWidget {
   const AnimatedBox({

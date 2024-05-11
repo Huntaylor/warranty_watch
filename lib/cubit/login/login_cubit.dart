@@ -9,23 +9,19 @@ part 'login_cubit.g.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(const _Initial());
 
-  void toggleLogin() {
-    emit(
-      const _LoggingIn(
-        email: '',
-        password: '',
-        isObscured: true,
-      ),
-    );
-  }
+  void toggleLogin() => emit(
+        const _LoggingIn(
+          email: '',
+          password: '',
+          isObscured: true,
+        ),
+      );
 
-  void toggleObscurity() {
-    emit(
-      state.asLoggingIn.copyWith(
-        isObscured: !state.asLoggingIn.isObscured,
-      ),
-    );
-  }
+  void toggleObscurity() => emit(
+        state.asLoggingIn.copyWith(
+          isObscured: !state.asLoggingIn.isObscured,
+        ),
+      );
 
   void changeEmail(String email) {
     emit(

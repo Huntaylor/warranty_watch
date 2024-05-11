@@ -8,7 +8,7 @@ import 'package:warranty_watch/app/presentation/new_warranties/presentation/new_
 import 'package:warranty_watch/app/presentation/settings/settings_view.dart';
 import 'package:warranty_watch/app/presentation/sign_up/sign_up_view.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/presentation/warranty_details_view.dart';
-import 'package:warranty_watch/modules/cubit/auth/auth_cubit.dart';
+import 'package:warranty_watch/cubit/auth/auth_cubit.dart';
 
 final goRoutes = GoRouter(
   initialLocation: Paths.login.goRoute,

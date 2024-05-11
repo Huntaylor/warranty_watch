@@ -2,7 +2,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/home/widgets/warranty_dialog_box.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
-import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
+import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
 
 bool dateDiff(DateTime date) {
   if (date.difference(DateTime.now()).inDays < 7) {

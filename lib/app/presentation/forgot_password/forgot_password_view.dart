@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';

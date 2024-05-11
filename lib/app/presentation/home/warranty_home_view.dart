@@ -5,7 +5,7 @@ import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/w
 import 'package:warranty_watch/app/widgets/warranty_base_view.dart';
 import 'package:warranty_watch/app/widgets/warranty_display_card.dart';
 import 'package:warranty_watch/app/widgets/warranty_list_card.dart';
-import 'package:warranty_watch/modules/cubit/warranties/warranties_cubit.dart';
+import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
 
 class WarrantyHomeView extends StatelessWidget {
   const WarrantyHomeView({super.key});
