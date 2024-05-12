@@ -16,6 +16,7 @@ dependencies:
   camera: ^0.10.5+2
   cloud_firestore: ^4.15.9
   copy_with_extension: ^5.0.2
+  email_validator: ^2.1.17
   equatable: ^2.0.5
   expandable: ^5.0.1
   firebase_analytics: ^10.8.10
@@ -35,6 +36,7 @@ dependencies:
   google_fonts: ^6.1.0
   google_sign_in: ^6.1.4
   image_picker: ^1.0.0
+  in_app_review: ^2.0.9
   intl: ^0.18.0
   jiffy: ^6.2.1
   json_annotation: ^4.9.0

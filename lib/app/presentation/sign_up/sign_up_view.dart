@@ -124,7 +124,13 @@ class _Content extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Flexible(
+                  child: SizedBox(
+                    width: 5,
+                  ),
+                ),
                 Checkbox.adaptive(
                   value: state.asSignUp.tosAccepted,
                   onChanged: (value) {
@@ -136,6 +142,7 @@ class _Content extends StatelessWidget {
                   },
                 ),
                 Expanded(
+                  flex: 3,
                   child: Text(
                     l10n.tosAcceptanceText,
                   ),

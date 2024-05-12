@@ -46,14 +46,12 @@ class _Content extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         const animation = Duration(milliseconds: 100);
-
         return WarrantyBaseView(
           isLoading: authState.isLoading,
           children: [
             const AnimatedBox(
               animation: animation,
             ),
-            // const _Logo(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: WarrantyLogo.general(),
@@ -200,6 +198,8 @@ class _LoginFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<LoginCubit>().state;
+    print(state.asLoggingIn.email);
+
     final l10n = context.l10n;
     return Column(
       children: [
