@@ -19,13 +19,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         email: email,
       ),
     );
-    print(state.asInitial.email);
     verifyEmail();
   }
 
   void verifyEmail() {
     final isEnabled = EmailValidator.validate(state.asInitial.email);
-    print('is email valid? $isEnabled');
 
     emit(
       state.asInitial.copyWith(

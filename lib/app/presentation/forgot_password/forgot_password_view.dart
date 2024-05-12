@@ -69,7 +69,6 @@ class ForgotPasswordView extends StatelessWidget {
             BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
               buildWhen: (_, state) => state.isInitial,
               builder: (context, state) {
-                print('State Email ${state.asInitial.email}');
                 return WarrantyTextField.email(
                   onChanged: (e) {
                     context.read<ForgotPasswordCubit>().changeEmail(e);

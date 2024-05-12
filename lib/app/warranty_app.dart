@@ -7,7 +7,6 @@ import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
 import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
 import 'package:warranty_watch/app/routes/go_routes.dart';
 import 'package:warranty_watch/cubit/auth/auth_cubit.dart';
-import 'package:warranty_watch/cubit/forgot_password/forgot_password_cubit.dart';
 import 'package:warranty_watch/cubit/settings/settings_cubit.dart';
 import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
 import 'package:warranty_watch/cubit/warranty_details/warranty_details_cubit.dart';

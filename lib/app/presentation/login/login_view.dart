@@ -198,7 +198,6 @@ class _LoginFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<LoginCubit>().state;
-    print(state.asLoggingIn.email);
 
     final l10n = context.l10n;
     return Column(
