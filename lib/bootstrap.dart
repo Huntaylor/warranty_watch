@@ -36,9 +36,9 @@ Future<void> bootstrap(Widget Function() builder) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
-  );
+
+  await FirebaseAppCheck.instance.activate();
+
   await SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,
