@@ -11,20 +11,20 @@ environment:
 dependencies:
   app_settings: ^5.1.1
   autoequal: ^0.9.1
-  awesome_notifications: ^0.8.2
+  awesome_notifications: ^0.9.3+1
   bloc: ^8.1.4
-  camera: ^0.10.5+2
-  cloud_firestore: ^4.15.9
+  camera: ^0.11.0+1
+  cloud_firestore: ^5.1.0
   copy_with_extension: ^5.0.2
-  email_validator: ^2.1.17
+  email_validator: ^3.0.0
   equatable: ^2.0.5
   expandable: ^5.0.1
-  firebase_analytics: ^10.8.10
-  firebase_app_check: ^0.2.1+18
-  firebase_auth: ^4.17.9
-  firebase_core: ^2.27.1
-  firebase_storage: ^11.6.10
-  flex_color_scheme: ^7.1.2
+  firebase_analytics: ^11.2.0
+  firebase_app_check: ^0.3.0+3
+  firebase_auth: ^5.1.2
+  firebase_core: ^3.2.0
+  firebase_storage: ^12.1.1
+  flex_color_scheme: ^7.3.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
@@ -37,7 +37,7 @@ dependencies:
   google_sign_in: ^6.1.4
   image_picker: ^1.0.0
   in_app_review: ^2.0.9
-  intl: ^0.18.0
+  intl: ^0.19.0
   jiffy: ^6.2.1
   json_annotation: ^4.9.0
   marquee: ^2.2.3
@@ -46,6 +46,9 @@ dependencies:
   shared_preferences: ^2.1.2
   url_launcher: ^6.1.11
   uuid: ^4.1.0
+
+dependency_overrides:
+  fading_edge_scrollview: ^4.1.1
 
 dev_dependencies:
   autoequal_gen: ^0.9.1
@@ -56,7 +59,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  very_good_analysis: ^5.0.0
+  very_good_analysis: ^6.0.0
 
 scripts: derry.yaml
 

@@ -73,11 +73,11 @@ class _WarrantyAppState extends State<WarrantyApp> {
           scheme: usedScheme,
           appBarElevation: 0.5,
         ),
-        darkTheme: FlexThemeData.dark(
-          textTheme: GoogleFonts.robotoTextTheme(context.textTheme),
-          scheme: usedScheme,
-          appBarElevation: 2,
-        ),
+        // darkTheme: FlexThemeData.dark(
+        //   textTheme: GoogleFonts.robotoTextTheme(context.textTheme),
+        //   scheme: usedScheme,
+        //   appBarElevation: 2,
+        // ),
         routerConfig: goRoutes,
       ),
     );

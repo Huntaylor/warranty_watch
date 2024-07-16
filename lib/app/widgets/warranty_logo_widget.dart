@@ -34,7 +34,7 @@ class WarrantyLogo extends StatelessWidget {
       size: size, // Adjust width and height as needed
       painter: OvalPainter(
         hasBorder: hasBorder ?? false,
-        textColor: context.colorScheme.background,
+        textColor: context.colorScheme.surface,
         text: l10n.mainTitle.toUpperCase(),
         borderColor: context.colorScheme.onPrimary,
         background: isSmall

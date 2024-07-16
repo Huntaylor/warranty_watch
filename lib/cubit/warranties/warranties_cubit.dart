@@ -85,7 +85,7 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
   }
 
   void removeWarranty(int index) {
-    // TODO (huntaylor): this function doesn't remove the item from the backend
+    // TODO(huntaylor): this function doesn't remove the item from the backend
     List<WarrantyInfo> removeList;
     removeList = state.asReady.warranties..removeAt(index);
     emit(

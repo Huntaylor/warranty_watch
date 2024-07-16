@@ -88,8 +88,5 @@ Future<void> bootstrap(Widget Function() builder) async {
     debug: true,
   );
 
-  //One signal
-  // 99f12ad3-ba05-4d54-b9dc-79f1770db39e
-
   runApp(builder());
 }

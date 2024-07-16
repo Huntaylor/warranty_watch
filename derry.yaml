@@ -10,3 +10,5 @@ full clean: flutter clean && flutter pub get && cd ios && pod deintegrate && pod
 init: flutterfire configure
 
 pod clean: cd ios; pod deintegrate; rm -rf Podfile.lock; cd ..; flutter pub get; cd ios; pod install --repo-update
+
+android build: flutter build apk --build-name=1.0.1 --build-number=2

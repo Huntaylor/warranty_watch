@@ -13,7 +13,7 @@ class WarrantyDetailsView extends StatelessWidget {
     final detailsCubit = context.read<WarrantyDetailsCubit>();
     final l10n = context.l10n;
     return Scaffold(
-      backgroundColor: context.colorScheme.background,
+      backgroundColor: context.colorScheme.surface,
       body: SafeArea(
         child: ListView(
           children: [

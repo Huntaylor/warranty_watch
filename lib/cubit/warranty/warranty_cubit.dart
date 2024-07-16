@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'dart:async';
+import 'dart:developer';
 import 'package:app_settings/app_settings.dart';
 import 'package:app_settings/app_settings_platform_interface.dart';
 import 'package:autoequal/autoequal.dart';
@@ -111,18 +112,22 @@ class WarrantyCubit extends Cubit<WarrantyState> {
   }
 
   Future<void> createNotifications() async {
+    final date = state.asReady.warrantyInfo.reminderDate;
     final estimatedTime =
         Jiffy.parseFromDateTime(state.asReady.warrantyInfo.endOfWarranty!)
             .fromNow();
 
+    final reminderDate = DateTime(
+      date!.year,
+      date.month,
+      date.day,
+      8,
+    );
+
     await AwesomeNotifications().createNotification(
       schedule: NotificationAndroidCrontab.fromDate(
         allowWhileIdle: true,
-        date: state.asReady.warrantyInfo.reminderDate!.add(
-          const Duration(
-            hours: 8,
-          ),
-        ),
+        date: reminderDate,
       ),
       content: NotificationContent(
         notificationLayout: NotificationLayout.BigText,
@@ -135,6 +140,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
             'Your warranty, ${state.asReady.warrantyInfo.name}, expires $estimatedTime!',
       ),
     );
+
     await AwesomeNotifications().createNotification(
       schedule: NotificationCalendar.fromDate(
         allowWhileIdle: true,

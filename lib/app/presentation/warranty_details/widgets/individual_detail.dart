@@ -55,8 +55,8 @@ class IndividualDetailWidget extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        context.colorScheme.background,
-                        context.colorScheme.background,
+                        context.colorScheme.surface,
+                        context.colorScheme.surface,
                         context.colorScheme.primaryContainer,
                       ],
                     ),
