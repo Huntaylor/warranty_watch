@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:autoequal/autoequal.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/models/user.dart';
@@ -18,27 +20,13 @@ class AuthCubit extends Cubit<AuthState> {
     emit(const _Initial());
   }
 
-  // Future<void> checkEmail(String email) async {
-  //   try {
-  //     emit(const _Loading());
-
-  //     if (isUsed) {
-  //       emit(
-  //         const _Error(
-  //           'This email already has an account. Please sign in instead.',
-  //         ),
-  //       );
-  //     } else {
-  //       emit(const _NotAuthenticated());
-  //     }
-  //   } catch (e) {
-  //     emit(
-  //       _Error(
-  //         e.toString(),
-  //       ),
-  //     );
-  //   }
-  // }
+  Future<void> deleteAccount() async {
+    try {
+      await _authRepository.deleteAccount();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
   Future<void> login({
     required String email,

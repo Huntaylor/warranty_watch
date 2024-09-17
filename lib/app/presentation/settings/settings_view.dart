@@ -45,64 +45,14 @@ class _Context extends StatelessWidget {
     return Scrollbar(
       child: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
+        child: Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
           children: <Widget>[
-            Expanded(
-              flex: 3,
-              child: ListView(
-                physics: const ClampingScrollPhysics(),
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Notifications',
-                        style: context.textTheme.titleLarge,
-                      ),
-                      Switch.adaptive(
-                        value: state.asSet.isNotificationAllowed,
-                        onChanged: (value) =>
-                            showAdaptiveDialog<NotificationBox>(
-                          context: context,
-                          builder: (context) {
-                            return NotificationBox(
-                              enableNotifications: () => context
-                                ..pop()
-                                ..read<SettingsCubit>().toggleNotifications(
-                                  value: value,
-                                ),
-                              cancel: () => context.pop(),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  _SettingsExpandable(
-                    titleText: 'Leave a Review',
-                    buttonText: 'Leave a Review',
-                    onPressed: () {},
-                  ),
-                  _SettingsExpandable(
-                    titleText: 'Report an issue',
-                    buttonText: 'Report an issue',
-                    onPressed: () {},
-                  ),
-                  _SettingsExpandable(
-                    titleText: 'Logout',
-                    buttonText: 'Logout',
-                    onPressed: () async => context.read<AuthCubit>().logout(),
-                  ),
-                  _SettingsExpandable(
-                    titleText: 'Delete Account',
-                    buttonText: 'Delete Account',
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Flexible(
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const WarrantyLogo.small(),
                   const SizedBox(
@@ -117,6 +67,82 @@ class _Context extends StatelessWidget {
                 ],
               ),
             ),
+            /* Expanded(
+              flex: 3,
+              child:  */
+            ListView(
+              physics: const ClampingScrollPhysics(),
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Notifications',
+                      style: context.textTheme.titleLarge,
+                    ),
+                    Switch.adaptive(
+                      value: state.asSet.isNotificationAllowed,
+                      onChanged: (value) => showAdaptiveDialog<NotificationBox>(
+                        context: context,
+                        builder: (context) {
+                          return NotificationBox(
+                            enableNotifications: () => context
+                              ..pop()
+                              ..read<SettingsCubit>().toggleNotifications(
+                                value: value,
+                              ),
+                            cancel: () => context.pop(),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                _SettingsExpandable(
+                  titleText: 'Leave a Review',
+                  buttonText: 'Leave a Review',
+                  onPressed: () {},
+                ),
+                _SettingsExpandable(
+                  titleText: 'Report an issue',
+                  buttonText: 'Report an issue',
+                  onPressed: () {},
+                ),
+                _SettingsExpandable(
+                  titleText: 'Delete Account',
+                  buttonText: 'Delete Account',
+                  isWarning: true,
+                  onPressed: () async => context.read<AuthCubit>().logout(),
+                ),
+                _SettingsExpandable(
+                  titleText: 'Logout',
+                  buttonText: 'Logout',
+                  onPressed: () async => context.read<AuthCubit>().logout(),
+                ),
+              ],
+            ),
+            // ),
+            /* Flexible(
+              child:  */
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: Column(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: [
+            //       const WarrantyLogo.small(),
+            //       const SizedBox(
+            //         height: 10,
+            //       ),
+            //       Text(
+            //         'Version 1.0.0',
+            //         style: context.textTheme.bodyLarge!.copyWith(
+            //           color: context.colorScheme.primary.withOpacity(.5),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // ),
           ],
         ),
       ),
@@ -124,35 +150,118 @@ class _Context extends StatelessWidget {
   }
 }
 
-class _SettingsExpandable extends StatelessWidget {
+class _SettingsExpandable extends StatefulWidget {
   const _SettingsExpandable({
     required this.titleText,
     required this.buttonText,
     required this.onPressed,
-  }) : super();
+    bool? isWarning,
+  }) : _isWarning = isWarning ?? false;
 
   final String titleText;
   final String buttonText;
   final void Function() onPressed;
+  final bool _isWarning;
+
+  @override
+  State<_SettingsExpandable> createState() => _SettingsExpandableState();
+}
+
+class _SettingsExpandableState extends State<_SettingsExpandable> {
+  late ExpandableController controller;
+  late bool isDeletingAccount;
+
+  @override
+  void initState() {
+    isDeletingAccount = false;
+    controller = ExpandableController();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ExpandablePanel(
-      theme: const ExpandableThemeData(
-        headerAlignment: ExpandablePanelHeaderAlignment.center,
-        iconSize: 40,
-      ),
-      header: Text(
-        titleText,
-        style: context.textTheme.titleLarge,
-      ),
-      collapsed: const SizedBox(),
-      expanded: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 15),
-        child: WarrantyElevatedButton.general(
-          isEnabled: true,
-          onPressed: onPressed,
-          text: buttonText,
+    if (widget._isWarning) {
+      controller.addListener(
+        () {
+          if (!controller.expanded) {
+            setState(() {
+              isDeletingAccount = false;
+            });
+          }
+        },
+      );
+    }
+
+    return ColoredBox(
+      color: context.colorScheme.surface,
+      child: ExpandablePanel(
+        controller: controller,
+        theme: const ExpandableThemeData(
+          headerAlignment: ExpandablePanelHeaderAlignment.center,
+          iconSize: 40,
+        ),
+        header: Text(
+          widget.titleText,
+          style: context.textTheme.titleLarge,
+        ),
+        collapsed: const SizedBox(),
+        expanded: Column(
+          children: [
+            if (widget._isWarning) ...[
+              Icon(
+                Icons.warning,
+                color: context.colorScheme.error,
+              ),
+              Text.rich(
+                TextSpan(
+                  children: <InlineSpan>[
+                    TextSpan(
+                      text: 'WARNING! \n',
+                      style: context.textTheme.headlineSmall!
+                          .copyWith(color: context.colorScheme.error),
+                    ),
+                    TextSpan(
+                      text:
+                          'This cannot be undone. Since this is a security-sensitive operation, you might be asked to login',
+                      style: context.textTheme.labelLarge!
+                          .copyWith(color: context.colorScheme.error),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Switch.adaptive(
+                    value: isDeletingAccount,
+                    onChanged: (isSwitched) {
+                      setState(() {
+                        isDeletingAccount = isSwitched;
+                      });
+                    },
+                  ),
+                  Flexible(
+                    child: Text(
+                      'Yes, delete my account',
+                      style: context.textTheme.labelLarge!
+                          .copyWith(color: context.colorScheme.error),
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 15),
+              child: WarrantyElevatedButton.general(
+                isEnabled: (widget._isWarning) ? isDeletingAccount : true,
+                onPressed: widget.onPressed,
+                text: widget.buttonText,
+              ),
+            ),
+          ],
         ),
       ),
     );

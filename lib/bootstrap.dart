@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:warranty_watch/app/app_library.dart';
@@ -31,13 +30,10 @@ Future<void> bootstrap(Widget Function() builder) async {
 
   Bloc.observer = const AppBlocObserver();
 
-  // const webRecaptchaSiteKey = '';
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  await FirebaseAppCheck.instance.activate();
 
   await SystemChrome.setPreferredOrientations(
     [
@@ -45,13 +41,6 @@ Future<void> bootstrap(Widget Function() builder) async {
       DeviceOrientation.portraitDown,
     ],
   );
-
-  //Remove this method to stop OneSignal Debugging
-  // await OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-
-  // OneSignal.initialize('99f12ad3-ba05-4d54-b9dc-79f1770db39e');
-
-  // await OneSignal.Notifications.requestPermission(true);
 
   await AwesomeNotifications().initialize(
     // set the icon to null if you want to use the default app icon
