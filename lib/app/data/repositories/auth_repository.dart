@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/models/user.dart';
 import 'package:warranty_watch/app/data/models/user_data.dart';
 
@@ -27,6 +25,7 @@ abstract class AuthRepository {
 }
 
 class FirebaseAuthRepository implements AuthRepository {
+  static final Logger _log = Logger('Auth Repository');
   final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -38,6 +37,7 @@ class FirebaseAuthRepository implements AuthRepository {
     } else {
       return WarrantyUser();
     }
+    _log.log(Level.INFO, 'User ID: ${user.uid}');
     return WarrantyUser(uid: user.uid);
   }
 
@@ -76,8 +76,7 @@ class FirebaseAuthRepository implements AuthRepository {
     try {
       return await _auth.signOut();
     } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
+      _log.log(Level.WARNING, 'Logout Failure', e);
     }
   }
 
@@ -112,6 +111,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
       return WarrantyUser(uid: result.user!.uid);
     } catch (e) {
+      _log.log(Level.WARNING, 'Register Failure', e);
       rethrow;
     }
   }
@@ -132,16 +132,29 @@ class FirebaseAuthRepository implements AuthRepository {
         idToken: googleAuth.idToken,
       );
 
+      // final nameList = googleUser.displayName!.split('');
+
+      // await updatePersonalData(
+      //   UserData(
+      //     firstName: nameList.first,
+      //     lastName: nameList.last,
+      //     email: googleUser.email,
+      //     agreedToServices: true,
+      //   ),
+      // );
+
       // Once signed in, return the UserCredential
       final result = await _auth.signInWithCredential(credential);
       final prefs = await SharedPreferences.getInstance();
       const key = 'uid';
       final val = result.user!.uid;
       await prefs.setString(key, val);
-      return WarrantyUser(uid: result.user!.uid);
+      return WarrantyUser(uid: val);
     } catch (e) {
-      log(
-        e.toString(),
+      _log.log(
+        Level.WARNING,
+        'Google Sign In Error',
+        e,
       );
       rethrow;
     }
@@ -171,7 +184,11 @@ class FirebaseAuthRepository implements AuthRepository {
     try {
       await FirebaseAuth.instance.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
-      log(e.toString());
+      _log.log(
+        Level.WARNING,
+        'Firebase Auth Exception',
+        e,
+      );
 
       if (e.code == 'requires-recent-login') {
         await _reauthenticateAndDelete();
@@ -179,7 +196,7 @@ class FirebaseAuthRepository implements AuthRepository {
         // Handle other Firebase exceptions
       }
     } catch (e) {
-      log(e.toString());
+      _log.log(Level.WARNING, 'Delete Account Exception', e);
 
       // Handle general exception
     }

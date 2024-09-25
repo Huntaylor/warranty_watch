@@ -35,50 +35,59 @@ class _WarrantyAppState extends State<WarrantyApp> {
     const usedScheme = FlexScheme.blue;
 
     final authRepo = FirebaseAuthRepository();
-
+    final authCubit = AuthCubit(
+      authRepo,
+    );
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthCubit>(
-          create: (context) => AuthCubit(
-            authRepo,
-          ),
-        ),
+        BlocProvider<AuthCubit>(create: (context) => authCubit),
         BlocProvider<SettingsCubit>(
           create: (context) => SettingsCubit(),
         ),
-        BlocProvider<WarrantiesCubit>(
-          create: (context) => WarrantiesCubit(
-            dataRepository: DataRepository(),
-            authRepository: authRepo,
-          ),
-        ),
+        // BlocProvider<WarrantiesCubit>(
+        //   create: (context) => WarrantiesCubit(
+        //     authStateStream: authCubit.stream,
+        //     dataRepository: DataRepository(),
+        //     authRepository: authRepo,
+        //   ),
+        // ),
         BlocProvider<WarrantyDetailsCubit>(
           create: (context) => WarrantyDetailsCubit(),
         ),
       ],
-      child: MaterialApp.router(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+      child: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<AuthRepository>(
+            create: (context) => authRepo,
+          ),
+          RepositoryProvider<DataRepository>(
+            create: (context) => DataRepository(),
+          ),
         ],
-        supportedLocales: const [
-          Locale('en'), // English
-          Locale('es'), // Spanish
-        ],
-        title: 'Warranty Watch',
-        theme: FlexThemeData.light(
-          textTheme: GoogleFonts.robotoTextTheme(context.textTheme),
-          scheme: usedScheme,
-          appBarElevation: 0.5,
+        child: MaterialApp.router(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'), // English
+            Locale('es'), // Spanish
+          ],
+          title: 'Warranty Watch',
+          theme: FlexThemeData.light(
+            textTheme: GoogleFonts.robotoTextTheme(context.textTheme),
+            scheme: usedScheme,
+            appBarElevation: 0.5,
+          ),
+          // darkTheme: FlexThemeData.dark(
+          //   textTheme: GoogleFonts.robotoTextTheme(context.textTheme),
+          //   scheme: usedScheme,
+          //   appBarElevation: 2,
+          // ),
+          routerConfig: goRoutes,
         ),
-        // darkTheme: FlexThemeData.dark(
-        //   textTheme: GoogleFonts.robotoTextTheme(context.textTheme),
-        //   scheme: usedScheme,
-        //   appBarElevation: 2,
-        // ),
-        routerConfig: goRoutes,
       ),
     );
   }

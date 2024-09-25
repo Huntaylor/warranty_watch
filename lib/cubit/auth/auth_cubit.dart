@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:autoequal/autoequal.dart';
+import 'package:logging/logging.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/models/user.dart';
 import 'package:warranty_watch/app/data/models/user_data.dart';
@@ -14,6 +13,7 @@ class AuthCubit extends Cubit<AuthState> {
       : super(const _Loading(loginType: LoginType.initial)) {
     isLoggedIn();
   }
+  static final Logger _log = Logger('Auth Cubit');
   final AuthRepository _authRepository;
 
   void clearError() {
@@ -24,7 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await _authRepository.deleteAccount();
     } catch (e) {
-      log(e.toString());
+      _log.info('Firebase Delete Account Error: $e');
     }
   }
 
@@ -51,6 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     } catch (e) {
+      _log.info('Firebase Login Error: $e');
       emit(
         _Error(
           e.toString(),
@@ -74,7 +75,12 @@ class AuthCubit extends Cubit<AuthState> {
         emit(const _NotAuthenticated());
       }
     } catch (e) {
-      emit(_Error(e.toString()));
+      _log.info('Firebase Google Login Error: $e');
+      emit(
+        _Error(
+          e.toString(),
+        ),
+      );
     }
   }
 
@@ -97,6 +103,7 @@ class AuthCubit extends Cubit<AuthState> {
         _Authenticated(currentUser),
       );
     } catch (e) {
+      _log.info('Firebase Register Error: $e');
       emit(
         _Error(
           e.toString(),
@@ -111,10 +118,12 @@ class AuthCubit extends Cubit<AuthState> {
         const _Loading(),
       );
       await _authRepository.logout();
+
       emit(
         const _NotAuthenticated(),
       );
     } catch (e) {
+      _log.info('Firebase Logout Error: $e');
       emit(
         _Error(
           e.toString(),
@@ -132,6 +141,7 @@ class AuthCubit extends Cubit<AuthState> {
             ),
           );
     } catch (e) {
+      _log.info('Firebase Reset Password Error: $e');
       emit(
         _Error(
           e.toString(),
@@ -156,6 +166,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     } catch (e) {
+      _log.info('Firebase Is Login Error: $e');
       emit(
         _Error(
           e.toString(),
@@ -176,6 +187,7 @@ class AuthCubit extends Cubit<AuthState> {
         _Authenticated(currentUser),
       );
     } catch (e) {
+      _log.info('Firebase Update info Error: $e');
       emit(
         _Error(
           e.toString(),

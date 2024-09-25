@@ -2,12 +2,15 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/data/interfaces/iwarranties_source.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
 
 class DataRepository implements IWarrantiesSource {
+  static final Logger _log = Logger('Warranty Repository');
+
   final firebase = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
@@ -28,28 +31,34 @@ class DataRepository implements IWarrantiesSource {
         ),
       );
     }
+
     return list;
   }
 
   Stream<List<WarrantyInfo>?> get warrantiesDataStream {
-    final currentUser = _auth.currentUser!.uid;
+    try {
+      final currentUser = _auth.currentUser!.uid;
 
-    final warranties =
-        firebase.collection('users/$currentUser/warranties').snapshots().map(
-      (snapshot) {
-        if (snapshot.docs.isNotEmpty) {
-          return snapshot.docs
-              .map(
-                (e) => WarrantyInfo.fromJson(
-                  e.data(),
-                ),
-              )
-              .toList();
-        }
-      },
-    );
-
-    return warranties;
+      final warranties =
+          firebase.collection('users/$currentUser/warranties').snapshots().map(
+        (snapshot) {
+          if (snapshot.docs.isNotEmpty) {
+            return snapshot.docs
+                .map(
+                  (e) => WarrantyInfo.fromJson(
+                    e.data(),
+                  ),
+                )
+                .toList();
+          }
+        },
+      );
+      return warranties;
+    } catch (e) {
+      final list = Stream<List<WarrantyInfo>?>.value(<WarrantyInfo>[]);
+      _log.log(Level.WARNING, 'Warranty Data Stream Failure', e);
+      return list;
+    }
   }
 
   @override

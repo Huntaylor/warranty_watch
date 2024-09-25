@@ -29,151 +29,160 @@ class _Content extends StatelessWidget {
 
     if (authCubit.state.isError) {
       errorText = l10n.emailError;
+      Focus.of(context).requestFocus();
     } else {
       errorText = null;
     }
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        return WarrantyBaseView(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              l10n.createAccount.toUpperCase(),
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontStyle: FontStyle.italic,
-                fontSize: 18,
+        return PopScope(
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) {
+              authCubit.clearError();
+            }
+          },
+          child: WarrantyBaseView(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                l10n.createAccount.toUpperCase(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.italic,
+                  fontSize: 18,
+                ),
               ),
             ),
-          ),
-          children: [
-            const SizedBox(
-              height: 15,
-            ),
-            WarrantyTextField.doubleField(
-              textFieldName: l10n.nameFieldTitle,
-              hintText: l10n.first,
-              secondHintText: l10n.last,
-              textInputAction: TextInputAction.next,
-              initialValue: state.asSignUp.firstName ?? '',
-              onChanged: context.read<SignUpCubit>().changeFirstName,
-              onSecondChanged: context.read<SignUpCubit>().changeLastName,
-            ),
-            WarrantyTextField.email(
-              textFieldName: l10n.emailFieldTitle,
-              errorText: errorText,
-              textInputAction: TextInputAction.next,
-              initialValue: state.asSignUp.email ?? '',
-              onChanged: context.read<SignUpCubit>().changeEmail,
-            ),
-            WarrantyTextField.obscured(
-              textFieldName: l10n.passwordFieldTitle,
-              hintText: l10n.passwordHint,
-              textInputAction: TextInputAction.next,
-              initialValue: state.asSignUp.password ?? '',
-              isObscuredFunction: state.asSignUp.isObscured,
-              onChanged: context.read<SignUpCubit>().changePassword,
-              onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 15,
+              ),
+              WarrantyTextField.doubleField(
+                textFieldName: l10n.nameFieldTitle,
+                hintText: l10n.first,
+                secondHintText: l10n.last,
+                textInputAction: TextInputAction.next,
+                initialValue: state.asSignUp.firstName ?? '',
+                onChanged: context.read<SignUpCubit>().changeFirstName,
+                onSecondChanged: context.read<SignUpCubit>().changeLastName,
+              ),
+              WarrantyTextField.email(
+                textFieldName: l10n.emailFieldTitle,
+                errorText: errorText,
+                textInputAction: TextInputAction.next,
+                initialValue: state.asSignUp.email ?? '',
+                onChanged: context.read<SignUpCubit>().changeEmail,
+              ),
+              WarrantyTextField.obscured(
+                textFieldName: l10n.passwordFieldTitle,
+                hintText: l10n.passwordHint,
+                textInputAction: TextInputAction.next,
+                initialValue: state.asSignUp.password ?? '',
+                isObscuredFunction: state.asSignUp.isObscured,
+                onChanged: context.read<SignUpCubit>().changePassword,
+                onObscuredTap: context.read<SignUpCubit>().toggleObscurity,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(l10n.passwordRuleTitle),
+                    ),
+                    PasswordRequirementWidget(
+                      isTrue: state.asSignUp.hasSixCharacters,
+                      title: l10n.passwordRule1,
+                    ),
+                    PasswordRequirementWidget(
+                      isTrue: state.asSignUp.hasLowerUpperCase,
+                      title: l10n.passwordRule2,
+                    ),
+                    PasswordRequirementWidget(
+                      isTrue: state.asSignUp.hasNumber,
+                      title: l10n.passwordRule3,
+                    ),
+                    PasswordRequirementWidget(
+                      isTrue: state.asSignUp.hasSpecialCharacter,
+                      title: l10n.passwordRule4,
+                    ),
+                    PasswordRequirementWidget(
+                      isTrue: state.asSignUp.isMatching,
+                      title: l10n.passwordRule5,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              WarrantyTextField.obscured(
+                textFieldName: l10n.confirmPasswordFieldTitle,
+                hintText: l10n.confirmPasswordHint,
+                initialValue: state.asSignUp.confirmPassword ?? '',
+                isObscuredFunction: state.asSignUp.isConfirmObscured,
+                textInputAction: TextInputAction.done,
+                onChanged: context.read<SignUpCubit>().changeConfirmPassword,
+                onObscuredTap:
+                    context.read<SignUpCubit>().toggleConfirmObscurity,
+              ),
+              Text(
+                l10n.tosTitle + l10n.tosTitleContinue,
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(l10n.passwordRuleTitle),
+                  const Flexible(
+                    child: SizedBox(
+                      width: 5,
+                    ),
                   ),
-                  PasswordRequirementWidget(
-                    isTrue: state.asSignUp.hasSixCharacters,
-                    title: l10n.passwordRule1,
+                  Checkbox.adaptive(
+                    value: state.asSignUp.tosAccepted,
+                    onChanged: (value) {
+                      if (value != null) {
+                        context.read<SignUpCubit>().toggleTosAccepted(
+                              value: value,
+                            );
+                      }
+                    },
                   ),
-                  PasswordRequirementWidget(
-                    isTrue: state.asSignUp.hasLowerUpperCase,
-                    title: l10n.passwordRule2,
-                  ),
-                  PasswordRequirementWidget(
-                    isTrue: state.asSignUp.hasNumber,
-                    title: l10n.passwordRule3,
-                  ),
-                  PasswordRequirementWidget(
-                    isTrue: state.asSignUp.hasSpecialCharacter,
-                    title: l10n.passwordRule4,
-                  ),
-                  PasswordRequirementWidget(
-                    isTrue: state.asSignUp.isMatching,
-                    title: l10n.passwordRule5,
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      l10n.tosAcceptanceText,
+                    ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            WarrantyTextField.obscured(
-              textFieldName: l10n.confirmPasswordFieldTitle,
-              hintText: l10n.confirmPasswordHint,
-              initialValue: state.asSignUp.confirmPassword ?? '',
-              isObscuredFunction: state.asSignUp.isConfirmObscured,
-              textInputAction: TextInputAction.done,
-              onChanged: context.read<SignUpCubit>().changeConfirmPassword,
-              onObscuredTap: context.read<SignUpCubit>().toggleConfirmObscurity,
-            ),
-            Text(
-              l10n.tosTitle + l10n.tosTitleContinue,
-              textAlign: TextAlign.center,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Flexible(
-                  child: SizedBox(
-                    width: 5,
-                  ),
-                ),
-                Checkbox.adaptive(
-                  value: state.asSignUp.tosAccepted,
-                  onChanged: (value) {
-                    if (value != null) {
-                      context.read<SignUpCubit>().toggleTosAccepted(
-                            value: value,
-                          );
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: WarrantyElevatedButton.loading(
+                  onPressed: () async {
+                    if (authCubit.state.isError) {
+                      return;
                     }
+                    final userData = UserData.create(
+                      firstName: state.asSignUp.firstName!,
+                      lastName: state.asSignUp.lastName!,
+                      email: state.asSignUp.email!,
+                      agreedToServices: state.asSignUp.tosAccepted,
+                    );
+                    await authCubit.register(
+                      state.asSignUp.email!,
+                      state.asSignUp.password!,
+                      userData,
+                    );
                   },
+                  text: l10n.createAccount.toUpperCase(),
+                  isLoading: authCubit.state.isLoading,
+                  isEnabled: context.watch<SignUpCubit>().enabledRegister(),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    l10n.tosAcceptanceText,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: WarrantyElevatedButton.loading(
-                onPressed: () async {
-                  if (authCubit.state.isError) {
-                    return;
-                  }
-                  final userData = UserData.create(
-                    firstName: state.asSignUp.firstName!,
-                    lastName: state.asSignUp.lastName!,
-                    email: state.asSignUp.email!,
-                    agreedToServices: state.asSignUp.tosAccepted,
-                  );
-                  await authCubit.register(
-                    state.asSignUp.email!,
-                    state.asSignUp.password!,
-                    userData,
-                  );
-                },
-                text: l10n.createAccount.toUpperCase(),
-                isLoading: authCubit.state.isLoading,
-                isEnabled: context.watch<SignUpCubit>().enabledRegister(),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

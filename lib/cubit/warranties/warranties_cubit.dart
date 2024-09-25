@@ -3,6 +3,7 @@ import 'package:autoequal/autoequal.dart';
 import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:logging/logging.dart';
 import 'package:warranty_watch/app/data/repositories/auth_repository.dart';
 import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
 import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/warranty_info.dart';
@@ -18,18 +19,35 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
   }) : super(
           const _Loading(),
         ) {
-    dataRepository.warrantiesDataStream.listen(
-      (data) {
-        emit(
-          _Ready(
-            warranties: data ?? [],
-          ),
-        );
-      },
-    );
+    bootstrap();
   }
+  static final Logger _log = Logger('Warranties Cubit');
   final DataRepository dataRepository;
   final AuthRepository authRepository;
+
+  Future<void> bootstrap() async {
+    try {
+      dataRepository.warrantiesDataStream.listen(
+        (data) {
+          _log.info('Positive data response, ${data?.length ?? 0}');
+          emit(
+            _Ready(
+              warranties: data ?? [],
+            ),
+          );
+        },
+        onError: (dynamic e) {
+          _log.log(
+            Level.WARNING,
+            'Stream Failure: unable to get warranties',
+            e,
+          );
+        },
+      );
+    } catch (e) {
+      _log.log(Level.WARNING, 'Stream Try Catch Error', e);
+    }
+  }
 
   Future<void> addOrEditWarranty({required WarrantyInfo warrantyInfo}) async {
     List<WarrantyInfo> expiringList;
@@ -94,4 +112,12 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
       ),
     );
   }
+
+  // Future<void> clearState() async {
+  //   emit(
+  //     const _Ready(
+  //       warranties: [],
+  //     ),
+  //   );
+  // }
 }

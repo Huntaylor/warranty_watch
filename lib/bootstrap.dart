@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:logging/logging.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/firebase_options.dart';
@@ -10,22 +10,34 @@ import 'package:warranty_watch/firebase_options.dart';
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
 
+  static final Logger _log = Logger('Bloc Observer');
+
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
-    log('onChange(${bloc.runtimeType}, $change)');
+    _log.log(Level.INFO, 'onChange(${bloc.runtimeType}, $change)');
   }
 
   @override
   void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
-    log('onError(${bloc.runtimeType}, $error, $stackTrace)');
+    _log.log(
+      Level.WARNING,
+      'onError(${bloc.runtimeType}, $error, $stackTrace)',
+    );
     super.onError(bloc, error, stackTrace);
   }
 }
 
 Future<void> bootstrap(Widget Function() builder) async {
+  final log = Logger('Bootstrap');
+
   FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
+    log.log(
+      Level.WARNING,
+      details.exceptionAsString(),
+      details,
+      details.stack,
+    );
   };
 
   Bloc.observer = const AppBlocObserver();
