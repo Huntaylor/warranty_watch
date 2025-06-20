@@ -28,11 +28,11 @@ class WarrantyDisplayCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: context.colorScheme.primary.withOpacity(.3),
+              color: context.colorScheme.primary.withValues(alpha: .3),
             ),
             boxShadow: [
               BoxShadow(
-                color: context.colorScheme.primary.withOpacity(.1),
+                color: context.colorScheme.primary.withValues(alpha: .1),
                 offset: const Offset(
                   0,
                   4,
@@ -68,7 +68,7 @@ class WarrantyDisplayCard extends StatelessWidget {
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           color: context.colorScheme.tertiaryContainer
-                              .withOpacity(.4),
+                              .withValues(alpha: .4),
                           borderRadius: BorderRadius.circular(13),
                         ),
                         child: isUrlValid(warrantyInfo.imageUrl)

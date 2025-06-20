@@ -73,7 +73,7 @@ class NewWarrantyView extends StatelessWidget {
                     showCloseIcon: true,
                     backgroundColor: context.colorScheme.error,
                     content: Text(
-                      'There was an issue getting your image. Please try again or use a different image.',
+                      context.l10n.getImageError,
                       style: context.textTheme.bodyMedium,
                     ),
                   ),

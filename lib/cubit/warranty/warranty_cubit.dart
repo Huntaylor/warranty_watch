@@ -136,6 +136,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
         actionType: ActionType.Default,
         title: 'Warranty Reminder',
         body:
+            // ignore: lines_longer_than_80_chars
             'Your warranty, ${state.asReady.warrantyInfo.name}, expires $estimatedTime!',
       ),
     );
@@ -373,7 +374,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       emit(
         state.asReady.copyWith(hasError: false),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.asReady.copyWith(hasError: true),
       );
@@ -407,7 +408,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       emit(
         state.asReady.copyWith(hasError: false),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.asReady.copyWith(hasError: true),
       );

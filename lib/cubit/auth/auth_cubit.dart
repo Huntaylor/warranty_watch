@@ -23,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> deleteAccount() async {
     try {
       await _authRepository.deleteAccount();
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Delete Account Error: $e');
     }
   }
@@ -50,7 +50,7 @@ class AuthCubit extends Cubit<AuthState> {
           const _NotAuthenticated(),
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Login Error: $e');
       emit(
         _Error(
@@ -74,7 +74,7 @@ class AuthCubit extends Cubit<AuthState> {
       } else {
         emit(const _NotAuthenticated());
       }
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Google Login Error: $e');
       emit(
         _Error(
@@ -102,7 +102,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(
         _Authenticated(currentUser),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Register Error: $e');
       emit(
         _Error(
@@ -122,7 +122,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(
         const _NotAuthenticated(),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Logout Error: $e');
       emit(
         _Error(
@@ -140,7 +140,7 @@ class AuthCubit extends Cubit<AuthState> {
               const _EmailSuccess(),
             ),
           );
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Reset Password Error: $e');
       emit(
         _Error(
@@ -165,7 +165,7 @@ class AuthCubit extends Cubit<AuthState> {
           const _NotAuthenticated(),
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Is Login Error: $e');
       emit(
         _Error(
@@ -186,7 +186,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(
         _Authenticated(currentUser),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       _log.info('Firebase Update info Error: $e');
       emit(
         _Error(

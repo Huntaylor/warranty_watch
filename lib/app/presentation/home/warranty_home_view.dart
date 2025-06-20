@@ -30,7 +30,7 @@ class WarrantyHomeView extends StatelessWidget {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withOpacity(.3),
+                  color: Colors.white.withValues(alpha: .3),
                   blurRadius: 25,
                   spreadRadius: 100,
                 ),

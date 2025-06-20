@@ -38,7 +38,7 @@ class WarrantyLogo extends StatelessWidget {
         text: l10n.mainTitle.toUpperCase(),
         borderColor: context.colorScheme.onPrimary,
         background: isSmall
-            ? context.colorScheme.primary.withOpacity(.5)
+            ? context.colorScheme.primary.withValues(alpha: .5)
             : context.colorScheme.primary,
         isSmall: isSmall, // Bool for changing font size
       ),

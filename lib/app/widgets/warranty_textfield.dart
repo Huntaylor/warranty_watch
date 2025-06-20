@@ -385,7 +385,7 @@ class _WarrantyTextFieldState extends State<WarrantyTextField> {
         maxLines: widget.maxLines,
         decoration: InputDecoration(
           helperText: widget.helperText,
-          fillColor: context.colorScheme.surfaceVariant,
+          fillColor: context.colorScheme.surfaceContainerHighest,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           errorText: widget.errorText,
           suffixIcon: widget.isTextObscured

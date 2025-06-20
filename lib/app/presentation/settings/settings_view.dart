@@ -61,7 +61,7 @@ class _Context extends StatelessWidget {
                   Text(
                     'Version 1.0.0',
                     style: context.textTheme.bodyLarge!.copyWith(
-                      color: context.colorScheme.primary.withOpacity(.5),
+                      color: context.colorScheme.primary.withValues(alpha: .5),
                     ),
                   ),
                 ],
@@ -136,7 +136,7 @@ class _Context extends StatelessWidget {
             //       Text(
             //         'Version 1.0.0',
             //         style: context.textTheme.bodyLarge!.copyWith(
-            //           color: context.colorScheme.primary.withOpacity(.5),
+            //          color: context.colorScheme.primary.withValues(alpha:.5),
             //         ),
             //       ),
             //     ],
@@ -222,8 +222,7 @@ class _SettingsExpandableState extends State<_SettingsExpandable> {
                           .copyWith(color: context.colorScheme.error),
                     ),
                     TextSpan(
-                      text:
-                          'This cannot be undone. Since this is a security-sensitive operation, you might be asked to login',
+                      text: context.l10n.settingsWarning,
                       style: context.textTheme.labelLarge!
                           .copyWith(color: context.colorScheme.error),
                     ),

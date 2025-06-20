@@ -8,8 +8,8 @@ import 'package:warranty_watch/app/data/repositories/warranty_repository.dart';
 import 'package:warranty_watch/app/routes/go_routes.dart';
 import 'package:warranty_watch/cubit/auth/auth_cubit.dart';
 import 'package:warranty_watch/cubit/settings/settings_cubit.dart';
-import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
 import 'package:warranty_watch/cubit/warranty_details/warranty_details_cubit.dart';
+import 'package:warranty_watch/l10n/arb/app_localizations.dart';
 
 class WarrantyApp extends StatefulWidget {
   const WarrantyApp({

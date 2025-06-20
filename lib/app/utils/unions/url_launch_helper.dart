@@ -14,7 +14,7 @@ class UrlLaunchHelper {
         return true;
       }
       return false;
-    } catch (e, stacktrace) {
+    } on Exception catch (e, stacktrace) {
       _log.log(Level.WARNING, 'Launch URL', e, stacktrace);
       return false;
     }

@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "mainTitle": "Warranty Watch",
   "@mainTitle": {
     "description": "Main title"
@@ -267,5 +268,19 @@
   "forgotPasswordText": "Forgot Password?",
   "@forgotPasswordText": {
     "description": "Text for Forgot Password button"
-  }
+  },
+  "settingsWarning": "This cannot be undone. Since this is a security-sensitive operation, you might be asked to login",
+  "@settingsWarning": {
+    "description": "Warning text used in Settings"
+  },
+  "resetPasswordError": "There was an issue while attempting to reset your password. {error}",
+  "@resetPasswordError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "getImageError": "There was an issue getting your image. Please try again or use a different image.",
+  "@getImageError" : {}
 }

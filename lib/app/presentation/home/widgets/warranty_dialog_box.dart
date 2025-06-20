@@ -8,16 +8,16 @@ import 'package:warranty_watch/cubit/warranties/warranties_cubit.dart';
 class WarrantyDialogBox extends StatelessWidget {
   const WarrantyDialogBox({
     required this.warrantyInfo,
-    required this.warrantiesCubit,
+    this.warrantiesCubit,
     super.key,
   }) : super();
   final WarrantyInfo warrantyInfo;
-  final WarrantiesCubit warrantiesCubit;
+  final WarrantiesCubit? warrantiesCubit;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: warrantiesCubit,
+      value: warrantiesCubit!,
       child: BlocBuilder<WarrantiesCubit, WarrantiesState>(
         buildWhen: (_, state) {
           return state.isReady;
@@ -48,7 +48,7 @@ class WarrantyDialogBox extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(13),
                             color: context.colorScheme.tertiaryContainer
-                                .withOpacity(.4),
+                                .withValues(alpha: .4),
                           ),
                           child: _WarrantyImageHandler(
                             onLongPress: () {},
@@ -94,7 +94,7 @@ class WarrantyDialogBox extends StatelessWidget {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(13),
-                                color: Colors.grey.withOpacity(0.3),
+                                color: Colors.grey.withValues(alpha: .3),
                               ),
                               width: 50,
                               height: 50,
@@ -193,7 +193,7 @@ class DialogButton extends StatelessWidget {
           child: Container(
             padding: padding,
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.3),
+              color: Colors.grey.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(
                 30,
               ),

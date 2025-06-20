@@ -11,7 +11,7 @@ import 'package:warranty_watch/app/presentation/new_warranties/domain/entities/w
 class DataRepository implements IWarrantiesSource {
   static final Logger _log = Logger('Warranty Repository');
 
-  final firebase = FirebaseFirestore.instance;
+  final FirebaseFirestore firebase = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   final firebaseauth.FirebaseAuth _auth = firebaseauth.FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -54,7 +54,7 @@ class DataRepository implements IWarrantiesSource {
         },
       );
       return warranties;
-    } catch (e) {
+    } on Exception catch (e) {
       final list = Stream<List<WarrantyInfo>?>.value(<WarrantyInfo>[]);
       _log.log(Level.WARNING, 'Warranty Data Stream Failure', e);
       return list;

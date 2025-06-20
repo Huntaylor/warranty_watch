@@ -28,11 +28,11 @@ class WarrantyListCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           decoration: BoxDecoration(
             border: Border.all(
-              color: context.colorScheme.primary.withOpacity(.3),
+              color: context.colorScheme.primary.withValues(alpha: .3),
             ),
             boxShadow: [
               BoxShadow(
-                color: context.colorScheme.primary.withOpacity(.1),
+                color: context.colorScheme.primary.withValues(alpha: .1),
                 offset: const Offset(
                   0,
                   4,
@@ -79,21 +79,21 @@ class WarrantyListCard extends StatelessWidget {
                 Text(
                   'Lifetime Warranty',
                   style: context.textTheme.bodyLarge!.copyWith(
-                    color: context.colorScheme.primary.withOpacity(.5),
+                    color: context.colorScheme.primary.withValues(alpha: .5),
                   ),
                 )
               else if (isExpired(endDate!))
                 Text(
                   'Expired: ${endDate.month}/${endDate.day}/${endDate.year}',
                   style: context.textTheme.bodyLarge!.copyWith(
-                    color: context.colorScheme.error.withOpacity(.5),
+                    color: context.colorScheme.error.withValues(alpha: .5),
                   ),
                 )
               else
                 Text(
                   'Expires: ${endDate.month}/${endDate.day}/${endDate.year}',
                   style: context.textTheme.bodyLarge!.copyWith(
-                    color: context.colorScheme.primary.withOpacity(.5),
+                    color: context.colorScheme.primary.withValues(alpha: .5),
                   ),
                 ),
             ],

@@ -75,7 +75,7 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<void> logout() async {
     try {
       return await _auth.signOut();
-    } catch (e) {
+    } on Exception catch (e) {
       _log.log(Level.WARNING, 'Logout Failure', e);
     }
   }
@@ -195,7 +195,7 @@ class FirebaseAuthRepository implements AuthRepository {
       } else {
         // Handle other Firebase exceptions
       }
-    } catch (e) {
+    } on Exception catch (e) {
       _log.log(Level.WARNING, 'Delete Account Exception', e);
 
       // Handle general exception
@@ -216,7 +216,7 @@ class FirebaseAuthRepository implements AuthRepository {
       }
 
       await FirebaseAuth.instance.currentUser?.delete();
-    } catch (e) {
+    } on Exception catch (e) {
       // Handle exceptions
     }
   }

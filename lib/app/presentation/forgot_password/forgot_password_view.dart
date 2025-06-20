@@ -28,7 +28,9 @@ class ForgotPasswordView extends StatelessWidget {
                 showCloseIcon: true,
                 backgroundColor: context.colorScheme.error,
                 content: Text(
-                  'There was an issue while attempting to reset your password. $error',
+                  context.l10n.resetPasswordError(
+                    error,
+                  ),
                   style: context.textTheme.bodyMedium,
                 ),
               ),

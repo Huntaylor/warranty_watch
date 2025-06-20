@@ -2,6 +2,7 @@ import 'package:warranty_watch/app/app_library.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/widgets/details_image_card.dart';
 import 'package:warranty_watch/app/presentation/warranty_details/widgets/individual_detail.dart';
 import 'package:warranty_watch/cubit/warranty_details/warranty_details_cubit.dart';
+import 'package:warranty_watch/l10n/arb/app_localizations.dart';
 
 class WarrantyDetailsView extends StatelessWidget {
   const WarrantyDetailsView({
@@ -77,7 +78,7 @@ class WarrantyDetailsView extends StatelessWidget {
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: context.themeData.dialogBackgroundColor,
+                      color: context.themeData.dialogTheme.backgroundColor,
                     ),
                     child: Text(
                       detailsCubit.state.name!,

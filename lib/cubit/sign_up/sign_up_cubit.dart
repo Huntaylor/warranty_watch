@@ -179,7 +179,9 @@ class SignUpCubit extends Cubit<SignUpState> {
       return false;
     }
     if (state.asSignUp.confirmPassword == null ||
-        state.asSignUp.confirmPassword!.isEmpty) return false;
+        state.asSignUp.confirmPassword!.isEmpty) {
+      return false;
+    }
     if (state.asSignUp.firstName == null || state.asSignUp.firstName!.isEmpty) {
       return false;
     }

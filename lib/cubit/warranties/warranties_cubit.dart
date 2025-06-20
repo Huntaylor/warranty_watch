@@ -44,7 +44,7 @@ class WarrantiesCubit extends Cubit<WarrantiesState> {
           );
         },
       );
-    } catch (e) {
+    } on Exception catch (e) {
       _log.log(Level.WARNING, 'Stream Try Catch Error', e);
     }
   }

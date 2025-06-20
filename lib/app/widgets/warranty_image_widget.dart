@@ -58,7 +58,8 @@ class WarrantyImage extends StatelessWidget {
           : Container(
               padding: const EdgeInsets.symmetric(vertical: 15),
               decoration: BoxDecoration(
-                color: context.colorScheme.tertiaryContainer.withOpacity(.4),
+                color:
+                    context.colorScheme.tertiaryContainer.withValues(alpha: .4),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Center(
@@ -66,8 +67,8 @@ class WarrantyImage extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color:
-                        context.colorScheme.tertiaryContainer.withOpacity(.9),
+                    color: context.colorScheme.tertiaryContainer
+                        .withValues(alpha: .9),
                   ),
                   child: IconButton(
                     onPressed: onTap,
